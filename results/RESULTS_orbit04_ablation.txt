@@ -1,0 +1,69 @@
+=== p2p-Gnutella08: ablating orbit_04 at r=3 ===
+
+  spread_mean   (r=3, 10 seeds)
+    node+edge                       0.9122 +/- 0.0003  (59 feats)
+    + subgraph, pre-ORCA only       0.9124 +/- 0.0004  (62 feats)
+    + subgraph, orbits minus 04     0.9125 +/- 0.0004  (74 feats)
+    + subgraph, ALL orbits          0.9156 +/- 0.0002  (75 feats)
+    paired gains:
+      pre-ORCA subgraph over node+edge   +0.0002 +/- 0.0001*
+      adding orbits except 04            +0.0001 +/- 0.0001 
+      adding orbit_04 alone              +0.0031 +/- 0.0002*
+      whole subgraph tier                +0.0034 +/- 0.0002*
+
+  spread_cv   (r=3, 10 seeds)
+    node+edge                       0.7759 +/- 0.0012  (59 feats)
+    + subgraph, pre-ORCA only       0.7761 +/- 0.0014  (62 feats)
+    + subgraph, orbits minus 04     0.7761 +/- 0.0013  (74 feats)
+    + subgraph, ALL orbits          0.7781 +/- 0.0011  (75 feats)
+    paired gains:
+      pre-ORCA subgraph over node+edge   +0.0002 +/- 0.0003 
+      adding orbits except 04            -0.0001 +/- 0.0002 
+      adding orbit_04 alone              +0.0020 +/- 0.0004*
+      whole subgraph tier                +0.0022 +/- 0.0004*
+=== email-Eu-core: ablating orbit_04 at r=3 ===
+
+  spread_mean   (r=3, 10 seeds)
+    node+edge                       0.9616 +/- 0.0006  (59 feats)
+    + subgraph, pre-ORCA only       0.9616 +/- 0.0005  (62 feats)
+    + subgraph, orbits minus 04     0.9618 +/- 0.0005  (74 feats)
+    + subgraph, ALL orbits          0.9685 +/- 0.0004  (75 feats)
+    paired gains:
+      pre-ORCA subgraph over node+edge   -0.0000 +/- 0.0001 
+      adding orbits except 04            +0.0002 +/- 0.0002 
+      adding orbit_04 alone              +0.0067 +/- 0.0007*
+      whole subgraph tier                +0.0069 +/- 0.0006*
+
+  spread_cv   (r=3, 10 seeds)
+    node+edge                       0.9559 +/- 0.0004  (59 feats)
+    + subgraph, pre-ORCA only       0.9558 +/- 0.0004  (62 feats)
+    + subgraph, orbits minus 04     0.9558 +/- 0.0005  (74 feats)
+    + subgraph, ALL orbits          0.9628 +/- 0.0006  (75 feats)
+    paired gains:
+      pre-ORCA subgraph over node+edge   -0.0001 +/- 0.0002 
+      adding orbits except 04            +0.0001 +/- 0.0003 
+      adding orbit_04 alone              +0.0070 +/- 0.0004*
+      whole subgraph tier                +0.0069 +/- 0.0005*
+=== ca-GrQc: ablating orbit_04 at r=3 ===
+
+  spread_mean   (r=3, 10 seeds)
+    node+edge                       0.9432 +/- 0.0004  (59 feats)
+    + subgraph, pre-ORCA only       0.9431 +/- 0.0005  (62 feats)
+    + subgraph, orbits minus 04     0.9432 +/- 0.0004  (74 feats)
+    + subgraph, ALL orbits          0.9434 +/- 0.0004  (75 feats)
+    paired gains:
+      pre-ORCA subgraph over node+edge   -0.0000 +/- 0.0001 
+      adding orbits except 04            +0.0000 +/- 0.0001 
+      adding orbit_04 alone              +0.0002 +/- 0.0002 
+      whole subgraph tier                +0.0002 +/- 0.0001 
+
+  spread_cv   (r=3, 10 seeds)
+    node+edge                       0.8191 +/- 0.0017  (59 feats)
+    + subgraph, pre-ORCA only       0.8187 +/- 0.0017  (62 feats)
+    + subgraph, orbits minus 04     0.8189 +/- 0.0016  (74 feats)
+    + subgraph, ALL orbits          0.8193 +/- 0.0016  (75 feats)
+    paired gains:
+      pre-ORCA subgraph over node+edge   -0.0005 +/- 0.0004 
+      adding orbits except 04            +0.0002 +/- 0.0003 
+      adding orbit_04 alone              +0.0004 +/- 0.0003 
+      whole subgraph tier                +0.0002 +/- 0.0003 

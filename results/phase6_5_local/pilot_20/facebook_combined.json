@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "tag": "facebook_combined",
+    "inputs": {
+      "meta": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_meta_facebook_combined.json",
+        "sha256": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c"
+      },
+      "features": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_features_facebook_combined.csv",
+        "sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382"
+      },
+      "targets": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_targets_facebook_combined.csv",
+        "sha256": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9"
+      },
+      "cascades": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_cascades_facebook_combined.npy",
+        "sha256": "9e3a8ba521ad6671d99e28080c243b48e9d4ec675cfbfe8fb16285fdfb8ca292"
+      },
+      "edgelist": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\data\\facebook_combined.txt",
+        "sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296"
+      },
+      "influence/local_dynamics.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "probe_local_predictors.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\probe_local_predictors.py",
+        "sha256": "92e1cbedd30a497d166c2a44f8dec90af8266c7f33997d98093db377cc0830e2"
+      }
+    },
+    "radii": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "simulation_seed": 0,
+    "p": 0.009300426161587647,
+    "convention": "uniform",
+    "pilot_draws": 20,
+    "split": {
+      "predictor": [
+        0,
+        10
+      ],
+      "target": [
+        10,
+        20
+      ]
+    },
+    "threads": 1
+  },
+  "status": "complete",
+  "started_utc": "2026-09-12T15:31:47.431106+00:00",
+  "pilot": true,
+  "completed_utc": "2026-09-12T15:31:47.956019+00:00",
+  "seconds": 0.5229661999983364,
+  "verified_draws": 20,
+  "output_sha256": "c8962049db7d046edf77aa9f1cf9ea78ccf85a258ced0685709a79b74224c8a5",
+  "process_lifetime_peak_memory_bytes": 140988416,
+  "estimated_full_seconds": 104.59323999966728,
+  "memory_bound": "256 x n sparse boolean reachability per draw; n x 4 accumulator; mmap full cache"
+}

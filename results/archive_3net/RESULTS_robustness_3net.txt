@@ -1,0 +1,336 @@
+
+==============================================================================
+ca-GrQc   n=4,158  m=13,422  168 features
+==============================================================================
+  rho=0     seed=0  edges 13,422/13,422  isolated 0
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.05  seed=0  edges 12,722/13,422  isolated 22
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.05  seed=1  edges 12,738/13,422  isolated 43
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.05  seed=2  edges 12,758/13,422  isolated 37
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.1   seed=0  edges 12,031/13,422  isolated 66
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.1   seed=1  edges 12,066/13,422  isolated 80
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.1   seed=2  edges 12,026/13,422  isolated 89
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.2   seed=0  edges 10,712/13,422  isolated 163
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.2   seed=1  edges 10,738/13,422  isolated 168
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.2   seed=2  edges 10,694/13,422  isolated 189
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.3   seed=0  edges 9,435/13,422  isolated 290
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.3   seed=1  edges 9,383/13,422  isolated 281
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.3   seed=2  edges 9,340/13,422  isolated 325
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=0  edges 6,721/13,422  isolated 656
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=1  edges 6,740/13,422  isolated 640
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=2  edges 6,655/13,422  isolated 664
+
+==============================================================================
+email-Eu-core   n=986  m=16,064  168 features
+==============================================================================
+  rho=0     seed=0  edges 16,064/16,064  isolated 0
+  rho=0.05  seed=0  edges 15,244/16,064  isolated 0
+  rho=0.05  seed=1  edges 15,249/16,064  isolated 8
+  rho=0.05  seed=2  edges 15,281/16,064  isolated 6
+  rho=0.1   seed=0  edges 14,405/16,064  isolated 2
+  rho=0.1   seed=1  edges 14,438/16,064  isolated 12
+  rho=0.1   seed=2  edges 14,403/16,064  isolated 11
+  rho=0.2   seed=0  edges 12,850/16,064  isolated 15
+  rho=0.2   seed=1  edges 12,826/16,064  isolated 18
+  rho=0.2   seed=2  edges 12,826/16,064  isolated 23
+  rho=0.3   seed=0  edges 11,333/16,064  isolated 25
+  rho=0.3   seed=1  edges 11,209/16,064  isolated 39
+  rho=0.3   seed=2  edges 11,199/16,064  isolated 33
+  rho=0.5   seed=0  edges 8,060/16,064  isolated 57
+  rho=0.5   seed=1  edges 8,013/16,064  isolated 64
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=2  edges 8,000/16,064  isolated 61
+
+==============================================================================
+p2p-Gnutella08   n=6,299  m=20,776  168 features
+==============================================================================
+  rho=0     seed=0  edges 20,776/20,776  isolated 0
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.05  seed=0  edges 19,753/20,776  isolated 85
+  rho=0.05  seed=1  edges 19,710/20,776  isolated 91
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.05  seed=2  edges 19,764/20,776  isolated 98
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.1   seed=0  edges 18,671/20,776  isolated 188
+  rho=0.1   seed=1  edges 18,658/20,776  isolated 186
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.1   seed=2  edges 18,639/20,776  isolated 207
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.2   seed=0  edges 16,668/20,776  isolated 390
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.2   seed=1  edges 16,572/20,776  isolated 380
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.2   seed=2  edges 16,582/20,776  isolated 417
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.3   seed=0  edges 14,708/20,776  isolated 600
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.3   seed=1  edges 14,478/20,776  isolated 618
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.3   seed=2  edges 14,500/20,776  isolated 639
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=0  edges 10,461/20,776  isolated 1166
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=1  edges 10,360/20,776  isolated 1170
+C:\Users\Rachit\Desktop\Projects\Network_influence_prediction\influence\features.py:711: RuntimeWarning: invalid value encountered in divide
+  ovl = np.where(denom > 0, emb / denom, 0.0)
+  rho=0.5   seed=2  edges 10,354/20,776  isolated 1200
+
+==============================================================================
+ca-GrQc   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+==============================================================================
+
+  tau
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9236     1.0000  0.5516            -0.0764
+   0.05    0.8145     0.8797  0.5433            -0.0652
+   0.10    0.7516     0.8230  0.5357            -0.0714
+   0.20    0.6497     0.7509  0.5206            -0.1012
+   0.30    0.5402     0.6933  0.5022            -0.1531
+   0.50    0.3062     0.5793  0.4598            -0.2730
+
+  tau_nonzero
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.7564     1.0000  0.4101            -0.2436
+   0.05    0.7110     0.8842  0.4057            -0.1732
+   0.10    0.6724     0.8125  0.4016            -0.1401
+   0.20    0.6061     0.7143  0.3881            -0.1082
+   0.30    0.5317     0.6323  0.3742            -0.1006
+   0.50    0.3874     0.4724  0.3411            -0.0850
+
+  p_at_5pct
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.7971     1.0000  0.3140            -0.2029
+   0.05    0.7826     0.9388  0.3172            -0.1562
+   0.10    0.7729     0.9179  0.3156            -0.1449
+   0.20    0.7649     0.8535  0.3172            -0.0886
+   0.30    0.7279     0.8116  0.3301            -0.0837
+   0.50    0.6329     0.6828  0.3156            -0.0499
+
+==============================================================================
+ca-GrQc   target = spread_mean
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+==============================================================================
+
+  tau
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9437     1.0000  0.8236            -0.0563
+   0.05    0.9040     0.8959  0.8039             0.0081
+   0.10    0.8666     0.8600  0.7831             0.0066
+   0.20    0.8051     0.7979  0.7479             0.0072
+   0.30    0.7482     0.7424  0.7137             0.0058
+   0.50    0.6264     0.6373  0.6418            -0.0108
+
+  tau_nonzero
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9437     1.0000  0.8236            -0.0563
+   0.05    0.9040     0.8959  0.8039             0.0081
+   0.10    0.8666     0.8600  0.7831             0.0066
+   0.20    0.8051     0.7979  0.7479             0.0072
+   0.30    0.7482     0.7424  0.7137             0.0058
+   0.50    0.6264     0.6373  0.6418            -0.0108
+
+  p_at_5pct
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9710     1.0000  0.7053            -0.0290
+   0.05    0.9533     0.9678  0.7085            -0.0145
+   0.10    0.9469     0.9469  0.7085             0.0000
+   0.20    0.9082     0.8986  0.7085             0.0097
+   0.30    0.8551     0.8583  0.7085            -0.0032
+   0.50    0.8084     0.7617  0.6747             0.0467
+
+==============================================================================
+email-Eu-core   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+==============================================================================
+
+  tau
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9067     1.0000  0.8057            -0.0933
+   0.05    0.8773     0.9645  0.8034            -0.0872
+   0.10    0.8536     0.9440  0.8007            -0.0904
+   0.20    0.8033     0.9141  0.7976            -0.1107
+   0.30    0.7380     0.8835  0.7911            -0.1456
+   0.50    0.5929     0.8335  0.7796            -0.2405
+
+  tau_nonzero
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.8903     1.0000  0.7497            -0.1097
+   0.05    0.8715     0.9549  0.7474            -0.0835
+   0.10    0.8548     0.9290  0.7441            -0.0742
+   0.20    0.8306     0.8911  0.7418            -0.0605
+   0.30    0.7965     0.8520  0.7353            -0.0555
+   0.50    0.7093     0.7919  0.7243            -0.0826
+
+  p_at_5pct
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.8571     1.0000  0.7347            -0.1429
+   0.05    0.8231     0.9592  0.7415            -0.1361
+   0.10    0.8231     0.9320  0.7483            -0.1088
+   0.20    0.7891     0.9116  0.7551            -0.1224
+   0.30    0.7619     0.9048  0.7415            -0.1429
+   0.50    0.7347     0.8299  0.7279            -0.0952
+
+==============================================================================
+email-Eu-core   target = spread_mean
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+==============================================================================
+
+  tau
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9685     1.0000  0.8814            -0.0315
+   0.05    0.9571     0.9575  0.8787            -0.0004
+   0.10    0.9451     0.9436  0.8759             0.0016
+   0.20    0.9258     0.9246  0.8691             0.0012
+   0.30    0.9050     0.9061  0.8594            -0.0011
+   0.50    0.8551     0.8618  0.8339            -0.0067
+
+  tau_nonzero
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9685     1.0000  0.8814            -0.0315
+   0.05    0.9571     0.9575  0.8787            -0.0004
+   0.10    0.9451     0.9436  0.8759             0.0016
+   0.20    0.9258     0.9246  0.8691             0.0012
+   0.30    0.9050     0.9061  0.8594            -0.0011
+   0.50    0.8551     0.8618  0.8339            -0.0067
+
+  p_at_5pct
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9796     1.0000  0.8776            -0.0204
+   0.05    0.9864     0.9660  0.8707             0.0204
+   0.10    0.9660     0.9728  0.8707            -0.0068
+   0.20    0.9592     0.9592  0.8639             0.0000
+   0.30    0.9456     0.9592  0.8776            -0.0136
+   0.50    0.8912     0.8912  0.8639             0.0000
+
+==============================================================================
+p2p-Gnutella08   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+==============================================================================
+
+  tau
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9364     1.0000  0.9075            -0.0636
+   0.05    0.8655     0.9481  0.8871            -0.0826
+   0.10    0.7911     0.9146  0.8668            -0.1235
+   0.20    0.6545     0.8656  0.8335            -0.2110
+   0.30    0.5215     0.8249  0.8021            -0.3034
+   0.50    0.2390     0.7407  0.7349            -0.5016
+
+  tau_nonzero
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.8880     1.0000  0.8341            -0.1120
+   0.05    0.8543     0.9164  0.8131            -0.0621
+   0.10    0.8173     0.8666  0.7930            -0.0493
+   0.20    0.7499     0.7987  0.7610            -0.0489
+   0.30    0.6732     0.7477  0.7319            -0.0744
+   0.50    0.4639     0.6545  0.6681            -0.1906
+
+  p_at_5pct
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.7994     1.0000  0.7548            -0.2006
+   0.05    0.6359     0.8715  0.7208            -0.2357
+   0.10    0.3715     0.8280  0.7006            -0.4565
+   0.20    0.1943     0.7527  0.6805            -0.5584
+   0.30    0.1444     0.6783  0.6285            -0.5340
+   0.50    0.0435     0.5573  0.5340            -0.5138
+
+==============================================================================
+p2p-Gnutella08   target = spread_mean
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+==============================================================================
+
+  tau
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9159     1.0000  0.7168            -0.0841
+   0.05    0.8867     0.8681  0.7063             0.0186
+   0.10    0.8537     0.8401  0.6959             0.0136
+   0.20    0.8002     0.7956  0.6772             0.0046
+   0.30    0.7544     0.7526  0.6580             0.0018
+   0.50    0.6629     0.6599  0.6152             0.0029
+
+  tau_nonzero
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9159     1.0000  0.7168            -0.0841
+   0.05    0.8867     0.8681  0.7063             0.0186
+   0.10    0.8537     0.8401  0.6959             0.0136
+   0.20    0.8002     0.7956  0.6772             0.0046
+   0.30    0.7544     0.7526  0.6580             0.0018
+   0.50    0.6629     0.6599  0.6152             0.0029
+
+  p_at_5pct
+   method   local  recompute  degree  local - recompute
+   rho                                                 
+   0.00    0.9554     1.0000  0.3057            -0.0446
+   0.05    0.9002     0.8949  0.3025             0.0053
+   0.10    0.8800     0.8832  0.3079            -0.0032
+   0.20    0.8344     0.8376  0.3100            -0.0032
+   0.30    0.8217     0.8270  0.3036            -0.0053
+   0.50    0.7877     0.7856  0.3036             0.0021
+
+wrote results/robustness.csv

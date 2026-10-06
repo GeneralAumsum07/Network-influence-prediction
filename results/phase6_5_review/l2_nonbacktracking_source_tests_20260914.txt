@@ -1,0 +1,22 @@
+Phase 6.5 L2 scoped review package
+
+Scope: bounded zero-fit extraction and scoring only. No production hash-bound module changed; no fit was run.
+
+Files:
+influence/nonbacktracking_local.py  sha256 64ec26e72a27b7aabd8cb8fedc8944d5ccd72bf84f734b06982f64dab3c98e9d
+verify_nonbacktracking_local.py     sha256 83e282d7a7b8239440be672ac4015a39072e163e9d8ea11d074d2cc47c76dfb7
+probe_nonbacktracking_local.py      sha256 11923a3f7ca9676c0e8568dc1fddbb43ce11988d2d62120794a6426c9053ac4c
+
+Verification command:
+python verify_nonbacktracking_local.py (influence environment)
+Result: bounded non-backtracking local checks: ALL CHECKS PASSED
+
+Verifier coverage: path, cycle, star, triangle and isolates; independent direct enumeration; direct Hashimoto matrix fixtures; length one degree identity; invalid lengths; tied Kendall tau-b stays unscored; int64 overflow guard; uniform seed-0 4000-draw metadata rejection; original-ID corruption rejection; incompatible resume status rejection; aggregate-summary identity rejection.
+
+Algorithm: implicit directed-arc recurrence. At each bounded step it totals old suffixes once per source node and subtracts the sole reverse arc, O(m+n) per step. It never builds an explicit non-backtracking matrix in production. Counts are exact Python-integer additions and fail before a lossy int64 conversion.
+
+Probe safeguards: source identity is checked against the dated legacy provenance audit; canonical metadata, feature, target, registry, original IDs and source graph are checked; all current dependency and input hashes are recorded; resumes fail closed on identity or output mismatch; completed aggregate rows revalidate identity/current inputs/nodes and recompute all saved counts and scores. The aggregate report includes the universal within-0.02 and below-RF verdicts and the registered two-network strict RF counter. The later reconstruction gate is deferred.
+
+Final isolated pilot (unscored): results/phase6_5_nonbacktracking/pilot/email-Eu-core.json sha256 6f0dab921c01d438c8f3a9f562387879b5fc6a1fbbad8ce58d3dd998895d37b3
+Pilot array output: results/phase6_5_nonbacktracking/pilot/email-Eu-core.npz sha256 c9804a2363bce152fa50911a519513cab8f0df8142dd635883a85c82b55016a2
+Pilot scores: NB1 0.8813640810342573; NB2 0.9470893001710312; NB3 0.9597043578689959; Hindex3 0.902486393614522; RF node r2 mean10 0.9593459573600388. Pilot is explicitly unscored and is not full-corpus evidence.

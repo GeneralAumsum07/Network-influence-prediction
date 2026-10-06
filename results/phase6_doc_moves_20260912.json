@@ -1,0 +1,390 @@
+{
+  "built": "2026-09-12 20:55 IST",
+  "author": "Claude Opus 5",
+  "record": "docs/archive/phase6_record.md",
+  "why": "Rachit 2026-09-12: fold the superseded documents into one hash-bound record and delete the originals; the Task 6 coverage ledger binds paths by SHA-256, so every original's bytes stay verifiable here.",
+  "ledger_md_paths": {
+    "docs/phase6_buffered_cv_execution_status.md": "docs/archive/phase6_record.md#rec-phase6_buffered_cv_execution_status",
+    "docs/phase6_final_audit_protocol.md": "docs/reference/phase6_final_audit_protocol.md",
+    "docs/study_doc_v2.md": "docs/study_doc_v2.md (unchanged path)"
+  },
+  "entries": [
+    {
+      "old_path": "docs/networkinfluencetechnicalreview.md",
+      "kind": "archive",
+      "sha256_original": "46ae37587d8eb8c443165e23fb8af4c747e986b88f85041c69bdad47a699fbe3",
+      "record_anchor": "docs/archive/phase6_record.md#rec-networkinfluencetechnicalreview"
+    },
+    {
+      "old_path": "docs/priority_search_D2.md",
+      "kind": "archive",
+      "sha256_original": "dc8bddb0b31e4111c39c819bba52430e5a6f513a234b697bebf109dcec0a5207",
+      "record_anchor": "docs/archive/phase6_record.md#rec-priority_search_D2"
+    },
+    {
+      "old_path": "docs/networkinfluencetechnicalreview_v3.md",
+      "kind": "archive",
+      "sha256_original": "608278bec8a5f64eef8ca4241da6c5074aca8edbe391e1146c9d09e4584a901c",
+      "record_anchor": "docs/archive/phase6_record.md#rec-networkinfluencetechnicalreview_v3"
+    },
+    {
+      "old_path": "docs/HANDOFF_C3_astra.md",
+      "kind": "archive",
+      "sha256_original": "23712c3f2a0a1f2cbc13ba434b9403791e607cd07c7cc0a30b241ad56f13279d",
+      "record_anchor": "docs/archive/phase6_record.md#rec-HANDOFF_C3_astra"
+    },
+    {
+      "old_path": "docs/phase6_plan_row6_pending.md",
+      "kind": "archive",
+      "sha256_original": "c632cad79d12424e4efb6c0808cef55e9ea48a18bacee2bd8c5b2d257c79fe57",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_plan_row6_pending"
+    },
+    {
+      "old_path": "docs/phase6_paired_noise_analysis.md",
+      "kind": "archive",
+      "sha256_original": "8479f3be252eb3f68a84e174ddd95b34bb40b08c0b9b7a6be6f54f53a42868d8",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_paired_noise_analysis"
+    },
+    {
+      "old_path": "docs/phase6_completion_checklist.md",
+      "kind": "archive",
+      "sha256_original": "fc4dc49732ba8588f7cd932d5a5cdec51ad073650be8c309edff63a89c1cab6b",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_completion_checklist"
+    },
+    {
+      "old_path": "docs/phase6_extension_20260908.md",
+      "kind": "archive",
+      "sha256_original": "59c6ea15a6dc31d278d7db7f327c703198987196e4aa58f5c841a4058773747b",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_extension_20260908"
+    },
+    {
+      "old_path": "docs/phase6_requirements_inventory.md",
+      "kind": "archive",
+      "sha256_original": "e3ec942d1528fcbac20d74e4cf35809fa6d4b56e7dfebb20d38c8395da95231c",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_requirements_inventory"
+    },
+    {
+      "old_path": "docs/phase6_buffered_cv_design.md",
+      "kind": "archive",
+      "sha256_original": "0e0ee7b32529ad3627a0ebe8b613721bb7c78139206c68d2234956f03ed256a4",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_buffered_cv_design"
+    },
+    {
+      "old_path": "docs/phase6_buffered_implementation_brief.md",
+      "kind": "archive",
+      "sha256_original": "7f4a060c5afdc0db7949c823c311688c82675c85b203b4b08b760e14c5010056",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_buffered_implementation_brief"
+    },
+    {
+      "old_path": "docs/phase6_buffered_cv_implementation_report.md",
+      "kind": "archive",
+      "sha256_original": "236b27156adbacd78fc09b2e51d1304ab58f29e24a97c16a2043fffeb350900b",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_buffered_cv_implementation_report"
+    },
+    {
+      "old_path": "docs/phase6_buffered_cv_review.md",
+      "kind": "archive",
+      "sha256_original": "57384ab6598533ec4d7a125870e454aaa64f7ebaec24db1d774f3be20c51ed45",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_buffered_cv_review"
+    },
+    {
+      "old_path": "docs/phase6_criticality_repair_brief.md",
+      "kind": "archive",
+      "sha256_original": "3331f2147352100ed6a255f7e16ee812b67a5dce3d524d4f3e98c733a92cadc9",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_criticality_repair_brief"
+    },
+    {
+      "old_path": "docs/phase6_criticality_repair_report.md",
+      "kind": "archive",
+      "sha256_original": "fa6f5c5ddc45efd44fa033d157d83684b304af621deef8d7cc8f4729f3fb3dde",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_criticality_repair_report"
+    },
+    {
+      "old_path": "docs/phase6_criticality_review.md",
+      "kind": "archive",
+      "sha256_original": "cfb041b02caea7362292305d015486c54a2d30a338007318373955424ab761b0",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_criticality_review"
+    },
+    {
+      "old_path": "docs/phase6_external_precision_followup.md",
+      "kind": "archive",
+      "sha256_original": "c4b96ff14010611a8f733e407a678f6e76cbc5e8165f6b96296c313ceca75b04",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_external_precision_followup"
+    },
+    {
+      "old_path": "docs/phase6_precision_witness_design.md",
+      "kind": "archive",
+      "sha256_original": "8edfe72b257845f260b4373b6e812976b071091fd04969755b56ff4c196332f5",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_precision_witness_design"
+    },
+    {
+      "old_path": "docs/phase6_r1_ablation_design.md",
+      "kind": "archive",
+      "sha256_original": "9bf2c1dc0f224d7b504186782976728fa0280799a67eef3480f2ab557f7fd0c9",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_r1_ablation_design"
+    },
+    {
+      "old_path": "docs/phase6_r1_ablation_implementation_brief.md",
+      "kind": "archive",
+      "sha256_original": "b21775f1d21f85183347a1c5ce598655eb67147d481792d7be40a3bbf3198341",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_r1_ablation_implementation_brief"
+    },
+    {
+      "old_path": "docs/phase6_structural_target_noise_design.md",
+      "kind": "archive",
+      "sha256_original": "bbec5aa3b25291d21071abce92fff099e2d82a84715060ab8823380b686177b4",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_structural_target_noise_design"
+    },
+    {
+      "old_path": "docs/phase6_task1_review.md",
+      "kind": "archive",
+      "sha256_original": "e8095e8b82699289bd09b8a61555fd0dd77593479812ca3edca3bef9597b0f57",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_task1_review"
+    },
+    {
+      "old_path": "docs/phase6_structural_task_report.md",
+      "kind": "archive",
+      "sha256_original": "4d07013d184af891fdc8d744fecfe24a79fc193e3100405ecf05f24707905172",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_structural_task_report"
+    },
+    {
+      "old_path": "docs/phase6_parallel_warning_diagnosis.md",
+      "kind": "archive",
+      "sha256_original": "3e291c32fa6b6718df609b5ddecb78599144cdcbf1daba39c6d94231264930d9",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_parallel_warning_diagnosis"
+    },
+    {
+      "old_path": "docs/phase6_buffered_cv_execution_status.md",
+      "kind": "archive",
+      "sha256_original": "0306d2cd8159b644bc8114c8f882cf34749e5b778c9ca28dd68b6b662f1c2faa",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_buffered_cv_execution_status"
+    },
+    {
+      "old_path": "docs/phase6_r1_ablation_readiness_addendum.md",
+      "kind": "archive",
+      "sha256_original": "69f3f24c3fa3710094a5fdcefa73e12d14ae54d3819a4aaf5914b6ec462d93c8",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_r1_ablation_readiness_addendum"
+    },
+    {
+      "old_path": "docs/phase6_claude_worklog_20260910.md",
+      "kind": "archive",
+      "sha256_original": "2a6a94f9bb71b38aa2ce386980d525e098f0aaa1aee982914cad4b9401f06a2f",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase6_claude_worklog_20260910"
+    },
+    {
+      "old_path": "docs/posthoc_B2_hgb_capacity.md",
+      "kind": "archive",
+      "sha256_original": "5c0ff4af519e27a304d0d7d051bcc5711bb730986e390463974bf423881659b0",
+      "record_anchor": "docs/archive/phase6_record.md#rec-posthoc_B2_hgb_capacity"
+    },
+    {
+      "old_path": "results/REGENERATION_NOTE_20260912.md",
+      "kind": "archive",
+      "sha256_original": "684362572af433db464b1c5af974dca60f7e1d97ab4276cd67cb7b3fbe121a22",
+      "record_anchor": "docs/archive/phase6_record.md#rec-REGENERATION_NOTE_20260912"
+    },
+    {
+      "old_path": "results/C3_C4_REGENERATION_NOTE_20260912.md",
+      "kind": "archive",
+      "sha256_original": "7c55128873314b69745a524af42ddb48fd7db0777977bd4fc0e60e350c4f97ea",
+      "record_anchor": "docs/archive/phase6_record.md#rec-C3_C4_REGENERATION_NOTE_20260912"
+    },
+    {
+      "old_path": "docs/phase7_continuation_20260912.md",
+      "kind": "archive",
+      "sha256_original": "58e07703c640dfb25cae5c01a422e5809097fcdbaa4711b58e7dc11cac17d23c",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase7_continuation_20260912"
+    },
+    {
+      "old_path": "docs/phase7_l3_implementation_brief.md",
+      "kind": "archive",
+      "sha256_original": "35be30f225e8de7d45b1b73e7a54c740b01d4b20aecf53918f6c10c0de2c5b8b",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase7_l3_implementation_brief"
+    },
+    {
+      "old_path": "docs/phase7_l3_implementation_report.md",
+      "kind": "archive",
+      "sha256_original": "acc02ff7b7320220828670d4a86b894eadc50ad0b4cff69ead41bc69254d1c86",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase7_l3_implementation_report"
+    },
+    {
+      "old_path": "docs/phase7_l4_implementation_brief.md",
+      "kind": "archive",
+      "sha256_original": "e7be5d66e3af90865bf621e1daa0686e4439f27d094be8dbdeb7a8ea4adaebb8",
+      "record_anchor": "docs/archive/phase6_record.md#rec-phase7_l4_implementation_brief"
+    },
+    {
+      "old_path": "docs/prereg_A2_coverage.md",
+      "kind": "prereg",
+      "sha256_original": "360a181ebe07498b0d2c6ba42298bb879c9c49cc3e46b3d934b3f17be66fbb88",
+      "new_path": "docs/prereg/prereg_A2_coverage.md",
+      "sha256_after_move": "360a181ebe07498b0d2c6ba42298bb879c9c49cc3e46b3d934b3f17be66fbb88",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/prereg_B2_estimator.md",
+      "kind": "prereg",
+      "sha256_original": "368a8d518969493fbdba08a8bfc4770e87c908baef74ed9ce7f62d254acee883",
+      "new_path": "docs/prereg/prereg_B2_estimator.md",
+      "sha256_after_move": "7c3bd3a5ae9f88bf57fae2ff7450337e094a9c3b34f0fa320e3e1918694b9f79",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/prereg_B1_sample_efficiency.md",
+      "kind": "prereg",
+      "sha256_original": "60851b11137ad2c583aa8c6dadd9dea1241fddae0ecd33df5a953ccd7b054b58",
+      "new_path": "docs/prereg/prereg_B1_sample_efficiency.md",
+      "sha256_after_move": "60851b11137ad2c583aa8c6dadd9dea1241fddae0ecd33df5a953ccd7b054b58",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/prereg_A7_target_noise.md",
+      "kind": "prereg",
+      "sha256_original": "4b1280904957f31939dc9059da158a4b3739d55e7ec1da858c7adefc1b087f54",
+      "new_path": "docs/prereg/prereg_A7_target_noise.md",
+      "sha256_after_move": "4b1280904957f31939dc9059da158a4b3739d55e7ec1da858c7adefc1b087f54",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/prereg_C3_benchmark_inflation.md",
+      "kind": "prereg",
+      "sha256_original": "091aa2733758950fcf9b4d7a1533e14bd3dc4b1e7cd351de822a4747f9c00665",
+      "new_path": "docs/prereg/prereg_C3_benchmark_inflation.md",
+      "sha256_after_move": "091aa2733758950fcf9b4d7a1533e14bd3dc4b1e7cd351de822a4747f9c00665",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/prereg_phase7_lanes.md",
+      "kind": "prereg",
+      "sha256_original": "55616df15824fcc79c032cc314ac105e76d8c0bebdd8004ff9f0d70574d524d9",
+      "new_path": "docs/prereg/prereg_phase6_5_lanes.md",
+      "sha256_after_move": "46370ce3a895029b10bddc26190b5a227b64ce83300134383472ea794abf98d7",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/C4_two_number_reporting_protocol.md",
+      "kind": "reference",
+      "sha256_original": "2a9729fe7c7d2907b7b2de2e93aa14348c420e8a40fb340d4c8d4ee06b5eef40",
+      "new_path": "docs/reference/C4_two_number_reporting_protocol.md",
+      "sha256_after_move": "e40a50bdbbde0732d12bb676c1ee705d10778f6a8168edb83181de430c263705",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/decl_objective_resweep.md",
+      "kind": "reference",
+      "sha256_original": "e0a8c1599103e8ec15bd97709df105170223ecc00ed038daa03b09bce0aa6ee2",
+      "new_path": "docs/reference/decl_objective_resweep.md",
+      "sha256_after_move": "e0a8c1599103e8ec15bd97709df105170223ecc00ed038daa03b09bce0aa6ee2",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/phase6_final_audit_protocol.md",
+      "kind": "reference",
+      "sha256_original": "5b470b147dd90985271b7d9e0dc1d99d233cb9d98b20d3386d637d8ad1be0c27",
+      "new_path": "docs/reference/phase6_final_audit_protocol.md",
+      "sha256_after_move": "5b470b147dd90985271b7d9e0dc1d99d233cb9d98b20d3386d637d8ad1be0c27",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/phase6_reproduction.md",
+      "kind": "reference",
+      "sha256_original": "09bca44f98a9f5013deae7a56fe427f5118a6d6456a084bc952feaa1984e8dc9",
+      "new_path": "docs/reference/phase6_reproduction.md",
+      "sha256_after_move": "7edfaeface5eb0d0b355e05ec3c5cdcc52db65ec080100f7e6b8f5c60a51f24a",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/D2_phase6_paper_draft.md",
+      "kind": "reference",
+      "sha256_original": "9b8619a36cdd1a09fbeb622c30fe06217c7eaf7816f64af4d8ee3fb507c0d6d2",
+      "new_path": "docs/reference/D2_phase6_paper_draft.md",
+      "sha256_after_move": "513398d7909ec867614b46d60c8db04dd82f1bb871009dd0a57bf7a9b440e8d3",
+      "edits_after_move": "relative links rewritten for the new folder"
+    },
+    {
+      "old_path": "docs/phase6_literature_review.md",
+      "kind": "merge_a",
+      "sha256_original": "e35cdba8ded276b2080b7501a1ae10f721891eae515f06a0cdee86b37ef8267c",
+      "new_path": "docs/reference/prior_work.md",
+      "sha256_after_move": "c2ca59600d409d9e63ebe8b1b5e8d0257493c0c5826a56ef42dba40abe276d24",
+      "edits_after_move": "relative links rewritten for the new folder; merged, headings demoted"
+    },
+    {
+      "old_path": "docs/phase7_prior_work_20260912.md",
+      "kind": "merge_b",
+      "sha256_original": "40993193f4c2cae05db060fe2879edae891a223e48c844ba37031fbdae041e61",
+      "new_path": "docs/reference/prior_work.md",
+      "sha256_after_move": "c2ca59600d409d9e63ebe8b1b5e8d0257493c0c5826a56ef42dba40abe276d24",
+      "edits_after_move": "relative links rewritten for the new folder; merged, headings demoted"
+    },
+    {
+      "old_path": "HANDOFF.md#13",
+      "kind": "archive",
+      "sha256_original": "9da374fbe6422cebe5b0019c47dabe224fff696d60074fb623695fc9d5bdfa3a",
+      "record_anchor": "docs/archive/phase6_record.md#rec-handoff-13",
+      "note": "HANDOFF.md section 13 as bytes, from its heading to the section 14 heading"
+    }
+  ],
+  "reference_rewrites": [
+    "HANDOFF.md",
+    "README.md",
+    "docs/study_doc_v2.md",
+    "docs/prereg/prereg_B2_estimator.md",
+    "docs/prereg/prereg_phase6_5_lanes.md",
+    "docs/reference/C4_two_number_reporting_protocol.md",
+    "docs/reference/D2_phase6_paper_draft.md",
+    "docs/reference/phase6_reproduction.md",
+    "docs/reference/prior_work.md",
+    "verify_docs.py"
+  ],
+  "deferred_code_rewrites": {
+    "why": "hash-bound production modules are not edited while the stage 1-4 queue runs (Astra ruling, 2026-09-12); rewrite these docstring/comment paths after STAGE 4 LANES COMPLETE and empty the allow-list in verify_docs.py",
+    "files": {
+      "analyse_betweenness.py": [
+        "docs/priority_search_D2.md"
+      ],
+      "analyse_c3_benchmarks.py": [
+        "docs/prereg_C3_benchmark_inflation.md"
+      ],
+      "analyse_coverage.py": [
+        "docs/prereg_A2_coverage.md"
+      ],
+      "analyse_estimators.py": [
+        "docs/prereg_B2_estimator.md"
+      ],
+      "analyse_objective_resweep.py": [
+        "docs/decl_objective_resweep.md"
+      ],
+      "analyse_r1_ablation.py": [
+        "docs/phase6_r1_ablation_implementation_brief.md"
+      ],
+      "analyse_sample_efficiency.py": [
+        "docs/prereg_B1_sample_efficiency.md"
+      ],
+      "probe_r1_ablation.py": [
+        "docs/phase6_r1_ablation_implementation_brief.md",
+        "docs/phase6_r1_ablation_readiness_addendum.md"
+      ],
+      "probe_sample_efficiency.py": [
+        "docs/prereg_B1_sample_efficiency.md"
+      ],
+      "score_a7_arm2.py": [
+        "docs/prereg_A7_target_noise.md"
+      ],
+      "verify_brava_corpus_identity.py": [
+        "docs/phase6_claude_worklog_20260910.md"
+      ],
+      "influence/estimators.py": [
+        "docs/decl_objective_resweep.md",
+        "docs/posthoc_B2_hgb_capacity.md"
+      ],
+      "influence/graphlets.py": [
+        "docs/phase6_claude_worklog_20260910.md"
+      ],
+      "influence/r1_ablation.py": [
+        "docs/phase6_r1_ablation_implementation_brief.md",
+        "docs/phase6_r1_ablation_readiness_addendum.md"
+      ]
+    }
+  }
+}

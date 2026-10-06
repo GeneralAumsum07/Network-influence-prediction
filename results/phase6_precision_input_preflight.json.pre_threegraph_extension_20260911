@@ -1,0 +1,104 @@
+{
+ "date": "2026-09-09",
+ "status": "read_only_preflight_passed",
+ "scope": "Hash, byte-size, and bounded streaming line validation only; no graph construction, topology calculation, model execution, or output publication occurred.",
+ "logical_input_root": "analyse_c3_benchmarks.DEFAULT_BRAVA/datasets/abcde",
+ "streaming_method": {
+  "hash": "SHA-256 over each complete file",
+  "edge_rows": "Count every line matching exactly two signed base-10 integer fields; reject any other nonblank, non-comment line.",
+  "score_rows": "Count nonempty text lines only.",
+  "buffer_bound": "8 MiB"
+ },
+ "graphs": [
+  {
+   "graph": "cit-Patents",
+   "edge": {
+    "logical_path": "datasets/abcde/cit-Patents.txt",
+    "bytes": 256154375,
+    "sha256": "f8797f004315acf99faaee62b08ce093109968ba82bb52d55c7bc8b92e4918b9",
+    "parsed_rows": 16511741,
+    "strict_two_signed_int_rows": 16511741,
+    "nonmatching_rows": 0
+   },
+   "score": {
+    "logical_path": "datasets/abcde/cit-Patents-score.txt",
+    "bytes": 71518223,
+    "sha256": "48f352137529955aed7faf1fd06be1ded7fe77708ca0989683ef984733ab71a6",
+    "nonblank_rows": 3764117
+   },
+   "topology": {
+    "nodes": 3764117,
+    "final_csr_arcs": 33023480,
+    "final_canonical_edges": 16511740
+   },
+   "scratch_bytes": {
+    "label_phase": 294300792,
+    "canonical_phase": 294300784,
+    "direct_arc_merge_phase": 606568568,
+    "peak": 606568568,
+    "reserve": 536870912,
+    "required_free": 1143439480
+   }
+  },
+  {
+   "graph": "com-lj",
+   "edge": {
+    "logical_path": "datasets/abcde/com-lj.txt",
+    "bytes": 502171107,
+    "sha256": "835d5175a7309fedd782fc505407a5d140587540b27d4eab64df9f3f3eba2add",
+    "parsed_rows": 34681189,
+    "strict_two_signed_int_rows": 34681189,
+    "nonmatching_rows": 0
+   },
+   "score": {
+    "logical_path": "datasets/abcde/com-lj-score.txt",
+    "bytes": 75961278,
+    "sha256": "78a77750ac83057a6c62e5cef3ef34c74c50a8c6fc7603d0b460eb91a0d480d4",
+    "nonblank_rows": 3997962,
+    "sha256_original_malformed": "78a77750ac83057a6c62e5cef3ef34c50a8c6fc7603d0b460eb91a0d480d4",
+    "sha256_correction": {
+     "date": "2026-09-10",
+     "author": "Claude Opus 5",
+     "defect": "Recorded SHA-256 was 61 characters, not 64: three characters (\"74c\") dropped in transcription after \"...f3ef34c\".",
+     "why_it_mattered": "precision_witness.py hashes the real score file against this value, so a com-lj witness run would have failed after building its full topology. The identical truncated string was also in precision_witness.SPECS, so the two records agreed and every existing check passed.",
+     "file_unchanged_evidence": "Byte size 75961278 and non-blank row count 3997962 both still match this preflight exactly; the malformed string is a subsequence of the true digest. See results/phase6_brava_corpus_identity_20260910.json.",
+     "original_preserved_at": "results/phase6_precision_input_preflight.json.pretruncationfix_20260910"
+    }
+   },
+   "topology": {
+    "nodes": 3997962,
+    "final_csr_arcs": 69362378,
+    "final_canonical_edges": 34681189
+   },
+   "scratch_bytes": {
+    "label_phase": 586882720,
+    "canonical_phase": 586882720,
+    "direct_arc_merge_phase": 1227135974,
+    "peak": 1227135974,
+    "reserve": 536870912,
+    "required_free": 1764006886
+   }
+  }
+ ],
+ "resource_contract": {
+  "label_phase": "16R + 8n",
+  "canonical_phase": "8R + 8E + 8n",
+  "direct_arc_merge_phase": "8A + 8E + 4A + A + 4(n + 1) + 8n",
+  "peak": "max(label_phase, canonical_phase, direct_arc_merge_phase)",
+  "required_free": "peak + 512 MiB",
+  "prohibited": [
+   "materialized merged arc-key file",
+   "Python edge or pair lists",
+   "global arc-key index",
+   "row-owner array"
+  ]
+ },
+ "corrections": [
+  {
+   "date": "2026-09-10",
+   "author": "Claude Opus 5",
+   "field": "graphs[com-lj].score.sha256",
+   "kind": "malformed_hash_corrected"
+  }
+ ]
+}

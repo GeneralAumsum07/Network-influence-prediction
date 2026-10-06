@@ -1,0 +1,92 @@
+{
+  "status": "complete",
+  "pilot": false,
+  "started_utc": "2026-09-14T06:43:00.615526+00:00",
+  "identity": {
+    "tag": "facebook_combined",
+    "configuration": {
+      "target": "spread_mean",
+      "draws": 4000,
+      "simulation_seed": 0,
+      "convention": "uniform",
+      "threads": 1,
+      "lengths": [
+        1,
+        2,
+        3
+      ],
+      "h_index_order": 3,
+      "rf_tier": "node",
+      "rf_radius": 2
+    },
+    "inputs": {
+      "meta": {
+        "path": "cache_meta_facebook_combined.json",
+        "sha256": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c"
+      },
+      "features": {
+        "path": "cache_features_facebook_combined.csv",
+        "sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382"
+      },
+      "targets": {
+        "path": "cache_targets_facebook_combined.csv",
+        "sha256": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9"
+      },
+      "registry": {
+        "path": "cache_registry_facebook_combined.csv",
+        "sha256": "a6754f61ad2402e7cf7b224c1b9b99c57e9c57be993da77ce6289048197f9e7a"
+      },
+      "edgelist": {
+        "path": "data/facebook_combined.txt",
+        "sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296"
+      },
+      "nonbacktracking_local": {
+        "path": "influence/nonbacktracking_local.py",
+        "sha256": "64ec26e72a27b7aabd8cb8fedc8944d5ccd72bf84f734b06982f64dab3c98e9d"
+      },
+      "preprocessing": {
+        "path": "influence/preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "sweep_inputs": {
+        "path": "influence/sweep_inputs.py",
+        "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+      },
+      "probe_nonbacktracking_local": {
+        "path": "probe_nonbacktracking_local.py",
+        "sha256": "11923a3f7ca9676c0e8568dc1fddbb43ce11988d2d62120794a6426c9053ac4c"
+      },
+      "rf_helpers": {
+        "path": "analyse_local_predictors.py",
+        "sha256": "18a71a9ed02147dbd60a2fd9cdf572d4b2e3c75e4b0264e19d262b77fd0a1323"
+      },
+      "analyse": {
+        "path": "analyse.py",
+        "sha256": "ea7e37d74b1a967345031a7358b5ed7338be669a5786f6bd9b906f6603fbc26d"
+      },
+      "sweep": {
+        "path": "sweep_facebook_combined.csv",
+        "sha256": "fe89fbc757f3c3f46db6c59002439e065a280293c67c4995eb55c9cc84aaab74"
+      },
+      "provenance_audit": {
+        "path": "cache_provenance_audit_20260911.json",
+        "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+      }
+    },
+    "imported_helpers": [
+      "analyse_local_predictors.load_rf_reference",
+      "analyse_local_predictors.rf_cell_tau"
+    ]
+  },
+  "completed_utc": "2026-09-14T06:43:01.506962+00:00",
+  "output_sha256": "8557cae9550435a57fa59933c5b927f16249b2b17cbd7b6992af62ac654efeb3",
+  "scores": {
+    "NB1": 0.6935275898016872,
+    "NB2": 0.812085484881932,
+    "NB3": 0.8624491942586007,
+    "Hindex3": 0.7267463118975057,
+    "RFnode_r2_mean10": 0.9553696249534008
+  },
+  "radius_note": "NB3 has information radius 2; cached H-index order 3 has radius 3.",
+  "scoring_status": "ready_for_scoring"
+}

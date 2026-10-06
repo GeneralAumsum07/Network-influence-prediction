@@ -1,0 +1,98 @@
+==============================================================================
+C3 — zero-set inflation on the BRAVA-GNN benchmark corpus
+Pre-registration: docs/prereg_C3_benchmark_inflation.md
+==============================================================================
+
+[P4 gate] directed rule vs networkx exact betweenness
+  directed rule: 0 mismatches over 4752 nodes in 30 random digraphs  (1.8s)
+
+[check] both mixture forms against scipy tau-b on synthetic tie regimes
+  continuous predictions  tau=+0.600934 formula=+0.600934 |d|=0.00e+00
+  tied on the zero set    tau=+0.790940 formula=+0.790940 |d|=1.11e-16
+
+[P4 gate] undirected rule + closed forms vs this project's published §24.4 table
+  ca-GrQc              w =  71.0008%  published  71.0008%  OK
+  ca-HepTh             w =  65.3519%  published  65.3519%  OK
+  p2p-Gnutella08       w =  43.5280%  published  43.5280%  OK
+  email-Eu-core        w =  26.2787%  published  26.2787%  OK
+  facebook_combined    w =  15.6164%  published  15.6164%  OK
+
+[P4 gate] undirected rule vs ABCDE shipped ground-truth betweenness
+  amazon         0 mismatches over 2146057 nodes  (both directions tested)
+  cit-Patents    0 rule failures over 3764117 nodes (CONSISTENCY only: known-quantised file, grid 1e-14; 662 sub-grid zeros)
+  com-lj         0 rule failures over 3997962 nodes (CONSISTENCY only: known-quantised file, grid 1e-14; 1086 sub-grid zeros)
+  com-youtube    0 mismatches over 1134890 nodes  (both directions tested)
+  dblp           0 mismatches over 4000148 nodes  (both directions tested)
+  GATE PASSED
+
+[structure] zero fraction, boundary share and tau floor per graph
+  amazon             undirected   n=2,146,057 arcs= 11,486,264 z=0.3269 w=0.4927 floor=0.4657 (6.3s)
+  cit-Patents        undirected   n=3,764,117 arcs= 33,023,480 z=0.1884 w=0.3170 floor=0.3114 (17.5s)
+  com-lj             undirected   n=3,997,962 arcs= 69,362,378 z=0.2878 w=0.4470 floor=0.4281 (39.1s)
+  com-youtube        undirected   n=1,134,890 arcs=  5,975,248 z=0.5732 w=0.7287 floor=0.5971 (4.6s)
+  dblp               undirected   n=4,000,148 arcs= 17,298,002 z=0.4196 w=0.5911 floor=0.5366 (12.7s)
+  email-EuAll        directed     n=  265,214 arcs=    418,956 z=0.9609 w=0.9801 floor=0.2715 (0.4s)
+  p2p-Gnutella31     sym_digraph  n=   62,586 arcs=    295,784 z=0.4606 w=0.6307 floor=0.5598 (0.2s)
+  soc-Epinions1      directed     n=   75,879 arcs=    508,837 z=0.6345 w=0.7764 floor=0.6001 (0.3s)
+  soc-LiveJournal1   directed     n=4,847,571 arcs= 68,475,391 z=0.3551 w=0.5241 floor=0.4900 (65.4s)
+  soc-Pokec          directed     n=1,632,803 arcs= 30,622,564 z=0.2190 w=0.3594 floor=0.3506 (22.9s)
+  soc-Slashdot0902   directed     n=   82,168 arcs=    870,161 z=0.4115 w=0.5831 floor=0.5314 (0.7s)
+  web-Google         directed     n=  875,713 arcs=  5,105,039 z=0.5611 w=0.7189 floor=0.5950 (9.2s)
+  wiki-Talk          directed     n=2,394,385 arcs=  5,021,410 z=0.9588 w=0.9790 floor=0.2782 (3.1s)
+  wiki-topcats       directed     n=1,791,489 arcs= 28,508,141 z=0.0401 w=0.0771 floor=0.0770 (20.3s)
+
+[pairing] 442 plain rows, 404 filtered rows, 395 configurations with both
+[support] P1 uses shipped target zeros; P2/P3 registered tests use structural zeros.
+[pairing] 5608 paired (algorithm, graph) cells across 14 graphs
+
+[P1] mixture identity predicts published all-node tau
+  median |error| = 0.0786   (registered threshold <= 0.05)
+  median  error  = -0.0770   (registered sign >= 0)
+  P1: FALSIFIED
+
+[P1 diagnosis — POST-HOC, NOT REGISTERED] tie-matched mixture w + (1-w)*tau_f
+  median |error| = 0.0000   (registered form above: 0.0786)
+  max    |error| = 1.1034
+  per-graph median signed error, registered form vs tie-matched:
+    amazon             z=0.3269  geometric -0.0455   tied -0.0001
+    cit-Patents        z=0.1884  geometric -0.0130   tied -0.0000
+    com-lj             z=0.2878  geometric -0.0335   tied +0.0003
+    com-youtube        z=0.5732  geometric -0.1649   tied -0.0003
+    dblp               z=0.4196  geometric -0.0779   tied +0.0000
+    email-EuAll        z=0.9609  geometric -0.7166   tied +0.0000
+    p2p-Gnutella31     z=0.4606  geometric -0.1012   tied +0.0000
+    soc-Epinions1      z=0.6345  geometric -0.2097   tied -0.0000
+    soc-LiveJournal1   z=0.3551  geometric -0.0537   tied +0.0000
+    soc-Pokec          z=0.2190  geometric -0.0199   tied +0.0000
+    soc-Slashdot0902   z=0.4115  geometric -0.0790   tied -0.0000
+    web-Google         z=0.5611  geometric -0.1366   tied -0.0000
+    wiki-Talk          z=0.9588  geometric -0.7106   tied -0.0000
+    wiki-topcats       z=0.0401  geometric -0.0005   tied +0.0000
+
+[P2] median drop tracks z across graphs (secondary; see prereg §0)
+  Spearman rho = 0.890 over 14 graphs (registered threshold >= 0.5)
+  P2: SUPPORTED
+
+[P3] published numbers within 0.05 of the free floor
+    amazon             floor=0.4657 (tied floor w=0.4927)  min published tau=0.1890  12/404 under floor+0.05  |  12/404 under w+0.05
+    cit-Patents        floor=0.3114 (tied floor w=0.3170)  min published tau=0.1535  12/404 under floor+0.05  |  12/404 under w+0.05
+    com-lj             floor=0.4281 (tied floor w=0.4470)  min published tau=0.1671  9/401 under floor+0.05  |  9/401 under w+0.05
+    com-youtube        floor=0.5971 (tied floor w=0.7287)  min published tau=0.3224  18/404 under floor+0.05  |  33/404 under w+0.05
+    dblp               floor=0.5366 (tied floor w=0.5911)  min published tau=0.1639  9/401 under floor+0.05  |  9/401 under w+0.05
+    email-EuAll        floor=0.2715 (tied floor w=0.9801)  min published tau=-0.1176  26/401 under floor+0.05  |  401/401 under w+0.05
+    p2p-Gnutella31     floor=0.5598 (tied floor w=0.6307)  min published tau=0.6544  0/404 under floor+0.05  |  6/404 under w+0.05
+    soc-Epinions1      floor=0.6001 (tied floor w=0.7764)  min published tau=0.3230  15/401 under floor+0.05  |  27/401 under w+0.05
+    soc-LiveJournal1   floor=0.4900 (tied floor w=0.5241)  min published tau=0.1465  12/398 under floor+0.05  |  12/398 under w+0.05
+    soc-Pokec          floor=0.3506 (tied floor w=0.3594)  min published tau=0.2197  9/398 under floor+0.05  |  9/398 under w+0.05
+    soc-Slashdot0902   floor=0.5314 (tied floor w=0.5831)  min published tau=0.5184  9/398 under floor+0.05  |  12/398 under w+0.05
+    web-Google         floor=0.5950 (tied floor w=0.7189)  min published tau=0.1835  13/398 under floor+0.05  |  26/398 under w+0.05
+    wiki-Talk          floor=0.2782 (tied floor w=0.9790)  min published tau=0.0550  27/398 under floor+0.05  |  398/398 under w+0.05
+    wiki-topcats       floor=0.0770 (tied floor w=0.0771)  min published tau=0.2146  0/398 under floor+0.05  |  0/398 under w+0.05
+  POST-HOC, against the tie-matched floor w: 13/14 graphs
+  POST-HOC, masked family uses shipped w, others geometric: 12/14 graphs
+  graphs with at least one such configuration: 12/14 (registered threshold >= 7)
+  P3: SUPPORTED
+
+==============================================================================
+VERDICT  P1 FAIL | P2 PASS | P3 PASS | P4 PASS (gate)
+==============================================================================

@@ -1,0 +1,92 @@
+{
+  "status": "complete",
+  "pilot": true,
+  "started_utc": "2026-09-14T06:38:48.972758+00:00",
+  "identity": {
+    "tag": "email-Eu-core",
+    "configuration": {
+      "target": "spread_mean",
+      "draws": 4000,
+      "simulation_seed": 0,
+      "convention": "uniform",
+      "threads": 1,
+      "lengths": [
+        1,
+        2,
+        3
+      ],
+      "h_index_order": 3,
+      "rf_tier": "node",
+      "rf_radius": 2
+    },
+    "inputs": {
+      "meta": {
+        "path": "cache_meta_email-Eu-core.json",
+        "sha256": "155de0bd18b22570b711439e40b35af5bd0b85b4979a5509c94659d1d7b1101a"
+      },
+      "features": {
+        "path": "cache_features_email-Eu-core.csv",
+        "sha256": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477"
+      },
+      "targets": {
+        "path": "cache_targets_email-Eu-core.csv",
+        "sha256": "1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a"
+      },
+      "registry": {
+        "path": "cache_registry_email-Eu-core.csv",
+        "sha256": "ab437192b824d7a08571ff41cdddd57544e51c23ee6eb4ef38ecb141d3f24457"
+      },
+      "edgelist": {
+        "path": "data/email-Eu-core.txt",
+        "sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c"
+      },
+      "nonbacktracking_local": {
+        "path": "influence/nonbacktracking_local.py",
+        "sha256": "64ec26e72a27b7aabd8cb8fedc8944d5ccd72bf84f734b06982f64dab3c98e9d"
+      },
+      "preprocessing": {
+        "path": "influence/preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "sweep_inputs": {
+        "path": "influence/sweep_inputs.py",
+        "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+      },
+      "probe_nonbacktracking_local": {
+        "path": "probe_nonbacktracking_local.py",
+        "sha256": "11923a3f7ca9676c0e8568dc1fddbb43ce11988d2d62120794a6426c9053ac4c"
+      },
+      "rf_helpers": {
+        "path": "analyse_local_predictors.py",
+        "sha256": "18a71a9ed02147dbd60a2fd9cdf572d4b2e3c75e4b0264e19d262b77fd0a1323"
+      },
+      "analyse": {
+        "path": "analyse.py",
+        "sha256": "ea7e37d74b1a967345031a7358b5ed7338be669a5786f6bd9b906f6603fbc26d"
+      },
+      "sweep": {
+        "path": "sweep_email-Eu-core.csv",
+        "sha256": "994972db224b893cb57c9841bd18b226cba1f01d6e737ac75c78c4853cc2a96e"
+      },
+      "provenance_audit": {
+        "path": "cache_provenance_audit_20260911.json",
+        "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+      }
+    },
+    "imported_helpers": [
+      "analyse_local_predictors.load_rf_reference",
+      "analyse_local_predictors.rf_cell_tau"
+    ]
+  },
+  "completed_utc": "2026-09-14T06:38:49.318788+00:00",
+  "output_sha256": "c9804a2363bce152fa50911a519513cab8f0df8142dd635883a85c82b55016a2",
+  "scores": {
+    "NB1": 0.8813640810342573,
+    "NB2": 0.9470893001710312,
+    "NB3": 0.9597043578689959,
+    "Hindex3": 0.902486393614522,
+    "RFnode_r2_mean10": 0.9593459573600388
+  },
+  "radius_note": "NB3 has information radius 2; cached H-index order 3 has radius 3.",
+  "scoring_status": "unscored_pilot"
+}

@@ -1,0 +1,445 @@
+L3 new files; no prior versions existed. Existing production files were not modified.
+
+FILE: influence/local_dynamics.py
+SHA256: DA2896EAC53C3C173D35FA6E7EACEDF8B3C0AD496A41106D311CB529C2C73C47
+"""Exact symmetric live-edge IC, preserving production random draw order.
+
+Only node-by-draw labels/counts persist. Reachability uses one sparse boolean
+matrix per draw, bounded further by seed batches; no node-by-node-by-draw cube.
+"""
+import numpy as np
+import scipy.sparse as sp
+from .dynamics import symmetric_edge_probabilities
+
+
+def live_edge_draws(net, p=.05, n_sims=200, convention='uniform', seed=0):
+    """Yield (symmetric CSR boolean adjacency, component labels) in draw order."""
+    if not isinstance(n_sims, (int, np.integer)) or n_sims < 1:
+        raise ValueError('n_sims must be a positive integer')
+    if not np.isfinite(p) or not 0 <= p <= 1:
+        raise ValueError('p must be finite in [0,1]')
+    a = net.adj
+    if a.shape != (net.n, net.n) or net.n < 1 or (a != a.T).nnz or a.diagonal().any():
+        raise ValueError('requires a nonempty symmetric loop-free graph')
+    rng = np.random.default_rng(seed)
+    # Trivalency consumes RNG here once, exactly as production does.
+    u,v,probs = symmetric_edge_probabilities(net, convention,p,rng)
+    for _ in range(n_sims):
+        keep = rng.random(len(u)) < probs
+        g = sp.csr_matrix((np.ones(keep.sum(),dtype=bool),(u[keep],v[keep])),shape=a.shape)
+        _, labels = sp.csgraph.connected_components(g,directed=False)
+        yield g + g.T, labels
+
+
+def percolation_labels(net, p=.05, n_sims=200, convention='uniform', seed=0):
+    """Return int32 labels [node, draw]; labels are local to each draw.
+
+    This sufficient representation supports later seed-set union queries by
+    summing sizes of unique component labels occupied by the chosen seeds.
+    """
+    return np.stack([labels for _,labels in live_edge_draws(net,p,n_sims,convention,seed)],axis=1)
+
+
+def validate_radii(radii):
+    radii = tuple(radii)
+    if not radii or any(not isinstance(r,(int,np.integer)) or r < 0 for r in radii) or tuple(sorted(set(radii))) != radii:
+        raise ValueError('radii must be strictly increasing nonnegative integers')
+    return radii
+
+
+def truncated_draw_sizes(g, radii=(0,1,2,3), batch_size=256):
+    """Return counts [node, radius] for one symmetric live graph.
+
+    Boolean multiplication records existence, avoiding integer walk overflow;
+    retaining all previously reached nodes makes these shortest-path balls.
+    """
+    radii = validate_radii(radii)
+    if not isinstance(batch_size,int) or batch_size < 1:
+        raise ValueError('batch_size must be positive integer')
+    n = g.shape[0]
+    result = np.empty((n,len(radii)),dtype=np.int32)
+    for start in range(0,n,batch_size):
+        stop = min(n,start+batch_size)
+        reach = sp.csr_matrix((np.ones(stop-start,dtype=bool),(np.arange(stop-start),np.arange(start,stop))),shape=(stop-start,n))
+        for r in range(radii[-1]+1):
+            if r in radii:
+                result[start:stop,radii.index(r)] = reach.getnnz(axis=1)
+            if r < radii[-1]:
+                reach = reach + reach @ g
+    return result
+
+
+def truncated_cascade_sizes(net, radii=(0,1,2,3), p=.05, n_sims=200, convention='uniform', seed=0, batch_size=256):
+    """Return int32 counts [node, draw, radius], seed included at r=0."""
+    radii = validate_radii(radii)
+    return np.stack([truncated_draw_sizes(g,radii,batch_size) for g,_ in live_edge_draws(net,p,n_sims,convention,seed)],axis=1)
+
+
+FILE: verify_local_dynamics.py
+SHA256: 1B4A5C00C7EC6CB9F37F53F71CE28060099739B9FF7A0D7250EE924BBFA342DB
+"""Independent shortest-path fixtures for exact local IC dynamics."""
+import unittest
+import numpy as np
+import scipy.sparse as sp
+from influence.preprocessing import Network
+from influence.dynamics import simulate_ic_percolation, symmetric_edge_probabilities
+from influence.local_dynamics import percolation_labels, truncated_cascade_sizes
+
+
+def fixture(n, edges):
+    a = np.zeros((n, n), dtype=bool)
+    for u, v in edges:
+        a[u, v] = a[v, u] = True
+    return Network('fixture', sp.csr_matrix(a), [np.flatnonzero(r) for r in a],
+                   a.sum(1), np.arange(n))
+
+
+class ExactLocalTests(unittest.TestCase):
+    def test_verdict_missing_and_ties(self):
+        from analyse_local_predictors import verdicts
+        report = verdicts({})
+        self.assertEqual(report['counter']['verdict'],'unscored')
+        self.assertEqual(report['monotonic']['ca-GrQc'],'unscored')
+        rows = {tag:{'E1':.3,'E2':.4,'E3':.5,'node1':.2,'full2':.6,'full3':.55}
+                for tag in ['ca-GrQc','ca-HepTh','p2p-Gnutella08','email-Eu-core','facebook_combined']}
+        report = verdicts(rows)
+        self.assertEqual(report['counter']['verdict'],'not_supported')
+        self.assertEqual(report['RF_margin']['ca-GrQc'],'supported')
+        for tag in rows:
+            rows[tag]['full3'] = .5
+        self.assertEqual(verdicts(rows)['counter']['verdict'],'supported')
+        rows['ca-GrQc']['E1'] = None
+        self.assertEqual(verdicts(rows)['monotonic']['ca-GrQc'],'unscored')
+
+    def test_shortest_paths_and_production_rng(self):
+        for net in [fixture(5, [(0,1),(1,2),(2,3),(3,4)]),
+                    fixture(4, [(0,1),(1,2),(2,3),(3,0)]),
+                    fixture(5, [(0,1),(0,2),(0,3),(0,4)]),
+                    fixture(5, [(0,1),(2,3)]), fixture(1, [])]:
+            for convention in ['uniform', 'trivalency']:
+                for p in [0., .37, 1.]:
+                    with self.subTest(n=net.n, convention=convention, p=p):
+                        kw = dict(p=p, n_sims=8, convention=convention, seed=7)
+                        labels = percolation_labels(net, **kw)
+                        sizes = truncated_cascade_sizes(net, radii=range(6), **kw)
+                        full = simulate_ic_percolation(net, verbose=False, **kw).sizes
+                        np.testing.assert_array_equal(sizes[:, :, -1], full)
+                        for m in range(8):
+                            np.testing.assert_array_equal(np.bincount(labels[:,m])[labels[:,m]], full[:,m])
+                        rng = np.random.default_rng(7)
+                        u,v,probs = symmetric_edge_probabilities(net, convention,p,rng)
+                        for m in range(8):
+                            adj = [set() for _ in range(net.n)]
+                            for x,y in zip(u[rng_live := rng.random(len(u)) < probs], v[rng_live]):
+                                adj[x].add(y); adj[y].add(x)
+                            for seed in range(net.n):
+                                reached = {seed}
+                                for r in range(6):
+                                    self.assertEqual(sizes[seed,m,r],len(reached))
+                                    reached |= {v for x in reached for v in adj[x]}
+                        self.assertTrue((np.diff(sizes, axis=2) >= 0).all())
+                        self.assertTrue((sizes[:,:,0] == 1).all())
+
+    def test_invalid(self):
+        net = fixture(3, [(0,1)])
+        for kw in [dict(p=-.1),dict(p=float('nan')),dict(p=1.1),dict(n_sims=0),dict(n_sims=1.5),dict(convention='weighted'),dict(radii=[-1]),dict(radii=[1,1]),dict(radii=[.5])]:
+            with self.subTest(kw=kw), self.assertRaises(ValueError):
+                truncated_cascade_sizes(net, **kw)
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+FILE: probe_local_predictors.py
+SHA256: CD8A52DB09F0AB870705A9A2715C2143304541B189C33EC57CF535CA3C0FEDA2
+"""L3 zero-fit runner. Full draws are verified before a network is accepted.
+
+Run from any cwd. Production output is results/phase7_local; --pilot-draws
+uses an explicitly separate pilot directory and never supports scientific claims.
+"""
+import os
+for _key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS','NUMEXPR_NUM_THREADS'):
+    os.environ[_key] = '1'
+import argparse
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import time
+import numpy as np
+import pandas as pd
+from influence.preprocessing import load_edgelist
+from influence.local_dynamics import live_edge_draws, truncated_draw_sizes
+
+ROOT = Path(__file__).resolve().parent
+TAGS = ('ca-GrQc','ca-HepTh','p2p-Gnutella08','email-Eu-core','facebook_combined')
+
+
+def sha(path):
+    with open(path,'rb') as f:
+        return hashlib.file_digest(f,'sha256').hexdigest()
+
+
+def atomic_json(path, value):
+    tmp = path.with_suffix(path.suffix+'.tmp')
+    tmp.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n',encoding='utf8')
+    os.replace(tmp,path)
+
+
+def stamp():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def peak_memory_bytes():
+    """Process lifetime peak working set (includes native sparse allocations)."""
+    if os.name == 'nt':
+        import ctypes
+        from ctypes import wintypes
+        class Counters(ctypes.Structure):
+            _fields_ = [('cb',wintypes.DWORD),('faults',wintypes.DWORD)] + [
+                (name,ctypes.c_size_t) for name in ('peak','working','qpp','qp','qpnp','qnp','page','peakpage')]
+        value = Counters()
+        value.cb = ctypes.sizeof(value)
+        kernel = ctypes.WinDLL('kernel32',use_last_error=True)
+        kernel.GetCurrentProcess.restype = wintypes.HANDLE
+        query = ctypes.WinDLL('psapi',use_last_error=True).GetProcessMemoryInfo
+        query.argtypes = [wintypes.HANDLE,ctypes.POINTER(Counters),wintypes.DWORD]
+        if not query(kernel.GetCurrentProcess(),ctypes.byref(value),value.cb):
+            raise ctypes.WinError(ctypes.get_last_error())
+        return value.peak
+    import resource
+    import sys
+    value = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    return value if sys.platform == 'darwin' else value*1024
+
+
+def run_network(tag, out, pilot_draws=0):
+    paths = {k:ROOT/f'cache_{k}_{tag}.{ext}' for k,ext in
+             [('meta','json'),('features','csv'),('targets','csv'),('cascades','npy')]}
+    meta = json.loads(paths['meta'].read_text())
+    source = Path(meta['provenance']['source'])
+    if not source.is_absolute():
+        source = ROOT/source
+    paths['edgelist'] = source
+    for name in ('influence/local_dynamics.py','influence/dynamics.py','influence/preprocessing.py','probe_local_predictors.py'):
+        paths[name] = ROOT/name
+    identity = {'tag':tag,'inputs':{k:{'path':str(p.resolve()),'sha256':sha(p)} for k,p in paths.items()},
+                'radii':[0,1,2,3], 'simulation_seed':meta['simulation_seed'],
+                'p':meta['p'],'convention':meta['convention'], 'pilot_draws':pilot_draws,
+                'split':{'predictor':[0, pilot_draws//2 if pilot_draws else 2000],
+                         'target':[pilot_draws//2 if pilot_draws else 2000,pilot_draws or 4000]},
+                'threads':1}
+    status_path, data_path = out/f'{tag}.json', out/f'{tag}.npz'
+    if status_path.exists():
+        old = json.loads(status_path.read_text())
+        if old['identity'] != identity:
+            raise ValueError(f'{tag}: resume identity mismatch')
+        if old['status'] == 'complete':
+            if not data_path.exists() or sha(data_path) != old['output_sha256']:
+                raise ValueError(f'{tag}: completed output corrupted/missing')
+            return old
+    status = {'identity':identity,'status':'running','started_utc':stamp(),'pilot':bool(pilot_draws)}
+    atomic_json(status_path,status)
+    t0 = time.perf_counter()
+    try:
+        if meta['n_sims'] != 4000 or meta['simulation_seed'] != 0:
+            raise ValueError('L3 requires the registered 4000-draw seed-0 caches')
+        net = load_edgelist(source)
+        x,y = pd.read_csv(paths['features']),pd.read_csv(paths['targets'])
+        for frame in (x,y):
+            if len(frame) != net.n or frame.node.duplicated().any() or not np.array_equal(frame.node,np.arange(net.n)) or not np.isfinite(frame.to_numpy(dtype=float)).all():
+                raise ValueError(f'{tag}: invalid/duplicate/nonfinite cache records')
+        if not np.array_equal(x.original_id,net.original_ids) or meta['n'] != net.n or meta['m'] != net.m:
+            raise ValueError(f'{tag}: source/cache node identity mismatch')
+        cached = np.load(paths['cascades'],mmap_mode='r',allow_pickle=False)
+        if cached.shape != (net.n,4000) or not np.issubdtype(cached.dtype,np.integer):
+            raise ValueError('invalid cascade cache shape/dtype')
+        draws = pilot_draws or 4000
+        split = draws//2
+        sums = np.zeros((net.n,4),dtype=np.float64)
+        target = np.zeros(net.n,dtype=np.float64)
+        for m,(g,labels) in enumerate(live_edge_draws(net,p=meta['p'],n_sims=draws,convention=meta['convention'],seed=meta['simulation_seed'])):
+            full = np.bincount(labels)[labels]
+            if not np.array_equal(full,cached[:,m]):
+                raise ValueError(f'{tag}: cascade mismatch draw {m}')
+            if m < split:
+                sums += truncated_draw_sizes(g)
+            else:
+                target += full
+            if (m+1)%200 == 0:
+                print(f'{tag}: {m+1}/{draws} verified',flush=True)
+        arrays = {'node':np.arange(net.n),'original_id':net.original_ids,
+                  'E':sums/split,'target':target/(draws-split)}
+        for column in ('perc_reach_2','perc_reach_3'):
+            if column in x:
+                arrays[column] = x[column].to_numpy()
+        # Detect edits while running before publishing results under old hashes.
+        if any(sha(paths[k]) != value['sha256'] for k,value in identity['inputs'].items()):
+            raise ValueError('inputs changed during run')
+        tmp = data_path.with_suffix('.npz.tmp')
+        with open(tmp,'wb') as f:
+            np.savez_compressed(f,**arrays)
+        os.replace(tmp,data_path)
+        elapsed = time.perf_counter()-t0
+        status.update(status='complete',completed_utc=stamp(),seconds=elapsed,
+                      verified_draws=draws,output_sha256=sha(data_path),
+                      process_lifetime_peak_memory_bytes=peak_memory_bytes(),
+                      estimated_full_seconds=elapsed*4000/draws,
+                      memory_bound='256 x n sparse boolean reachability per draw; n x 4 accumulator; mmap full cache')
+        atomic_json(status_path,status)
+        print(f'{tag}: {elapsed:.3f}s ({draws} draws)',flush=True)
+        return status
+    except Exception as exc:
+        status.update(status='failed',error=str(exc),completed_utc=stamp())
+        atomic_json(status_path,status)
+        raise
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--pilot-draws',type=int,default=0)
+    ap.add_argument('--networks',nargs='+',choices=TAGS,default=list(TAGS))
+    args = ap.parse_args()
+    if args.pilot_draws and not 2 <= args.pilot_draws <= 20:
+        ap.error('pilot draws must be 2..20')
+    if len(set(args.networks)) != len(args.networks):
+        ap.error('duplicate networks')
+    out = ROOT/'results/phase7_local'
+    if args.pilot_draws:
+        out = out/f'pilot_{args.pilot_draws}'
+    out.mkdir(parents=True,exist_ok=True)
+    for tag in args.networks:
+        run_network(tag,out,args.pilot_draws)
+
+
+if __name__ == '__main__':
+    main()
+
+
+FILE: analyse_local_predictors.py
+SHA256: CDAFA0572E8FB4AF3DF7CBAC3E9698EC62E1F3569951127F3C3ED0EEF3016AFF
+"""Score registered L3 hypotheses; missing/tied evidence remains unscored.
+
+RF scores use the existing full-4000-draw target and are descriptive references,
+not a matched independent-half target experiment. No model is fitted here.
+"""
+import os
+for _key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS','NUMEXPR_NUM_THREADS'):
+    os.environ[_key] = '1'
+import argparse
+import json
+import numpy as np
+import pandas as pd
+from scipy.stats import kendalltau
+import analyse
+from probe_local_predictors import ROOT,TAGS,sha,atomic_json,stamp
+
+
+def verdicts(networks):
+    """Score network-level conjunctions without treating absent data as failures."""
+    result = {'monotonic':{},'E1_beats_node':{},'RF_margin':{},'counter':{}}
+    def check(row,keys,test):
+        values = [row.get(k) for k in keys]
+        if any(v is None or not np.isfinite(v) for v in values):
+            return 'unscored'
+        return 'supported' if test(*values) else 'not_supported'
+    for tag in TAGS:
+        row = networks.get(tag,{})
+        result['monotonic'][tag] = check(row,['E1','E2','E3'],lambda a,b,c: b >= a-1e-12 and c >= b-1e-12)
+        if tag in ('ca-GrQc','ca-HepTh','p2p-Gnutella08'):
+            result['E1_beats_node'][tag] = check(row,['E1','node1'],lambda a,b:a>b)
+        result['RF_margin'][tag] = check(row,['E2','E3','full2','full3'],lambda a,b,c,d:c-a >= .03 and d-b >= .03)
+    comparisons = {tag:check(networks.get(tag,{}),['E3','full3'],lambda a,b:a>=b) for tag in TAGS}
+    hits = sum(v=='supported' for v in comparisons.values())
+    missing = sum(v=='unscored' for v in comparisons.values())
+    counter = 'supported' if hits >= 4 else ('not_supported' if hits+missing < 4 else 'unscored')
+    result['counter'] = {'verdict':counter,'networks_at_or_above':hits,'missing':missing,'network_verdicts':comparisons}
+    return result
+
+
+def tau(x,y):
+    if not np.isfinite(x).all() or not np.isfinite(y).all():
+        raise ValueError('nonfinite prediction/target')
+    value = float(kendalltau(x,y).statistic)
+    return value if np.isfinite(value) else None
+
+
+def run(out):
+    coverage_path = ROOT/'results/coverage.csv'
+    coverage = pd.read_csv(coverage_path)
+    if coverage.duplicated(['network','radius']).any() or not np.isfinite(coverage.select_dtypes('number')).all().all():
+        raise ValueError('invalid coverage records')
+    all_rows, summary, statuses, hashes = [],{},{},{'coverage':sha(coverage_path)}
+    for tag in TAGS:
+        status_path = out/f'{tag}.json'
+        if not status_path.exists():
+            statuses[tag] = 'missing'
+            continue
+        status = json.loads(status_path.read_text())
+        if status['status'] != 'complete':
+            statuses[tag] = status['status']
+            continue
+        if status['pilot'] or status['verified_draws'] != 4000:
+            raise ValueError('pilot/partial outputs cannot score preregistered claims')
+        data_path = out/f'{tag}.npz'
+        if sha(data_path) != status['output_sha256']:
+            raise ValueError('prediction output hash mismatch')
+        for item in status['identity']['inputs'].values():
+            if sha(item['path']) != item['sha256']:
+                raise ValueError('L3 input changed since prediction')
+        hashes[tag] = {'predictions':sha(data_path),'status':sha(status_path)}
+        # analyse.load intentionally deduplicates historical files. For this
+        # new lane reject duplicate spread cells before invoking that loader.
+        sweep_path = ROOT/f'sweep_{tag}.csv'
+        raw = pd.read_csv(sweep_path)
+        raw = raw.loc[raw.target=='spread_mean']
+        if raw.duplicated(['target','radius','richness','seed']).any() or not np.isfinite(raw.select_dtypes('number')).all().all():
+            raise ValueError(f'{tag}: duplicate/nonfinite RF spread records')
+        hashes[tag]['sweep'] = sha(sweep_path)
+        rf = analyse.load(tag)
+        rf = rf.loc[rf.target=='spread_mean']
+        row = {}
+        for key,tier,r in [('node1','node',1),('full2',analyse.FULL,2),('full3',analyse.FULL,3)]:
+            cell = rf.loc[(rf.richness==tier)&(rf.radius==r)]
+            if len(cell) and set(cell.seed) != set(range(10)):
+                raise ValueError(f'{tag}: incomplete RF cell {tier}, radius {r}')
+            row[key] = float(cell.kendall_tau.mean()) if len(cell) else None
+        with np.load(data_path,allow_pickle=False) as data:
+            n = len(data['node'])
+            if data['E'].shape != (n,4) or data['target'].shape != (n,) or not np.array_equal(data['node'],np.arange(n)):
+                raise ValueError('invalid predictor dimensions/node identity')
+            for r in range(4):
+                value = tau(data['E'][:,r],data['target'])
+                row[f'E{r}'] = value
+                all_rows.append({'network':tag,'radius':r,'predictor':f'E({r})','kendall_tau':value,'tau_status':'scored' if value is not None else 'unscored_tied',
+                                 'rf_node_tau':row.get('node1') if r==1 else None,'rf_full_tau':row.get(f'full{r}')})
+            for r in (2,3):
+                key = f'perc_reach_{r}'
+                if key in data:
+                    value = tau(data[key],data['target'])
+                    all_rows.append({'network':tag,'radius':r,'predictor':key,'kendall_tau':value,'tau_status':'scored' if value is not None else 'unscored_tied'})
+        summary[tag] = row
+        statuses[tag] = 'complete'
+    report = {'created_utc':stamp(),'network_status':statuses,'network_results':summary,'verdicts':verdicts(summary),'hashes':hashes,
+              'protocol_note':'E(r) draws 0..1999 vs target 2000..3999. RF uses historical full-draw targets; comparisons are descriptive. Radius 0 tied/unscored.'}
+    if all_rows:
+        frame = pd.DataFrame(all_rows)
+        merged = frame.merge(coverage,on=['network','radius'],how='left',validate='many_to_one',indicator=True)
+        if (merged['_merge'] != 'both').any():
+            raise ValueError('missing network-radius coverage')
+        merged = merged.drop(columns='_merge')
+        tmp = out/'scores.csv.tmp'
+        merged.to_csv(tmp,index=False)
+        os.replace(tmp,out/'scores.csv')
+    atomic_json(out/'analysis.json',report)
+    return report
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.parse_args()
+    os.chdir(ROOT)  # analyse.load resolves the historical corpus from cwd.
+    output = ROOT/'results/phase7_local'
+    output.mkdir(parents=True,exist_ok=True)
+    print(json.dumps(run(output),indent=2,allow_nan=False))

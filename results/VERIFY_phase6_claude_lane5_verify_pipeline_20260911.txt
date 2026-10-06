@@ -1,0 +1,116 @@
+==============================================================================
+verify_pipeline on email-Eu-core  (n=986 m=16,064)
+==============================================================================
+
+1-2. MERGED SHELL + CI TRAVERSAL vs THE REFERENCE IMPLEMENTATIONS
+  PASS  shell counts bit-identical                           
+  PASS  shell degree mean bit-identical                      
+  PASS  shell degree max bit-identical                       
+  PASS  collective influence bit-identical                   
+  PASS  skipping the final expansion is safe                 
+  PASS  per-hop timings are all positive                     ['0.013', '0.186', '0.228']
+
+2b. EGO-BETWEENNESS: FAST PATH vs THE SET-BASED REFERENCE
+  PASS  fast path matches reference                          max|diff|=4.37e-10 relative=1.73e-14
+  PASS  dense path is reachable only via hubs                34 node(s) at degree >= 128
+
+2c. GRAPHLET ORBITS: ORCA vs DIRECT ENUMERATION
+  PASS  all 15 orbits match on ER (n=39)                     
+  PASS  all 15 orbits match on BA (n=40)                     
+  PASS  all 15 orbits match on WS (n=40)                     
+  PASS  all 15 orbits match on HK (n=35)                     
+  PASS  every orbit has a radius tag                         radii present: [1, 2, 3]
+  PASS  only the induced-P4 endpoint needs 3 hops            hop-3 orbits: [4]
+
+3. TRIVALENCY: ONE DRAW PATH, NOT TWO
+  PASS  percolation and direct paths agree                   
+  PASS  both arcs of an edge carry the same p                
+
+4. IGNITION THRESHOLD USES THE NETWORK SIZE
+  PASS  n_nodes is the network, not the sample               n_nodes=986 rows=5
+
+5-6. REGISTRY: COST GROUPS AND HOP TAGS
+  PASS  every feature has a cost group                       
+  PASS  every cost group has a timing key                    []
+  PASS  feature count is non-decreasing in radius            {0: 2, 1: 62, 2: 144, 3: 168}
+  PASS  neighbour clustering/triangle aggregates are hop 2   found hops [2] over 10 features
+  PASS  neighbour degree aggregates stay hop 1               
+  PASS  the 2-ball family shares one tier (one array, one rung) {'ball2_density': 'subgraph', 'ball2_edges': 'subgraph', 'local_conductance_2': 'subgraph'}
+  PASS  feature cost strictly increases with radius          r0=0.000s r1=16.887s r2=17.123s r3=17.366s
+
+6b. PER-NODE GLOBAL QUANTITIES (profiling axes for the atlas)
+  PASS  core_numbers matches igraph exactly                  max core = 34
+  PASS  h_index_3 is an upper bound on coreness              max over-read = 13, exact on 63% of nodes
+  PASS  the ladder is non-increasing in order                
+  PASS  hub distance is finite everywhere inside the LCC     max = 4 hops
+  PASS  hub distance is zero exactly at the hubs             
+
+6c. THE TIER LADDER MUST ACTUALLY VARY INFORMATION
+  PASS  'triangle_count' is still a known derived column     max|err|=4.5e-13 - documented, not a bug
+  PASS  'ego_net_edges' is still a known derived column      max|err|=4.5e-13 - documented, not a bug
+  PASS  'edges_leaving_ego' is still a known derived column  max|err|=9.1e-13 - documented, not a bug
+  PASS  'ego_net_size' is still a known derived column       max|err|=0.0e+00 - documented, not a bug
+  PASS  the independent edge/subgraph features are present   5/5
+  PASS  none of them duplicates degree                       max |rho| to degree = 0.9838 (edge_embeddedness_std)
+
+7. THE LEAKAGE GUARD
+  PASS  real feature set passes                              168 features
+  PASS  guard catches 'betweenness'                          
+  PASS  guard catches 'log_pagerank'                         
+  PASS  guard catches 'closeness_centrality'                 
+  PASS  guard catches 'coreness'                             
+  PASS  guard catches 'spread_mean'                          
+  PASS  guard catches 'k_shell_index'                        
+  PASS  guard allows the documented exceptions               
+
+[8] stored sweeps still match the current column order
+  PASS  ca-GrQc: column order unchanged                      16 cells
+  PASS  ca-HepTh: column order unchanged                     16 cells
+  PASS  email-Eu-core: column order unchanged                16 cells
+  PASS  facebook_combined: column order unchanged            16 cells
+  PASS  p2p-Gnutella08: column order unchanged               16 cells
+
+N9. THE REPORTED-OBJECTIVE SPLICE
+  PASS  networks discovered                                  5: ['ca-GrQc', 'ca-HepTh', 'email-Eu-core', 'facebook_combined', 'p2p-Gnutella08']
+  PASS  log1p betweenness present for every network          missing: []
+  PASS  spreading targets pass through untouched             worst |dtau| = 0.000e+00
+  PASS  betweenness is actually re-based (splice is not a no-op) 5/5 networks moved
+  PASS  analyse_estimators baseline pinned to raw            
+
+N10. ZERO-INFLATION CLOSED FORM (C1)
+  PASS  all five networks present                            5/5
+  PASS  tau floor matches study_doc_v2 24.5 to 3 dp          all five agree
+  PASS  w_exact == counted share (identity)                  worst gap = 0.000e+00
+  PASS  w_exact matches study_doc_v2 24.4 to 3 dp            all five agree
+
+N11. BETWEENNESS_K TRUNCATION AND THE 24.1 PROPOSITION (C5)
+  PASS  b_2 support == nonzero betweenness set (24.1, arithmetised) 5/5 networks
+  PASS  b_k at k=diameter (7) == exact betweenness [email-Eu-core] max |diff| = 2.183e-11
+
+N11. C3 MIXTURE FORMS AND INDEPENDENT ZERO SET
+  PASS  both tau-b mixture forms match scipy on synthetic tie regimes continuous predictions  tau=+0.600934 formula=+0.600934 |d|=0.00e+00 | tied on the zero set    tau=+0.790940 formula=+0.790940 |d|=1.11e-16
+  PASS  independent zero-set implementation reproduces 24.4's w table ca-GrQc              w =  71.0008%  published  71.0008%  OK | ca-HepTh             w =  65.3519%  published  65.3519%  OK | p2p-Gnutella08       w =  43.5280%  published  43.5280%  OK | email-Eu-core        w =  26.2787%  published  26.2787%  OK | facebook_combined    w =  15.6164%  published  15.6164%  OK
+  PASS  C3 fallback agrees nodewise on all five required graphs ALL CHECKS PASSED
+C3 structural-support errors and pre-filter source identities: ALL CHECKS PASSED
+N12. C4 TWO-NUMBER REPORTER (CODE CORRECTNESS ONLY)
+  PASS  C4 accuracy and reference-only positive filtering    
+  PASS  C4 zero-labelled confusion counts and rates          
+  PASS  C4 tied and untied regimes use the two N11 mixtures  
+  PASS  C4 tie counts include boundary and positive ties     
+  PASS  C4 undefined tau: [] / fewer_than_two_positives      
+  PASS  C4 undefined tau: [0, 0] / fewer_than_two_positives  
+  PASS  C4 undefined tau: [0, 1] / fewer_than_two_positives  
+  PASS  C4 undefined tau: [1, 1] / constant_positive_reference 
+  PASS  C4 undefined tau: [1, 2] / constant_positive_prediction 
+  PASS  C4 empty/absent-class rates remain NA                
+  PASS  C4 absent decision never inferred from scores        
+  PASS  C4 positive reference ties require actual pair accounting 
+  PASS  C4 pair counts stay exact past int64 (n=200k)        denominator 1.2e+10 vs 1.2e+10; product 1.440e+20 > int64
+  PASS  C4 denominator handles pair products above int64     
+  PASS  C4 invalid input rejected                            
+  PASS  C4 invalid input rejected                            
+  PASS  C4 invalid input rejected                            
+  PASS  C4 invalid input rejected                            
+
+==============================================================================
+ALL CHECKS PASSED

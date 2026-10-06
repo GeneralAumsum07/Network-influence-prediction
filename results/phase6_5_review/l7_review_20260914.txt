@@ -1,0 +1,40 @@
+Phase 6.5 L7 zero-fit review package
+
+Scope:
+1. influence/branch_anisotropy.py
+2. probe_branch_anisotropy.py
+3. verify_branch_anisotropy.py
+
+Feature contract:
+- exact shell-2 nodes allocate unit mass equally over every adjacent hop-1 parent;
+  no BFS discovery order chooses a branch.
+- branch totals are normalised by shell-2 size.  The published features are
+  maximum share and natural-log entropy.  Empty shells retain two zeros and a
+  flag.
+- feature extraction reads only graph adjacency and node identity.
+
+Residual contract:
+- primary: reported rf_log1p OOF betweenness, structural radius 3, all seeds 0..9.
+- sensitivities: historical raw betweenness and raw spread_mean, independently
+  labelled.  Neither can replace a missing primary arm.
+- adjusted residual tails use ascending np.lexsort((node, adjusted_delta)); the
+  first k nodes are over-predicted and the last k are under-predicted, with
+  k=max(10, round(0.05*n)).
+- each feature reports directional Cliff's d (under minus over).  Primary support
+  is counted only from max(abs(d)) across the two features, threshold >0.2.
+
+Audit and resume contract:
+- graph source, caches, both OOF archives, source audit, and imported source
+  modules are SHA-256-bound.  Missing recorded source hashes refuse execution.
+- node order and original IDs are checked against the reloaded graph.  OOF
+  archives require exactly ten finite, distinct seed keys.
+- NPZ and JSON writes are atomic; completed outputs must match their recorded
+  digest and full identity before resuming or entering a summary.
+
+Review commands:
+  python verify_branch_anisotropy.py
+  python probe_branch_anisotropy.py --networks ca-GrQc --pilot
+
+Observed bounded pilot (unscored): ca-GrQc completed with all three arms and
+the reported-arm entropy effect d=-0.2045811760.  This is a smoke result only;
+the five-network primary verdict was not run.

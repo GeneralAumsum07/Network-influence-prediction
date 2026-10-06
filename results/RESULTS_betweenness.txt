@@ -1,0 +1,95 @@
+
+==========================================================================
+ca-GrQc   n=4,158
+==========================================================================
+  betweenness == 0            : 2,288 (55.0%)
+  pairs scored by tau-b       : 6,026,075 of 8,642,403
+  of those, zero-vs-nonzero   : 71.0%
+  CHECK  w exact vs counted   : 71.0008% vs 71.0008%  (agree)
+         w ~ 2z/(1+z)         : 70.9898%  (asymptotic, error -0.0110 pp)
+  tau floor from zero set     : 0.7100 (any tau below this is worse than a radius-1 certificate)
+  CHECK  bc==0 <=> ego_bet==0 : 0 mismatches (exact)
+         bc==0 <=> clustering==1 : 675 mismatches (misses degree-1 nodes, as expected)
+  objective: log1p betweenness (reported arm)
+
+   r        tau (all nodes)     tau (nonzero only)  src
+   0        0.5560 +/-0.0009        0.3665 +/-0.0027  cache
+   1        0.9197 +/-0.0010        0.7365 +/-0.0016  cache
+   2        0.9288 +/-0.0012        0.7754 +/-0.0022  cache
+   3        0.9283 +/-0.0014        0.7765 +/-0.0023  cache
+
+==========================================================================
+ca-HepTh   n=8,638
+==========================================================================
+  betweenness == 0            : 4,192 (48.5%)
+  pairs scored by tau-b       : 28,518,867 of 37,303,203
+  of those, zero-vs-nonzero   : 65.4%
+  CHECK  w exact vs counted   : 65.3519% vs 65.3519%  (agree)
+         w ~ 2z/(1+z)         : 65.3468%  (asymptotic, error -0.0051 pp)
+  tau floor from zero set     : 0.6535 (any tau below this is worse than a radius-1 certificate)
+  CHECK  bc==0 <=> ego_bet==0 : 0 mismatches (exact)
+         bc==0 <=> clustering==1 : 1462 mismatches (misses degree-1 nodes, as expected)
+  objective: log1p betweenness (reported arm)
+
+   r        tau (all nodes)     tau (nonzero only)  src
+   0        0.6611 +/-0.0006        0.5020 +/-0.0010  cache
+   1        0.9024 +/-0.0003        0.7194 +/-0.0010  cache
+   2        0.9193 +/-0.0004        0.7711 +/-0.0011  cache
+   3        0.9199 +/-0.0003        0.7759 +/-0.0011  cache
+
+==========================================================================
+email-Eu-core   n=986
+==========================================================================
+  betweenness == 0            : 149 (15.1%)
+  pairs scored by tau-b       : 474,579 of 485,605
+  of those, zero-vs-nonzero   : 26.3%
+  CHECK  w exact vs counted   : 26.2787% vs 26.2787%  (agree)
+         w ~ 2z/(1+z)         : 26.2555%  (asymptotic, error -0.0232 pp)
+  tau floor from zero set     : 0.2628 (any tau below this is worse than a radius-1 certificate)
+  CHECK  bc==0 <=> ego_bet==0 : 0 mismatches (exact)
+         bc==0 <=> clustering==1 : 95 mismatches (misses degree-1 nodes, as expected)
+  objective: log1p betweenness (reported arm)
+
+   r        tau (all nodes)     tau (nonzero only)  src
+   0        0.7831 +/-0.0020        0.7219 +/-0.0027  cache
+   1        0.9078 +/-0.0017        0.8774 +/-0.0023  cache
+   2        0.9131 +/-0.0017        0.8857 +/-0.0021  cache
+   3        0.9134 +/-0.0016        0.8862 +/-0.0021  cache
+
+==========================================================================
+facebook_combined   n=4,039
+==========================================================================
+  betweenness == 0            : 342 (8.5%)
+  pairs scored by tau-b       : 8,096,430 of 8,154,741
+  of those, zero-vs-nonzero   : 15.6%
+  CHECK  w exact vs counted   : 15.6164% vs 15.6164%  (agree)
+         w ~ 2z/(1+z)         : 15.6129%  (asymptotic, error -0.0036 pp)
+  tau floor from zero set     : 0.1562 (any tau below this is worse than a radius-1 certificate)
+  CHECK  bc==0 <=> ego_bet==0 : 0 mismatches (exact)
+         bc==0 <=> clustering==1 : 75 mismatches (misses degree-1 nodes, as expected)
+  objective: log1p betweenness (reported arm)
+
+   r        tau (all nodes)     tau (nonzero only)  src
+   0        0.5944 +/-0.0010        0.5290 +/-0.0011  cache
+   1        0.8095 +/-0.0015        0.7747 +/-0.0018  cache
+   2        0.9233 +/-0.0009        0.9096 +/-0.0010  cache
+   3        0.9303 +/-0.0008        0.9187 +/-0.0010  cache
+
+==========================================================================
+p2p-Gnutella08   n=6,299
+==========================================================================
+  betweenness == 0            : 1,752 (27.8%)
+  pairs scored by tau-b       : 18,301,675 of 19,835,551
+  of those, zero-vs-nonzero   : 43.5%
+  CHECK  w exact vs counted   : 43.5280% vs 43.5280%  (agree)
+         w ~ 2z/(1+z)         : 43.5225%  (asymptotic, error -0.0054 pp)
+  tau floor from zero set     : 0.4353 (any tau below this is worse than a radius-1 certificate)
+  CHECK  bc==0 <=> ego_bet==0 : 0 mismatches (exact)
+         bc==0 <=> clustering==1 : 1744 mismatches (misses degree-1 nodes, as expected)
+  objective: log1p betweenness (reported arm)
+
+   r        tau (all nodes)     tau (nonzero only)  src
+   0        0.8848 +/-0.0004        0.7966 +/-0.0007  cache
+   1        0.9235 +/-0.0004        0.8646 +/-0.0007  cache
+   2        0.9357 +/-0.0004        0.8862 +/-0.0007  cache
+   3        0.9387 +/-0.0004        0.8916 +/-0.0006  cache

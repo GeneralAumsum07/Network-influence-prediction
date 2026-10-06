@@ -1,0 +1,106 @@
+{
+  "created_utc": "2026-09-14T06:43:03.690615+00:00",
+  "network_status": {
+    "ca-GrQc": "complete",
+    "ca-HepTh": "complete",
+    "p2p-Gnutella08": "complete",
+    "email-Eu-core": "complete",
+    "facebook_combined": "complete"
+  },
+  "network_results": {
+    "ca-GrQc": {
+      "scores": {
+        "NB1": 0.8235599590219517,
+        "NB2": 0.790152467442422,
+        "NB3": 0.7478989136935633,
+        "Hindex3": 0.7708368626368075,
+        "RFnode_r2_mean10": 0.9421444054144267
+      },
+      "verdicts": {
+        "NB3_within_0_02_of_Hindex3": "not_supported",
+        "NB3_below_RFnode_r2_mean10": "supported"
+      }
+    },
+    "ca-HepTh": {
+      "scores": {
+        "NB1": 0.76121509977956,
+        "NB2": 0.8542925918108192,
+        "NB3": 0.8206227609041852,
+        "Hindex3": 0.7602806216244727,
+        "RFnode_r2_mean10": 0.9456879816535249
+      },
+      "verdicts": {
+        "NB3_within_0_02_of_Hindex3": "not_supported",
+        "NB3_below_RFnode_r2_mean10": "supported"
+      }
+    },
+    "p2p-Gnutella08": {
+      "scores": {
+        "NB1": 0.7167652718413964,
+        "NB2": 0.793831752550183,
+        "NB3": 0.8761705990679841,
+        "Hindex3": 0.7630150602496553,
+        "RFnode_r2_mean10": 0.8853931967343932
+      },
+      "verdicts": {
+        "NB3_within_0_02_of_Hindex3": "not_supported",
+        "NB3_below_RFnode_r2_mean10": "supported"
+      }
+    },
+    "email-Eu-core": {
+      "scores": {
+        "NB1": 0.8813640810342573,
+        "NB2": 0.9470893001710312,
+        "NB3": 0.9597043578689959,
+        "Hindex3": 0.902486393614522,
+        "RFnode_r2_mean10": 0.9593459573600388
+      },
+      "verdicts": {
+        "NB3_within_0_02_of_Hindex3": "not_supported",
+        "NB3_below_RFnode_r2_mean10": "not_supported"
+      }
+    },
+    "facebook_combined": {
+      "scores": {
+        "NB1": 0.6935275898016872,
+        "NB2": 0.812085484881932,
+        "NB3": 0.8624491942586007,
+        "Hindex3": 0.7267463118975057,
+        "RFnode_r2_mean10": 0.9553696249534008
+      },
+      "verdicts": {
+        "NB3_within_0_02_of_Hindex3": "not_supported",
+        "NB3_below_RFnode_r2_mean10": "supported"
+      }
+    }
+  },
+  "hashes": {
+    "ca-GrQc": {
+      "status_sha256": "4ae7608df406d1776e49e9504705de37dd03362dadab0841ddff5babc3696ba1",
+      "output_sha256": "e2b361a03f79b6569449737d3a66aff12124c716668c04194fd6b94ce8b7fab2"
+    },
+    "ca-HepTh": {
+      "status_sha256": "4fa9b9f8b19eb40d4578c74aff8f0911d2b1d11a82781037eccc1b4edf2ade4b",
+      "output_sha256": "f1849ee458e9dcbb0344500c65caf347135912d1baae4a4d93510791e8300617"
+    },
+    "p2p-Gnutella08": {
+      "status_sha256": "4e788e377584fdf3ab44d29e17e359dffde808439f407c4b4f5fe0ed3076b924",
+      "output_sha256": "3fe23dc385b02d46551756b7ead990a414d85f1fb8ec501e44baf8b69c8326ba"
+    },
+    "email-Eu-core": {
+      "status_sha256": "664ccd7dcac8e5c29d9557568021a30b2482376b56ca00ed3e92d79b0af10d07",
+      "output_sha256": "c9804a2363bce152fa50911a519513cab8f0df8142dd635883a85c82b55016a2"
+    },
+    "facebook_combined": {
+      "status_sha256": "7a78e099e517c5ad4711116ca56770989de61d3c5790e3e50382c7c488254543",
+      "output_sha256": "8557cae9550435a57fa59933c5b927f16249b2b17cbd7b6992af62ac654efeb3"
+    }
+  },
+  "verdicts": {
+    "universal_NB3_within_0_02_of_Hindex3": "not_supported",
+    "universal_NB3_below_RFnode_r2_mean10": "not_supported",
+    "counter_NB3_strictly_beats_RFnode_r2_on_caGrQc_and_p2p": "not_supported"
+  },
+  "radius_note": "NB3 information radius is 2; cached H-index order 3 radius is 3. This is a descriptive benchmark.",
+  "reconstruction_gate": "deferred; DERIVED_R2=0.999 requires the later registered HGB protocol after Stage 4."
+}

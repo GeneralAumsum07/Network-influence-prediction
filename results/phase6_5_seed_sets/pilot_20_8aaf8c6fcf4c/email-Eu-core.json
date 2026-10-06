@@ -1,0 +1,76 @@
+{
+  "identity": {
+    "tag": "email-Eu-core",
+    "k": 50,
+    "pilot_draws": 20,
+    "split": {
+      "train": [
+        0,
+        10
+      ],
+      "evaluation": [
+        10,
+        20
+      ]
+    },
+    "threads": 1,
+    "inputs": {
+      "meta": {
+        "path": "cache_meta_email-Eu-core.json",
+        "sha256": "155de0bd18b22570b711439e40b35af5bd0b85b4979a5509c94659d1d7b1101a"
+      },
+      "features": {
+        "path": "cache_features_email-Eu-core.csv",
+        "sha256": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477"
+      },
+      "targets": {
+        "path": "cache_targets_email-Eu-core.csv",
+        "sha256": "1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a"
+      },
+      "cascades": {
+        "path": "cache_cascades_email-Eu-core.npy",
+        "sha256": "523016bdfee93fbd86467a053d934598c7d53eaaf485a32ae97463b3952e84f6"
+      },
+      "oof": {
+        "path": "cache_oof_email-Eu-core.npz",
+        "sha256": "7fcc239fbc09adcc211d0ebbfcf56d2731b79a6d680ad5e40c488ca71e417d0b"
+      },
+      "edgelist": {
+        "path": "data/email-Eu-core.txt",
+        "sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c"
+      },
+      "influence/seed_sets.py": {
+        "path": "influence/seed_sets.py",
+        "sha256": "b3423d3f96f6d61553a8a7cc396267de1f5bfc3470cd03772b99e72deafb4525"
+      },
+      "influence/local_dynamics.py": {
+        "path": "influence/local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "influence/dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "influence/preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "probe_seed_sets.py": {
+        "path": "probe_seed_sets.py",
+        "sha256": "8aaf8c6fcf4c9858518b83dea404eeb3cffd45401225e4cc65244969ebc6d217"
+      },
+      "analyse_local_predictors.py": {
+        "path": "analyse_local_predictors.py",
+        "sha256": "18a71a9ed02147dbd60a2fd9cdf572d4b2e3c75e4b0264e19d262b77fd0a1323"
+      }
+    }
+  },
+  "status": "complete",
+  "started_utc": "2026-09-13T12:36:50.420335+00:00",
+  "pilot": true,
+  "completed_utc": "2026-09-13T12:36:50.659959+00:00",
+  "seconds": 0.2375093000009656,
+  "verified_draws": 20,
+  "output_sha256": "8107767a3b6a85673a918a22b346ed5b980ae898847883e570121588b7a3c8f6",
+  "caveat": "RF cached training targets use both draw halves; oracle-top-sigma uses training-half Monte Carlo means; greedy is not an exact optimum. Pilot omits E and cannot score claims."
+}

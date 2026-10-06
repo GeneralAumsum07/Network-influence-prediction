@@ -1,0 +1,14 @@
+{
+  "tag": "p2p-Gnutella08",
+  "sweep": "estimators/sweep_p2p-Gnutella08__rf_log1p.csv",
+  "inputs": {
+    "cache_features_p2p-Gnutella08.csv": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4",
+    "cache_registry_p2p-Gnutella08.csv": "f50359068263c3c9b9050d643c10e016c6b908d340dd37950d2f277881ae6be8",
+    "cache_targets_p2p-Gnutella08.csv": "1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6",
+    "cache_meta_p2p-Gnutella08.json": "33b473fa95c051759d7748002c228bb9740c8c9dee0e7ff3ec5f725e301c2a17"
+  },
+  "recorded": "2026-09-11T16:29:46+00:00",
+  "bound_from": "retroactive_20260911",
+  "note": "rows fitted before `recorded` are bound only by the column fingerprint sidecar and the reproduction checks, not by this file",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

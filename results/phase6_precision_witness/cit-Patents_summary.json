@@ -1,0 +1,45 @@
+{
+  "arcs": 33023480,
+  "canonical_edges": 16511740,
+  "configuration": {
+    "merge_buffer_cap": 8388608,
+    "parser_mapping_cap": 41943040,
+    "payload_bytes": 201326592,
+    "text_buffer_bytes": 8388608,
+    "workers": 1
+  },
+  "edge_bytes": 256154375,
+  "edge_sha256": "f8797f004315acf99faaee62b08ce093109968ba82bb52d55c7bc8b92e4918b9",
+  "graph": "cit-Patents",
+  "gt_1e14_qualifying_pair_count": 0,
+  "gt_5e15_qualifying_pair_count": 0,
+  "maximum_degree": 6,
+  "memory_before_publication": {
+    "available_physical": 1027252224,
+    "working_set": 0
+  },
+  "minimum_degree": 2,
+  "nodes": 3764117,
+  "normalization_condition": "Bounds use endpoint-excluding normalized undirected betweenness only; they do not establish release graph identity, producer provenance, or exact centrality.",
+  "raw_rows": 16511741,
+  "resource_contract": {
+    "canonical_phase": 294300784,
+    "direct_arc_merge_phase": 606568568,
+    "label_phase": 294300792,
+    "peak": 606568568,
+    "required_free": 1143439480,
+    "reserve": 536870912
+  },
+  "score_sha256": "48f352137529955aed7faf1fd06be1ded7fe77708ca0989683ef984733ab71a6",
+  "source_sha256": {
+    "precision_witness.py": "91a12a21120c3328bf7fd1a02caec776df42630fdf439759e9e201b4ba07ff22",
+    "probe_c3_precision_witness.py": "35bcf8ea157b7bd0d47cf5ffc782eea40a73357597511e50d38435101342d18a",
+    "verify_c3_precision_witness.py": "744e32069d62fc7d206ac7cb4d82137c5e89673b2c00cf1bcbfa970973047fcf"
+  },
+  "status": "conditional_precision_witness_complete",
+  "target_count": 662,
+  "topology_sha256": "a4877d8710ccb50db92b102d192eda895bfca9a645e155de7cabc8ab6e3ef045",
+  "total_pair_scan": 1459,
+  "total_pair_scan_budget": 5000000,
+  "usable_pair_count": 727
+}

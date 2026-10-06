@@ -1,0 +1,14 @@
+{
+  "tag": "facebook_combined",
+  "sweep": "estimators/sweep_facebook_combined__hgb.csv",
+  "inputs": {
+    "cache_features_facebook_combined.csv": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382",
+    "cache_registry_facebook_combined.csv": "a6754f61ad2402e7cf7b224c1b9b99c57e9c57be993da77ce6289048197f9e7a",
+    "cache_targets_facebook_combined.csv": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9",
+    "cache_meta_facebook_combined.json": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c"
+  },
+  "recorded": "2026-09-11T16:29:46+00:00",
+  "bound_from": "retroactive_20260911",
+  "note": "rows fitted before `recorded` are bound only by the column fingerprint sidecar and the reproduction checks, not by this file",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

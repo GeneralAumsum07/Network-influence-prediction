@@ -1,0 +1,9 @@
+# Store every file byte-for-byte: no line-ending conversion in either direction.
+#
+# Why: this project records sha256 hashes of its sources, results and docs
+# (results/phase6_5_review/phase6_hash_inventory_20260912.json, the coverage
+# ledger, and the block hashes in docs/archive/phase6_record.md). Most of those
+# files have CRLF line endings. With git's default text handling, CRLF becomes
+# LF on commit, so a fresh clone would fail every recorded hash. -text keeps
+# the bytes git stores identical to the bytes that were hashed.
+* -text

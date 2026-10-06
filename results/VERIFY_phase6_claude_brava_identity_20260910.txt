@@ -1,0 +1,14 @@
+              unpinned  amazon       edge     76,719,716 bytes   5,743,146 rows  43f7a104f3ec6c2c
+              unpinned  amazon       score    40,775,083 bytes   2,146,057 rows  3a89a07140335911
+                 match  cit-Patents  edge    256,154,375 bytes  16,511,741 rows  f8797f004315acf9
+                 match  cit-Patents  score    71,518,223 bytes   3,764,117 rows  48f352137529955a
+                 match  com-lj       edge    502,171,107 bytes  34,681,189 rows  835d5175a7309fed
+ malformed_pinned_hash  com-lj       score    75,961,278 bytes   3,997,962 rows  78a77750ac83057a
+              unpinned  com-youtube  edge     38,210,288 bytes   2,987,624 rows  b9dad0cdd621f9b0
+              unpinned  com-youtube  score    21,562,910 bytes   1,134,890 rows  b9f3aa834eb638ca
+              unpinned  dblp         edge    124,933,350 bytes   8,649,011 rows  5641215f23732103
+              unpinned  dblp         score    76,002,812 bytes   4,000,148 rows  4236b420a8ef0303
+
+Wrote results\phase6_brava_corpus_identity_20260910.json
+
+No content mismatch. A 'malformed_pinned_hash' status is a defect in the historical RECORD, not in the file; see that entry's detail.

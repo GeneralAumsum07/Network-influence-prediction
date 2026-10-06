@@ -1,0 +1,33 @@
+test_atomic_write_leaves_no_deterministic_temp (__main__.CellRecordIntegrityTests.test_atomic_write_leaves_no_deterministic_temp) ... ok
+test_changed_fold_count_is_rejected (__main__.CellRecordIntegrityTests.test_changed_fold_count_is_rejected) ... ok
+test_filename_must_match_its_own_key (__main__.CellRecordIntegrityTests.test_filename_must_match_its_own_key) ... ok
+test_foreign_run_id_is_rejected (__main__.CellRecordIntegrityTests.test_foreign_run_id_is_rejected) ... ok
+test_nonfinite_metric_is_rejected (__main__.CellRecordIntegrityTests.test_nonfinite_metric_is_rejected) ... ok
+test_tampered_metric_breaks_the_checksum (__main__.CellRecordIntegrityTests.test_tampered_metric_breaks_the_checksum) ... ok
+test_valid_cell_round_trips (__main__.CellRecordIntegrityTests.test_valid_cell_round_trips) ... ok
+test_every_declared_cell_appears_exactly_once (__main__.PairedArithmeticTests.test_every_declared_cell_appears_exactly_once) ... ok
+test_missing_seed_endpoint_is_rejected (__main__.PairedArithmeticTests.test_missing_seed_endpoint_is_rejected) ... ok
+test_mixed_sign_gains_produce_exact_counts_and_sample_sd (__main__.PairedArithmeticTests.test_mixed_sign_gains_produce_exact_counts_and_sample_sd) ... ok
+test_negative_mean_can_star (__main__.PairedArithmeticTests.test_negative_mean_can_star) ... ok
+test_star_boundary_is_strictly_greater_than (__main__.PairedArithmeticTests.test_star_boundary_is_strictly_greater_than) ... ok
+test_canonical_hash_ignores_key_order_but_not_content (__main__.R1ContractTests.test_canonical_hash_ignores_key_order_but_not_content) ... ok
+test_cell_name_is_stable (__main__.R1ContractTests.test_cell_name_is_stable) ... ok
+test_contract_violations_raise (__main__.R1ContractTests.test_contract_violations_raise) ... ok
+test_expected_key_universe_is_exactly_800 (__main__.R1ContractTests.test_expected_key_universe_is_exactly_800) ... ok
+test_fold_digest_is_repeatable_and_discriminating (__main__.R1ContractTests.test_fold_digest_is_repeatable_and_discriminating) ... ok
+test_objective_routing (__main__.R1ContractTests.test_objective_routing) ... ok
+test_require_finite_rejects_nan_and_inf (__main__.R1ContractTests.test_require_finite_rejects_nan_and_inf) ... ok
+test_sets_are_strictly_nested_prefixes (__main__.R1ContractTests.test_sets_are_strictly_nested_prefixes) ... ok
+test_sort_order_follows_declared_grid_not_alphabet (__main__.R1ContractTests.test_sort_order_follows_declared_grid_not_alphabet) ... ok
+test_synthetic_membership_places_every_branch_correctly (__main__.R1ContractTests.test_synthetic_membership_places_every_branch_correctly) ... ok
+test_all_five_registries_produce_the_declared_ladder (__main__.RealCacheContractTests.test_all_five_registries_produce_the_declared_ladder) ... ok
+test_all_five_targets_available (__main__.RealCacheContractTests.test_all_five_targets_available) ... ok
+test_legacy_oof_archives_carry_no_provenance_and_are_ineligible (__main__.RealCacheContractTests.test_legacy_oof_archives_carry_no_provenance_and_are_ineligible)
+The reuse decision, asserted rather than asserted-in-prose. ... ok
+test_verifier_does_not_train (__main__.RealCacheContractTests.test_verifier_does_not_train)
+Assert the no-fit contract structurally, over this file's own AST. ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.121s
+
+OK

@@ -1,0 +1,45 @@
+{
+  "arcs": 11486264,
+  "canonical_edges": 5743132,
+  "configuration": {
+    "merge_buffer_cap": 8388608,
+    "parser_mapping_cap": 41943040,
+    "payload_bytes": 201326592,
+    "text_buffer_bytes": 8388608,
+    "workers": 1
+  },
+  "edge_bytes": 76719716,
+  "edge_sha256": "43f7a104f3ec6c2c2d7bcd947a71fe5ceb2f16db3060200e907e9f9dc0dca00f",
+  "graph": "amazon",
+  "gt_1e14_qualifying_pair_count": 0,
+  "gt_5e15_qualifying_pair_count": 0,
+  "maximum_degree": 0,
+  "memory_before_publication": {
+    "available_physical": 1019256832,
+    "working_set": 0
+  },
+  "minimum_degree": 0,
+  "nodes": 2146057,
+  "normalization_condition": "Bounds use endpoint-excluding normalized undirected betweenness only; they do not establish release graph identity, producer provenance, or exact centrality.",
+  "raw_rows": 5743146,
+  "resource_contract": {
+    "canonical_phase": 109058680,
+    "direct_arc_merge_phase": 221019176,
+    "label_phase": 109058792,
+    "peak": 221019176,
+    "required_free": 757890088,
+    "reserve": 536870912
+  },
+  "score_sha256": "3a89a0714033591105d0070b9228cfe0763e8a0b2ca8487ca54e800a27c040c4",
+  "source_sha256": {
+    "precision_witness.py": "0cb3e268714d4ec9224f02f7dda2b7186e05b49715953bf44135fd6884c9ebe4",
+    "probe_c3_precision_witness.py": "35bcf8ea157b7bd0d47cf5ffc782eea40a73357597511e50d38435101342d18a",
+    "verify_c3_precision_witness.py": "39bfea82e8ddc57c8e0dee60e7581ffe19401977516ab45e123430526a79879f"
+  },
+  "status": "conditional_precision_witness_complete",
+  "target_count": 0,
+  "topology_sha256": "877364304a3642509a919fe3127e1c8650ca84e93ceaddbfeaa13ecceed32bab",
+  "total_pair_scan": 0,
+  "total_pair_scan_budget": 5000000,
+  "usable_pair_count": 0
+}

@@ -1,0 +1,61 @@
+# Built artefacts - rebuild with the command in README section 1. The
+# pre-2026-09-11 backup binary is also kept out: vendor/BUILD_20260911.md
+# records its sha256, which is enough to re-check the identity claim.
+vendor/orca.exe
+vendor/orca
+vendor/*.exe
+
+# Local agent and editor state. Never publish: .obsidian holds a REST-API key,
+# and the rest are per-machine session files with absolute paths in them.
+.obsidian/
+.remember/
+.codex/
+.claude/
+.mcp.json
+
+# Caches. Features/targets/registries are cheap to regenerate; cascades are
+# large (~50-75 MB per network) and regenerate in seconds.
+cache_cascades_*.npy
+cache_oof_*.npz
+
+# Raw corpora are other people's data. fetch_data.py retrieves them and
+# records the checksums in data/manifest.json, which IS tracked.
+data/*.txt
+data/synthetic/
+
+__pycache__/
+*.pyc
+
+# The BRAVA/ABCDE external corpus (~3 GB of public, re-downloadable third-party
+# data). Stabilised here 2026-09-10 out of a volatile temp scratchpad; identity
+# recorded in results/phase6_brava_corpus_identity_20260910.json.
+data/brava/
+
+# --- Run outputs too large for git (about 38 GB in total) ----------------------
+# Buffered-CV per-cell checkpoints, fold assignments and OOF arrays, both live
+# and in the pre-orbit5 retag archive. The summary CSVs and the manifests
+# that hash these outputs ARE tracked, so the published numbers still trace back.
+results/**/phase6_buffered_cv_checkpoints/
+results/**/phase6_buffered_cv_assignments/
+results/**/phase6_buffered_cv_oof/
+results/**/phase6_buffered_cv_preflight.json
+results/**/phase6_buffered_cv_folds.csv
+
+# Superseded pre-refit backups: the OOF arrays from before the orbit5 retag
+# and the cache archive. Kept on disk for audit; their hashes are recorded in
+# the coverage ledger.
+estimators/*.preorbit5
+cache_archive/
+
+# Controller and process logs: run traces, not results. One is 107 MB, over
+# GitHub's 100 MB per-file limit. Leftover lock files from recovery runs too.
+results/**/*.log
+results/logs/
+results/**/*.lock
+
+# Third-party material collected for checking prior work: published papers
+# (PDF plus text extracts) and BRAVA's source code. Not ours to redistribute;
+# the provenance JSON beside them records where each one came from.
+results/phase6_sources/*.pdf
+results/phase6_sources/*.txt
+results/phase6_sources/*.py

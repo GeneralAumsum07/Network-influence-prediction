@@ -1,0 +1,15 @@
+test_all_five_networks_are_required (__main__.FallbackTests.test_all_five_networks_are_required) ... ok
+test_count_preserving_wrong_mask_reports_both_directions (__main__.FallbackTests.test_count_preserving_wrong_mask_reports_both_directions) ... ok
+test_each_missing_input_fails (__main__.FallbackTests.test_each_missing_input_fails) ... ok
+test_gapped_ids_and_lcc_match_each_cached_node (__main__.FallbackTests.test_gapped_ids_and_lcc_match_each_cached_node) ... ok
+test_missing_mapping_column_fails (__main__.FallbackTests.test_missing_mapping_column_fails) ... ok
+test_original_id_permutation_fails_even_with_same_zero_count (__main__.FallbackTests.test_original_id_permutation_fails_even_with_same_zero_count) ... ok
+test_target_order_is_not_silently_repaired (__main__.FallbackTests.test_target_order_is_not_silently_repaired) ... ok
+test_target_shape_duplicate_ids_and_nonfinite_values_fail (__main__.FallbackTests.test_target_shape_duplicate_ids_and_nonfinite_values_fail) ... ok
+test_wrong_rule_shape_or_nonboolean_mask_fails (__main__.FallbackTests.test_wrong_rule_shape_or_nonboolean_mask_fails) ... ok
+test_zero_set_empty_edges_and_isolated_node (__main__.FallbackTests.test_zero_set_empty_edges_and_isolated_node) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.195s
+
+OK

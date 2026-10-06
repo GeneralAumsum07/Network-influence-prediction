@@ -1,0 +1,512 @@
+
+==============================================================================
+ca-GrQc   n=4,158   reference: r=3, node+edge+subgraph
+==============================================================================
+
+--- target: spread_mean ---
+  mean |delta| = 0.0187   tail size = 208 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 67%
+  median true percentile:  under=0.56   over=0.45   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 149/208 (72%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                    0.8481         0.75    0.363  medium       1.19e-18
+    [G] hops to nearest hub                       3            3   -0.361  medium       1.57e-19
+    [L] edge overlap (mean)                  0.1112       0.2214   -0.270  small        4.46e-11
+    [L] growth ratio r3                         5.5        4.426    0.270  small        5.29e-11
+    [L] 2-ball conductance                   0.5806       0.4861    0.267  small        9.18e-11
+    [G] spread / visible ball              0.008409      0.01313   -0.251  small        1.10e-09
+    [G] visible fraction (3-ball/n)         0.03487      0.02405    0.225  small        4.48e-08
+    [L] degree                                    2            3   -0.218  small        8.74e-08
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                      0.85         0.75    0.351  medium       1.49e-17
+    [G] hops to nearest hub                       3            3   -0.300  small        5.32e-14
+    [G] spread / visible ball              0.008112      0.01313   -0.291  small        1.58e-12
+    [G] visible fraction (3-ball/n)         0.03932      0.02405    0.253  small        8.02e-10
+    [L] growth ratio r3                       5.575        4.426    0.198  small        1.55e-06
+    [L] 2-ball conductance                   0.5544       0.4861    0.180  small        1.16e-05
+    [L] edge overlap (mean)                  0.1454       0.2214   -0.141  negligible   5.85e-04
+    [L] degree                                    3            3   -0.138  negligible   7.26e-04
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] edge overlap (mean)                  0.1112       0.1454   -0.122  negligible   2.91e-02
+    [L] h_index_3                                 2            2   -0.098  negligible   7.71e-02
+    [G] coreness                                  2            2   -0.098  negligible   7.78e-02
+    [L] neighbourhood entropy                0.7977       0.8276   -0.088  negligible   1.17e-01
+    [L] degree                                    2            3   -0.084  negligible   1.34e-01
+    [G] hops to nearest hub                       3            3   -0.073  negligible   1.78e-01
+    [L] 2-ball conductance                   0.5806       0.5544    0.070  negligible   2.14e-01
+    [G] spread / visible ball              0.008409     0.008112    0.067  negligible   2.40e-01
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0259 at r=1 -> 0.0187 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                    0.8732       0.7475    0.499  LARGE        7.28e-34
+    [G] hops to nearest hub                       2            3   -0.462  medium       4.92e-31
+    [G] spread / visible ball              0.006982      0.01324   -0.415  medium       6.22e-24
+    [G] visible fraction (3-ball/n)         0.04726      0.02405    0.365  medium       7.03e-19
+    [L] edge overlap (mean)                  0.1193        0.222   -0.285  small        3.73e-12
+
+--- target: betweenness ---
+  mean |delta| = 0.0222   tail size = 208 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 82%
+  median true percentile:  under=0.87   over=0.73   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 164/208 (79%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                       5.833            0    0.604  LARGE        3.86e-60
+    [L] edge embeddedness (std)              0.8228            0    0.499  LARGE        2.15e-44
+    [L] 2-ball density                        0.127       0.2333   -0.464  medium       1.69e-29
+    [G] spread / visible ball              0.007467      0.01302   -0.360  medium       2.03e-18
+    [L] degree                                    6            3    0.356  medium       2.34e-18
+    [G] visible fraction (3-ball/n)         0.04413      0.02393    0.341  medium       1.03e-16
+    [L] clustering                           0.3333       0.6667   -0.279  small        1.57e-12
+    [L] h_index_3                                 3            3    0.234  small        6.92e-09
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                        12.5            0    0.714  LARGE        2.06e-83
+    [L] edge embeddedness (std)               1.025            0    0.637  LARGE        5.55e-71
+    [L] degree                                    8            3    0.549  LARGE        2.48e-41
+    [G] visible fraction (3-ball/n)         0.06445      0.02393    0.460  medium       4.42e-29
+    [L] h_index_3                                 4            3    0.453  medium       3.88e-29
+    [G] coreness                                  4            3    0.452  medium       5.37e-29
+    [L] 2-ball density                       0.1326       0.2333   -0.423  medium       8.33e-25
+    [G] hops to nearest hub                       2            3   -0.369  medium       2.15e-20
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                       5.833         12.5   -0.334  medium       3.85e-09
+    [L] degree                                    6            8   -0.317  small        2.05e-08
+    [G] coreness                                  3            4   -0.292  small        1.51e-07
+    [L] h_index_3                                 3            4   -0.291  small        1.80e-07
+    [L] 2-ball conductance                   0.5052       0.4102    0.289  small        3.43e-07
+    [L] edge embeddedness (std)              0.8228        1.025   -0.259  small        4.60e-06
+    [G] hops to nearest hub                       3            2    0.215  small        9.14e-05
+    [G] visible fraction (3-ball/n)         0.04413      0.06445   -0.189  small        8.74e-04
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0211 at r=1 -> 0.0222 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                         6.5            0    0.615  LARGE        2.74e-62
+    [L] edge embeddedness (std)               0.778            0    0.474  LARGE        4.75e-40
+    [L] 2-ball density                       0.1269       0.2333   -0.445  medium       2.76e-27
+    [L] degree                                    5            3    0.364  medium       4.06e-19
+    [G] visible fraction (3-ball/n)         0.04798      0.02405    0.344  medium       5.89e-17
+
+==============================================================================
+ca-HepTh   n=8,638   reference: r=3, node+edge+subgraph
+==============================================================================
+
+--- target: spread_mean ---
+  mean |delta| = 0.0166   tail size = 432 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 69%
+  median true percentile:  under=0.54   over=0.37   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 330/432 (76%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                    0.8571          0.8    0.303  small        2.54e-26
+    [L] growth ratio r3                       7.186        5.979    0.284  small        2.94e-23
+    [L] 2-ball conductance                   0.6383       0.5814    0.274  small        7.21e-22
+    [L] neighbourhood entropy                0.8152       0.8806   -0.203  small        1.03e-12
+    [L] edge overlap (mean)                  0.1022       0.1509   -0.193  small        1.18e-11
+    [G] hops to nearest hub                       2            2   -0.187  small        8.18e-12
+    [L] degree                                    2            4   -0.186  small        5.13e-11
+    [L] h_index_3                                 2            3   -0.159  small        1.53e-08
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                     0.875          0.8    0.434  medium       3.36e-52
+    [L] 2-ball conductance                   0.6554       0.5814    0.391  medium       1.25e-42
+    [L] growth ratio r3                       7.476        5.979    0.340  medium       1.05e-32
+    [L] edge overlap (mean)                 0.07043       0.1509   -0.309  small        1.36e-27
+    [G] spread / visible ball              0.006379     0.009015   -0.273  small        1.09e-21
+    [L] degree                                    2            4   -0.265  small        9.04e-21
+    [L] neighbourhood entropy                0.7568       0.8806   -0.243  small        1.24e-17
+    [G] coreness                                  2            3   -0.229  small        3.09e-16
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] spread / visible ball              0.007283     0.006379    0.185  small        2.38e-06
+    [L] boundary porosity                    0.8571        0.875   -0.137  negligible   4.69e-04
+    [L] 2-ball conductance                   0.6383       0.6554   -0.123  negligible   1.69e-03
+    [L] edge overlap (mean)                  0.1022      0.07043    0.121  negligible   1.59e-03
+    [L] clustering                           0.3333          0.2    0.085  negligible   2.51e-02
+    [L] degree                                    2            2    0.076  negligible   4.90e-02
+    [G] coreness                                  2            2    0.074  negligible   5.15e-02
+    [L] growth ratio r3                       7.186        7.476   -0.066  negligible   9.32e-02
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0330 at r=1 -> 0.0166 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                    0.8883          0.8    0.496  LARGE        9.41e-68
+    [L] 2-ball conductance                   0.6771       0.5822    0.334  medium       1.29e-31
+    [L] edge overlap (mean)                 0.07354        0.151   -0.322  small        8.79e-30
+    [L] growth ratio r3                       8.483            6    0.317  small        1.38e-28
+    [L] degree                                    2            4   -0.295  small        2.01e-25
+
+--- target: betweenness ---
+  mean |delta| = 0.0231   tail size = 432 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 78%
+  median true percentile:  under=0.86   over=0.52   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 339/432 (78%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                           7            0    0.480  LARGE        7.74e-72
+    [L] edge embeddedness (std)              0.7483            0    0.412  medium       1.12e-55
+    [L] degree                                    6            3    0.380  medium       3.73e-41
+    [L] 2-ball density                       0.1018       0.1703   -0.347  medium       5.48e-34
+    [L] h_index_3                                 4            3    0.275  small        1.42e-22
+    [G] coreness                                  4            3    0.265  small        4.18e-21
+    [G] spread / visible ball              0.006154      0.00873   -0.237  small        9.27e-17
+    [G] visible fraction (3-ball/n)         0.02964      0.01806    0.237  small        1.04e-16
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] 2-ball conductance                   0.4951       0.5902   -0.319  small        4.47e-29
+    [L] neighbourhood entropy                0.9194       0.8701    0.306  small        5.91e-27
+    [L] boundary porosity                    0.7157       0.8085   -0.287  small        8.86e-24
+    [G] coreness                                  3            3    0.246  small        2.06e-18
+    [L] edge overlap (mean)                  0.2319       0.1389    0.242  small        1.66e-17
+    [L] h_index_3                                 3            3    0.236  small        4.34e-17
+    [L] degree                                    5            3    0.230  small        3.54e-16
+    [L] growth ratio r3                       5.116         6.11   -0.191  small        2.46e-11
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] 2-ball density                       0.1018       0.1895   -0.421  medium       8.71e-27
+    [G] spread / visible ball              0.006154      0.01288   -0.386  medium       1.04e-22
+    [L] ego betweenness                           7            2    0.385  medium       9.37e-23
+    [G] visible fraction (3-ball/n)         0.02964       0.0125    0.317  small        7.89e-16
+    [L] 2-ball conductance                   0.5831       0.4951    0.313  small        1.76e-15
+    [L] clustering                           0.3333       0.4667   -0.294  small        6.68e-14
+    [L] edge overlap (mean)                  0.1514       0.2319   -0.259  small        4.17e-11
+    [L] boundary porosity                    0.7961       0.7157    0.259  small        4.32e-11
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0269 at r=1 -> 0.0231 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] coreness                                  4            3    0.353  medium       3.08e-36
+    [L] h_index_3                                 4            3    0.348  medium       3.42e-35
+    [L] ego betweenness                           5            0    0.346  medium       2.33e-38
+    [L] degree                                    5            3    0.332  medium       8.22e-32
+    [G] visible fraction (3-ball/n)         0.04029      0.01794    0.327  small        2.25e-30
+
+==============================================================================
+email-Eu-core   n=986   reference: r=3, node+edge+subgraph
+==============================================================================
+
+--- target: spread_mean ---
+  mean |delta| = 0.0108   tail size = 49 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 55%
+  median true percentile:  under=0.67   over=0.34   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 26/49 (53%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] neighbourhood entropy                0.9431        0.927    0.262  small        2.03e-03
+    [L] boundary porosity                    0.8842       0.9099   -0.188  small        2.66e-02
+    [L] degree                                   32           22    0.155  small        6.74e-02
+    [G] h_index_3 - coreness (local over-read)            1            0    0.154  small        3.60e-02
+    [G] coreness                                 25           18    0.147  negligible   8.30e-02
+    [G] spread / visible ball               0.04811       0.0293    0.144  negligible   8.91e-02
+    [L] h_index_3                                26           18    0.144  negligible   9.00e-02
+    [G] hops to nearest hub                       2            1    0.133  negligible   6.76e-02
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] clustering                           0.2967       0.3891   -0.213  small        1.20e-02
+    [L] edge overlap (mean)                   0.107         0.13   -0.178  small        3.59e-02
+    [G] spread / visible ball               0.01679       0.0293   -0.149  negligible   7.80e-02
+    [G] coreness                                 11           18   -0.139  negligible   1.02e-01
+    [L] neighbourhood entropy                   0.9        0.927   -0.137  negligible   1.06e-01
+    [L] h_index_3                                11           18   -0.128  negligible   1.31e-01
+    [L] boundary porosity                    0.9295       0.9099    0.120  negligible   1.56e-01
+    [G] betweenness                           24.39        96.34   -0.109  negligible   1.97e-01
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] neighbourhood entropy                0.9431          0.9    0.319  small        6.34e-03
+    [L] boundary porosity                    0.8842       0.9295   -0.261  small        2.64e-02
+    [G] spread / visible ball               0.04811      0.01679    0.249  small        3.36e-02
+    [G] coreness                                 25           11    0.247  small        3.50e-02
+    [L] edge overlap (mean)                  0.1393        0.107    0.243  small        3.80e-02
+    [L] h_index_3                                26           11    0.228  small        5.12e-02
+    [L] degree                                   32           13    0.195  small        9.60e-02
+    [L] edge embeddedness (std)               5.691        2.554    0.194  small        9.68e-02
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0141 at r=1 -> 0.0108 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] spread / visible ball               0.01445      0.03111   -0.221  small        9.27e-03
+    [L] 2-ball conductance                   0.2622       0.1822    0.170  small        4.45e-02
+    [G] coreness                                 12           19   -0.169  small        4.53e-02
+    [G] visible fraction (3-ball/n)          0.9604       0.9731   -0.159  small        6.06e-02
+    [L] h_index_3                                12           19   -0.155  small        6.74e-02
+
+--- target: betweenness ---
+  mean |delta| = 0.0329   tail size = 49 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 51%
+  median true percentile:  under=0.78   over=0.08   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 29/49 (59%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] neighbourhood entropy                0.9141       0.9283   -0.136  negligible   1.09e-01
+    [L] ego betweenness                       69.85        52.86    0.094  negligible   2.68e-01
+    [L] 2-ball density                      0.07453       0.0828   -0.079  negligible   3.54e-01
+    [L] growth ratio r3                      0.7807       0.9675   -0.054  negligible   5.22e-01
+    [L] degree                                   23           24    0.048  negligible   5.69e-01
+    [L] clustering                           0.3535       0.3844   -0.047  negligible   5.78e-01
+    [G] visible fraction (3-ball/n)          0.9787       0.9736    0.037  negligible   6.63e-01
+    [L] edge embeddedness (std)               4.539        4.333    0.035  negligible   6.79e-01
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                           0        52.86   -0.777  LARGE        4.20e-20
+    [L] edge embeddedness (std)                   0        4.333   -0.765  LARGE        1.39e-19
+    [L] h_index_3                                 3           19   -0.722  LARGE        1.58e-17
+    [G] coreness                                  3           19   -0.722  LARGE        1.54e-17
+    [L] degree                                    3           24   -0.719  LARGE        2.14e-17
+    [G] visible fraction (3-ball/n)          0.8296       0.9736   -0.685  LARGE        6.43e-16
+    [L] 2-ball conductance                   0.6055       0.1801    0.679  LARGE        1.14e-15
+    [L] growth ratio r3                       5.289       0.9675    0.670  LARGE        2.73e-15
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                       69.85            0    0.911  LARGE        2.30e-15
+    [L] edge embeddedness (std)               4.539            0    0.843  LARGE        1.51e-13
+    [L] degree                                   23            3    0.825  LARGE        1.66e-12
+    [G] coreness                                 19            3    0.796  LARGE        9.95e-12
+    [L] h_index_3                                19            3    0.796  LARGE        9.97e-12
+    [L] 2-ball density                      0.07453       0.2156   -0.728  LARGE        5.54e-10
+    [L] growth ratio r3                      0.7807        5.289   -0.719  LARGE        8.68e-10
+    [L] 2-ball conductance                   0.1512       0.6055   -0.712  LARGE        1.30e-09
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0343 at r=1 -> 0.0329 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                       39.75        53.55    0.056  negligible   5.09e-01
+    [L] clustering                           0.3333       0.3843   -0.050  negligible   5.55e-01
+    [L] boundary porosity                    0.8971       0.9073   -0.043  negligible   6.10e-01
+    [L] edge overlap (mean)                  0.1497       0.1336    0.040  negligible   6.36e-01
+    [L] degree                                   21           24    0.038  negligible   6.52e-01
+
+==============================================================================
+facebook_combined   n=4,039   reference: r=3, node+edge+subgraph
+==============================================================================
+
+--- target: spread_mean ---
+  mean |delta| = 0.0138   tail size = 202 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 67%
+  median true percentile:  under=0.62   over=0.50   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 140/202 (69%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                    0.9278       0.8563    0.263  small        2.83e-10
+    [L] edge overlap (mean)                  0.2164       0.2939   -0.218  small        1.82e-07
+    [L] neighbourhood entropy                0.6849       0.8187   -0.216  small        2.25e-07
+    [G] coreness                                 14           18   -0.196  small        2.48e-06
+    [L] h_index_3                                14           19   -0.195  small        2.86e-06
+    [L] 2-ball density                      0.05086      0.04832    0.191  small        4.09e-06
+    [G] visible fraction (3-ball/n)          0.4531       0.4531    0.186  small        6.61e-06
+    [L] degree                                   17           26   -0.178  small        1.95e-05
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] visible fraction (3-ball/n)           0.665       0.4531    0.284  small        6.25e-12
+    [L] boundary porosity                    0.9456       0.8563    0.255  small        9.99e-10
+    [G] spread / visible ball             0.0008687     0.001518   -0.238  small        1.13e-08
+    [L] neighbourhood entropy                0.6377       0.8187   -0.227  small        5.34e-08
+    [L] h_index_3                                13           19   -0.168  small        5.84e-05
+    [G] coreness                                 13           18   -0.167  small        6.38e-05
+    [L] edge overlap (mean)                  0.2361       0.2939   -0.166  small        6.77e-05
+    [L] edge embeddedness (std)               3.283        4.906   -0.151  small        3.01e-04
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] spread / visible ball             0.0009867    0.0008687    0.146  negligible   1.13e-02
+    [L] growth ratio r3                       1.575        1.573    0.102  negligible   7.55e-02
+    [G] visible fraction (3-ball/n)          0.4531        0.665   -0.096  negligible   8.98e-02
+    [L] 2-ball density                      0.05086      0.05086    0.094  negligible   9.85e-02
+    [L] 2-ball conductance                  0.04982      0.04982    0.076  negligible   1.84e-01
+    [L] clustering                            0.581       0.6084   -0.048  negligible   4.04e-01
+    [L] edge overlap (mean)                  0.2164       0.2361   -0.047  negligible   4.15e-01
+    [G] h_index_3 - coreness (local over-read)            0            0   -0.025  negligible   6.14e-01
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0146 at r=1 -> 0.0138 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] visible fraction (3-ball/n)           0.534       0.4531    0.353  medium       1.45e-17
+    [L] edge overlap (mean)                  0.2069       0.2958   -0.304  small        3.02e-13
+    [G] betweenness                           73.99        21.92    0.263  small        2.97e-10
+    [L] 2-ball conductance                  0.04982      0.03929    0.229  small        3.43e-08
+    [L] growth ratio r3                       1.587        1.424    0.223  small        8.61e-08
+
+--- target: betweenness ---
+  mean |delta| = 0.0502   tail size = 202 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 81%
+  median true percentile:  under=0.72   over=0.12   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 130/202 (64%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] 2-ball conductance                  0.05408      0.03929    0.358  medium       5.32e-18
+    [G] visible fraction (3-ball/n)           0.492       0.4531    0.307  small        1.23e-13
+    [L] growth ratio r3                        1.58        1.431    0.207  small        7.20e-07
+    [G] spread / visible ball              0.001007     0.001531   -0.199  small        1.77e-06
+    [L] clustering                           0.5548          0.6   -0.137  negligible   1.02e-03
+    [L] edge overlap (mean)                  0.2668       0.2938   -0.117  negligible   5.06e-03
+    [L] boundary porosity                    0.8747        0.857    0.074  negligible   7.65e-02
+    [G] h_index_3 - coreness (local over-read)            0            0   -0.074  negligible   5.56e-02
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] coreness                                4.5           18   -0.676  LARGE        4.27e-59
+    [L] h_index_3                               4.5           19   -0.675  LARGE        7.10e-59
+    [L] degree                                    5           27   -0.659  LARGE        3.75e-56
+    [L] edge embeddedness (std)              0.4899        5.006   -0.647  LARGE        3.71e-54
+    [L] ego betweenness                      0.3095        26.74   -0.632  LARGE        8.56e-52
+    [L] 2-ball density                       0.1137      0.04835    0.435  medium       9.36e-26
+    [G] hops to nearest hub                       1            1    0.414  medium       8.58e-81
+    [L] boundary porosity                    0.9512        0.857    0.380  medium       9.10e-20
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] ego betweenness                       33.86       0.3095    0.735  LARGE        8.03e-38
+    [G] coreness                               18.5          4.5    0.730  LARGE        4.92e-37
+    [L] h_index_3                                19          4.5    0.725  LARGE        1.52e-36
+    [L] edge embeddedness (std)               5.076       0.4899    0.722  LARGE        1.36e-36
+    [L] degree                                 25.5            5    0.703  LARGE        1.76e-34
+    [G] visible fraction (3-ball/n)           0.492       0.2481    0.542  LARGE        3.01e-21
+    [L] 2-ball density                      0.04938       0.1137   -0.453  medium       3.06e-15
+    [G] hops to nearest hub                       1            1   -0.393  medium       1.41e-17
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.1206 at r=1 -> 0.0502 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] h_index_3                                 7           20   -0.490  LARGE        8.33e-32
+    [G] coreness                                  7           19   -0.488  LARGE        1.43e-31
+    [L] boundary porosity                    0.9607       0.8519    0.486  LARGE        2.85e-31
+    [L] degree                                   10           28   -0.481  LARGE        1.03e-30
+    [L] edge embeddedness (std)               2.003         5.22   -0.433  medium       3.62e-25
+
+==============================================================================
+p2p-Gnutella08   n=6,299   reference: r=3, node+edge+subgraph
+==============================================================================
+
+--- target: spread_mean ---
+  mean |delta| = 0.0292   tail size = 315 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 41%
+  median true percentile:  under=0.66   over=0.37   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 232/315 (74%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] spread / visible ball               0.01303     0.009783    0.344  medium       8.68e-25
+    [L] h_index_3                                 4            3    0.107  negligible   1.15e-03
+    [G] visible fraction (3-ball/n)         0.09176      0.06731    0.105  negligible   1.70e-03
+    [G] hops to nearest hub                       2            2   -0.102  negligible   1.12e-03
+    [G] coreness                                  4            3    0.100  negligible   2.09e-03
+    [L] degree                                    5            3    0.094  negligible   4.48e-03
+    [L] ego betweenness                          10            3    0.089  negligible   7.30e-03
+    [L] edge embeddedness (std)                   0            0    0.086  negligible   8.22e-05
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] boundary porosity                    0.9172       0.9167    0.122  negligible   2.50e-04
+    [G] spread / visible ball               0.00872     0.009783   -0.114  negligible   6.63e-04
+    [L] clustering                                0            0    0.063  negligible   4.18e-03
+    [L] edge embeddedness (std)                   0            0    0.063  negligible   4.09e-03
+    [L] edge overlap (mean)                       0            0    0.058  negligible   8.50e-03
+    [L] neighbourhood entropy                 0.903       0.9108   -0.040  negligible   2.29e-01
+    [L] 2-ball density                      0.05226      0.04651    0.031  negligible   3.61e-01
+    [L] 2-ball conductance                   0.7939       0.7931   -0.030  negligible   3.68e-01
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] spread / visible ball               0.01303      0.00872    0.403  medium       2.24e-18
+    [L] ego betweenness                          10            3    0.097  negligible   3.26e-02
+    [L] degree                                    5            3    0.094  negligible   3.79e-02
+    [G] betweenness                            4155         1418    0.090  negligible   4.73e-02
+    [G] hops to nearest hub                       2            2   -0.088  negligible   4.20e-02
+    [G] coreness                                  4            3    0.087  negligible   5.23e-02
+    [L] 2-ball density                      0.03771      0.05226   -0.086  negligible   6.04e-02
+    [L] h_index_3                                 4            3    0.080  negligible   7.74e-02
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0679 at r=1 -> 0.0292 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] 2-ball conductance                   0.8671       0.7916    0.559  LARGE        8.89e-63
+    [L] growth ratio r3                       12.76        8.286    0.544  LARGE        1.51e-59
+    [G] hops to nearest hub                       2            2   -0.309  small        4.13e-23
+    [G] spread / visible ball               0.01206     0.009621    0.279  small        6.72e-17
+    [G] visible fraction (3-ball/n)         0.09859      0.06636    0.227  small        1.09e-11
+
+--- target: betweenness ---
+  mean |delta| = 0.0197   tail size = 315 nodes (5.0%)
+  residual STANDARDISED within influence bins (level + scale); overlap with raw tail 69%
+  median true percentile:  under=0.73   over=0.57   (near 0.5 = shrinkage is not driving the split)
+  in the tail for >=8 of 10 seeds: 255/315 (81%)
+
+  UNDER-PREDICTED vs the well-ranked middle (what makes a node hard to rank)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] visible fraction (3-ball/n)          0.1403       0.0608    0.368  medium       3.20e-28
+    [L] degree                                   10            3    0.346  medium       7.66e-26
+    [L] h_index_3                                 5            3    0.342  medium       2.26e-25
+    [L] ego betweenness                        42.5            3    0.341  medium       4.29e-25
+    [G] hops to nearest hub                       2            2   -0.339  medium       1.27e-27
+    [L] 2-ball density                      0.02721      0.04878   -0.338  medium       4.81e-24
+    [G] coreness                                  5            3    0.336  medium       2.26e-25
+    [L] neighbourhood entropy                0.9235       0.9078    0.167  small        4.34e-07
+
+  OVER-PREDICTED vs the well-ranked middle
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] visible fraction (3-ball/n)          0.1494       0.0608    0.418  medium       7.76e-36
+    [G] hops to nearest hub                       2            2   -0.394  medium       1.14e-36
+    [G] coreness                                  5            3    0.391  medium       1.07e-33
+    [L] h_index_3                                 5            3    0.384  medium       1.32e-31
+    [G] spread / visible ball               0.01376     0.009794    0.326  small        1.62e-22
+    [L] boundary porosity                    0.9375       0.9157    0.313  small        6.54e-21
+    [L] degree                                   10            3    0.296  small        2.69e-19
+    [L] clustering                                0            0    0.279  small        2.00e-37
+
+  UNDER vs OVER - the DIRECTIONAL contrast (what decides the sign of the error)
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [G] spread / visible ball              0.009764      0.01376   -0.286  small        5.01e-10
+    [L] boundary porosity                     0.918       0.9375   -0.201  small        1.27e-05
+    [L] 2-ball conductance                   0.7922        0.774    0.168  small        2.70e-04
+    [L] growth ratio r3                       8.141        7.318    0.147  negligible   1.40e-03
+    [L] clustering                                0            0   -0.128  negligible   1.20e-03
+    [L] 2-ball density                      0.02721      0.03019   -0.117  negligible   1.12e-02
+    [L] edge overlap (mean)                       0            0   -0.116  negligible   3.32e-03
+    [L] edge embeddedness (std)                   0            0   -0.105  negligible   7.46e-03
+
+  WHAT HOPS 2-3 RESCUE  (mean |delta| 0.0238 at r=1 -> 0.0197 at r=3)
+
+  MOST RESCUED by the extra hops
+    variable                            median(grp) median(rest)  Cliff d  size                p
+    [L] neighbourhood entropy                0.9847        0.903    0.513  LARGE        1.75e-54
+    [L] h_index_3                                 3            3    0.119  negligible   2.86e-04
+    [G] visible fraction (3-ball/n)         0.07017      0.06668    0.116  negligible   5.42e-04
+    [L] boundary porosity                    0.9167       0.9167    0.101  negligible   2.42e-03
+    [L] ego betweenness                           3            3    0.100  negligible   2.46e-03
+
+saved cache_failure_atlas.npy (for make_fig2.py)

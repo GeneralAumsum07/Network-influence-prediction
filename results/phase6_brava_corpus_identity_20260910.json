@@ -1,0 +1,131 @@
+{
+ "generated": "2026-09-10T19:30:09.154427+05:30",
+ "author": "Claude Opus 5",
+ "purpose": "Identity of the stabilised local BRAVA/ABCDE copy for the Phase 6 precision witness. Read-only; establishes identity for the three graphs the historical preflight never covered and re-verifies the two it did.",
+ "corpus_root": "data/brava",
+ "historical_preflight": "results/phase6_precision_input_preflight.json",
+ "graphs": [
+  {
+   "graph": "amazon",
+   "edge": {
+    "logical_path": "datasets/abcde/amazon.txt",
+    "bytes": 76719716,
+    "sha256": "43f7a104f3ec6c2c2d7bcd947a71fe5ceb2f16db3060200e907e9f9dc0dca00f",
+    "nonblank_rows": 5743146,
+    "comparison": {
+     "status": "unpinned",
+     "detail": "No historical preflight entry; identity established here for the first time."
+    }
+   },
+   "score": {
+    "logical_path": "datasets/abcde/amazon-score.txt",
+    "bytes": 40775083,
+    "sha256": "3a89a0714033591105d0070b9228cfe0763e8a0b2ca8487ca54e800a27c040c4",
+    "nonblank_rows": 2146057,
+    "comparison": {
+     "status": "unpinned",
+     "detail": "No historical preflight entry; identity established here for the first time."
+    }
+   }
+  },
+  {
+   "graph": "cit-Patents",
+   "edge": {
+    "logical_path": "datasets/abcde/cit-Patents.txt",
+    "bytes": 256154375,
+    "sha256": "f8797f004315acf99faaee62b08ce093109968ba82bb52d55c7bc8b92e4918b9",
+    "nonblank_rows": 16511741,
+    "comparison": {
+     "status": "match",
+     "byte_size_matches": true,
+     "hash_matches": true
+    }
+   },
+   "score": {
+    "logical_path": "datasets/abcde/cit-Patents-score.txt",
+    "bytes": 71518223,
+    "sha256": "48f352137529955aed7faf1fd06be1ded7fe77708ca0989683ef984733ab71a6",
+    "nonblank_rows": 3764117,
+    "comparison": {
+     "status": "match",
+     "byte_size_matches": true,
+     "hash_matches": true
+    }
+   }
+  },
+  {
+   "graph": "com-lj",
+   "edge": {
+    "logical_path": "datasets/abcde/com-lj.txt",
+    "bytes": 502171107,
+    "sha256": "835d5175a7309fedd782fc505407a5d140587540b27d4eab64df9f3f3eba2add",
+    "nonblank_rows": 34681189,
+    "comparison": {
+     "status": "match",
+     "byte_size_matches": true,
+     "hash_matches": true
+    }
+   },
+   "score": {
+    "logical_path": "datasets/abcde/com-lj-score.txt",
+    "bytes": 75961278,
+    "sha256": "78a77750ac83057a6c62e5cef3ef34c74c50a8c6fc7603d0b460eb91a0d480d4",
+    "nonblank_rows": 3997962,
+    "comparison": {
+     "status": "malformed_pinned_hash",
+     "pinned_sha256_length": 61,
+     "pinned_is_subsequence_of_measured": true,
+     "byte_size_matches": true,
+     "detail": "The RECORDED hash is not a valid SHA-256 (character(s) dropped in transcription). It is not evidence of a changed file. The recorded value is NOT rewritten here. Identity is corroborated instead by byte size and non-blank row count, both recorded by the same preflight."
+    }
+   }
+  },
+  {
+   "graph": "com-youtube",
+   "edge": {
+    "logical_path": "datasets/abcde/com-youtube.txt",
+    "bytes": 38210288,
+    "sha256": "b9dad0cdd621f9b0c8f9a333a9783776b6af1624ca0f908158d6af3e0a5acaec",
+    "nonblank_rows": 2987624,
+    "comparison": {
+     "status": "unpinned",
+     "detail": "No historical preflight entry; identity established here for the first time."
+    }
+   },
+   "score": {
+    "logical_path": "datasets/abcde/com-youtube-score.txt",
+    "bytes": 21562910,
+    "sha256": "b9f3aa834eb638ca7db74b61f5515298eb41cfcf9efdf0ce95f81e3dd8d675b3",
+    "nonblank_rows": 1134890,
+    "comparison": {
+     "status": "unpinned",
+     "detail": "No historical preflight entry; identity established here for the first time."
+    }
+   }
+  },
+  {
+   "graph": "dblp",
+   "edge": {
+    "logical_path": "datasets/abcde/dblp.txt",
+    "bytes": 124933350,
+    "sha256": "5641215f2373210340309553a26c2517a8379f81b8a93490bab80b05eeaff52b",
+    "nonblank_rows": 8649011,
+    "comparison": {
+     "status": "unpinned",
+     "detail": "No historical preflight entry; identity established here for the first time."
+    }
+   },
+   "score": {
+    "logical_path": "datasets/abcde/dblp-score.txt",
+    "bytes": 76002812,
+    "sha256": "4236b420a8ef0303120735eca6dfe787a8a4526e94a8d285e24af23789cb7c47",
+    "nonblank_rows": 4000148,
+    "comparison": {
+     "status": "unpinned",
+     "detail": "No historical preflight entry; identity established here for the first time."
+    }
+   }
+  }
+ ],
+ "problems": []
+}

@@ -1,0 +1,71 @@
+r=1 structural ablation: pre-retag (62-column top rung) vs post-retag (56-column top rung)
+========================================================================================
+Written 2026-09-12 by Claude Opus 5 (Task 6 root integration, run C2). Scratch script,
+not in the repo; every number below is read from the two artefact sets named here.
+
+OLD  results/phase6_r1_ablation_pre_orbit5_retag_20260910/paired.csv  sha256 efd1c4339eb9041cfb95e5d5264096b6e348085fdf01140ceae517a22c975c06
+NEW  results/phase6_r1_ablation/paired.csv  sha256 91b7c5afc6556edbfb394e79bc932b7cb8a4b0e136a6af071820115106e08a46
+OLD cells.csv sha256 c0629b263164dd1eab79d0589103c34a17053fe4aa9a61561ac415694b2abca5   NEW cells.csv sha256 56665604ea21d3fa4939b33302b85023dc2233262cb3bcc827808cd9f400d8bd
+
+WHAT CHANGED BETWEEN THE RUNS
+Only the registry: Task 6 finding P1-01 retagged six 5-node orbits (56, 57, 65, 66, 68, 70)
+from hop 1 to hop 2 on 2026-09-11. Same five networks, same cache_features_*.csv and
+cache_targets_*.csv (hashes unchanged, see manifest input_sha256), same 10 seeds, same
+folds, same rf_log1p objective for betweenness. The three lower rungs (node_edge 38,
+plus_nonorbit_subgraph 40, plus_orbit_lt15 45) are column-identical; only
+full_r1_structural changed, 62 -> 56.
+
+  columns_sha256 node_edge                old 1 distinct, new 1 distinct, IDENTICAL
+  columns_sha256 plus_nonorbit_subgraph   old 1 distinct, new 1 distinct, IDENTICAL
+  columns_sha256 plus_orbit_lt15          old 1 distinct, new 1 distinct, IDENTICAL
+  columns_sha256 full_r1_structural       old 1 distinct, new 1 distinct, DIFFERENT
+
+FLAG COUNTS (heuristic_star = |mean| > 2 paired_sd, descriptive, 10 seeds)
+  add_nonorbit_subgraph      old  2/20   new  2/20
+  add_orbit_lt15             old  0/20   new  0/20
+  add_remaining_g5_orbits    old 17/20   new  0/20
+
+PER-CELL DELTA FOR add_remaining_g5_orbits (the rung the retag touched)
+  network            target          old mean   old sd old*   new mean   new sd new*
+  ca-GrQc            spread_mean     +0.01340  0.00058    *   -0.00001  0.00007     
+  ca-GrQc            spread_cv       +0.03515  0.00139    *   -0.00008  0.00031     
+  ca-GrQc            spread_resid    +0.03191  0.00366    *   +0.00026  0.00056     
+  ca-GrQc            betweenness     +0.00045  0.00081        +0.00031  0.00030     
+  ca-HepTh           spread_mean     +0.00462  0.00028    *   +0.00001  0.00006     
+  ca-HepTh           spread_cv       +0.01422  0.00088    *   +0.00001  0.00021     
+  ca-HepTh           spread_resid    +0.01209  0.00156    *   -0.00021  0.00014     
+  ca-HepTh           betweenness     +0.00134  0.00031    *   +0.00017  0.00016     
+  email-Eu-core      spread_mean     +0.00262  0.00033    *   +0.00020  0.00023     
+  email-Eu-core      spread_cv       +0.00444  0.00053    *   +0.00025  0.00022     
+  email-Eu-core      spread_resid    +0.01163  0.00855        +0.00049  0.00881     
+  email-Eu-core      betweenness     -0.00049  0.00037        -0.00054  0.00049     
+  facebook_combined  spread_mean     +0.01036  0.00052    *   -0.00011  0.00022     
+  facebook_combined  spread_cv       +0.00607  0.00087    *   -0.00021  0.00030     
+  facebook_combined  spread_resid    +0.01200  0.00273    *   +0.00017  0.00084     
+  facebook_combined  betweenness     +0.00377  0.00061    *   -0.00030  0.00041     
+  p2p-Gnutella08     spread_mean     +0.00939  0.00043    *   +0.00006  0.00005     
+  p2p-Gnutella08     spread_cv       +0.00743  0.00040    *   +0.00001  0.00014     
+  p2p-Gnutella08     spread_resid    +0.00610  0.00091    *   -0.00009  0.00021     
+  p2p-Gnutella08     betweenness     +0.00056  0.00015    *   +0.00003  0.00012     
+
+  old: largest |mean| 0.03515, sum of means +0.18708
+  new: largest |mean| 0.00054, sum of means +0.00042
+
+LOWER RUNGS (columns identical; same columns, same seeds: residual differences are RF threading round-off only)
+  add_nonorbit_subgraph      max |new-old| mean 1.93e-07   flags identical: True
+  add_orbit_lt15             max |new-old| mean 2.92e-07   flags identical: True
+
+READING
+Every one of the 17 pre-retag stars on add_remaining_g5_orbits disappears once the six
+hop-2 orbits are removed from the r=1 set. The largest post-retag |mean| on that rung is
+0.00054 tau, against pre-retag gains up to
+0.03515. The pre-retag "5-node orbits
+beat 4-node at r=1" effect was therefore carried entirely by orbits that reach two hops,
+i.e. it was a radius effect mislabelled as a graphlet-size effect. This is the same
+failure class as the Finding 10 "+0.148 edge tier" (tier tags are inputs, not labels).
+The two add_nonorbit_subgraph betweenness flags (email-Eu-core, facebook_combined) are
+unchanged, as they must be: those columns did not move.
+
+What this does NOT say: nothing about r >= 2, where the six orbits now live; the
+genuine hop-2 contribution of those orbits is a question for the main radius ladder,
+not this ablation. Stars remain descriptive (no null, no multiplicity correction).

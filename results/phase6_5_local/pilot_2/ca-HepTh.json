@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "tag": "ca-HepTh",
+    "inputs": {
+      "meta": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_meta_ca-HepTh.json",
+        "sha256": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388"
+      },
+      "features": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_features_ca-HepTh.csv",
+        "sha256": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d"
+      },
+      "targets": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_targets_ca-HepTh.csv",
+        "sha256": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe"
+      },
+      "cascades": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_cascades_ca-HepTh.npy",
+        "sha256": "d3c06e5ed16e15dafaa40e92c11f848a57ed1ba8b1d028a26383d1c15d8d2d6f"
+      },
+      "edgelist": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\data\\ca-HepTh.txt",
+        "sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90"
+      },
+      "influence/local_dynamics.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "probe_local_predictors.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\probe_local_predictors.py",
+        "sha256": "92e1cbedd30a497d166c2a44f8dec90af8266c7f33997d98093db377cc0830e2"
+      }
+    },
+    "radii": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "simulation_seed": 0,
+    "p": 0.04998913394032056,
+    "convention": "uniform",
+    "pilot_draws": 2,
+    "split": {
+      "predictor": [
+        0,
+        1
+      ],
+      "target": [
+        1,
+        2
+      ]
+    },
+    "threads": 1
+  },
+  "status": "complete",
+  "started_utc": "2026-09-12T15:31:42.187241+00:00",
+  "pilot": true,
+  "completed_utc": "2026-09-12T15:31:42.656237+00:00",
+  "seconds": 0.46784820000175387,
+  "verified_draws": 2,
+  "output_sha256": "50a23e444fe0e96c7b6f7170a52e515b6baf128c96c8c3a197d74bcb51664035",
+  "process_lifetime_peak_memory_bytes": 140734464,
+  "estimated_full_seconds": 935.6964000035077,
+  "memory_bound": "256 x n sparse boolean reachability per draw; n x 4 accumulator; mmap full cache"
+}

@@ -1,0 +1,119 @@
+{
+  "created_utc": "2026-09-13T07:16:21.824511+00:00",
+  "network_status": {
+    "ca-GrQc": "complete",
+    "ca-HepTh": "complete",
+    "p2p-Gnutella08": "complete",
+    "email-Eu-core": "complete",
+    "facebook_combined": "complete"
+  },
+  "network_results": {
+    "ca-GrQc": {
+      "node1": 0.9072769943124204,
+      "full2": 0.9415970056788783,
+      "full3": 0.9441058999132922,
+      "E0": null,
+      "E1": 0.7738986646159554,
+      "E2": 0.8537899356774964,
+      "E3": 0.8782470774220879
+    },
+    "ca-HepTh": {
+      "node1": 0.8967658311788185,
+      "full2": 0.9460511617188864,
+      "full3": 0.9507933791568407,
+      "E0": null,
+      "E1": 0.7174874165454623,
+      "E2": 0.8303114670855962,
+      "E3": 0.8753936522932053
+    },
+    "p2p-Gnutella08": {
+      "node1": 0.7926726500096419,
+      "full2": 0.8867165559952582,
+      "full3": 0.915964798456327,
+      "E0": null,
+      "E1": 0.66550870513701,
+      "E2": 0.7558000895854535,
+      "E3": 0.7925334613218818
+    },
+    "email-Eu-core": {
+      "node1": 0.9564821464764884,
+      "full2": 0.9637310374938156,
+      "full3": 0.9686552433156306,
+      "E0": null,
+      "E1": 0.8687675965643442,
+      "E2": 0.9333502264425826,
+      "E3": 0.9489366924754039
+    },
+    "facebook_combined": {
+      "node1": 0.945818123266004,
+      "full2": 0.9573765667465597,
+      "full3": 0.9586226349398658,
+      "E0": null,
+      "E1": 0.6842902950543963,
+      "E2": 0.7567283135619807,
+      "E3": 0.7939718684849801
+    }
+  },
+  "verdicts": {
+    "monotonic": {
+      "ca-GrQc": "supported",
+      "ca-HepTh": "supported",
+      "p2p-Gnutella08": "supported",
+      "email-Eu-core": "supported",
+      "facebook_combined": "supported"
+    },
+    "E1_beats_node": {
+      "ca-GrQc": "not_supported",
+      "ca-HepTh": "not_supported",
+      "p2p-Gnutella08": "not_supported"
+    },
+    "RF_margin": {
+      "ca-GrQc": "supported",
+      "ca-HepTh": "supported",
+      "p2p-Gnutella08": "supported",
+      "email-Eu-core": "not_supported",
+      "facebook_combined": "supported"
+    },
+    "counter": {
+      "verdict": "not_supported",
+      "networks_at_or_above": 0,
+      "missing": 0,
+      "network_verdicts": {
+        "ca-GrQc": "not_supported",
+        "ca-HepTh": "not_supported",
+        "p2p-Gnutella08": "not_supported",
+        "email-Eu-core": "not_supported",
+        "facebook_combined": "not_supported"
+      }
+    }
+  },
+  "hashes": {
+    "coverage": "bb901434bb6e143b5614c1f74f38546de6b4cc7d78c2c1648e3795d672b57ee5",
+    "ca-GrQc": {
+      "predictions": "3c3428dee3180340cdb04623ded57e8e3e98e2ce4f431f882a96f1156d4c710f",
+      "status": "df5214e0c2007e9c5ff50f3cc29b152b18b3a8b9067582e1c7a15e8eab38f123",
+      "sweep": "00adf5312c3fe8b630836072b84943dee57eb2ff834c93c6238d9e515a0c274c"
+    },
+    "ca-HepTh": {
+      "predictions": "b827f8bfdfe34f4165a88f6026d13c3b245ccffd9087769e785d91cb73e98dd3",
+      "status": "73479a6b9060d8df20b3ad05cee50e24daa2eeaa8ec27d05b0e2e7746f4c2f19",
+      "sweep": "768e668102e97fa7c72e9615f931d6859671ba70a76a9547efcc030b737e7465"
+    },
+    "p2p-Gnutella08": {
+      "predictions": "59f484b896ae741ad014df2d9b729c3c810b6865b15b665bfa366d723da0a3a6",
+      "status": "1495a7134bdb6e67372750bf85413982c3756d114f2f46930c397573cf488cf6",
+      "sweep": "daa573159124e7854d2f03e9d8e51e2de483da9c20e0a19d2c3616df3fd1ea77"
+    },
+    "email-Eu-core": {
+      "predictions": "b0a6f028076ee0d92df5dfaff0e8d95343d786d31fd7d5911127e10de3199ee4",
+      "status": "6d89d9b7b85bc4e3b2537c604efee963e2a1a320277c0cce1066912daa1604da",
+      "sweep": "994972db224b893cb57c9841bd18b226cba1f01d6e737ac75c78c4853cc2a96e"
+    },
+    "facebook_combined": {
+      "predictions": "b8586cfc58b6724f8692fb2050f4553c28930c1d5d4c94f0eb2c6c2bd3c8abc4",
+      "status": "0374551dfc220d04f8869a73ef1b8041c6711bc283aad0286d98b87e60dd900b",
+      "sweep": "fe89fbc757f3c3f46db6c59002439e065a280293c67c4995eb55c9cc84aaab74"
+    }
+  },
+  "protocol_note": "E(r) draws 0..1999 vs target 2000..3999. RF uses historical full-draw targets; comparisons are descriptive. Radius 0 tied/unscored."
+}

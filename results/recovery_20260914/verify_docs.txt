@@ -1,0 +1,178 @@
+==============================================================================
+verify_docs - checking the prose against the artefacts
+==============================================================================
+
+networks: ca-GrQc, ca-HepTh, email-Eu-core, facebook_combined, p2p-Gnutella08
+documents: HANDOFF.md, README.md, study_doc_v2.md
+
+[1] corpus size  (caches on disk: 5)
+       manifest entries: 5 (informational)
+  PASS  README.md: no 'Three networks, all cleaned'              
+  PASS  README.md: no 'All three networks now run'               
+  PASS  HANDOFF.md: no 'Three networks, all cleaned'             
+  PASS  HANDOFF.md: no 'All three networks now run'              
+  PASS  study_doc_v2.md: no 'Three networks, all cleaned'        
+  PASS  study_doc_v2.md: no 'All three networks now run'         
+
+[2] feature counts
+  PASS  all networks have identical feature totals               [171]
+       registry says: 171 total  (45 node / 48 edge / 76 subgraph / 2 dynamic)
+  PASS  README.md: states 171 features                           
+  PASS  README.md: node tier = 45                                
+  PASS  README.md: edge tier = 48                                
+  PASS  README.md: subgraph tier = 76                            
+  PASS  README.md: dynamic tier = 2                              
+  PASS  HANDOFF.md: states 171 features                          
+  PASS  HANDOFF.md: node tier = 45                               
+  PASS  HANDOFF.md: edge tier = 48                               
+  PASS  HANDOFF.md: subgraph tier = 76                           
+  PASS  HANDOFF.md: dynamic tier = 2                             
+  PASS  study_doc_v2.md: states 171 features                     
+  PASS  study_doc_v2.md: node tier = 45                          
+  PASS  study_doc_v2.md: edge tier = 48                          
+  PASS  study_doc_v2.md: subgraph tier = 76                      
+  PASS  study_doc_v2.md: dynamic tier = 2                        
+
+[3] cumulative-by-radius ladder
+  PASS  all networks share one radius ladder                     [(2, 56, 145, 170)]
+       registry says: r0=2 r1=56 r2=145 r3=170
+  PASS  exactly one feature sits above max_hop=3                 1
+  PASS  README.md: ladder r=0 is 2                               Cumulative by radius: **2** at r=0, **56** a
+  PASS  README.md: ladder r=1 is 56                              Cumulative by radius: **2** at r=0, **56** a
+  PASS  README.md: ladder r=2 is 145                             Cumulative by radius: **2** at r=0, **56** a
+  PASS  README.md: ladder r=3 is 170                             Cumulative by radius: **2** at r=0, **56** a
+  PASS  HANDOFF.md: ladder r=0 is 2                              Cumulative by radius: 2 at r=0, **56** at r=
+  PASS  HANDOFF.md: ladder r=1 is 56                             Cumulative by radius: 2 at r=0, **56** at r=
+  PASS  HANDOFF.md: ladder r=2 is 145                            Cumulative by radius: 2 at r=0, **56** at r=
+  PASS  HANDOFF.md: ladder r=3 is 170                            Cumulative by radius: 2 at r=0, **56** at r=
+
+[4] orbit accounting
+  PASS  all networks have identical node-orbit counts            [71]
+       registry says: 71 node-orbit columns (2 excluded from ORCA's 73)
+  PASS  README.md: names ORCA's true total (73)                  
+  PASS  README.md: explains the 73 -> 71 exclusion               
+  PASS  HANDOFF.md: names ORCA's true total (73)                 
+  PASS  HANDOFF.md: explains the 73 -> 71 exclusion              
+  PASS  the all-zero orbit skip fires on no network              per-network orbits dropped as constant: {'ca-GrQc': 0, 'ca-HepTh': 0, 'email-Eu-core': 0, 'facebook_combined': 0, 'p2p-Gnutella08': 0}
+  PASS  exactly one orbit sits above MAX_HOP (71 registered, 70 selectable) 1
+
+[5] beta_c values
+  PASS  beta_c 0.02250 (ca-GrQc) appears in a doc                HANDOFF.md, study_doc_v2.md
+  PASS  beta_c 0.03333 (ca-HepTh) appears in a doc               HANDOFF.md, study_doc_v2.md
+  PASS  beta_c 0.01338 (email-Eu-core) appears in a doc          HANDOFF.md, study_doc_v2.md
+  PASS  beta_c 0.00620 (facebook_combined) appears in a doc      HANDOFF.md, study_doc_v2.md
+  PASS  beta_c 0.03772 (p2p-Gnutella08) appears in a doc         HANDOFF.md, study_doc_v2.md
+
+[6] dynamical regime
+  PASS  all networks share one 'multiple'                        ['1.5']
+  PASS  all networks share one 'n_sims'                          ['4000']
+  PASS  all networks share one 'convention'                      ['uniform']
+  PASS  ca-GrQc: p == multiple * beta_c                          0.03375461 vs 0.03375461
+  PASS  ca-HepTh: p == multiple * beta_c                         0.04998913 vs 0.04998913
+  PASS  email-Eu-core: p == multiple * beta_c                    0.02006785 vs 0.02006785
+  PASS  facebook_combined: p == multiple * beta_c                0.00930043 vs 0.00930043
+  PASS  p2p-Gnutella08: p == multiple * beta_c                   0.05658147 vs 0.05658147
+  PASS  study_doc section 17 covers all 5 networks               
+  PASS  study_doc section 18 covers all 5 networks               
+  PASS  study_doc section 19 covers all 5 networks               
+
+[9] sweep-cell uniqueness
+  PASS  ca-GrQc: no duplicated sweep cells                       0 duplicate rows
+  PASS  ca-HepTh: no duplicated sweep cells                      0 duplicate rows
+  PASS  email-Eu-core: no duplicated sweep cells                 0 duplicate rows
+  PASS  facebook_combined: no duplicated sweep cells             0 duplicate rows
+  PASS  p2p-Gnutella08: no duplicated sweep cells                0 duplicate rows
+
+[7] known-stale strings
+  PASS  README.md: no '77 columns'                               
+  PASS  README.md: no 'two to five minutes'                      
+  PASS  README.md: no '45 node,
+14 edge'                         
+  PASS  README.md: no 'too large to process completel'           
+  PASS  README.md: no '| `n_jobs` | 1 |'                         
+  PASS  HANDOFF.md: no '77 columns'                              
+  PASS  HANDOFF.md: no 'two to five minutes'                     
+  PASS  HANDOFF.md: no '45 node,
+14 edge'                        
+  PASS  HANDOFF.md: no 'too large to process completel'          
+  PASS  HANDOFF.md: no '| `n_jobs` | 1 |'                        
+  PASS  study_doc_v2.md: no '77 columns'                         
+  PASS  study_doc_v2.md: no 'two to five minutes'                
+  PASS  study_doc_v2.md: no '45 node,
+14 edge'                   
+  PASS  study_doc_v2.md: no 'too large to process completel'     
+  PASS  study_doc_v2.md: no '| `n_jobs` | 1 |'                   
+  PASS  C3: section 26i exists                                   
+  PASS  C3: complete registered corpus                           
+  PASS  C3: row occurrence keys are unique                       
+  PASS  C3: amazon graph table matches cells                     
+  PASS  C3: amazon prose row agrees                              
+  PASS  C3: cit-Patents graph table matches cells                
+  PASS  C3: cit-Patents prose row agrees                         
+  PASS  C3: com-lj graph table matches cells                     
+  PASS  C3: com-lj prose row agrees                              
+  PASS  C3: com-youtube graph table matches cells                
+  PASS  C3: com-youtube prose row agrees                         
+  PASS  C3: dblp graph table matches cells                       
+  PASS  C3: dblp prose row agrees                                
+  PASS  C3: email-EuAll graph table matches cells                
+  PASS  C3: email-EuAll prose row agrees                         
+  PASS  C3: p2p-Gnutella31 graph table matches cells             
+  PASS  C3: p2p-Gnutella31 prose row agrees                      
+  PASS  C3: soc-Epinions1 graph table matches cells              
+  PASS  C3: soc-Epinions1 prose row agrees                       
+  PASS  C3: soc-LiveJournal1 graph table matches cells           
+  PASS  C3: soc-LiveJournal1 prose row agrees                    
+  PASS  C3: soc-Pokec graph table matches cells                  
+  PASS  C3: soc-Pokec prose row agrees                           
+  PASS  C3: soc-Slashdot0902 graph table matches cells           
+  PASS  C3: soc-Slashdot0902 prose row agrees                    
+  PASS  C3: web-Google graph table matches cells                 
+  PASS  C3: web-Google prose row agrees                          
+  PASS  C3: wiki-Talk graph table matches cells                  
+  PASS  C3: wiki-Talk prose row agrees                           
+  PASS  C3: wiki-topcats graph table matches cells               
+  PASS  C3: wiki-topcats prose row agrees                        
+  PASS  C3: 26i P2 measured rho                                  
+  PASS  C3: 26i P1 absolute error                                
+  PASS  C3: 26i P1 stays falsified                               
+  PASS  C3: 26i clamped support stays explicit                   
+  PASS  C3: 26i P3 registered graph count                        
+  PASS  C3: SCORED P2 measured rho                               
+  PASS  C3: SCORED P1 absolute error                             
+  PASS  C3: SCORED P1 stays falsified                            
+  PASS  C3: SCORED clamped support stays explicit                
+  PASS  C3: SCORED P3 registered graph count                     
+  PASS  19b: results/multiplicity.csv present                    
+  PASS  19b: results/RESULTS_multiplicity.txt present            
+  PASS  19b: section exists                                      
+  PASS  19b: 240 comparisons in four families of 60              
+  PASS  19b: states the star-rule alpha 1.37e-4 (not 0.046)      
+  PASS  19b: "0.046" survives only as superseded wording         2 occurrences
+  PASS  19b: current table row for hop_gain                      54 0.008 57 56 0
+  PASS  19b: RESULTS_multiplicity.txt summary for hop_gain       hop_gain 60 54 0.0082 57 56 0
+  PASS  19b: current table row for edge_tier                     29 0.008 44 39 0
+  PASS  19b: RESULTS_multiplicity.txt summary for edge_tier      edge_tier 60 29 0.0082 44 39 0
+  PASS  19b: current table row for subgraph_tier                 25 0.008 43 34 0
+  PASS  19b: RESULTS_multiplicity.txt summary for subgraph_tier  subgraph_tier 60 25 0.0082 43 34 0
+  PASS  19b: current table row for dynamic_tier                  5 0.008 5 5 0
+  PASS  19b: RESULTS_multiplicity.txt summary for dynamic_tier   dynamic_tier 60 5 0.0082 5 5 0
+  PASS  19b: no star fails BH (holds by construction)            
+  PASS  19b: alpha at n=10 is below every BH threshold           
+  PASS  19b: under-claimed count stated                          36
+  PASS  19b: tiny-star count stated                              15
+  PASS  19b: RESULTS_multiplicity.txt carries the corrected alpha line 
+
+[8] archive record: blocks re-hash to their markers
+  PASS  record: file present                                     
+  PASS  record: sidecar present                                  
+  PASS  record: block count matches the sidecar                  35 blocks, 35 sidecar entries
+  PASS  record: every block re-hashes to its marker and the sidecar 
+
+[9] document paths and links resolve
+  PASS  links: every docs/ and results/ .md path exists          
+  PASS  links: every #rec- anchor exists in the record           
+        deferred code-comment paths still allow-listed: 20 in 14 files (clear after STAGE 4 LANES COMPLETE)
+
+==============================================================================
+ALL CHECKS PASSED

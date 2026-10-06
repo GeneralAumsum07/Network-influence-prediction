@@ -1,0 +1,68 @@
+{
+  "canonical_fit_count": 13976,
+  "configuration_sha256": "9788e5fd4e36dd993923197dcc51600b6c68e48426c7617b4d2bea81773196a8",
+  "estimated_full_seconds": 3179.865640749573,
+  "measurements": [
+    {
+      "available_memory_after_bytes": 1761284096,
+      "available_memory_before_bytes": 1756172288,
+      "elapsed_seconds": 0.35848540000006324,
+      "finite_prediction": true,
+      "kendall_difference_from_jobs1": 0.0,
+      "kendall_tau": 0.8423172485988824,
+      "max_abs_difference_from_jobs1": 0.0,
+      "max_relative_difference_from_jobs1": 0.0,
+      "memory_guard_passed": true,
+      "numerically_equivalent_to_jobs1": true,
+      "rf_jobs": 1,
+      "valid": true
+    },
+    {
+      "available_memory_after_bytes": 1771618304,
+      "available_memory_before_bytes": 1766928384,
+      "elapsed_seconds": 0.25157909999688854,
+      "finite_prediction": true,
+      "kendall_difference_from_jobs1": 0.0,
+      "kendall_tau": 0.8423172485988824,
+      "max_abs_difference_from_jobs1": 3.552713678800501e-15,
+      "max_relative_difference_from_jobs1": 1.328069424972519e-16,
+      "memory_guard_passed": true,
+      "numerically_equivalent_to_jobs1": true,
+      "rf_jobs": 4,
+      "valid": true
+    },
+    {
+      "available_memory_after_bytes": 1777909760,
+      "available_memory_before_bytes": 1786519552,
+      "elapsed_seconds": 0.22752329999639187,
+      "finite_prediction": true,
+      "kendall_difference_from_jobs1": 0.0,
+      "kendall_tau": 0.8423172485988824,
+      "max_abs_difference_from_jobs1": 7.105427357601002e-15,
+      "max_relative_difference_from_jobs1": 2.656138849945038e-16,
+      "memory_guard_passed": true,
+      "numerically_equivalent_to_jobs1": true,
+      "rf_jobs": 8,
+      "valid": true
+    }
+  ],
+  "numerical_equivalence_tolerances": {
+    "absolute": 1e-10,
+    "kendall_tau": 1e-12,
+    "relative": 1e-12
+  },
+  "pilot_sha256": "66a7a9a985280e6d95d60bf2f578c91e3bbe1ba059edf2d221d1b85d4d3a9614",
+  "preflight_identity_sha256": "4146d54995fb9f1c0e19e6fd792cdf93d73a0d77566e015119030cee2446a91c",
+  "preflight_sha256": "b7222e7c6d981ed76b9625b0fde543f9cfa0787b8c149f695354ff054e8c1a4b",
+  "protocol": "phase6-buffer-v1",
+  "representative_fold": {
+    "fold": 0,
+    "logical_arm": "region",
+    "network": "ca-GrQc",
+    "radius": 0,
+    "seed": 0,
+    "target": "spread_mean"
+  },
+  "selected_rf_jobs": 8,
+  "selection_rule": "fastest finite, memory-bounded 1/4/8 fit numerically equivalent to rf_jobs=1; ties choose lower rf_jobs"
+}

@@ -1,0 +1,38 @@
+C3 existing five-network P4 fallback: independent nodewise verification
+Reinforcement only; no new conditional, thresholds or scored verdict changes.
+Raw C3 topology and original IDs agree with stage1 preprocessing; cached feature
+node/original_id mapping and cached target row order are required to agree exactly.
+Both mismatch directions must be zero. Exact cached b == 0; no tolerance.
+Independent w-table reproduction remains a separate existing gate.
+Scope: verifies zero masks, not every positive betweenness magnitude; no fitting,
+checkpoint execution, shortest-path recomputation or external corpus traversal.
+
+ca-GrQc: PASS n=4158 structural_zeros=2288 cached_zeros=2288 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.710007757952
+ca-HepTh: PASS n=8638 structural_zeros=4192 cached_zeros=4192 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.653519370177
+p2p-Gnutella08: PASS n=6299 structural_zeros=1752 cached_zeros=1752 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.435279503106
+email-Eu-core: PASS n=986 structural_zeros=149 cached_zeros=149 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.262786596120
+facebook_combined: PASS n=4039 structural_zeros=342 cached_zeros=342 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.156164383562
+Required networks checked: 5/5; nodes checked: 24120
+ALL CHECKS PASSED
+
+SHA256 f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660  data/ca-GrQc.txt
+SHA256 1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62  cache_targets_ca-GrQc.csv
+SHA256 2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8  cache_features_ca-GrQc.csv
+SHA256 8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90  data/ca-HepTh.txt
+SHA256 d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe  cache_targets_ca-HepTh.csv
+SHA256 9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d  cache_features_ca-HepTh.csv
+SHA256 fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499  data/p2p-Gnutella08.txt
+SHA256 1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6  cache_targets_p2p-Gnutella08.csv
+SHA256 f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4  cache_features_p2p-Gnutella08.csv
+SHA256 23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c  data/email-Eu-core.txt
+SHA256 1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a  cache_targets_email-Eu-core.csv
+SHA256 4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477  cache_features_email-Eu-core.csv
+SHA256 f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296  data/facebook_combined.txt
+SHA256 de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9  cache_targets_facebook_combined.csv
+SHA256 5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382  cache_features_facebook_combined.csv
+SHA256 198cd90638a8c15701f5ee8639c5a82c54b447195d39685c0e3f43ae3d5fb59f  verify_c3_fallback.py
+SHA256 1b76cbeaa1a760c6500fe46675e3d2e48d3e046bba10ecbb80f72118a6e56eb6  analyse_c3_benchmarks.py
+SHA256 bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac  influence/preprocessing.py
+SHA256 a76448efe142327e46236d051291aa80700cbb89bb0cd72920f48404696ee592  influence/targets.py
+SHA256 5408279966404890df4c2b28581033e9bae650b1b65a265caf1e127fdeef9c7c  stage1_prepare.py
+SHA256 124887d7ff315e98360722a22f55f8030a9ab715387db8fa50d762351aa7baab  results/c3_fallback_nodes.csv

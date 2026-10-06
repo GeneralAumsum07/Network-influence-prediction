@@ -1,0 +1,73 @@
+{
+  "identity": {
+    "tag": "p2p-Gnutella08",
+    "inputs": {
+      "meta": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_meta_p2p-Gnutella08.json",
+        "sha256": "33b473fa95c051759d7748002c228bb9740c8c9dee0e7ff3ec5f725e301c2a17"
+      },
+      "features": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_features_p2p-Gnutella08.csv",
+        "sha256": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4"
+      },
+      "targets": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_targets_p2p-Gnutella08.csv",
+        "sha256": "1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6"
+      },
+      "cascades": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\cache_cascades_p2p-Gnutella08.npy",
+        "sha256": "cea159114f2c11dbdcc9f6f3053579a3f432f7ae80cb4871191738f3934cc18a"
+      },
+      "edgelist": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\data\\p2p-Gnutella08.txt",
+        "sha256": "fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499"
+      },
+      "influence/local_dynamics.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\influence\\preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "probe_local_predictors.py": {
+        "path": "C:\\Users\\Rachit\\Desktop\\Projects\\Network_influence_prediction\\probe_local_predictors.py",
+        "sha256": "03d2ad1fa996dadad20ab306909797d61728f33d43e9476b857e457150fc4d2b"
+      }
+    },
+    "radii": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "simulation_seed": 0,
+    "p": 0.056581467376667284,
+    "convention": "uniform",
+    "pilot_draws": 20,
+    "split": {
+      "predictor": [
+        0,
+        10
+      ],
+      "target": [
+        10,
+        20
+      ]
+    },
+    "threads": 1
+  },
+  "status": "complete",
+  "started_utc": "2026-09-12T12:45:31.437976+00:00",
+  "pilot": true,
+  "completed_utc": "2026-09-12T12:45:31.805851+00:00",
+  "seconds": 0.36589180000009947,
+  "verified_draws": 20,
+  "output_sha256": "d6fef7ecce163a4cf230ee6bf7e3e0ad52fb73d543a4c23463b6c10257aa4cdd",
+  "estimated_full_seconds": 73.1783600000199,
+  "memory_bound": "256 x n sparse boolean reachability per draw; n x 4 accumulator; mmap full cache"
+}

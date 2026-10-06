@@ -1,0 +1,143 @@
+{
+  "status": "complete",
+  "pilot": true,
+  "started_utc": "2026-09-14T06:44:07.726444+00:00",
+  "identity": {
+    "tag": "ca-GrQc",
+    "configuration": {
+      "threads": 1,
+      "radius": 3,
+      "richness": "node+edge+subgraph",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "primary": "reported_rf_log1p_betweenness",
+      "sensitivities": [
+        "raw_betweenness",
+        "spread_mean"
+      ],
+      "tail_fraction": 0.05,
+      "tie_rule": "ascending np.lexsort((node, adjusted_delta))"
+    },
+    "recorded_source_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+    "source_hash_origin": "cache_provenance_audit_20260911.json",
+    "inputs": {
+      "meta": {
+        "path": "cache_meta_ca-GrQc.json",
+        "sha256": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b"
+      },
+      "features": {
+        "path": "cache_features_ca-GrQc.csv",
+        "sha256": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8"
+      },
+      "targets": {
+        "path": "cache_targets_ca-GrQc.csv",
+        "sha256": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62"
+      },
+      "reported_oof": {
+        "path": "estimators/cache_oof_ca-GrQc__rf_log1p.npz",
+        "sha256": "38773c9e6491de447ffa22daa3508b8ff68560720de2427185cacd11a13df877"
+      },
+      "raw_oof": {
+        "path": "cache_oof_ca-GrQc.npz",
+        "sha256": "b55027a85a24966aa86c8ad8449f7371e66304feb04aee7f6eb16fe6141b3cb2"
+      },
+      "edgelist": {
+        "path": "data/ca-GrQc.txt",
+        "sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660"
+      },
+      "source_audit": {
+        "path": "cache_provenance_audit_20260911.json",
+        "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+      },
+      "branch_anisotropy": {
+        "path": "influence/branch_anisotropy.py",
+        "sha256": "7084b0510a55415253c93baaafa4693fb2cdcf08629eb1ec7645a0e1cdd30472"
+      },
+      "probe": {
+        "path": "probe_branch_anisotropy.py",
+        "sha256": "5226f57e62dfb9f45ca3a0ca32abf03daeb986ff9a72c1fcdc61a1c281470f7b"
+      },
+      "analyse_failures": {
+        "path": "analyse_failures.py",
+        "sha256": "c39ecf319cbcf374d9c6a9ceaecb83ef0a07be5259aa23ca4212d389a23d64ae"
+      },
+      "sweep_inputs": {
+        "path": "influence/sweep_inputs.py",
+        "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+      }
+    }
+  },
+  "completed_utc": "2026-09-14T06:44:08.182564+00:00",
+  "output_sha256": "a92951dacb65381ecd6f3b881b88b851e5a68bf489fbe5d5156a32d64a0bb3a4",
+  "arms": {
+    "primary_reported_betweenness": {
+      "status": "scored",
+      "target": "betweenness",
+      "objective_arm": "rf_log1p",
+      "effects": {
+        "max_branch_share": {
+          "cliffs_delta_under_minus_over": 0.14963942307692313,
+          "p_value": 0.008297488034537108,
+          "under_n": 208,
+          "over_n": 208
+        },
+        "branch_entropy_nats": {
+          "cliffs_delta_under_minus_over": -0.20458117603550297,
+          "p_value": 0.000307490937138286,
+          "under_n": 208,
+          "over_n": 208
+        }
+      }
+    },
+    "sensitivity_raw_betweenness": {
+      "status": "scored",
+      "target": "betweenness",
+      "objective_arm": "raw",
+      "effects": {
+        "max_branch_share": {
+          "cliffs_delta_under_minus_over": 0.1935558431952662,
+          "p_value": 0.0006390413670357372,
+          "under_n": 208,
+          "over_n": 208
+        },
+        "branch_entropy_nats": {
+          "cliffs_delta_under_minus_over": -0.23430565828402372,
+          "p_value": 3.575771693580941e-05,
+          "under_n": 208,
+          "over_n": 208
+        }
+      }
+    },
+    "sensitivity_spread_mean": {
+      "status": "scored",
+      "target": "spread_mean",
+      "objective_arm": "raw",
+      "effects": {
+        "max_branch_share": {
+          "cliffs_delta_under_minus_over": 0.05528846153846145,
+          "p_value": 0.3195169283972833,
+          "under_n": 208,
+          "over_n": 208
+        },
+        "branch_entropy_nats": {
+          "cliffs_delta_under_minus_over": -0.050226516272189325,
+          "p_value": 0.3658529952353582,
+          "under_n": 208,
+          "over_n": 208
+        }
+      }
+    }
+  },
+  "empty_shell2_count": 0,
+  "scoring_status": "unscored_pilot"
+}

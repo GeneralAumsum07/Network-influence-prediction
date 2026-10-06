@@ -1,0 +1,208 @@
+RESULTS: r=1 subgraph-tier refit after the 5-node orbit radius retag
+Written 2026-09-11 by report_orbit5_refit.py (Claude Opus 5); see the module docstring.
+Old = .preorbit5 backup (six orbits 56,57,65,66,68,70 at hop 1); new = refit with them at hop 2.
+star: |mean d_tau| > 2 x paired sd over the shared seeds (descriptive rule, not a test).
+
+ca-GrQc rf: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-GrQc hgb: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-GrQc hgb_matched: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-GrQc rf_log1p: refitted rows 20/20  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-GrQc ridge: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-HepTh rf: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-HepTh hgb: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-HepTh hgb_matched: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-HepTh rf_log1p: refitted rows 20/20  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+ca-HepTh ridge: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+email-Eu-core rf: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+email-Eu-core hgb: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+email-Eu-core hgb_matched: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+email-Eu-core rf_log1p: refitted rows 20/20  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+email-Eu-core ridge: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+facebook_combined rf: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+facebook_combined hgb: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+facebook_combined hgb_matched: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+facebook_combined rf_log1p: refitted rows 20/20  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+facebook_combined ridge: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+p2p-Gnutella08 rf: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+p2p-Gnutella08 hgb: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+p2p-Gnutella08 hgb_matched: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+p2p-Gnutella08 rf_log1p: refitted rows 20/20  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+p2p-Gnutella08 ridge: refitted rows 80/80  keys match=True  no duplicates=True  oof complete=True  non-r1 rows byte-stable=True  n_features -6 everywhere=True
+
+file                           target        tier                          n   tau_old   tau_new    d_mean     d_sd
+ca-GrQc hgb                    betweenness   node+edge+subgraph           10    0.7373    0.7372   -0.0001   0.0054 
+ca-GrQc hgb                    betweenness   node+edge+subgraph+dynamic   10    0.7373    0.7372   -0.0001   0.0054 
+ca-GrQc hgb                    spread_cv     node+edge+subgraph           10    0.7104    0.6744   -0.0360   0.0019 *
+ca-GrQc hgb                    spread_cv     node+edge+subgraph+dynamic   10    0.7104    0.6744   -0.0360   0.0019 *
+ca-GrQc hgb                    spread_mean   node+edge+subgraph           10    0.9213    0.9108   -0.0106   0.0010 *
+ca-GrQc hgb                    spread_mean   node+edge+subgraph+dynamic   10    0.9213    0.9108   -0.0106   0.0010 *
+ca-GrQc hgb                    spread_resid  node+edge+subgraph           10    0.5407    0.5052   -0.0355   0.0051 *
+ca-GrQc hgb                    spread_resid  node+edge+subgraph+dynamic   10    0.5407    0.5052   -0.0355   0.0051 *
+ca-GrQc hgb_matched            betweenness   node+edge+subgraph           10    0.7344    0.7362   +0.0018   0.0048 
+ca-GrQc hgb_matched            betweenness   node+edge+subgraph+dynamic   10    0.7344    0.7362   +0.0018   0.0048 
+ca-GrQc hgb_matched            spread_cv     node+edge+subgraph           10    0.7190    0.6820   -0.0370   0.0018 *
+ca-GrQc hgb_matched            spread_cv     node+edge+subgraph+dynamic   10    0.7190    0.6820   -0.0370   0.0018 *
+ca-GrQc hgb_matched            spread_mean   node+edge+subgraph           10    0.9223    0.9127   -0.0096   0.0006 *
+ca-GrQc hgb_matched            spread_mean   node+edge+subgraph+dynamic   10    0.9223    0.9127   -0.0096   0.0006 *
+ca-GrQc hgb_matched            spread_resid  node+edge+subgraph           10    0.5414    0.5080   -0.0334   0.0030 *
+ca-GrQc hgb_matched            spread_resid  node+edge+subgraph+dynamic   10    0.5414    0.5080   -0.0334   0.0030 *
+ca-GrQc rf                     betweenness   node+edge+subgraph           10    0.9181    0.9183   +0.0002   0.0004 
+ca-GrQc rf                     betweenness   node+edge+subgraph+dynamic   10    0.9181    0.9183   +0.0002   0.0004 
+ca-GrQc rf                     spread_cv     node+edge+subgraph           10    0.7074    0.6720   -0.0354   0.0015 *
+ca-GrQc rf                     spread_cv     node+edge+subgraph+dynamic   10    0.7074    0.6720   -0.0354   0.0015 *
+ca-GrQc rf                     spread_mean   node+edge+subgraph           10    0.9207    0.9073   -0.0134   0.0005 *
+ca-GrQc rf                     spread_mean   node+edge+subgraph+dynamic   10    0.9207    0.9073   -0.0134   0.0005 *
+ca-GrQc rf                     spread_resid  node+edge+subgraph           10    0.5300    0.4985   -0.0314   0.0033 *
+ca-GrQc rf                     spread_resid  node+edge+subgraph+dynamic   10    0.5300    0.4985   -0.0314   0.0033 *
+ca-GrQc rf_log1p               betweenness   node+edge+subgraph           10    0.9200    0.9197   -0.0003   0.0007 
+ca-GrQc rf_log1p               betweenness   node+edge+subgraph+dynamic   10    0.9200    0.9197   -0.0003   0.0007 
+ca-GrQc ridge                  betweenness   node+edge+subgraph           10    0.6234    0.6175   -0.0059   0.0029 *
+ca-GrQc ridge                  betweenness   node+edge+subgraph+dynamic   10    0.6234    0.6175   -0.0059   0.0029 *
+ca-GrQc ridge                  spread_cv     node+edge+subgraph           10    0.6719    0.6624   -0.0095   0.0009 *
+ca-GrQc ridge                  spread_cv     node+edge+subgraph+dynamic   10    0.6719    0.6624   -0.0095   0.0009 *
+ca-GrQc ridge                  spread_mean   node+edge+subgraph           10    0.8822    0.6760   -0.2063   0.0023 *
+ca-GrQc ridge                  spread_mean   node+edge+subgraph+dynamic   10    0.8822    0.6760   -0.2063   0.0023 *
+ca-GrQc ridge                  spread_resid  node+edge+subgraph           10    0.4871    0.4864   -0.0007   0.0009 
+ca-GrQc ridge                  spread_resid  node+edge+subgraph+dynamic   10    0.4871    0.4864   -0.0007   0.0009 
+ca-HepTh hgb                   betweenness   node+edge+subgraph           10    0.7657    0.7681   +0.0025   0.0029 
+ca-HepTh hgb                   betweenness   node+edge+subgraph+dynamic   10    0.7657    0.7681   +0.0025   0.0029 
+ca-HepTh hgb                   spread_cv     node+edge+subgraph           10    0.6746    0.6632   -0.0115   0.0008 *
+ca-HepTh hgb                   spread_cv     node+edge+subgraph+dynamic   10    0.6746    0.6632   -0.0115   0.0008 *
+ca-HepTh hgb                   spread_mean   node+edge+subgraph           10    0.9020    0.8998   -0.0022   0.0002 *
+ca-HepTh hgb                   spread_mean   node+edge+subgraph+dynamic   10    0.9020    0.8998   -0.0022   0.0002 *
+ca-HepTh hgb                   spread_resid  node+edge+subgraph           10    0.5534    0.5416   -0.0118   0.0011 *
+ca-HepTh hgb                   spread_resid  node+edge+subgraph+dynamic   10    0.5534    0.5416   -0.0118   0.0011 *
+ca-HepTh hgb_matched           betweenness   node+edge+subgraph           10    0.7646    0.7662   +0.0015   0.0028 
+ca-HepTh hgb_matched           betweenness   node+edge+subgraph+dynamic   10    0.7646    0.7662   +0.0015   0.0028 
+ca-HepTh hgb_matched           spread_cv     node+edge+subgraph           10    0.6761    0.6644   -0.0116   0.0010 *
+ca-HepTh hgb_matched           spread_cv     node+edge+subgraph+dynamic   10    0.6761    0.6644   -0.0116   0.0010 *
+ca-HepTh hgb_matched           spread_mean   node+edge+subgraph           10    0.9026    0.9001   -0.0025   0.0004 *
+ca-HepTh hgb_matched           spread_mean   node+edge+subgraph+dynamic   10    0.9026    0.9001   -0.0025   0.0004 *
+ca-HepTh hgb_matched           spread_resid  node+edge+subgraph           10    0.5548    0.5433   -0.0114   0.0014 *
+ca-HepTh hgb_matched           spread_resid  node+edge+subgraph+dynamic   10    0.5548    0.5433   -0.0114   0.0014 *
+ca-HepTh rf                    betweenness   node+edge+subgraph           10    0.8990    0.8974   -0.0016   0.0003 *
+ca-HepTh rf                    betweenness   node+edge+subgraph+dynamic   10    0.8990    0.8974   -0.0016   0.0003 *
+ca-HepTh rf                    spread_cv     node+edge+subgraph           10    0.6708    0.6566   -0.0143   0.0008 *
+ca-HepTh rf                    spread_cv     node+edge+subgraph+dynamic   10    0.6708    0.6566   -0.0143   0.0008 *
+ca-HepTh rf                    spread_mean   node+edge+subgraph           10    0.9012    0.8966   -0.0046   0.0003 *
+ca-HepTh rf                    spread_mean   node+edge+subgraph+dynamic   10    0.9012    0.8966   -0.0046   0.0003 *
+ca-HepTh rf                    spread_resid  node+edge+subgraph           10    0.5463    0.5341   -0.0122   0.0016 *
+ca-HepTh rf                    spread_resid  node+edge+subgraph+dynamic   10    0.5463    0.5341   -0.0122   0.0016 *
+ca-HepTh rf_log1p              betweenness   node+edge+subgraph           10    0.9035    0.9024   -0.0012   0.0004 *
+ca-HepTh rf_log1p              betweenness   node+edge+subgraph+dynamic   10    0.9035    0.9024   -0.0012   0.0004 *
+ca-HepTh ridge                 betweenness   node+edge+subgraph           10    0.7292    0.7290   -0.0002   0.0018 
+ca-HepTh ridge                 betweenness   node+edge+subgraph+dynamic   10    0.7292    0.7290   -0.0002   0.0018 
+ca-HepTh ridge                 spread_cv     node+edge+subgraph           10    0.6582    0.6577   -0.0005   0.0002 *
+ca-HepTh ridge                 spread_cv     node+edge+subgraph+dynamic   10    0.6582    0.6577   -0.0005   0.0002 *
+ca-HepTh ridge                 spread_mean   node+edge+subgraph           10    0.8654    0.8624   -0.0030   0.0009 *
+ca-HepTh ridge                 spread_mean   node+edge+subgraph+dynamic   10    0.8654    0.8624   -0.0030   0.0009 *
+ca-HepTh ridge                 spread_resid  node+edge+subgraph           10    0.5271    0.5264   -0.0007   0.0001 *
+ca-HepTh ridge                 spread_resid  node+edge+subgraph+dynamic   10    0.5271    0.5264   -0.0007   0.0001 *
+email-Eu-core hgb              betweenness   node+edge+subgraph           10    0.7815    0.7708   -0.0107   0.0096 
+email-Eu-core hgb              betweenness   node+edge+subgraph+dynamic   10    0.7815    0.7708   -0.0107   0.0096 
+email-Eu-core hgb              spread_cv     node+edge+subgraph           10    0.9514    0.9484   -0.0030   0.0007 *
+email-Eu-core hgb              spread_cv     node+edge+subgraph+dynamic   10    0.9514    0.9484   -0.0030   0.0007 *
+email-Eu-core hgb              spread_mean   node+edge+subgraph           10    0.9624    0.9589   -0.0035   0.0004 *
+email-Eu-core hgb              spread_mean   node+edge+subgraph+dynamic   10    0.9624    0.9589   -0.0035   0.0004 *
+email-Eu-core hgb              spread_resid  node+edge+subgraph           10    0.0158    0.0116   -0.0042   0.0146 
+email-Eu-core hgb              spread_resid  node+edge+subgraph+dynamic   10    0.0158    0.0116   -0.0042   0.0146 
+email-Eu-core hgb_matched      betweenness   node+edge+subgraph           10    0.8612    0.8619   +0.0008   0.0042 
+email-Eu-core hgb_matched      betweenness   node+edge+subgraph+dynamic   10    0.8612    0.8619   +0.0008   0.0042 
+email-Eu-core hgb_matched      spread_cv     node+edge+subgraph           10    0.9566    0.9527   -0.0039   0.0015 *
+email-Eu-core hgb_matched      spread_cv     node+edge+subgraph+dynamic   10    0.9566    0.9527   -0.0039   0.0015 *
+email-Eu-core hgb_matched      spread_mean   node+edge+subgraph           10    0.9625    0.9594   -0.0030   0.0004 *
+email-Eu-core hgb_matched      spread_mean   node+edge+subgraph+dynamic   10    0.9625    0.9594   -0.0030   0.0004 *
+email-Eu-core hgb_matched      spread_resid  node+edge+subgraph           10    0.0423    0.0461   +0.0038   0.0253 
+email-Eu-core hgb_matched      spread_resid  node+edge+subgraph+dynamic   10    0.0423    0.0461   +0.0038   0.0253 
+email-Eu-core rf               betweenness   node+edge+subgraph           10    0.8984    0.8987   +0.0002   0.0007 
+email-Eu-core rf               betweenness   node+edge+subgraph+dynamic   10    0.8984    0.8987   +0.0002   0.0007 
+email-Eu-core rf               spread_cv     node+edge+subgraph           10    0.9537    0.9495   -0.0042   0.0005 *
+email-Eu-core rf               spread_cv     node+edge+subgraph+dynamic   10    0.9537    0.9495   -0.0042   0.0005 *
+email-Eu-core rf               spread_mean   node+edge+subgraph           10    0.9595    0.9570   -0.0025   0.0002 *
+email-Eu-core rf               spread_mean   node+edge+subgraph+dynamic   10    0.9595    0.9570   -0.0025   0.0002 *
+email-Eu-core rf               spread_resid  node+edge+subgraph           10    0.0659    0.0553   -0.0107   0.0096 
+email-Eu-core rf               spread_resid  node+edge+subgraph+dynamic   10    0.0659    0.0553   -0.0107   0.0096 
+email-Eu-core rf_log1p         betweenness   node+edge+subgraph           10    0.9078    0.9078   +0.0000   0.0005 
+email-Eu-core rf_log1p         betweenness   node+edge+subgraph+dynamic   10    0.9078    0.9078   +0.0000   0.0005 
+email-Eu-core ridge            betweenness   node+edge+subgraph           10    0.7007    0.7041   +0.0034   0.0033 
+email-Eu-core ridge            betweenness   node+edge+subgraph+dynamic   10    0.7007    0.7041   +0.0034   0.0033 
+email-Eu-core ridge            spread_cv     node+edge+subgraph           10    0.9138    0.9119   -0.0019   0.0008 *
+email-Eu-core ridge            spread_cv     node+edge+subgraph+dynamic   10    0.9138    0.9119   -0.0019   0.0008 *
+email-Eu-core ridge            spread_mean   node+edge+subgraph           10    0.9608    0.9587   -0.0021   0.0004 *
+email-Eu-core ridge            spread_mean   node+edge+subgraph+dynamic   10    0.9608    0.9587   -0.0021   0.0004 *
+email-Eu-core ridge            spread_resid  node+edge+subgraph           10    0.0625    0.0697   +0.0072   0.0045 
+email-Eu-core ridge            spread_resid  node+edge+subgraph+dynamic   10    0.0625    0.0697   +0.0072   0.0045 
+facebook_combined hgb          betweenness   node+edge+subgraph           10    0.2213    0.2179   -0.0034   0.0135 
+facebook_combined hgb          betweenness   node+edge+subgraph+dynamic   10    0.2213    0.2179   -0.0034   0.0135 
+facebook_combined hgb          spread_cv     node+edge+subgraph           10    0.8266    0.8178   -0.0087   0.0015 *
+facebook_combined hgb          spread_cv     node+edge+subgraph+dynamic   10    0.8266    0.8178   -0.0087   0.0015 *
+facebook_combined hgb          spread_mean   node+edge+subgraph           10    0.9474    0.9291   -0.0183   0.0014 *
+facebook_combined hgb          spread_mean   node+edge+subgraph+dynamic   10    0.9474    0.9291   -0.0183   0.0014 *
+facebook_combined hgb          spread_resid  node+edge+subgraph           10    0.7208    0.7096   -0.0112   0.0022 *
+facebook_combined hgb          spread_resid  node+edge+subgraph+dynamic   10    0.7208    0.7096   -0.0112   0.0022 *
+facebook_combined hgb_matched  betweenness   node+edge+subgraph           10    0.4987    0.5113   +0.0125   0.0086 
+facebook_combined hgb_matched  betweenness   node+edge+subgraph+dynamic   10    0.4987    0.5113   +0.0125   0.0086 
+facebook_combined hgb_matched  spread_cv     node+edge+subgraph           10    0.8294    0.8224   -0.0070   0.0018 *
+facebook_combined hgb_matched  spread_cv     node+edge+subgraph+dynamic   10    0.8294    0.8224   -0.0070   0.0018 *
+facebook_combined hgb_matched  spread_mean   node+edge+subgraph           10    0.9506    0.9380   -0.0126   0.0006 *
+facebook_combined hgb_matched  spread_mean   node+edge+subgraph+dynamic   10    0.9506    0.9380   -0.0126   0.0006 *
+facebook_combined hgb_matched  spread_resid  node+edge+subgraph           10    0.7237    0.7126   -0.0111   0.0018 *
+facebook_combined hgb_matched  spread_resid  node+edge+subgraph+dynamic   10    0.7237    0.7126   -0.0111   0.0018 *
+facebook_combined rf           betweenness   node+edge+subgraph           10    0.6269    0.6297   +0.0029   0.0040 
+facebook_combined rf           betweenness   node+edge+subgraph+dynamic   10    0.6269    0.6297   +0.0029   0.0040 
+facebook_combined rf           spread_cv     node+edge+subgraph           10    0.8335    0.8273   -0.0062   0.0011 *
+facebook_combined rf           spread_cv     node+edge+subgraph+dynamic   10    0.8335    0.8273   -0.0062   0.0011 *
+facebook_combined rf           spread_mean   node+edge+subgraph           10    0.9558    0.9453   -0.0105   0.0005 *
+facebook_combined rf           spread_mean   node+edge+subgraph+dynamic   10    0.9558    0.9453   -0.0105   0.0005 *
+facebook_combined rf           spread_resid  node+edge+subgraph           10    0.7295    0.7177   -0.0118   0.0023 *
+facebook_combined rf           spread_resid  node+edge+subgraph+dynamic   10    0.7295    0.7177   -0.0118   0.0023 *
+facebook_combined rf_log1p     betweenness   node+edge+subgraph           10    0.8138    0.8095   -0.0043   0.0008 *
+facebook_combined rf_log1p     betweenness   node+edge+subgraph+dynamic   10    0.8138    0.8095   -0.0043   0.0008 *
+facebook_combined ridge        betweenness   node+edge+subgraph           10    0.1866    0.1767   -0.0099   0.0119 
+facebook_combined ridge        betweenness   node+edge+subgraph+dynamic   10    0.1866    0.1767   -0.0099   0.0119 
+facebook_combined ridge        spread_cv     node+edge+subgraph           10    0.5977    0.5450   -0.0527   0.0017 *
+facebook_combined ridge        spread_cv     node+edge+subgraph+dynamic   10    0.5977    0.5450   -0.0527   0.0017 *
+facebook_combined ridge        spread_mean   node+edge+subgraph           10    0.7548    0.5645   -0.1903   0.0078 *
+facebook_combined ridge        spread_mean   node+edge+subgraph+dynamic   10    0.7548    0.5645   -0.1903   0.0078 *
+facebook_combined ridge        spread_resid  node+edge+subgraph           10    0.5486    0.5050   -0.0436   0.0031 *
+facebook_combined ridge        spread_resid  node+edge+subgraph+dynamic   10    0.5486    0.5050   -0.0436   0.0031 *
+p2p-Gnutella08 hgb             betweenness   node+edge+subgraph           10    0.8891    0.8891   +0.0001   0.0008 
+p2p-Gnutella08 hgb             betweenness   node+edge+subgraph+dynamic   10    0.8891    0.8891   +0.0001   0.0008 
+p2p-Gnutella08 hgb             spread_cv     node+edge+subgraph           10    0.5971    0.5898   -0.0073   0.0006 *
+p2p-Gnutella08 hgb             spread_cv     node+edge+subgraph+dynamic   10    0.5971    0.5898   -0.0073   0.0006 *
+p2p-Gnutella08 hgb             spread_mean   node+edge+subgraph           10    0.8090    0.7994   -0.0097   0.0005 *
+p2p-Gnutella08 hgb             spread_mean   node+edge+subgraph+dynamic   10    0.8090    0.7994   -0.0097   0.0005 *
+p2p-Gnutella08 hgb             spread_resid  node+edge+subgraph           10    0.2640    0.2558   -0.0082   0.0020 *
+p2p-Gnutella08 hgb             spread_resid  node+edge+subgraph+dynamic   10    0.2640    0.2558   -0.0082   0.0020 *
+p2p-Gnutella08 hgb_matched     betweenness   node+edge+subgraph           10    0.8912    0.8907   -0.0005   0.0004 
+p2p-Gnutella08 hgb_matched     betweenness   node+edge+subgraph+dynamic   10    0.8912    0.8907   -0.0005   0.0004 
+p2p-Gnutella08 hgb_matched     spread_cv     node+edge+subgraph           10    0.5960    0.5890   -0.0070   0.0008 *
+p2p-Gnutella08 hgb_matched     spread_cv     node+edge+subgraph+dynamic   10    0.5960    0.5890   -0.0070   0.0008 *
+p2p-Gnutella08 hgb_matched     spread_mean   node+edge+subgraph           10    0.8086    0.7994   -0.0092   0.0004 *
+p2p-Gnutella08 hgb_matched     spread_mean   node+edge+subgraph+dynamic   10    0.8086    0.7994   -0.0092   0.0004 *
+p2p-Gnutella08 hgb_matched     spread_resid  node+edge+subgraph           10    0.2647    0.2587   -0.0059   0.0015 *
+p2p-Gnutella08 hgb_matched     spread_resid  node+edge+subgraph+dynamic   10    0.2647    0.2587   -0.0059   0.0015 *
+p2p-Gnutella08 rf              betweenness   node+edge+subgraph           10    0.9233    0.9230   -0.0004   0.0001 *
+p2p-Gnutella08 rf              betweenness   node+edge+subgraph+dynamic   10    0.9233    0.9230   -0.0004   0.0001 *
+p2p-Gnutella08 rf              spread_cv     node+edge+subgraph           10    0.5923    0.5849   -0.0074   0.0004 *
+p2p-Gnutella08 rf              spread_cv     node+edge+subgraph+dynamic   10    0.5923    0.5849   -0.0074   0.0004 *
+p2p-Gnutella08 rf              spread_mean   node+edge+subgraph           10    0.8021    0.7928   -0.0093   0.0004 *
+p2p-Gnutella08 rf              spread_mean   node+edge+subgraph+dynamic   10    0.8021    0.7928   -0.0093   0.0004 *
+p2p-Gnutella08 rf              spread_resid  node+edge+subgraph           10    0.2558    0.2498   -0.0060   0.0010 *
+p2p-Gnutella08 rf              spread_resid  node+edge+subgraph+dynamic   10    0.2558    0.2498   -0.0060   0.0010 *
+p2p-Gnutella08 rf_log1p        betweenness   node+edge+subgraph           10    0.9240    0.9235   -0.0006   0.0001 *
+p2p-Gnutella08 rf_log1p        betweenness   node+edge+subgraph+dynamic   10    0.9240    0.9235   -0.0006   0.0001 *
+p2p-Gnutella08 ridge           betweenness   node+edge+subgraph           10    0.8063    0.7987   -0.0076   0.0031 *
+p2p-Gnutella08 ridge           betweenness   node+edge+subgraph+dynamic   10    0.8063    0.7987   -0.0076   0.0031 *
+p2p-Gnutella08 ridge           spread_cv     node+edge+subgraph           10    0.5602    0.5607   +0.0005   0.0002 *
+p2p-Gnutella08 ridge           spread_cv     node+edge+subgraph+dynamic   10    0.5602    0.5607   +0.0005   0.0002 *
+p2p-Gnutella08 ridge           spread_mean   node+edge+subgraph           10    0.7771    0.7705   -0.0066   0.0004 *
+p2p-Gnutella08 ridge           spread_mean   node+edge+subgraph+dynamic   10    0.7771    0.7705   -0.0066   0.0004 *
+p2p-Gnutella08 ridge           spread_resid  node+edge+subgraph           10    0.2082    0.2083   +0.0001   0.0004 
+p2p-Gnutella08 ridge           spread_resid  node+edge+subgraph+dynamic   10    0.2082    0.2083   +0.0001   0.0004 
+
+SUMMARY
+  refitted cells: 1700
+  (file, target, tier) groups: 170; starred: 122
+  mean d_tau over all cells: -0.01240; largest |d_mean| group: ['ca-GrQc ridge', 'spread_mean', 'node+edge+subgraph'] +0.2063
+  groups where new < old (the shallow tag inflated r=1): 140; new > old: 30

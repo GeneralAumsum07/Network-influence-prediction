@@ -1,0 +1,265 @@
+{
+  "note": "Initial source inventory for 2026-09-08 extension; existing workspace is not a Git checkout. Captured before shared-source implementation edits. New task files may already be under construction.",
+  "files": [
+    {
+      "path": "environment.yml",
+      "sha256": "9EDF67947A6E9D76D1705DFAEFF9FD69123CD9D9B5D271FE9451A6D8CC508ECF"
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "C2E70AAF0B423F39A55B4025ED59DF67A356E9729FA8A24F332F4CD45FC12480"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "E1E4141A34916F08945558C1DE4450125B027E51C04F5CAD46586567D32B04EC"
+    },
+    {
+      "path": "probe_objective_horizon.py",
+      "sha256": "66B5A018977CE7549A2DE66458B290D4D13CFCFF84AD93554D3AA7EAF1D94EB8"
+    },
+    {
+      "path": "analyse_objective_resweep.py",
+      "sha256": "9D04448FDC21B444190524C97118303365A8F0EFEAB06CE4B028B5069855ED8E"
+    },
+    {
+      "path": "probe_moran_zeroset.py",
+      "sha256": "47B230078C88CF23162567BA1BA33DFFAB1F1C80E3137DCAF09C2DCFB7258F12"
+    },
+    {
+      "path": "analyse_objective_horizon.py",
+      "sha256": "92B8757E19E24378751F1D1A0F8C349B5B40C394F065D5CC65D025A477BD87DC"
+    },
+    {
+      "path": "probe_betweenness_k_dip.py",
+      "sha256": "F0D6984DBAA5B882EBFAF231E911D52777C479FEA70F3E77A2E10C47EE5F87A3"
+    },
+    {
+      "path": "analyse_multiplicity.py",
+      "sha256": "39EB1C40075566EF45472EE2E1129DA889E40772347710B41B4615E48C9CEA8A"
+    },
+    {
+      "path": "make_fig6.py",
+      "sha256": "08B1B44D93AB89710803906E1241DEC1A907704AE0409BD7598A768104000D5E"
+    },
+    {
+      "path": "make_fig5.py",
+      "sha256": "44F8876DC658BC2A05475A4DDB35263D88E4D7F4D64C6F26E08FDE7AC9A84AE6"
+    },
+    {
+      "path": "analyse_moran_correlogram.py",
+      "sha256": "0DF2509DB71497D97CA43811B00F9095B46762B2456FEE37A7E273D192B6AD19"
+    },
+    {
+      "path": "analyse_features.py",
+      "sha256": "06967C55C3AE049F419D26340F39537868D5168F0AD29D737C99B01B0ABA5CFC"
+    },
+    {
+      "path": "make_fig3.py",
+      "sha256": "5C20AB9197C519EB62619C7BD13E3CF1E9C52310EDDCABCE7DBB955B20AE2C1D"
+    },
+    {
+      "path": "analyse_failures.py",
+      "sha256": "9DCFCDD82A1AB43206FB3DE12990EABD1B0E71F804504A56462C746BBA524B4E"
+    },
+    {
+      "path": "make_fig2.py",
+      "sha256": "2758128A3D9213DEEE31E0713E0FDC8CA143E08B115D0C3B6C774425C12CE304"
+    },
+    {
+      "path": "analyse_estimators.py",
+      "sha256": "CD70403BEAEBE6C53E66E715113A4CFB0AF47F9B9B1A765997169E67A79E1B2D"
+    },
+    {
+      "path": "make_fig1.py",
+      "sha256": "DA1B1452619370425F95214D09742738EC4E966465155F4DC14A126238A418AA"
+    },
+    {
+      "path": "analyse_edge_tier.py",
+      "sha256": "4689F8BABB141B01574F712363A52B6600FE179F86FE533F2822F3F2BFD5CB68"
+    },
+    {
+      "path": "analyse_edge5.py",
+      "sha256": "03B3842137C28524CB722EE22B8F7EB66A3B456189DD919D45C946E93A33D580"
+    },
+    {
+      "path": "analyse_coverage.py",
+      "sha256": "B434C72F4EC786EDD4C74023120AD69689C677B8D03588D191D7EE269A630605"
+    },
+    {
+      "path": "analyse_c3_benchmarks.py",
+      "sha256": "7978BC76AF7DD8583870FBB7D7A50034810BFD8613424B7FCDCFC75C25C9FC43"
+    },
+    {
+      "path": "analyse_betweenness_k.py",
+      "sha256": "344B5CB45466F6267BB3C3A5C206C34CCA5740B31F35C9FD6B20EE6F7A87F7EF"
+    },
+    {
+      "path": "analyse_betweenness.py",
+      "sha256": "FB85E30DA90587D9DCBF203455AE9BDAEC69671B1894F7F8F131CFF7D3104731"
+    },
+    {
+      "path": "analyse.py",
+      "sha256": "2DC07DFF79F1A0B0F8E1305206DF7CCB0415C6F98C17804409CAA08CEE1F9FF3"
+    },
+    {
+      "path": "audit_c4_support.py",
+      "sha256": "5BFC143517FB869A2F5B722EEF2B75DF3BD2458FC1D5C8FF8450B8DFCD9F074B"
+    },
+    {
+      "path": "analyse_topk.py",
+      "sha256": "BEF1DD45BD6B0798A08B71111C2C11404E813383F148128391EA5FA8C02EED5B"
+    },
+    {
+      "path": "analyse_sample_efficiency.py",
+      "sha256": "0056D2FAECDA233818183CB1760FF36CE4A70F9F4F3EAE41A460012CDAF5EDC6"
+    },
+    {
+      "path": "analyse_robustness.py",
+      "sha256": "07036AB5D448F3C7A78A8A1D21AD60D52E1758C19F1ADC3350AFC999D73307EE"
+    },
+    {
+      "path": "analyse_paired_target_noise.py",
+      "sha256": "E08D69B3936908D54DC233A87CFE50D56F8DE7A3765B9AFDCB4B8945989F0A15"
+    },
+    {
+      "path": "_calib_edge.py",
+      "sha256": "21B5209AEB9D5F1D11AB998F8DAFAD9FDF5F1C40A8BD6A04B21A7DC21D69D5FD"
+    },
+    {
+      "path": "_calib.py",
+      "sha256": "9A1875C8B8C68717476C6947918F3ED5B79E52F70B7DF4A11D1FABFFF3A9C2EC"
+    },
+    {
+      "path": "verify_pipeline.py",
+      "sha256": "429DEC33C24A28052452F30D0DED30E55791147F91AAE6A6C14053162C8CA74D"
+    },
+    {
+      "path": "verify_paired_target_noise.py",
+      "sha256": "C1BB82E4A98F289AFFAD06787AC96BC47C347F714090D3FB417990494171E094"
+    },
+    {
+      "path": "verify_generators.py",
+      "sha256": "C4D41ACF332754B32D792785883B10E7E624932EB0E632E2BD6889055C21D632"
+    },
+    {
+      "path": "verify_docs.py",
+      "sha256": "227FEC34F44ADEA7551428888DF25173F6BB8CEF18CACA7DDEE93C50AD56F4FF"
+    },
+    {
+      "path": "verify_c3_scoring.py",
+      "sha256": "CF626124C4463A2E1505E9A46BD8CE085B5C4923D29BC2078673A6ACCFEEAC30"
+    },
+    {
+      "path": "verify_c3_fallback.py",
+      "sha256": "198CD90638A8C15701F5EE8639C5A82C54B447195D39685C0E3F43AE3D5FB59F"
+    },
+    {
+      "path": "stage2_sweep.py",
+      "sha256": "F428CBEAF1FCD9D39933F549C62262058B4104076EFD90FBAFEC586EED4E7234"
+    },
+    {
+      "path": "stage1_prepare.py",
+      "sha256": "2F89076F23376A935DDA92182833D4D4251D62FAAEE266F0D5D8670150F4121D"
+    },
+    {
+      "path": "stage0_generate.py",
+      "sha256": "73F2A695A9227BADA1B2557FC5DB0A4BC7CC718E74960082C65C52EEB2B1A81E"
+    },
+    {
+      "path": "score_c3_results.py",
+      "sha256": "7E8D5D6007E8451A2057937E15E4BFBF80EDB673ECFA134283B5A037D8C1CADF"
+    },
+    {
+      "path": "score_a7_arm2.py",
+      "sha256": "25B37EF85038AB627EB394983CE76AB638F324E1B3BE55F8F1451EF6593EBB9B"
+    },
+    {
+      "path": "run_experiment.py",
+      "sha256": "C046D9681C7AA6E85C6F36484CC426BC759552E10DEE30E41641D59F2DCE1DED"
+    },
+    {
+      "path": "influence\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "influence\\targets.py",
+      "sha256": "A76448EFE142327E46236D051291AA80700CBB89BB0CD72920F48404696EE592"
+    },
+    {
+      "path": "influence\\structure.py",
+      "sha256": "C69630A91213F2DCD71F4765FB561CB4BEB3B5BCC02EC4F7850695CBE7017EC6"
+    },
+    {
+      "path": "influence\\robustness.py",
+      "sha256": "06AEABE9465E183111C99A32E8F5557F1FCDFF1A705D76DB32E99FE868054D78"
+    },
+    {
+      "path": "influence\\preprocessing.py",
+      "sha256": "64B87D351700AD0B465DBE04BCD916DBDBE0AC2052E992C49BA98AA930A0BEE9"
+    },
+    {
+      "path": "influence\\graphlets.py",
+      "sha256": "F2D3E6583624A30788CAE40078C915B97E9D4D4D8CD252B9F972A449FC9CB5E4"
+    },
+    {
+      "path": "influence\\generators.py",
+      "sha256": "64310645CA6BB2E662441F6CCEF2482551E160A1E99C1E9EAEDF616F5B5829A7"
+    },
+    {
+      "path": "influence\\features.py",
+      "sha256": "307E3242C3609612E9E324A6F5D80A1DFF5DA91470A9B64AB7FD924B00DA5D12"
+    },
+    {
+      "path": "influence\\experiment.py",
+      "sha256": "333915E7487563A523BB219B59932DD7121417E5E40A12AD12D80FF1C09443CE"
+    },
+    {
+      "path": "influence\\estimators.py",
+      "sha256": "57EFF36A95443FAD8D4447D6DB9774E8505086AED2BC2642E083D3B4CC7A6209"
+    },
+    {
+      "path": "influence\\dynamics.py",
+      "sha256": "0C109EEA018A607061645BF29BFE311317F8353F403B6B96930CF4815FD98A02"
+    },
+    {
+      "path": "influence\\criticality.py",
+      "sha256": "7780D6F73059349F189FC2DE6782741E760A8AE0F5980F3BBDF95A368687D05B"
+    },
+    {
+      "path": "gamma_uncertainty.py",
+      "sha256": "651EC11B156FC96A9F0D6A95858499478F107239E9FBE63902216807172EEAF8"
+    },
+    {
+      "path": "fetch_data.py",
+      "sha256": "FF39B4BC01DFD3A199FCAB8254ECBB104FD5907CB0563432BEC33B67D665323D"
+    },
+    {
+      "path": "probe_target_noise.py",
+      "sha256": "3FF75812577752F167FDF660FC1B9F249952A367FFD466DED4A3A9F63111A691"
+    },
+    {
+      "path": "probe_structural_target_noise_refit.py",
+      "sha256": "86CEA90604B431644E5350BE045E4F905EDF019E0FF56ED4EB8E37B8602F337F"
+    },
+    {
+      "path": "probe_sample_efficiency.py",
+      "sha256": "1FA38CC3705B05E30A87C23FB4058976CF14A8DFF5740F6C8DAA6F9BFA3759B7"
+    },
+    {
+      "path": "probe_target_noise_refit.py",
+      "sha256": "479EF3A3C545FAEFCFC83310256F5E9A8C24A256667E915C6AD27ABCDAB363E7"
+    },
+    {
+      "path": "repair_column_order.py",
+      "sha256": "45C4C0C420FC6DC92BAFA641C2CA9C8D606EB0145E925A7EE69D48F2610E2A76"
+    },
+    {
+      "path": "c4_two_numbers.py",
+      "sha256": "FC73172DA4E25BA5B72027DC558387ED4158FCC66B632F4D27376A9CC7F2F80A"
+    },
+    {
+      "path": "docs\\build_study.py",
+      "sha256": "BE5F8C47F8E8AD8ACD42F46D635D26C45DD75BC1A18EF75FAE819EAB97911BCF"
+    }
+  ]
+}

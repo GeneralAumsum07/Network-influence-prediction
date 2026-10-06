@@ -1,0 +1,52 @@
+Subgraph-tier gain (node+edge -> node+edge+subgraph), paired within seed over the 10 sweep
+seeds; star = |mean| > 2 x paired sd (the study's section-20 descriptive rule, not a test).
+Written 2026-09-12 by Claude Opus 5 (Task 6 run C2/C6 reconciliation of study section 20).
+
+POST-REFIT (current sweep_<tag>.csv; r=1 subgraph-tier cells refit 2026-09-11 with the six
+retagged 5-node orbits at hop 2; betweenness spliced from the reported rf_log1p arm):
+| Network | target | r=1 | r=2 | r=3 |
+|---|---|---|---|---|
+| ca-GrQc | spread mean | +0.0000 | -0.0003 ✱ | +0.0005 ✱ |
+| ca-GrQc | spread volatility | +0.0001 | +0.0009 | +0.0013 ✱ |
+| ca-GrQc | volatility residual | +0.0001 | +0.0015 | +0.0016 |
+| ca-GrQc | betweenness | +0.0004 | +0.0023 | +0.0033 ✱ |
+| ca-HepTh | spread mean | -0.0000 | +0.0002 ✱ | +0.0008 ✱ |
+| ca-HepTh | spread volatility | -0.0002 | +0.0012 | +0.0026 ✱ |
+| ca-HepTh | volatility residual | -0.0003 | -0.0001 | -0.0003 |
+| ca-HepTh | betweenness | +0.0002 | +0.0055 ✱ | +0.0066 ✱ |
+| email-Eu-core | spread mean | +0.0001 | +0.0036 ✱ | +0.0062 ✱ |
+| email-Eu-core | spread volatility | +0.0002 | +0.0028 ✱ | +0.0058 ✱ |
+| email-Eu-core | volatility residual | -0.0008 | +0.0103 | +0.0027 |
+| email-Eu-core | betweenness | +0.0023 | +0.0002 | -0.0001 |
+| facebook_combined | spread mean | -0.0002 | +0.0018 ✱ | +0.0015 ✱ |
+| facebook_combined | spread volatility | -0.0003 | +0.0000 | +0.0013 |
+| facebook_combined | volatility residual | -0.0001 | +0.0013 | +0.0000 |
+| facebook_combined | betweenness | +0.0031 ✱ | +0.0436 ✱ | +0.0256 ✱ |
+| p2p-Gnutella08 | spread mean | -0.0000 | +0.0013 ✱ | +0.0027 ✱ |
+| p2p-Gnutella08 | spread volatility | +0.0000 | +0.0027 ✱ | +0.0035 ✱ |
+| p2p-Gnutella08 | volatility residual | -0.0005 | +0.0028 | +0.0042 ✱ |
+| p2p-Gnutella08 | betweenness | +0.0001 | +0.0019 ✱ | +0.0020 ✱ |
+
+PRE-REFIT (sweep_<tag>.csv.preorbit5, raw arm for betweenness):
+| Network | target | r=1 | r=2 | r=3 |
+|---|---|---|---|---|
+| ca-GrQc | spread mean | +0.0134 ✱ | -0.0003 ✱ | +0.0005 ✱ |
+| ca-GrQc | spread volatility | +0.0354 ✱ | +0.0009 | +0.0013 ✱ |
+| ca-GrQc | volatility residual | +0.0315 ✱ | +0.0015 | +0.0016 |
+| ca-GrQc | betweenness | +0.0006 | +0.0014 | +0.0033 |
+| ca-HepTh | spread mean | +0.0046 ✱ | +0.0002 ✱ | +0.0008 ✱ |
+| ca-HepTh | spread volatility | +0.0141 ✱ | +0.0012 | +0.0026 ✱ |
+| ca-HepTh | volatility residual | +0.0119 ✱ | -0.0001 | -0.0003 |
+| ca-HepTh | betweenness | +0.0019 ✱ | +0.0050 ✱ | +0.0061 ✱ |
+| email-Eu-core | spread mean | +0.0026 ✱ | +0.0036 ✱ | +0.0062 ✱ |
+| email-Eu-core | spread volatility | +0.0044 ✱ | +0.0028 ✱ | +0.0058 ✱ |
+| email-Eu-core | volatility residual | +0.0098 | +0.0103 | +0.0027 |
+| email-Eu-core | betweenness | +0.0037 ✱ | +0.0045 | +0.0046 ✱ |
+| facebook_combined | spread mean | +0.0103 ✱ | +0.0018 ✱ | +0.0015 ✱ |
+| facebook_combined | spread volatility | +0.0059 ✱ | +0.0000 | +0.0013 |
+| facebook_combined | volatility residual | +0.0117 ✱ | +0.0013 | +0.0000 |
+| facebook_combined | betweenness | +0.0000 | +0.1291 ✱ | +0.0336 ✱ |
+| p2p-Gnutella08 | spread mean | +0.0093 ✱ | +0.0013 ✱ | +0.0027 ✱ |
+| p2p-Gnutella08 | spread volatility | +0.0074 ✱ | +0.0027 ✱ | +0.0035 ✱ |
+| p2p-Gnutella08 | volatility residual | +0.0055 ✱ | +0.0028 | +0.0042 ✱ |
+| p2p-Gnutella08 | betweenness | +0.0005 ✱ | +0.0014 ✱ | +0.0014 ✱ |

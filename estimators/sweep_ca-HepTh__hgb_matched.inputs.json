@@ -1,0 +1,14 @@
+{
+  "tag": "ca-HepTh",
+  "sweep": "estimators/sweep_ca-HepTh__hgb_matched.csv",
+  "inputs": {
+    "cache_features_ca-HepTh.csv": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d",
+    "cache_registry_ca-HepTh.csv": "90fba85430a8b783cdb14d3190fefd6c48a5ffa6909322d435307532ee22f29f",
+    "cache_targets_ca-HepTh.csv": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe",
+    "cache_meta_ca-HepTh.json": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388"
+  },
+  "recorded": "2026-09-11T16:29:46+00:00",
+  "bound_from": "retroactive_20260911",
+  "note": "rows fitted before `recorded` are bound only by the column fingerprint sidecar and the reproduction checks, not by this file",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

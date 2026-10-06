@@ -1,0 +1,52 @@
+{
+  "recorded": "2026-09-11",
+  "recorded_by": "Claude Opus 5",
+  "purpose": "Task 6 root integration, finding P0-01: the two consumed BRAVA interfaces (ABCDE score-file loader, regime table) were not in the snapshot. Re-download authorised by Rachit 2026-09-11.",
+  "repository": "https://github.com/justindachille/BRAVA-GNN",
+  "commit": "84119a1f0246dd0e6ea717533c1bf6fc4cfad4b6",
+  "fetch_url_pattern": "https://raw.githubusercontent.com/justindachille/BRAVA-GNN/84119a1f0246dd0e6ea717533c1bf6fc4cfad4b6/<path>",
+  "files": {
+    "brava_betweenness.py": {
+      "upstream_path": "betweenness.py",
+      "sha256": "c7bb0f44abe1175bd0b23fb70c4d7f3ae703f13fd030aec0bfab14b51211994d",
+      "bytes": 10856,
+      "note": "Astra snapshot, re-fetched 2026-09-11 and found byte-identical"
+    },
+    "brava_utils.py": {
+      "upstream_path": "utils.py",
+      "sha256": "c1b040c50842cc4e718580e5afcf01203aaf7ae197a21ce0a1a9d63ae7acaca5",
+      "bytes": 10290,
+      "note": "Astra snapshot, re-fetched 2026-09-11 and found byte-identical"
+    },
+    "brava_results.py": {
+      "upstream_path": "results.py",
+      "sha256": "3389b7023b49ea7189fd6199999bdb446e0477b41a8b1c3ce16d8369555644f2",
+      "bytes": 2754,
+      "note": "Astra snapshot, re-fetched 2026-09-11 and found byte-identical"
+    },
+    "brava_import_abcde_datasets.py": {
+      "upstream_path": "datasets/import_abcde_datasets.py",
+      "sha256": "f4931f14f8189da61c3bac55745a8e056f3a3203aa44fbd7f088c913191432d9",
+      "bytes": 2272,
+      "note": "NEW 2026-09-11 (Task 6 finding P0-01): the ABCDE score-file loader"
+    },
+    "brava_data.py": {
+      "upstream_path": "data.py",
+      "sha256": "a0a75baeecb197c55e795e80cd3f54aeab5bdfa7b75e48bae73c327e803f6b5a",
+      "bytes": 4826,
+      "note": "NEW 2026-09-11 (P0-01): pickle consumer that feeds the model; imports graph_regimes"
+    },
+    "brava_graph_regimes.py": {
+      "upstream_path": "graph_regimes.py",
+      "sha256": "a33b5eb9fa27b889861f5daa1a9d57d903a18720a984ea2011a33ea32acb0733",
+      "bytes": 1777,
+      "note": "NEW 2026-09-11 (P0-01): the per-graph regime table"
+    }
+  },
+  "what_the_new_files_establish": {
+    "score_file_convention": "import_abcde_datasets.py: scores = np.loadtxt('<name>-score.txt'); nodes relabelled by enumerate(sorted(G.nodes())); so score row i is the node with the i-th smallest integer id. analyse_c3_benchmarks.load_edges relabels by np.unique (sorted) and reads the score file with np.loadtxt in row order - the same convention. Previously supported only indirectly (len(score)==n gate, directional zero-rule pass); now established directly.",
+    "score_length_mismatch": "BRAVA warns and pads the graph with isolated nodes when the score file is longer than the node set; our gate FAILS the graph instead. Conservative; the branch never fired on the five ABCDE graphs (all len(score)==n).",
+    "edge_reading": "nx.read_edgelist(..., create_using=nx.Graph()) - undirected, duplicate edges collapse, self-loops retained by networkx. Our build_csr symmetrises; whether self-loops are dropped there is a separate question not re-opened here.",
+    "regime_table": "graph_regimes.py: DIRECTED_SKIP has 8 graphs, UNDIRECTED_STORED_AS_DIGRAPH = {p2p-Gnutella31}, UNDIRECTED = the five ABCDE graphs. This is the 8/1/5 split the P0 review inferred from gate_project_table (5e-4 agreement); now read from source."
+  }
+}

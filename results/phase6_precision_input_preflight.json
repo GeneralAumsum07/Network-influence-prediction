@@ -1,0 +1,195 @@
+{
+ "date": "2026-09-09",
+ "status": "read_only_preflight_passed",
+ "scope": "Hash, byte-size, and bounded streaming line validation only; no graph construction, topology calculation, model execution, or output publication occurred.",
+ "logical_input_root": "analyse_c3_benchmarks.DEFAULT_BRAVA/datasets/abcde",
+ "streaming_method": {
+  "hash": "SHA-256 over each complete file",
+  "edge_rows": "Count every line matching exactly two signed base-10 integer fields; reject any other nonblank, non-comment line.",
+  "score_rows": "Count nonempty text lines only.",
+  "buffer_bound": "8 MiB"
+ },
+ "graphs": [
+  {
+   "graph": "cit-Patents",
+   "edge": {
+    "logical_path": "datasets/abcde/cit-Patents.txt",
+    "bytes": 256154375,
+    "sha256": "f8797f004315acf99faaee62b08ce093109968ba82bb52d55c7bc8b92e4918b9",
+    "parsed_rows": 16511741,
+    "strict_two_signed_int_rows": 16511741,
+    "nonmatching_rows": 0
+   },
+   "score": {
+    "logical_path": "datasets/abcde/cit-Patents-score.txt",
+    "bytes": 71518223,
+    "sha256": "48f352137529955aed7faf1fd06be1ded7fe77708ca0989683ef984733ab71a6",
+    "nonblank_rows": 3764117
+   },
+   "topology": {
+    "nodes": 3764117,
+    "final_csr_arcs": 33023480,
+    "final_canonical_edges": 16511740
+   },
+   "scratch_bytes": {
+    "label_phase": 294300792,
+    "canonical_phase": 294300784,
+    "direct_arc_merge_phase": 606568568,
+    "peak": 606568568,
+    "reserve": 536870912,
+    "required_free": 1143439480
+   }
+  },
+  {
+   "graph": "com-lj",
+   "edge": {
+    "logical_path": "datasets/abcde/com-lj.txt",
+    "bytes": 502171107,
+    "sha256": "835d5175a7309fedd782fc505407a5d140587540b27d4eab64df9f3f3eba2add",
+    "parsed_rows": 34681189,
+    "strict_two_signed_int_rows": 34681189,
+    "nonmatching_rows": 0
+   },
+   "score": {
+    "logical_path": "datasets/abcde/com-lj-score.txt",
+    "bytes": 75961278,
+    "sha256": "78a77750ac83057a6c62e5cef3ef34c74c50a8c6fc7603d0b460eb91a0d480d4",
+    "nonblank_rows": 3997962,
+    "sha256_original_malformed": "78a77750ac83057a6c62e5cef3ef34c50a8c6fc7603d0b460eb91a0d480d4",
+    "sha256_correction": {
+     "date": "2026-09-10",
+     "author": "Claude Opus 5",
+     "defect": "Recorded SHA-256 was 61 characters, not 64: three characters (\"74c\") dropped in transcription after \"...f3ef34c\".",
+     "why_it_mattered": "precision_witness.py hashes the real score file against this value, so a com-lj witness run would have failed after building its full topology. The identical truncated string was also in precision_witness.SPECS, so the two records agreed and every existing check passed.",
+     "file_unchanged_evidence": "Byte size 75961278 and non-blank row count 3997962 both still match this preflight exactly; the malformed string is a subsequence of the true digest. See results/phase6_brava_corpus_identity_20260910.json.",
+     "original_preserved_at": "results/phase6_precision_input_preflight.json.pretruncationfix_20260910"
+    }
+   },
+   "topology": {
+    "nodes": 3997962,
+    "final_csr_arcs": 69362378,
+    "final_canonical_edges": 34681189
+   },
+   "scratch_bytes": {
+    "label_phase": 586882720,
+    "canonical_phase": 586882720,
+    "direct_arc_merge_phase": 1227135974,
+    "peak": 1227135974,
+    "reserve": 536870912,
+    "required_free": 1764006886
+   }
+  },
+  {
+   "graph": "amazon",
+   "source": "discovery_2026-09-11",
+   "edge": {
+    "logical_path": "datasets/abcde/amazon.txt",
+    "sha256": "43f7a104f3ec6c2c2d7bcd947a71fe5ceb2f16db3060200e907e9f9dc0dca00f",
+    "bytes": 76719716,
+    "parsed_rows": 5743146,
+    "self_loop_rows": 14
+   },
+   "score": {
+    "logical_path": "datasets/abcde/amazon-score.txt",
+    "sha256": "3a89a0714033591105d0070b9228cfe0763e8a0b2ca8487ca54e800a27c040c4",
+    "bytes": 40775083,
+    "nonblank_rows": 2146057
+   },
+   "topology": {
+    "nodes": 2146057,
+    "final_csr_arcs": 11486264,
+    "final_canonical_edges": 5743132,
+    "topology_sha256": "877364304a3642509a919fe3127e1c8650ca84e93ceaddbfeaa13ecceed32bab"
+   },
+   "selector_discovery": {
+    "printed_zeros": 701532,
+    "selected_targets": 0
+   }
+  },
+  {
+   "graph": "dblp",
+   "source": "discovery_2026-09-11",
+   "edge": {
+    "logical_path": "datasets/abcde/dblp.txt",
+    "sha256": "5641215f2373210340309553a26c2517a8379f81b8a93490bab80b05eeaff52b",
+    "bytes": 124933350,
+    "parsed_rows": 8649011,
+    "self_loop_rows": 10
+   },
+   "score": {
+    "logical_path": "datasets/abcde/dblp-score.txt",
+    "sha256": "4236b420a8ef0303120735eca6dfe787a8a4526e94a8d285e24af23789cb7c47",
+    "bytes": 76002812,
+    "nonblank_rows": 4000148
+   },
+   "topology": {
+    "nodes": 4000148,
+    "final_csr_arcs": 17298002,
+    "final_canonical_edges": 8649001,
+    "topology_sha256": "c6b6549b6b3f1c2b7c02adf74abf10dc44358f6d6c62e8e7910a96d6058d7127"
+   },
+   "selector_discovery": {
+    "printed_zeros": 1678358,
+    "selected_targets": 0
+   }
+  },
+  {
+   "graph": "com-youtube",
+   "source": "discovery_2026-09-11",
+   "edge": {
+    "logical_path": "datasets/abcde/com-youtube.txt",
+    "sha256": "b9dad0cdd621f9b0c8f9a333a9783776b6af1624ca0f908158d6af3e0a5acaec",
+    "bytes": 38210288,
+    "parsed_rows": 2987624,
+    "self_loop_rows": 0
+   },
+   "score": {
+    "logical_path": "datasets/abcde/com-youtube-score.txt",
+    "sha256": "b9f3aa834eb638ca7db74b61f5515298eb41cfcf9efdf0ce95f81e3dd8d675b3",
+    "bytes": 21562910,
+    "nonblank_rows": 1134890
+   },
+   "topology": {
+    "nodes": 1134890,
+    "final_csr_arcs": 5975248,
+    "final_canonical_edges": 2987624,
+    "topology_sha256": "099fe4d8888795c4be67638fe5dbd57165476c5e513f0a568642bf6068df02f4"
+   },
+   "selector_discovery": {
+    "printed_zeros": 650530,
+    "selected_targets": 0
+   }
+  }
+ ],
+ "resource_contract": {
+  "label_phase": "16R + 8n",
+  "canonical_phase": "8R + 8E + 8n",
+  "direct_arc_merge_phase": "8A + 8E + 4A + A + 4(n + 1) + 8n",
+  "peak": "max(label_phase, canonical_phase, direct_arc_merge_phase)",
+  "required_free": "peak + 512 MiB",
+  "prohibited": [
+   "materialized merged arc-key file",
+   "Python edge or pair lists",
+   "global arc-key index",
+   "row-owner array"
+  ]
+ },
+ "corrections": [
+  {
+   "date": "2026-09-10",
+   "author": "Claude Opus 5",
+   "field": "graphs[com-lj].score.sha256",
+   "kind": "malformed_hash_corrected"
+  }
+ ],
+ "amendments": [
+  {
+   "date": "2026-09-11",
+   "author": "Claude Opus 5",
+   "change": "Added amazon, dblp and com-youtube entries so all five ABCDE graphs bind here.",
+   "provenance_warning": "These three entries did NOT come from the 2026-09-09 read-only preflight. They were measured on 2026-09-11 specifically in order to be pinned, and each carries source='discovery_2026-09-11'. They cannot falsify the run that produced them.",
+   "detail": "phase6_precision_witness_discovery_20260911.json",
+   "original_preserved_at": "phase6_precision_input_preflight.json.pre_threegraph_extension_20260911"
+  }
+ ]
+}

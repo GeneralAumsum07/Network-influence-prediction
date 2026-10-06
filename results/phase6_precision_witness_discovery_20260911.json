@@ -1,0 +1,93 @@
+{
+ "date": "2026-09-11",
+ "author": "Claude Opus 5",
+ "status": "discovery_measurement_not_a_prediction",
+ "scope": "Measured the quantities precision_witness.SPECS pins, for the three ABCDE reference graphs that had no pinned specification: amazon, dblp, com-youtube. Run on Rachit's instruction to cover all five graphs rather than only the two clamped ones.",
+ "why_this_is_labelled": "These values were measured in order to be pinned, so a pin derived from them cannot falsify the run that produced it. It establishes reproducibility and detects later corpus drift, and nothing more. It is stated because the design's inherited '3--18' degree range was presented as a prediction when no artifact recorded the measurement, and that cost a full cit-Patents run.",
+ "method": {
+  "identity": "SHA-256 over each complete file; edge rows by the strict two-signed-integer grammar; score rows as nonblank lines. Same grammar as the 2026-09-09 preflight.",
+  "topology": "Distinct original ids and distinct canonical undirected edges, computed in memory (these three graphs are 38-125 MB). The production path re-derives both with the external-merge machinery and re-checks them.",
+  "selector": "The production predicate, replicated: printed-zero score AND a first nonadjacent neighbour pair, using precision_witness's own helpers."
+ },
+ "consistency_checks_that_hold_on_all_three": [
+  "score nonblank rows == distinct edge-file node count",
+  "parsed edge rows - self-loop rows == canonical undirected edges (so no duplicate rows)"
+ ],
+ "headline": "Zero structurally-positive printed zeros on all three unclamped graphs, among 3,030,420 printed zeros between them (amazon 701,532; dblp 1,678,358; com-youtube 650,530). Every printed-zero node's neighbourhood is a clique, so no nonadjacent neighbour pair exists and no printed zero contradicts a true zero. Compare the two clamped graphs, which select 662 (cit-Patents) and 1,086 (com-lj).",
+ "what_this_does_not_establish": [
+  "It does not prove the three graphs are unclamped; it shows their printed zeros carry no detectable structural contradiction.",
+  "The directional test cannot catch false-NONZERO rule errors hidden among shipped zeros.",
+  "Quantisation mechanisms remain INFERRED, not established."
+ ],
+ "graphs": {
+  "amazon": {
+   "edge": {
+    "sha256": "43f7a104f3ec6c2c2d7bcd947a71fe5ceb2f16db3060200e907e9f9dc0dca00f",
+    "bytes": 76719716,
+    "parsed_rows": 5743146,
+    "self_loop_rows": 14
+   },
+   "score": {
+    "sha256": "3a89a0714033591105d0070b9228cfe0763e8a0b2ca8487ca54e800a27c040c4",
+    "bytes": 40775083,
+    "nonblank_rows": 2146057
+   },
+   "topology": {
+    "nodes": 2146057,
+    "final_csr_arcs": 11486264,
+    "final_canonical_edges": 5743132,
+    "topology_sha256": "877364304a3642509a919fe3127e1c8650ca84e93ceaddbfeaa13ecceed32bab"
+   },
+   "selector": {
+    "printed_zeros": 701532,
+    "selected_targets": 0
+   }
+  },
+  "dblp": {
+   "edge": {
+    "sha256": "5641215f2373210340309553a26c2517a8379f81b8a93490bab80b05eeaff52b",
+    "bytes": 124933350,
+    "parsed_rows": 8649011,
+    "self_loop_rows": 10
+   },
+   "score": {
+    "sha256": "4236b420a8ef0303120735eca6dfe787a8a4526e94a8d285e24af23789cb7c47",
+    "bytes": 76002812,
+    "nonblank_rows": 4000148
+   },
+   "topology": {
+    "nodes": 4000148,
+    "final_csr_arcs": 17298002,
+    "final_canonical_edges": 8649001,
+    "topology_sha256": "c6b6549b6b3f1c2b7c02adf74abf10dc44358f6d6c62e8e7910a96d6058d7127"
+   },
+   "selector": {
+    "printed_zeros": 1678358,
+    "selected_targets": 0
+   }
+  },
+  "com-youtube": {
+   "edge": {
+    "sha256": "b9dad0cdd621f9b0c8f9a333a9783776b6af1624ca0f908158d6af3e0a5acaec",
+    "bytes": 38210288,
+    "parsed_rows": 2987624,
+    "self_loop_rows": 0
+   },
+   "score": {
+    "sha256": "b9f3aa834eb638ca7db74b61f5515298eb41cfcf9efdf0ce95f81e3dd8d675b3",
+    "bytes": 21562910,
+    "nonblank_rows": 1134890
+   },
+   "topology": {
+    "nodes": 1134890,
+    "final_csr_arcs": 5975248,
+    "final_canonical_edges": 2987624,
+    "topology_sha256": "099fe4d8888795c4be67638fe5dbd57165476c5e513f0a568642bf6068df02f4"
+   },
+   "selector": {
+    "printed_zeros": 650530,
+    "selected_targets": 0
+   }
+  }
+ }
+}

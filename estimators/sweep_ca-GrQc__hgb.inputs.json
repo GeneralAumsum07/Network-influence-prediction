@@ -1,0 +1,14 @@
+{
+  "tag": "ca-GrQc",
+  "sweep": "estimators/sweep_ca-GrQc__hgb.csv",
+  "inputs": {
+    "cache_features_ca-GrQc.csv": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+    "cache_registry_ca-GrQc.csv": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742",
+    "cache_targets_ca-GrQc.csv": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62",
+    "cache_meta_ca-GrQc.json": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b"
+  },
+  "recorded": "2026-09-11T16:29:46+00:00",
+  "bound_from": "retroactive_20260911",
+  "note": "rows fitted before `recorded` are bound only by the column fingerprint sidecar and the reproduction checks, not by this file",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

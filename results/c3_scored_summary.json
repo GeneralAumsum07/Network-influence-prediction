@@ -1,0 +1,19 @@
+{
+  "cells": 5608,
+  "names": 395,
+  "graphs": 14,
+  "p1_mae": 0.07856417907755398,
+  "p1_signed": -0.07697006904311415,
+  "P1": "FALSIFIED",
+  "rho": 0.8901098901098902,
+  "rho_shipped": 0.8901098901098902,
+  "P2": "SUPPORTED",
+  "p3_graphs": 12,
+  "P3": "SUPPORTED",
+  "regime_graphs": 12,
+  "P4": "PASSED UNDER REGISTERED CONDITIONAL",
+  "masked_cells": 5278,
+  "masked_mae": 3.883357584016922e-05,
+  "masked_max": 0.7154125528073209,
+  "structural_mae": 0.07856417907755398
+}

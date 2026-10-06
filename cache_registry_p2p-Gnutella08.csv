@@ -1,0 +1,172 @@
+feature,hop,tier,group,description
+degree,0,node,hop0_node,number of direct neighbours
+degree_normalized,0,node,hop0_node,degree / (n-1)
+boundary_porosity,1,edge,hop1_ego,outward edges / all ego-net edge endpoints
+edge_embeddedness_max,1,edge,hop1_ego,"common neighbours on an incident edge, summarised over edges"
+edge_embeddedness_mean,1,edge,hop1_ego,"common neighbours on an incident edge, summarised over edges"
+edge_embeddedness_min,1,edge,hop1_ego,"common neighbours on an incident edge, summarised over edges"
+edge_embeddedness_std,1,edge,hop1_ego,"common neighbours on an incident edge, summarised over edges"
+edge_overlap_max,1,edge,hop1_ego,"Onnela neighbourhood overlap of an incident edge, summarised over edges"
+edge_overlap_mean,1,edge,hop1_ego,"Onnela neighbourhood overlap of an incident edge, summarised over edges"
+edge_overlap_min,1,edge,hop1_ego,"Onnela neighbourhood overlap of an incident edge, summarised over edges"
+edge_overlap_std,1,edge,hop1_ego,"Onnela neighbourhood overlap of an incident edge, summarised over edges"
+edges_leaving_ego,1,edge,hop1_ego,edges from neighbours to nodes outside the ego net
+ego_net_density,1,edge,hop1_ego,ego-net edges / possible edges
+ego_net_edges,1,edge,hop1_ego,edges inside the ego network
+eorbit_01_max,1,edge,edge_orbits,edge-orbit count summarised over incident edges (01_max)
+eorbit_01_mean,1,edge,edge_orbits,edge-orbit count summarised over incident edges (01_mean)
+eorbit_01_std,1,edge,edge_orbits,edge-orbit count summarised over incident edges (01_std)
+eorbit_10_max,1,edge,edge_orbits,edge-orbit count summarised over incident edges (10_max)
+eorbit_10_mean,1,edge,edge_orbits,edge-orbit count summarised over incident edges (10_mean)
+eorbit_10_std,1,edge,edge_orbits,edge-orbit count summarised over incident edges (10_std)
+eorbit_11_max,1,edge,edge_orbits,edge-orbit count summarised over incident edges (11_max)
+eorbit_11_mean,1,edge,edge_orbits,edge-orbit count summarised over incident edges (11_mean)
+eorbit_11_std,1,edge,edge_orbits,edge-orbit count summarised over incident edges (11_std)
+assortativity_local,1,node,hop1_neighbor_degree_agg,mean neighbour degree minus own degree
+cluster_rank,1,node,hop1_clusterrank,Chen ClusterRank: 10^-C(i) * sum of (k_j + 1) over neighbours
+clustering_coefficient,1,node,hop1_ego,fraction of neighbour pairs that are connected
+collective_influence_1,1,node,shells_ci_hop_1,Morone-Makse CI at radius 1
+effective_size,1,node,hop1_ego,Burt effective size: non-redundant contacts
+ego_net_size,1,node,hop1_ego,nodes in the ego network
+h_index_1,1,node,h_index_order_1,order-1 H-index (needs info 1 hops away)
+local_entropy,1,node,hop1_ego,Shannon entropy of the neighbour-degree distribution
+local_entropy_norm,1,node,hop1_ego,local entropy divided by log(degree): heterogeneity shape with the degree scale removed
+local_gravity_1,1,node,shells_ci_hop_1,local gravity model truncated at radius 1
+nbr_degree_max,1,node,hop1_neighbor_degree_agg,nbr_degree summarised over neighbours
+nbr_degree_mean,1,node,hop1_neighbor_degree_agg,nbr_degree summarised over neighbours
+nbr_degree_min,1,node,hop1_neighbor_degree_agg,nbr_degree summarised over neighbours
+nbr_degree_std,1,node,hop1_neighbor_degree_agg,nbr_degree summarised over neighbours
+nbr_degree_sum,1,node,hop1_neighbor_degree_agg,nbr_degree summarised over neighbours
+ego_betweenness,1,subgraph,hop1_ego_betweenness,betweenness of the ego inside its own ego network
+orbit_02_P3_centre,1,subgraph,graphlet_orbits,graphlet orbit count (P3_centre)
+orbit_07_claw_centre,1,subgraph,graphlet_orbits,graphlet orbit count (claw_centre)
+orbit_11_paw_hub,1,subgraph,graphlet_orbits,graphlet orbit count (paw_hub)
+orbit_13_diamond_deg3,1,subgraph,graphlet_orbits,graphlet orbit count (diamond_deg3)
+orbit_14_K4,1,subgraph,graphlet_orbits,graphlet orbit count (K4)
+orbit_23_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_33_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_42_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_44_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_55_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_56_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_57_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_58_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_61_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_65_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_66_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_67_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_68_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_69_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_70_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_71_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_72_g5,1,subgraph,graphlet_orbits,graphlet orbit count (g5)
+triangle_count,1,subgraph,hop1_ego,triangles through the node
+perc_reach_2,2,dynamic,shells_ci_hop_2,expected cascade size within 2 hops under the independent-path approximation at p=0.0565815
+eorbit_00_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (00_max)
+eorbit_00_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (00_mean)
+eorbit_00_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (00_std)
+eorbit_03_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (03_max)
+eorbit_03_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (03_mean)
+eorbit_03_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (03_std)
+eorbit_04_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (04_max)
+eorbit_04_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (04_mean)
+eorbit_04_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (04_std)
+eorbit_05_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (05_max)
+eorbit_05_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (05_mean)
+eorbit_05_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (05_std)
+eorbit_06_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (06_max)
+eorbit_06_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (06_mean)
+eorbit_06_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (06_std)
+eorbit_07_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (07_max)
+eorbit_07_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (07_mean)
+eorbit_07_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (07_std)
+eorbit_08_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (08_max)
+eorbit_08_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (08_mean)
+eorbit_08_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (08_std)
+eorbit_09_max,2,edge,edge_orbits,edge-orbit count summarised over incident edges (09_max)
+eorbit_09_mean,2,edge,edge_orbits,edge-orbit count summarised over incident edges (09_mean)
+eorbit_09_std,2,edge,edge_orbits,edge-orbit count summarised over incident edges (09_std)
+collective_influence_2,2,node,shells_ci_hop_2,Morone-Makse CI at radius 2
+growth_ratio_2,2,node,shells_ci_hop_2,shell 2 size / shell 1 size
+h_index_2,2,node,h_index_order_2,order-2 H-index (needs info 2 hops away)
+local_gravity_2,2,node,shells_ci_hop_2,local gravity model truncated at radius 2
+nbr_clustering_max,2,node,hop2_neighbor_structure_agg,nbr_clustering summarised over neighbours
+nbr_clustering_mean,2,node,hop2_neighbor_structure_agg,nbr_clustering summarised over neighbours
+nbr_clustering_min,2,node,hop2_neighbor_structure_agg,nbr_clustering summarised over neighbours
+nbr_clustering_std,2,node,hop2_neighbor_structure_agg,nbr_clustering summarised over neighbours
+nbr_clustering_sum,2,node,hop2_neighbor_structure_agg,nbr_clustering summarised over neighbours
+nbr_triangles_max,2,node,hop2_neighbor_structure_agg,nbr_triangles summarised over neighbours
+nbr_triangles_mean,2,node,hop2_neighbor_structure_agg,nbr_triangles summarised over neighbours
+nbr_triangles_min,2,node,hop2_neighbor_structure_agg,nbr_triangles summarised over neighbours
+nbr_triangles_std,2,node,hop2_neighbor_structure_agg,nbr_triangles summarised over neighbours
+nbr_triangles_sum,2,node,hop2_neighbor_structure_agg,nbr_triangles summarised over neighbours
+reach_within_2,2,node,shells_ci_hop_2,total distinct nodes within 2 hops
+shell_2_count,2,node,shells_ci_hop_2,nodes at exactly 2 hops
+shell_2_degree_max,2,node,shells_ci_hop_2,max degree at exactly 2 hops
+shell_2_degree_mean,2,node,shells_ci_hop_2,mean degree at exactly 2 hops
+ball2_density,2,subgraph,shells_ci_hop_2,2-ball edges / possible 2-ball edges
+ball2_edges,2,subgraph,shells_ci_hop_2,edges with both endpoints inside the 2-ball
+local_conductance_2,2,subgraph,shells_ci_hop_2,2-ball cut size / 2-ball degree volume
+orbit_01_P3_end,2,subgraph,graphlet_orbits,graphlet orbit count (P3_end)
+orbit_05_P4_middle,2,subgraph,graphlet_orbits,graphlet orbit count (P4_middle)
+orbit_06_claw_leaf,2,subgraph,graphlet_orbits,graphlet orbit count (claw_leaf)
+orbit_08_C4,2,subgraph,graphlet_orbits,graphlet orbit count (C4)
+orbit_09_paw_tail,2,subgraph,graphlet_orbits,graphlet orbit count (paw_tail)
+orbit_10_paw_triangle,2,subgraph,graphlet_orbits,graphlet orbit count (paw_triangle)
+orbit_12_diamond_deg2,2,subgraph,graphlet_orbits,graphlet orbit count (diamond_deg2)
+orbit_17_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_20_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_21_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_22_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_25_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_26_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_28_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_30_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_31_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_32_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_34_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_37_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_38_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_39_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_40_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_41_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_43_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_47_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_48_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_49_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_50_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_51_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_52_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_53_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_54_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_59_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_60_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_62_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_63_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_64_g5,2,subgraph,graphlet_orbits,graphlet orbit count (g5)
+perc_reach_3,3,dynamic,shells_ci_hop_3,expected cascade size within 3 hops under the independent-path approximation at p=0.0565815
+eorbit_02_max,3,edge,edge_orbits,edge-orbit count summarised over incident edges (02_max)
+eorbit_02_mean,3,edge,edge_orbits,edge-orbit count summarised over incident edges (02_mean)
+eorbit_02_std,3,edge,edge_orbits,edge-orbit count summarised over incident edges (02_std)
+collective_influence_3,3,node,shells_ci_hop_3,Morone-Makse CI at radius 3
+growth_ratio_3,3,node,shells_ci_hop_3,shell 3 size / shell 2 size
+h_index_3,3,node,h_index_order_3,order-3 H-index (needs info 3 hops away)
+local_gravity_3,3,node,shells_ci_hop_3,local gravity model truncated at radius 3
+nbr_reach2_mean,3,node,hop3_semilocal,mean 2-ball size over neighbours
+reach_within_3,3,node,shells_ci_hop_3,total distinct nodes within 3 hops
+semilocal_centrality,3,node,hop3_semilocal,Chen semi-local centrality: sum over neighbours of their 2-ball size
+shell_3_count,3,node,shells_ci_hop_3,nodes at exactly 3 hops
+shell_3_degree_max,3,node,shells_ci_hop_3,max degree at exactly 3 hops
+shell_3_degree_mean,3,node,shells_ci_hop_3,mean degree at exactly 3 hops
+orbit_04_P4_end,3,subgraph,graphlet_orbits,graphlet orbit count (P4_end)
+orbit_16_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_18_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_19_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_24_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_27_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_29_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_35_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_36_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_45_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_46_g5,3,subgraph,graphlet_orbits,graphlet orbit count (g5)
+orbit_15_g5,4,subgraph,graphlet_orbits,graphlet orbit count (g5)

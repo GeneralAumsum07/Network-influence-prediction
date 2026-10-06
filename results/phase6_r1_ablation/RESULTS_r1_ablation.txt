@@ -1,0 +1,115 @@
+Phase 6 -- radius-one structural ablation
+=========================================
+
+Run created 2026-09-11T23:40:54Z by Claude Opus 5; report produced 2026-09-12T04:31:18+00:00 by analyse_r1_ablation.py.
+run_id: c66485a6cfc071c952c61fde0a7ae0a48e451202bf98f96ea5010ec88564299f
+
+SCOPE AND PROVENANCE
+--------------------
+800 cells: 5 networks x 4 targets x 4 nested feature sets x 10 paired seeds.
+Every cell is a FRESH five-fold out-of-fold fit bound to the manifest.
+No historical cache_oof endpoint was reused: those archives carry bare
+prediction keys with no manifest, no column list or hash, no fold digest
+and no objective id, and the root betweenness endpoint belongs to the RAW
+objective while this report uses rf_log1p.
+
+This covers RADIUS ONE ONLY. It says nothing about any other radius.
+
+HOW TO READ THE STARS
+---------------------
+heuristic_star = abs(mean_gain) > 2 * paired_sd, over ten seeds.
+It is DESCRIPTIVE. There is no null distribution, no multiplicity
+correction and no p-value. Ten seeds on one graph are not ten graphs.
+
+RESULTS BY NETWORK -- read these per graph, not as one claim
+------------------------------------------------------------
+
+ca-GrQc
+    spread_mean    add_nonorbit_subgraph      mean +0.00003  sd 0.00008  (+8/0:0/-2)
+    spread_mean    add_orbit_lt15             mean +0.00001  sd 0.00011  (+5/0:0/-5)
+    spread_mean    add_remaining_g5_orbits    mean -0.00001  sd 0.00007  (+5/0:0/-5)
+    spread_cv      add_nonorbit_subgraph      mean -0.00004  sd 0.00026  (+3/0:0/-7)
+    spread_cv      add_orbit_lt15             mean +0.00014  sd 0.00033  (+6/0:0/-4)
+    spread_cv      add_remaining_g5_orbits    mean -0.00008  sd 0.00031  (+3/0:0/-7)
+    spread_resid   add_nonorbit_subgraph      mean +0.00021  sd 0.00046  (+6/0:0/-4)
+    spread_resid   add_orbit_lt15             mean -0.00038  sd 0.00081  (+4/0:0/-6)
+    spread_resid   add_remaining_g5_orbits    mean +0.00026  sd 0.00056  (+7/0:0/-3)
+    betweenness    add_nonorbit_subgraph      mean +0.00029  sd 0.00034  (+8/0:0/-2)
+    betweenness    add_orbit_lt15             mean +0.00000  sd 0.00024  (+5/0:0/-5)
+    betweenness    add_remaining_g5_orbits    mean +0.00031  sd 0.00030  (+8/0:0/-2)
+
+ca-HepTh
+    spread_mean    add_nonorbit_subgraph      mean -0.00001  sd 0.00004  (+4/0:0/-6)
+    spread_mean    add_orbit_lt15             mean -0.00003  sd 0.00004  (+2/0:0/-8)
+    spread_mean    add_remaining_g5_orbits    mean +0.00001  sd 0.00006  (+6/0:0/-4)
+    spread_cv      add_nonorbit_subgraph      mean -0.00005  sd 0.00010  (+3/0:0/-7)
+    spread_cv      add_orbit_lt15             mean -0.00010  sd 0.00013  (+2/0:0/-8)
+    spread_cv      add_remaining_g5_orbits    mean +0.00001  sd 0.00021  (+7/0:0/-3)
+    spread_resid   add_nonorbit_subgraph      mean -0.00010  sd 0.00017  (+2/0:0/-8)
+    spread_resid   add_orbit_lt15             mean -0.00000  sd 0.00020  (+5/0:0/-5)
+    spread_resid   add_remaining_g5_orbits    mean -0.00021  sd 0.00014  (+0/0:0/-10)
+    betweenness    add_nonorbit_subgraph      mean +0.00013  sd 0.00020  (+7/0:0/-3)
+    betweenness    add_orbit_lt15             mean -0.00004  sd 0.00009  (+3/0:0/-7)
+    betweenness    add_remaining_g5_orbits    mean +0.00017  sd 0.00016  (+9/0:0/-1)
+
+email-Eu-core
+    spread_mean    add_nonorbit_subgraph      mean -0.00007  sd 0.00007  (+2/0:0/-8)
+    spread_mean    add_orbit_lt15             mean +0.00003  sd 0.00010  (+5/0:1/-4)
+    spread_mean    add_remaining_g5_orbits    mean +0.00020  sd 0.00023  (+8/0:0/-2)
+    spread_cv      add_nonorbit_subgraph      mean -0.00013  sd 0.00012  (+2/0:0/-8)
+    spread_cv      add_orbit_lt15             mean +0.00010  sd 0.00020  (+6/0:0/-4)
+    spread_cv      add_remaining_g5_orbits    mean +0.00025  sd 0.00022  (+10/0:0/-0)
+    spread_resid   add_nonorbit_subgraph      mean +0.00080  sd 0.00540  (+6/0:0/-4)
+    spread_resid   add_orbit_lt15             mean -0.00249  sd 0.00608  (+2/0:0/-8)
+    spread_resid   add_remaining_g5_orbits    mean +0.00049  sd 0.00881  (+4/0:0/-6)
+  * betweenness    add_nonorbit_subgraph      mean +0.00254  sd 0.00108  (+10/0:0/-0)
+    betweenness    add_orbit_lt15             mean +0.00023  sd 0.00038  (+7/0:0/-3)
+    betweenness    add_remaining_g5_orbits    mean -0.00054  sd 0.00049  (+1/0:0/-9)
+
+facebook_combined
+    spread_mean    add_nonorbit_subgraph      mean -0.00003  sd 0.00010  (+3/0:0/-7)
+    spread_mean    add_orbit_lt15             mean -0.00005  sd 0.00020  (+6/0:0/-4)
+    spread_mean    add_remaining_g5_orbits    mean -0.00011  sd 0.00022  (+3/0:0/-7)
+    spread_cv      add_nonorbit_subgraph      mean +0.00013  sd 0.00028  (+7/0:0/-3)
+    spread_cv      add_orbit_lt15             mean -0.00019  sd 0.00029  (+4/0:0/-6)
+    spread_cv      add_remaining_g5_orbits    mean -0.00021  sd 0.00030  (+3/0:0/-7)
+    spread_resid   add_nonorbit_subgraph      mean +0.00003  sd 0.00038  (+6/0:0/-4)
+    spread_resid   add_orbit_lt15             mean -0.00046  sd 0.00049  (+1/0:0/-9)
+    spread_resid   add_remaining_g5_orbits    mean +0.00017  sd 0.00084  (+6/0:0/-4)
+  * betweenness    add_nonorbit_subgraph      mean +0.00349  sd 0.00138  (+10/0:0/-0)
+    betweenness    add_orbit_lt15             mean -0.00000  sd 0.00039  (+4/0:0/-6)
+    betweenness    add_remaining_g5_orbits    mean -0.00030  sd 0.00041  (+4/0:0/-6)
+
+p2p-Gnutella08
+    spread_mean    add_nonorbit_subgraph      mean -0.00001  sd 0.00006  (+3/0:0/-7)
+    spread_mean    add_orbit_lt15             mean -0.00007  sd 0.00006  (+1/0:0/-9)
+    spread_mean    add_remaining_g5_orbits    mean +0.00006  sd 0.00005  (+8/0:0/-2)
+    spread_cv      add_nonorbit_subgraph      mean +0.00002  sd 0.00009  (+6/0:0/-4)
+    spread_cv      add_orbit_lt15             mean -0.00003  sd 0.00010  (+3/0:0/-7)
+    spread_cv      add_remaining_g5_orbits    mean +0.00001  sd 0.00014  (+5/0:0/-5)
+    spread_resid   add_nonorbit_subgraph      mean -0.00016  sd 0.00039  (+3/0:0/-7)
+    spread_resid   add_orbit_lt15             mean -0.00030  sd 0.00038  (+2/0:0/-8)
+    spread_resid   add_remaining_g5_orbits    mean -0.00009  sd 0.00021  (+4/0:0/-6)
+    betweenness    add_nonorbit_subgraph      mean +0.00010  sd 0.00008  (+9/0:0/-1)
+    betweenness    add_orbit_lt15             mean +0.00002  sd 0.00008  (+7/0:0/-3)
+    betweenness    add_remaining_g5_orbits    mean +0.00003  sd 0.00012  (+6/0:0/-4)
+
+SUMMARY OF FLAGS PER CONTRAST
+-----------------------------
+  add_nonorbit_subgraph: 2 of 20 (network, target) cells flagged
+    flagged: email-Eu-core/betweenness, facebook_combined/betweenness
+    not flagged: ca-GrQc/spread_mean, ca-GrQc/spread_cv, ca-GrQc/spread_resid, ca-GrQc/betweenness, ca-HepTh/spread_mean, ca-HepTh/spread_cv, ca-HepTh/spread_resid, ca-HepTh/betweenness, email-Eu-core/spread_mean, email-Eu-core/spread_cv, email-Eu-core/spread_resid, facebook_combined/spread_mean, facebook_combined/spread_cv, facebook_combined/spread_resid, p2p-Gnutella08/spread_mean, p2p-Gnutella08/spread_cv, p2p-Gnutella08/spread_resid, p2p-Gnutella08/betweenness
+  add_orbit_lt15: 0 of 20 (network, target) cells flagged
+    not flagged: ca-GrQc/spread_mean, ca-GrQc/spread_cv, ca-GrQc/spread_resid, ca-GrQc/betweenness, ca-HepTh/spread_mean, ca-HepTh/spread_cv, ca-HepTh/spread_resid, ca-HepTh/betweenness, email-Eu-core/spread_mean, email-Eu-core/spread_cv, email-Eu-core/spread_resid, email-Eu-core/betweenness, facebook_combined/spread_mean, facebook_combined/spread_cv, facebook_combined/spread_resid, facebook_combined/betweenness, p2p-Gnutella08/spread_mean, p2p-Gnutella08/spread_cv, p2p-Gnutella08/spread_resid, p2p-Gnutella08/betweenness
+  add_remaining_g5_orbits: 0 of 20 (network, target) cells flagged
+    not flagged: ca-GrQc/spread_mean, ca-GrQc/spread_cv, ca-GrQc/spread_resid, ca-GrQc/betweenness, ca-HepTh/spread_mean, ca-HepTh/spread_cv, ca-HepTh/spread_resid, ca-HepTh/betweenness, email-Eu-core/spread_mean, email-Eu-core/spread_cv, email-Eu-core/spread_resid, email-Eu-core/betweenness, facebook_combined/spread_mean, facebook_combined/spread_cv, facebook_combined/spread_resid, facebook_combined/betweenness, p2p-Gnutella08/spread_mean, p2p-Gnutella08/spread_cv, p2p-Gnutella08/spread_resid, p2p-Gnutella08/betweenness
+
+QUALIFICATION -- REQUIRED
+-------------------------
+These effects are qualified BY GRAPH. A contrast that is flagged on some
+networks and null on others is exactly that, and must not be restated as
+a universal claim about structural expressive power. Null and
+contradictory per-network effects above are retained, not dropped.
+
+This file does not alter Finding 3 or any study prose. Reconciliation is
+a separate step and happens only against these measured artifacts.

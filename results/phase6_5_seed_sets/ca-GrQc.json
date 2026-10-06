@@ -1,0 +1,119 @@
+{
+  "identity": {
+    "tag": "ca-GrQc",
+    "k": 50,
+    "pilot_draws": 0,
+    "split": {
+      "train": [
+        0,
+        2000
+      ],
+      "evaluation": [
+        2000,
+        4000
+      ]
+    },
+    "threads": 1,
+    "inputs": {
+      "meta": {
+        "path": "cache_meta_ca-GrQc.json",
+        "sha256": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b"
+      },
+      "features": {
+        "path": "cache_features_ca-GrQc.csv",
+        "sha256": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8"
+      },
+      "targets": {
+        "path": "cache_targets_ca-GrQc.csv",
+        "sha256": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62"
+      },
+      "cascades": {
+        "path": "cache_cascades_ca-GrQc.npy",
+        "sha256": "2a73107d645e963f8c6ef5ed95c8fcfcbc661fe6c4c4d675f6b3c990625cb374"
+      },
+      "oof": {
+        "path": "cache_oof_ca-GrQc.npz",
+        "sha256": "b55027a85a24966aa86c8ad8449f7371e66304feb04aee7f6eb16fe6141b3cb2"
+      },
+      "edgelist": {
+        "path": "data/ca-GrQc.txt",
+        "sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660"
+      },
+      "influence/seed_sets.py": {
+        "path": "influence/seed_sets.py",
+        "sha256": "b3423d3f96f6d61553a8a7cc396267de1f5bfc3470cd03772b99e72deafb4525"
+      },
+      "influence/local_dynamics.py": {
+        "path": "influence/local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "influence/dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "influence/preprocessing.py",
+        "sha256": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac"
+      },
+      "probe_seed_sets.py": {
+        "path": "probe_seed_sets.py",
+        "sha256": "8aaf8c6fcf4c9858518b83dea404eeb3cffd45401225e4cc65244969ebc6d217"
+      },
+      "analyse_local_predictors.py": {
+        "path": "analyse_local_predictors.py",
+        "sha256": "18a71a9ed02147dbd60a2fd9cdf572d4b2e3c75e4b0264e19d262b77fd0a1323"
+      },
+      "L3_json": {
+        "path": "results/phase6_5_local/ca-GrQc.json",
+        "sha256": "df5214e0c2007e9c5ff50f3cc29b152b18b3a8b9067582e1c7a15e8eab38f123"
+      },
+      "L3_npz": {
+        "path": "results/phase6_5_local/ca-GrQc.npz",
+        "sha256": "3c3428dee3180340cdb04623ded57e8e3e98e2ce4f431f882a96f1156d4c710f"
+      }
+    }
+  },
+  "status": "complete",
+  "started_utc": "2026-09-13T12:42:01.768127+00:00",
+  "pilot": false,
+  "L3_historical_identity": {
+    "tag": "ca-GrQc",
+    "radii": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "simulation_seed": 0,
+    "p": 0.033754607556169824,
+    "convention": "uniform",
+    "pilot_draws": 0,
+    "split": {
+      "predictor": [
+        0,
+        2000
+      ],
+      "target": [
+        2000,
+        4000
+      ]
+    },
+    "threads": 1
+  },
+  "L3_historical_input_hashes": {
+    "meta": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b",
+    "features": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+    "targets": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62",
+    "cascades": "2a73107d645e963f8c6ef5ed95c8fcfcbc661fe6c4c4d675f6b3c990625cb374",
+    "edgelist": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+    "influence/local_dynamics.py": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47",
+    "influence/dynamics.py": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02",
+    "influence/preprocessing.py": "bc43619b082e328a9b331cd6f096fe622d74e4a3a109631a0e649ec234f3f3ac",
+    "probe_local_predictors.py": "92e1cbedd30a497d166c2a44f8dec90af8266c7f33997d98093db377cc0830e2"
+  },
+  "completed_utc": "2026-09-13T12:42:14.717058+00:00",
+  "seconds": 12.948022600001423,
+  "verified_draws": 4000,
+  "output_sha256": "fda39a0b44abb9f8dad53849a36ba1268ab8d7973ecfd51908d177f104d87546",
+  "caveat": "RF cached training targets use both draw halves; oracle-top-sigma uses training-half Monte Carlo means; greedy is not an exact optimum. Pilot omits E and cannot score claims."
+}

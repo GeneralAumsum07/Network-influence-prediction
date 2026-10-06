@@ -1,0 +1,19 @@
+{
+  "cache_targets_ca-GrQc.csv": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62",
+  "cache_oof_ca-GrQc.npz": "00a2b22e88b1c50321cf09e2755a6c9f65133d0a5fff5ec0cca30c9b10b1371d",
+  "sweep_ca-GrQc.csv": "eb3dd1f6d4d56c1a79162ba897eba877b2f2c4650aa98f082b835161ffc6b159",
+  "stage2_sweep.py": "f428cbeaf1fcd9d39933f549c62262058b4104076efd90fbafec586eed4e7234",
+  "experiment.py": "333915e7487563a523bb219b59932dd7121417e5e40a12ad12d80ff1c09443ce",
+  "cache_targets_ca-HepTh.csv": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe",
+  "cache_oof_ca-HepTh.npz": "34d0e02eab1bdbf1aa58211315bd3dd55f88ccff1cce4cd392a5ca2f55f125ac",
+  "sweep_ca-HepTh.csv": "c824274b567f846d1df5debd2ee9d9b721ac0653b7143b1235d878c5bed3215a",
+  "cache_targets_email-Eu-core.csv": "1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a",
+  "cache_oof_email-Eu-core.npz": "1cde0262d573ef91f4ad42d0d65827242c0d1ec99bd39ce72467e64b43fbd175",
+  "sweep_email-Eu-core.csv": "f75bdfe361f08fe0a4885110b66bf69e0f3f284597a9d7412f893d0d41c1f015",
+  "cache_targets_facebook_combined.csv": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9",
+  "cache_oof_facebook_combined.npz": "384e59c56c70d5d4a19622280facdb439d373a0bc913550f8b887f9c63a4f4c0",
+  "sweep_facebook_combined.csv": "f8ebcbecf9a16d57bd60e2826c3ce2823481ab9601bfd87eac9614bba49cce90",
+  "cache_targets_p2p-Gnutella08.csv": "1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6",
+  "cache_oof_p2p-Gnutella08.npz": "86cf60a372077d875403a55a37640e0192ea04b5c36b6d48859b3bf8e7e3d24b",
+  "sweep_p2p-Gnutella08.csv": "a19b18f5db908767b1dbfdc6612693abe6d95934f17ec8d4968e14470b0152a6"
+}

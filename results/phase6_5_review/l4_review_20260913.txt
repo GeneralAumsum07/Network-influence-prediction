@@ -1,0 +1,491 @@
+L4 new-file review package. No git repository. Each source follows with SHA256 and numbered lines.
+
+FILE influence/seed_sets.py SHA256 B3423D3F96F6D61553A8A7CC396267DE1F5BFC3470CD03772B99E72DEAFB4525
+   1: """Exact component-union policies for symmetric IC (no fitting).
+   2: 
+   3: Labels have shape node x draw. Components are distinct between draws; summing
+   4: their sizes after deduplicating the selected labels gives exact set influence.
+   5: """
+   6: import numpy as np
+   7: 
+   8: 
+   9: def validate_labels(labels):
+  10:     labels=np.asarray(labels)
+  11:     if labels.ndim != 2 or min(labels.shape)<1 or not np.issubdtype(labels.dtype,np.integer) or labels.min()<0 or labels.max()>=len(labels):
+  12:         raise ValueError('labels must be nonnegative integer node x draw component IDs')
+  13:     return labels
+  14: 
+  15: 
+  16: def validate_k(k,n):
+  17:     if isinstance(k,(bool,np.bool_)) or not isinstance(k,(int,np.integer)) or not 0<=k<=n:
+  18:         raise ValueError('k must be an integer between zero and n')
+  19: 
+  20: 
+  21: def top_k(values,k):
+  22:     values=np.asarray(values)
+  23:     if values.ndim!=1 or not np.isfinite(values).all():
+  24:         raise ValueError('ranking must be a finite vector')
+  25:     validate_k(k,len(values))
+  26:     # lexsort makes equal scores choose the smaller cache node index.
+  27:     return np.lexsort((np.arange(len(values)),-values))[:k]
+  28: 
+  29: 
+  30: def set_spread(labels,seeds):
+  31:     labels=validate_labels(labels)
+  32:     seeds=np.asarray(seeds)
+  33:     if seeds.ndim!=1 or (len(seeds) and (not np.issubdtype(seeds.dtype,np.integer) or seeds.min()<0 or seeds.max()>=len(labels))) or len(np.unique(seeds))!=len(seeds):
+  34:         raise ValueError('seeds must be distinct valid node indices')
+  35:     seeds=seeds.astype(int)
+  36:     return np.array([np.bincount(labels[:,d],minlength=len(labels))[np.unique(labels[seeds,d])].sum()
+  37:                      for d in range(labels.shape[1])],dtype=np.int64)
+  38: 
+  39: 
+  40: def greedy_seed_set(labels,k):
+  41:     labels=validate_labels(labels)
+  42:     n,draws=labels.shape
+  43:     validate_k(k,n)
+  44:     # Maintain each node's per-draw marginal. Selecting a component zeros that
+  45:     # whole component's contribution, avoiding a node x node x draw tensor.
+  46:     marginal=np.stack([np.bincount(labels[:,d],minlength=n)[labels[:,d]] for d in range(draws)],axis=1)
+  47:     selected=[]; gains=[]
+  48:     for _ in range(k):
+  49:         sums=marginal.sum(axis=1)
+  50:         sums[selected]=-1
+  51:         node=int(np.argmax(sums))
+  52:         selected.append(node); gains.append(float(sums[node]/draws))
+  53:         marginal[labels==labels[node,:]]=0
+  54:     return np.asarray(selected,dtype=int),np.asarray(gains)
+  55: 
+  56: 
+  57: def degree_discount(adj,k,p):
+  58:     """Chen, Wang & Yang (KDD 2009) small-p uniform IC approximation.
+  59: 
+  60:     Uses dd=d-2t-(d-t)t*p. Primary derivation:
+  61:     https://www.microsoft.com/en-us/research/wp-content/uploads/2016/06/kdd09_influence-1.pdf
+  62:     """
+  63:     n=adj.shape[0]; validate_k(k,n)
+  64:     if not np.isfinite(p) or not 0<=p<=1: raise ValueError('invalid p')
+  65:     degree=np.asarray(adj.sum(axis=1)).ravel().astype(float)
+  66:     t=np.zeros(n); score=degree.copy(); selected=[]
+  67:     for _ in range(k):
+  68:         score[selected]=-np.inf
+  69:         node=int(np.argmax(score)); selected.append(node)
+  70:         neighbors=adj.indices[adj.indptr[node]:adj.indptr[node+1]]
+  71:         t[neighbors]+=1
+  72:         score[neighbors]=degree[neighbors]-2*t[neighbors]-(degree[neighbors]-t[neighbors])*t[neighbors]*p
+  73:     return np.asarray(selected,dtype=int)
+
+
+FILE probe_seed_sets.py SHA256 8AAF8C6FCF4C9858518B83DEA404EEB3CFFD45401225E4CC65244969EBC6D217
+   1: """Phase 6.5 L4: cached policies evaluated on paired held-out IC draws.
+   2: 
+   3: RF targets used all 4000 draws; their policy evaluation has target-noise reuse.
+   4: Greedy is a training-draw heuristic, not an optimal-set oracle.
+   5: """
+   6: import os
+   7: for key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS','NUMEXPR_NUM_THREADS'):
+   8:     os.environ[key]='1'
+   9: import argparse
+  10: import hashlib
+  11: import json
+  12: import time
+  13: from datetime import datetime,timezone
+  14: from pathlib import Path
+  15: import numpy as np
+  16: import pandas as pd
+  17: from influence.preprocessing import load_edgelist
+  18: from influence.local_dynamics import percolation_labels
+  19: from influence.seed_sets import greedy_seed_set,set_spread,top_k,degree_discount
+  20: 
+  21: ROOT=Path(__file__).resolve().parent
+  22: TAGS=('ca-GrQc','ca-HepTh','p2p-Gnutella08','email-Eu-core','facebook_combined')
+  23: TIERS=('node','node+edge+subgraph')
+  24: BASE=ROOT/'results/phase6_5_seed_sets'
+  25: 
+  26: 
+  27: def sha(path):
+  28:     with open(path,'rb') as f: return hashlib.file_digest(f,'sha256').hexdigest()
+  29: 
+  30: 
+  31: def atomic_json(path,value):
+  32:     tmp=path.with_suffix(path.suffix+'.tmp')
+  33:     tmp.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n',encoding='utf8')
+  34:     os.replace(tmp,path)
+  35: 
+  36: 
+  37: def stamp(): return datetime.now(timezone.utc).isoformat()
+  38: 
+  39: 
+  40: def expected_paths(tag,pilot=False):
+  41:     paths={k:ROOT/f'cache_{k}_{tag}.{ext}' for k,ext in [('meta','json'),('features','csv'),('targets','csv'),('cascades','npy'),('oof','npz')]}
+  42:     meta=json.loads(paths['meta'].read_text())
+  43:     source=Path(meta['provenance']['source'])
+  44:     paths['edgelist']=(source if source.is_absolute() else ROOT/source).resolve()
+  45:     for name in ('influence/seed_sets.py','influence/local_dynamics.py','influence/dynamics.py','influence/preprocessing.py','probe_seed_sets.py','analyse_local_predictors.py'):
+  46:         paths[name]=ROOT/name
+  47:     if not pilot:
+  48:         for ext in ('json','npz'): paths['L3_'+ext]=ROOT/'results/phase6_5_local'/f'{tag}.{ext}'
+  49:     return paths
+  50: 
+  51: 
+  52: def validate_manifest(tag,manifest,pilot=False,check_hashes=True):
+  53:     paths=expected_paths(tag,pilot)
+  54:     if set(manifest)!=set(paths): raise ValueError('missing/unexpected provenance inputs')
+  55:     for key,path in paths.items():
+  56:         if manifest[key].get('path')!=path.relative_to(ROOT).as_posix(): raise ValueError('wrong provenance path')
+  57:         if check_hashes and sha(path)!=manifest[key].get('sha256'): raise ValueError('input hash mismatch')
+  58: 
+  59: 
+  60: def validate_oof(data,keys,n):
+  61:     """Check ZIP key multiplicity before numpy's mapping hides duplicates."""
+  62:     if len(keys)!=len(set(keys)): raise ValueError('duplicate OOF keys')
+  63:     expected={f'spread_mean|{r}|{tier}|{s}' for tier in TIERS for r in range(4) for s in range(10)}
+  64:     relevant=[key for key in keys if key.startswith('spread_mean|')]
+  65:     for key in relevant:
+  66:         parts=key.split('|')
+  67:         if len(parts)!=4 or parts[1] not in ('0','1','2','3') or parts[3] not in tuple(map(str,range(10))):
+  68:             raise ValueError('malformed spread OOF key')
+  69:     if not expected.issubset(keys): raise ValueError('missing required OOF cells')
+  70:     result={}
+  71:     for key in sorted(expected):
+  72:         value=np.asarray(data[key])
+  73:         if value.shape!=(n,) or not np.issubdtype(value.dtype,np.number) or not np.isfinite(value).all():
+  74:             raise ValueError('invalid OOF vector')
+  75:         result[key]=value
+  76:     return result
+  77: 
+  78: 
+  79: def load_local(tag,features,meta):
+  80:     from analyse_local_predictors import validate_configuration,validate_saved_nodes
+  81:     path=ROOT/'results/phase6_5_local'/f'{tag}.json'
+  82:     data_path=path.with_suffix('.npz')
+  83:     status=json.loads(path.read_text())
+  84:     if status.get('status')!='complete' or status.get('pilot') or status.get('verified_draws')!=4000 or sha(data_path)!=status.get('output_sha256'):
+  85:         raise ValueError('L3 incomplete or output corrupted')
+  86:     validate_configuration(tag,status['identity'],meta)
+  87:     # Scientific caches must still match. Source hashes remain historical: an
+  88:     # unrelated subsequent helper edit must not relabel an already valid run.
+  89:     expected=expected_paths(tag)
+  90:     for key in ('meta','features','targets','cascades','edgelist'):
+  91:         item=status['identity']['inputs'][key]
+  92:         if Path(item['path']).resolve()!=expected[key].resolve() or sha(expected[key])!=item['sha256']:
+  93:             raise ValueError('L3 scientific input changed/misidentified')
+  94:     with np.load(data_path,allow_pickle=False) as data:
+  95:         validate_saved_nodes(data,features)
+  96:         return data['E'].copy(),status['identity']
+  97: 
+  98: 
+  99: def run_network(tag,out,pilot_draws=0):
+ 100:     if pilot_draws and (not isinstance(pilot_draws,int) or not 2<=pilot_draws<=20 or pilot_draws%2):
+ 101:         raise ValueError('pilot must be even, 2..20')
+ 102:     paths=expected_paths(tag,bool(pilot_draws))
+ 103:     meta=json.loads(paths['meta'].read_text())
+ 104:     source=Path(meta['provenance']['source']); source=source if source.is_absolute() else ROOT/source
+ 105:     paths['edgelist']=source
+ 106:     identity={'tag':tag,'k':50,'pilot_draws':pilot_draws,'split':{'train':[0,pilot_draws//2 if pilot_draws else 2000], 'evaluation':[pilot_draws//2 if pilot_draws else 2000,pilot_draws or 4000]},'threads':1,
+ 107:               'inputs':{key:{'path':p.relative_to(ROOT).as_posix(),'sha256':sha(p)} for key,p in paths.items()}}
+ 108:     status_path=out/f'{tag}.json'; data_path=out/f'{tag}.npz'
+ 109:     if status_path.exists():
+ 110:         old=json.loads(status_path.read_text())
+ 111:         if old['identity']!=identity: raise ValueError('resume identity mismatch')
+ 112:         if old['status']=='complete':
+ 113:             if sha(data_path)!=old['output_sha256']: raise ValueError('completed output corrupted')
+ 114:             return old
+ 115:     elif data_path.exists(): raise ValueError('orphan output without provenance')
+ 116:     status={'identity':identity,'status':'running','started_utc':stamp(),'pilot':bool(pilot_draws)}
+ 117:     atomic_json(status_path,status); started=time.perf_counter()
+ 118:     try:
+ 119:         if meta['n_sims']!=4000 or meta['simulation_seed']!=0 or meta['convention']!='uniform':
+ 120:             raise ValueError('requires registered uniform seed-0 4000-draw experiment')
+ 121:         net=load_edgelist(source); features=pd.read_csv(paths['features']); targets=pd.read_csv(paths['targets'])
+ 122:         for frame in (features,targets):
+ 123:             if len(frame)!=net.n or not np.array_equal(frame.node,np.arange(net.n)) or not np.isfinite(frame.to_numpy(dtype=float)).all():
+ 124:                 raise ValueError('cache nodes/numeric values invalid')
+ 125:         if not np.array_equal(features.original_id,net.original_ids) or meta['n']!=net.n or meta['m']!=net.m:
+ 126:             raise ValueError('graph/cache identity mismatch')
+ 127:         draws=pilot_draws or 4000; split=draws//2
+ 128:         labels=percolation_labels(net,p=meta['p'],n_sims=draws,convention=meta['convention'],seed=0)
+ 129:         cached=np.load(paths['cascades'],mmap_mode='r',allow_pickle=False)
+ 130:         if cached.shape!=(net.n,4000) or not np.issubdtype(cached.dtype,np.integer): raise ValueError('invalid cascade cache')
+ 131:         for d in range(draws):
+ 132:             if not np.array_equal(np.bincount(labels[:,d])[labels[:,d]],cached[:,d]):
+ 133:                 raise ValueError(f'cascade mismatch draw {d}')
+ 134:         with np.load(paths['oof'],allow_pickle=False) as data: predictions=validate_oof(data,data.files,net.n)
+ 135:         train=labels[:,:split]; evaluation=labels[:,split:]
+ 136:         greedy,gains=greedy_seed_set(train,50)
+ 137:         sigma=np.mean(cached[:,:split],axis=1)
+ 138:         policies={'greedy':greedy,'oracle_top_sigma':top_k(sigma,50),'degree':top_k(np.diff(net.adj.indptr),50),'degree_discount':degree_discount(net.adj,50,meta['p'])}
+ 139:         for key,values in predictions.items(): policies['RF|'+key]=top_k(values,50)
+ 140:         if not pilot_draws:
+ 141:             E,history=load_local(tag,features,meta)
+ 142:             # Local run identity contains legacy absolute paths. Preserve hashes
+ 143:             # and configuration only in this new repository output.
+ 144:             status['L3_historical_identity']={k:v for k,v in history.items() if k!='inputs'}
+ 145:             status['L3_historical_input_hashes']={k:v['sha256'] for k,v in history['inputs'].items()}
+ 146:             for r in range(4): policies[f'E|{r}']=top_k(E[:,r],50)
+ 147:         names=list(policies)
+ 148:         seeds=np.stack([policies[name] for name in names])
+ 149:         spread=np.stack([set_spread(evaluation,policy) for policy in seeds])
+ 150:         if any(sha(paths[k])!=item['sha256'] for k,item in identity['inputs'].items()): raise ValueError('inputs changed during run')
+ 151:         tmp=data_path.with_suffix('.npz.tmp')
+ 152:         with open(tmp,'wb') as f:
+ 153:             np.savez_compressed(f,node=np.arange(net.n),original_id=net.original_ids,policy=np.asarray(names),seeds=seeds,spread=spread,greedy_gains=gains,evaluation_draw=np.arange(split,draws))
+ 154:         os.replace(tmp,data_path)
+ 155:         status.update(status='complete',completed_utc=stamp(),seconds=time.perf_counter()-started,verified_draws=draws,output_sha256=sha(data_path),
+ 156:                       caveat='RF cached training targets use both draw halves; oracle-top-sigma uses training-half Monte Carlo means; greedy is not an exact optimum. Pilot omits E and cannot score claims.')
+ 157:         atomic_json(status_path,status)
+ 158:         print(f'{tag}: {status["seconds"]:.3f}s; {draws} exact draws; {len(names)} policies',flush=True)
+ 159:         return status
+ 160:     except Exception as exc:
+ 161:         status.update(status='failed',error=str(exc),completed_utc=stamp()); atomic_json(status_path,status); raise
+ 162: 
+ 163: 
+ 164: def main():
+ 165:     parser=argparse.ArgumentParser(description=__doc__)
+ 166:     parser.add_argument('--pilot-draws',type=int,default=0)
+ 167:     parser.add_argument('--networks',nargs='+',choices=TAGS,default=list(TAGS))
+ 168:     args=parser.parse_args()
+ 169:     if args.pilot_draws and (not 2<=args.pilot_draws<=20 or args.pilot_draws%2): parser.error('pilot must be even, 2..20')
+ 170:     if len(set(args.networks))!=len(args.networks): parser.error('duplicate networks')
+ 171:     # Keep earlier pilots immutable when implementation changes: new pilot output
+ 172:     # gets a source-hash suffix; normal full-run resume remains fail-closed.
+ 173:     suffix=sha(__file__)[:12]
+ 174:     out=BASE/f'pilot_{args.pilot_draws}_{suffix}' if args.pilot_draws else BASE
+ 175:     out.mkdir(parents=True,exist_ok=True)
+ 176:     for tag in args.networks: run_network(tag,out,args.pilot_draws)
+ 177: 
+ 178: 
+ 179: if __name__=='__main__': main()
+
+
+FILE analyse_seed_sets.py SHA256 5FE6F0593BB59CF211E83F073D33244A8F1C0B048DCF40617F2731BAF182FBA6
+   1: """Score L4 registered ratios; only complete, hash-validated full runs qualify."""
+   2: import os
+   3: for key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS','NUMEXPR_NUM_THREADS'):
+   4:     os.environ[key]='1'
+   5: import json
+   6: import numpy as np
+   7: import pandas as pd
+   8: from probe_seed_sets import BASE,ROOT,TAGS,TIERS,sha,atomic_json,stamp,validate_manifest
+   9: 
+  10: 
+  11: def radius_rule(curve):
+  12:     curve=np.asarray(curve,dtype=float)
+  13:     if curve.shape!=(4,) or not np.isfinite(curve).all() or curve[3]<=0: return None
+  14:     return int(np.flatnonzero(curve>=.98*curve[3])[0])
+  15: 
+  16: 
+  17: def verdicts(rows):
+  18:     def ratio(tag,test):
+  19:         value=rows.get(tag,{}).get('oracle_ratio')
+  20:         return 'unscored' if value is None else ('supported' if test(value) else 'not_supported')
+  21:     complete=set(rows)==set(TAGS)
+  22:     return {'facebook_oracle':ratio('facebook_combined',lambda x:x<.95),
+  23:             'p2p_oracle':ratio('p2p-Gnutella08',lambda x:x>.98),
+  24:             'stop':('supported' if all(rows[t]['oracle_ratio']>=.98 for t in TAGS) else 'not_supported') if complete else 'unscored',
+  25:             'RF_radius':{tier:('supported' if all(rows[t]['rf_radius'][tier]<=1 for t in TAGS) else 'not_supported') if complete else 'unscored' for tier in TIERS}}
+  26: 
+  27: 
+  28: def load_result(tag,out):
+  29:     path=out/f'{tag}.json'; data_path=out/f'{tag}.npz'
+  30:     status=json.loads(path.read_text())
+  31:     ident=status['identity']
+  32:     if status.get('status')!='complete' or status.get('pilot') or status.get('verified_draws')!=4000:
+  33:         raise ValueError('only completed full runs can score')
+  34:     if ident.get('tag')!=tag or ident.get('k')!=50 or ident.get('pilot_draws')!=0 or ident.get('threads')!=1 or ident.get('split')!={'train':[0,2000],'evaluation':[2000,4000]}:
+  35:         raise ValueError('incompatible L4 configuration')
+  36:     if sha(data_path)!=status['output_sha256']: raise ValueError('L4 output hash mismatch')
+  37:     required={k:f'cache_{k}_{tag}.{ext}' for k,ext in [('meta','json'),('features','csv'),('targets','csv'),('cascades','npy'),('oof','npz')]}
+  38:     validate_manifest(tag,ident['inputs'])
+  39:     features=pd.read_csv(ROOT/required['features'])
+  40:     with np.load(data_path,allow_pickle=False) as data:
+  41:         names=data['policy'].tolist(); seeds=data['seeds']; spread=data['spread']
+  42:         expected={'greedy','oracle_top_sigma','degree','degree_discount'}|{f'E|{r}' for r in range(4)}|{f'RF|spread_mean|{r}|{tier}|{s}' for tier in TIERS for r in range(4) for s in range(10)}
+  43:         if len(names)!=len(set(names)) or set(names)!=expected or seeds.shape!=(88,50) or spread.shape!=(88,2000): raise ValueError('policy grid/shape mismatch')
+  44:         if not np.array_equal(data['node'],features.node) or not np.array_equal(data['original_id'],features.original_id) or not np.array_equal(data['evaluation_draw'],np.arange(2000,4000)): raise ValueError('node/draw identity mismatch')
+  45:         n=len(features)
+  46:         if not np.issubdtype(seeds.dtype,np.integer) or seeds.min()<0 or seeds.max()>=n or any(len(set(row))!=50 for row in seeds): raise ValueError('invalid seed vectors')
+  47:         if not np.issubdtype(spread.dtype,np.integer) or spread.min()<50 or spread.max()>n: raise ValueError('invalid set spreads')
+  48:         return names,spread.copy(),status
+  49: 
+  50: 
+  51: def run(out=BASE):
+  52:     rows={}; tables=[]; hashes={}; states={}
+  53:     for tag in TAGS:
+  54:         path=out/f'{tag}.json'
+  55:         if not path.exists(): states[tag]='missing'; continue
+  56:         raw=json.loads(path.read_text())
+  57:         if raw['status']!='complete': states[tag]=raw['status']; continue
+  58:         names,spreads,status=load_result(tag,out)
+  59:         means={name:float(spreads[i].mean()) for i,name in enumerate(names)}
+  60:         row={'oracle_ratio':means['oracle_top_sigma']/means['greedy'],'rf_radius':{},'rf_seed_details':{}}
+  61:         for tier in TIERS:
+  62:             curves=np.array([[means[f'RF|spread_mean|{r}|{tier}|{s}'] for r in range(4)] for s in range(10)])
+  63:             radius=radius_rule(curves.mean(axis=0)); row['rf_radius'][tier]=radius
+  64:             per_seed=[radius_rule(curve) for curve in curves]
+  65:             row['rf_seed_details'][tier]={'mean_curve':curves.mean(axis=0).tolist(),'mean_curve_ratios':(curves.mean(axis=0)/curves[:,3].mean()).tolist(),'radii':per_seed,'ratios':(curves/curves[:,3,None]).tolist(),'disagreements_with_mean_radius':sum(r!=radius for r in per_seed)}
+  66:         rows[tag]=row; states[tag]='complete'
+  67:         hashes[tag]={'sidecar':sha(path),'npz':sha(path.with_suffix('.npz'))}
+  68:         for i,name in enumerate(names):
+  69:             paired=spreads[i]-spreads[names.index('greedy')]
+  70:             tables.append({'network':tag,'policy':name,'mean_spread':means[name],'ratio_to_greedy':means[name]/means['greedy'],'mean_paired_difference':float(paired.mean()),'sd_paired_difference':float(paired.std(ddof=1))})
+  71:     report={'created_utc':stamp(),'network_status':states,'network_results':rows,'verdicts':verdicts(rows),'input_hashes':hashes,'analysis_source_sha256':sha(__file__),
+  72:             'caveat':'RF OOF models trained on full-draw labels, including evaluation draws: descriptive policy comparison with target-noise reuse. Oracle means are train-half Monte Carlo. Greedy is not an exact optimum. RF seeds are summarized descriptively; no claim of independent replications.'}
+  73:     out.mkdir(parents=True,exist_ok=True)
+  74:     if tables:
+  75:         tmp=out/'scores.csv.tmp'; pd.DataFrame(tables).to_csv(tmp,index=False); os.replace(tmp,out/'scores.csv')
+  76:         report['scores_sha256']=sha(out/'scores.csv')
+  77:     atomic_json(out/'analysis.json',report)
+  78:     print(json.dumps(report['verdicts'],indent=2))
+  79:     return report
+  80: 
+  81: 
+  82: if __name__=='__main__': run()
+
+
+FILE verify_seed_sets.py SHA256 37A8CF47FB5E4F52482C589FAEDE662186E869418F28BF7916F77F05F054F753
+   1: """Independent tiny-graph oracles for Phase 6.5 L4; never fits a model."""
+   2: import os
+   3: for key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS','NUMEXPR_NUM_THREADS'):
+   4:     os.environ[key] = '1'
+   5: import unittest
+   6: import numpy as np
+   7: from influence.seed_sets import set_spread, greedy_seed_set, top_k
+   8: 
+   9: 
+  10: def oracle(labels, seeds):
+  11:     return np.array([sum(any(labels[i,d] == labels[s,d] for s in seeds)
+  12:                          for i in range(len(labels))) for d in range(labels.shape[1])])
+  13: 
+  14: 
+  15: class SeedSets(unittest.TestCase):
+  16:     def test_resume_and_corruption(self):
+  17:         import tempfile
+  18:         import json
+  19:         from pathlib import Path
+  20:         from probe_seed_sets import run_network
+  21:         from analyse_seed_sets import load_result
+  22:         # Two draws are an execution fixture, never a scientific result. Its
+  23:         # exact output must resume, reject altered configuration, reject bytes,
+  24:         # and remain ineligible for the full-corpus scorer.
+  25:         with tempfile.TemporaryDirectory() as folder:
+  26:             out=Path(folder)
+  27:             first=run_network('ca-GrQc',out,2)
+  28:             self.assertEqual(run_network('ca-GrQc',out,2),first)
+  29:             with self.assertRaises(ValueError): load_result('ca-GrQc',out)
+  30:             # Build an explicitly synthetic full-shaped serialization fixture.
+  31:             # It exercises the real scorer validation without running 4000 draws.
+  32:             from probe_seed_sets import expected_paths,ROOT,sha
+  33:             with np.load(out/'ca-GrQc.npz') as saved:
+  34:                 arrays={key:saved[key] for key in saved.files}
+  35:             arrays['policy']=np.concatenate([arrays['policy'],[f'E|{r}' for r in range(4)]])
+  36:             arrays['seeds']=np.concatenate([arrays['seeds'],arrays['seeds'][:4]])
+  37:             arrays['spread']=np.repeat(np.concatenate([arrays['spread'],arrays['spread'][:4]]),2000,axis=1)
+  38:             arrays['evaluation_draw']=np.arange(2000,4000)
+  39:             fixture=json.loads(json.dumps(first))
+  40:             fixture.update(pilot=False,verified_draws=4000)
+  41:             fixture['identity'].update(pilot_draws=0,split={'train':[0,2000],'evaluation':[2000,4000]})
+  42:             fixture['identity']['inputs']={k:{'path':p.relative_to(ROOT).as_posix(),'sha256':sha(p)} for k,p in expected_paths('ca-GrQc').items()}
+  43:             fixture_out=out/'fixture'; fixture_out.mkdir()
+  44:             fixture_path=fixture_out/'ca-GrQc.npz'
+  45:             def publish():
+  46:                 np.savez(fixture_path,**arrays)
+  47:                 fixture['output_sha256']=sha(fixture_path)
+  48:                 (fixture_out/'ca-GrQc.json').write_text(json.dumps(fixture))
+  49:             publish()
+  50:             self.assertEqual(len(load_result('ca-GrQc',fixture_out)[0]),88)
+  51:             arrays['node']=arrays['node'][::-1]; publish()
+  52:             with self.assertRaises(ValueError): load_result('ca-GrQc',fixture_out)
+  53:             arrays['node']=arrays['node'][::-1]
+  54:             arrays['seeds'][0,1]=arrays['seeds'][0,0]; publish()
+  55:             with self.assertRaises(ValueError): load_result('ca-GrQc',fixture_out)
+  56:             with open(fixture_path,'ab') as stream: stream.write(b'corruption')
+  57:             with self.assertRaises(ValueError): load_result('ca-GrQc',fixture_out)
+  58:             path=out/'ca-GrQc.json'
+  59:             bad=json.loads(path.read_text()); bad['identity']['k']=49
+  60:             path.write_text(json.dumps(bad))
+  61:             with self.assertRaises(ValueError): run_network('ca-GrQc',out,2)
+  62:             path.write_text(json.dumps(first))
+  63:             with open(out/'ca-GrQc.npz','ab') as stream: stream.write(b'corruption')
+  64:             with self.assertRaises(ValueError): run_network('ca-GrQc',out,2)
+  65: 
+  66:     def test_manifest_fail_closed(self):
+  67:         from probe_seed_sets import expected_paths,validate_manifest,ROOT
+  68:         paths=expected_paths('ca-GrQc',False)
+  69:         manifest={k:{'path':p.relative_to(ROOT).as_posix(),'sha256':'x'} for k,p in paths.items()}
+  70:         validate_manifest('ca-GrQc',manifest,False,check_hashes=False)
+  71:         for key in ('edgelist','L3_json','influence/seed_sets.py'):
+  72:             bad=dict(manifest); bad.pop(key)
+  73:             with self.assertRaises(ValueError): validate_manifest('ca-GrQc',bad,False,check_hashes=False)
+  74:         bad=dict(manifest); bad['oof']={'path':'cache_oof_other.npz','sha256':'x'}
+  75:         with self.assertRaises(ValueError): validate_manifest('ca-GrQc',bad,False,check_hashes=False)
+  76: 
+  77:     def test_degree_discount_oracle(self):
+  78:         from influence.seed_sets import degree_discount
+  79:         import scipy.sparse as sp
+  80:         a=np.array([[0,1,1,1,0],[1,0,1,0,0],[1,1,0,0,1],[1,0,0,0,0],[0,0,1,0,0]])
+  81:         for p in (0,.03,1):
+  82:             selected=[]
+  83:             for k in range(1,6):
+  84:                 def score(i):
+  85:                     d=int(a[i].sum()); t=sum(a[i,j] for j in selected)
+  86:                     return d-2*t-(d-t)*t*p
+  87:                 selected.append(min((i for i in range(5) if i not in selected),key=lambda i:(-score(i),i)))
+  88:                 self.assertEqual(degree_discount(sp.csr_matrix(a),k,p).tolist(),selected)
+  89: 
+  90:     def test_oof_validation(self):
+  91:         from probe_seed_sets import validate_oof
+  92:         keys=[f'spread_mean|{r}|{tier}|{s}' for tier in ('node','node+edge+subgraph') for r in range(4) for s in range(10)]
+  93:         data={key:np.arange(4,dtype=float) for key in keys}
+  94:         self.assertEqual(len(validate_oof(data,keys,4)),80)
+  95:         for bad in (keys+keys[:1],keys[:-1],keys+['spread_mean|oops']):
+  96:             with self.assertRaises(ValueError): validate_oof(data,bad,4)
+  97:         data[keys[0]]=np.array([np.nan]*4)
+  98:         with self.assertRaises(ValueError): validate_oof(data,keys,4)
+  99: 
+ 100:     def test_scoring_boundaries(self):
+ 101:         from analyse_seed_sets import verdicts, radius_rule
+ 102:         self.assertEqual(radius_rule([98,99,99,100]),0)
+ 103:         self.assertEqual(radius_rule([97,98,99,100]),1)
+ 104:         self.assertEqual(verdicts({})['stop'],'unscored')
+ 105:         rows={t:{'oracle_ratio':.98,'rf_radius':{'node':1,'node+edge+subgraph':1}} for t in ('ca-GrQc','ca-HepTh','p2p-Gnutella08','email-Eu-core','facebook_combined')}
+ 106:         self.assertEqual(verdicts(rows)['stop'],'supported')
+ 107:         self.assertEqual(verdicts(rows)['p2p_oracle'],'not_supported')
+ 108:         rows['facebook_combined']['oracle_ratio']=.95
+ 109:         self.assertEqual(verdicts(rows)['facebook_oracle'],'not_supported')
+ 110: 
+ 111:     def test_union(self):
+ 112:         labels = np.array([[0,0],[0,1],[1,1],[2,2]])
+ 113:         for seeds in ([],[0],[0,1],[1,3],list(range(4))):
+ 114:             np.testing.assert_array_equal(set_spread(labels,seeds),oracle(labels,seeds))
+ 115: 
+ 116:     def test_exhaustive_greedy(self):
+ 117:         rng = np.random.default_rng(42)
+ 118:         for _ in range(20):
+ 119:             labels = rng.integers(0,4,size=(7,5))
+ 120:             selected=[]
+ 121:             for k in range(1,8):
+ 122:                 values=[(-oracle(labels,selected+[i]).sum(),i) for i in range(7) if i not in selected]
+ 123:                 selected.append(min(values)[1])
+ 124:                 got,gains=greedy_seed_set(labels,k)
+ 125:                 self.assertEqual(list(got),selected)
+ 126:                 self.assertTrue(np.all(np.diff(gains)<=0))
+ 127: 
+ 128:     def test_edges_and_ties(self):
+ 129:         labels=np.arange(4)[:,None]
+ 130:         self.assertEqual(list(top_k(np.ones(4),3)),[0,1,2])
+ 131:         self.assertEqual(list(greedy_seed_set(labels,0)[0]),[])
+ 132:         for k in (-1,5,1.5,True):
+ 133:             with self.assertRaises(ValueError): greedy_seed_set(labels,k)
+ 134:         with self.assertRaises(ValueError): set_spread(labels,[1,1])
+ 135:         with self.assertRaises(ValueError): top_k([1,np.nan],1)
+ 136: 
+ 137:     def test_split_independence(self):
+ 138:         train=np.array([[0,0],[0,1],[2,1],[3,3]])
+ 139:         chosen=greedy_seed_set(train,2)[0]
+ 140:         evaluation=np.zeros((4,2),dtype=int)
+ 141:         np.testing.assert_array_equal(set_spread(evaluation,chosen),[4,4])
+ 142:         np.testing.assert_array_equal(chosen,greedy_seed_set(train.copy(),2)[0])
+ 143: 
+ 144: 
+ 145: if __name__ == '__main__': unittest.main(verbosity=2)

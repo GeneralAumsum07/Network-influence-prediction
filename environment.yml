@@ -1,0 +1,86 @@
+# Conda environment for the influence-prediction project.
+#
+# Create it with:
+#     conda env create -f environment.yml
+#     conda activate influence
+#
+# Python is pinned to 3.12 deliberately: it is mature enough that every
+# package below has a solid prebuilt Windows binary on conda-forge. Newer
+# releases often lag by months on scientific packages.
+#
+# No PyTorch here. The whole pipeline is non-neural by design; PyTorch only
+# becomes relevant for the optional GNN comparison at the very end, and that
+# should live in a separate environment so a fiddly PyTorch Geometric install
+# cannot break this working one.
+#
+# ---------------------------------------------------------------------------
+# WHY THE VERSIONS ARE PINNED
+# ---------------------------------------------------------------------------
+# This file used to pin nothing but Python. Two things went wrong because of
+# that, and both are the kind of failure that is expensive to diagnose:
+#
+# 1. RESULTS DRIFT. The project's conclusions rest on differences in Kendall
+#    tau of 0.001 to 0.02. RandomForestRegressor's defaults and tie-breaking
+#    have changed across scikit-learn releases, so an unpinned rebuild months
+#    from now could move numbers at exactly the precision the claims live at,
+#    with no way to tell that from a real effect. cache_meta_<tag>.json now
+#    records the versions each result was produced under; this file is what
+#    makes reproducing them possible.
+#
+# 2. A BROKEN BLAS. An unpinned solve produced numpy linked against MKL
+#    2026.1.0 alongside a pip-installed scipy carrying its own bundled
+#    OpenBLAS. The result was a hard native abort (exit 127, no Python
+#    traceback) on any dense matrix multiply - which killed beta_c, and
+#    therefore the entire pipeline, at the first eigenvalue call.
+#
+#    The `libblas=*=*openblas` line below is the fix. It forces a single
+#    consistent OpenBLAS stack instead of letting the solver pick MKL.
+#
+# EVERYTHING MUST COME FROM CONDA-FORGE. Do not `pip install` scipy, numpy or
+# scikit-learn into this environment - a pip wheel brings its own BLAS and
+# reintroduces failure 2. If you need a package conda-forge does not have,
+# install it with pip LAST and check that
+#     python -c "import numpy as np; A=np.random.rand(300,300); (A@A).sum()"
+# still exits 0.
+#
+# To refresh the exact-version record after changing anything here:
+#     conda env export -n influence > environment.lock.yml
+#
+# NOTE (2026-09-11, Claude Opus 5, Task 6 audit finding P1-09): environment.lock.yml
+# lists `scipy==1.18.0` under `pip:`. That is a `conda env export` artefact -
+# conda's pip-interop misclassifies the wheel-built conda-forge scipy - not a pip
+# install. Verified: site-packages/scipy-1.18.0.dist-info/INSTALLER reads
+# "conda", conda-meta/scipy-1.18.0-py312h9b3c559_0.json is present, and the BLAS
+# libraries are the openblas variants. Do NOT act on that line by pip-installing
+# scipy; recreate the env from THIS file, not from the lock's pip section.
+
+name: influence
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+
+  # --- BLAS: pin the implementation, not just the version ---
+  # See failure 2 above. This must stay.
+  - libblas=*=*openblas
+
+  # --- core numerics ---
+  - numpy=2.5.2            # arrays; the backbone of everything
+  - scipy=1.18.0           # sparse matrices, eigenvalues, connected components
+  - pandas=3.0.5           # feature and result tables
+
+  # --- modelling ---
+  - scikit-learn=1.9.0     # RandomForestRegressor, k-fold CV, metrics
+
+  # --- graphs ---
+  - python-igraph=1.0.0    # fast exact betweenness on larger graphs (C-backed)
+  - networkx=3.6.1         # verification reference and graph generators
+
+  # --- output ---
+  - matplotlib=3.11.1      # figures
+
+  # --- convenience ---
+  - tqdm                   # progress bars for long runs

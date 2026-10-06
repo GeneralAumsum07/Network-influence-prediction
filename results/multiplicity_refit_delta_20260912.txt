@@ -1,0 +1,56 @@
+multiplicity families: pre-refit (.preorbit5 backups, log1p betweenness arm spliced by hand) vs current results/multiplicity.csv
+Written 2026-09-12 by Claude Opus 5 (Task 6, P1-01 old-vs-new; scratch script old_vs_new_multiplicity.py, not part of the repo).
+The only difference between the two corpora is the 2026-09-11 r=1 subgraph-tier refit after the 5-node orbit radius retag.
+
+old summary:
+family  dynamic_tier  edge_tier  hop_gain  subgraph_tier
+stars              5         29        54             41
+
+star changes (old -> new):
+            family            network        target comparison  mean_old  mean_new    sd_old    sd_new  star_old  star_new
+123  subgraph_tier            ca-GrQc   spread_mean        r=1  0.013396  0.000021  0.000515  0.000084      True     False
+126  subgraph_tier            ca-GrQc     spread_cv        r=1  0.035443  0.000077  0.001465  0.000241      True     False
+129  subgraph_tier            ca-GrQc  spread_resid        r=1  0.031529  0.000094  0.003795  0.000930      True     False
+132  subgraph_tier           ca-HepTh   betweenness        r=1  0.001435  0.000240  0.000388  0.000235      True     False
+135  subgraph_tier           ca-HepTh   spread_mean        r=1  0.004582 -0.000034  0.000282  0.000064      True     False
+138  subgraph_tier           ca-HepTh     spread_cv        r=1  0.014088 -0.000175  0.000910  0.000246      True     False
+141  subgraph_tier           ca-HepTh  spread_resid        r=1  0.011941 -0.000276  0.001479  0.000220      True     False
+147  subgraph_tier      email-Eu-core   spread_mean        r=1  0.002593  0.000136  0.000283  0.000192      True     False
+150  subgraph_tier      email-Eu-core     spread_cv        r=1  0.004400  0.000200  0.000599  0.000224      True     False
+159  subgraph_tier  facebook_combined   spread_mean        r=1  0.010272 -0.000235  0.000543  0.000146      True     False
+162  subgraph_tier  facebook_combined     spread_cv        r=1  0.005935 -0.000273  0.001111  0.000471      True     False
+165  subgraph_tier  facebook_combined  spread_resid        r=1  0.011661 -0.000137  0.002477  0.001072      True     False
+168  subgraph_tier     p2p-Gnutella08   betweenness        r=1  0.000711  0.000145  0.000143  0.000140      True     False
+171  subgraph_tier     p2p-Gnutella08   spread_mean        r=1  0.009278 -0.000014  0.000398  0.000050      True     False
+174  subgraph_tier     p2p-Gnutella08     spread_cv        r=1  0.007434  0.000029  0.000332  0.000113      True     False
+177  subgraph_tier     p2p-Gnutella08  spread_resid        r=1  0.005542 -0.000490  0.001154  0.000462      True     False
+
+BH changes (old -> new):
+            family            network        target comparison  mean_old  mean_new      q_bh_old  q_bh_new
+123  subgraph_tier            ca-GrQc   spread_mean        r=1  0.013396  0.000021  5.947954e-13  0.523435
+126  subgraph_tier            ca-GrQc     spread_cv        r=1  0.035443  0.000077  8.449812e-13  0.422187
+129  subgraph_tier            ca-GrQc  spread_resid        r=1  0.031529  0.000094  2.700013e-09  0.810192
+135  subgraph_tier           ca-HepTh   spread_mean        r=1  0.004582 -0.000034  1.496394e-11  0.162448
+138  subgraph_tier           ca-HepTh     spread_cv        r=1  0.014088 -0.000175  2.073815e-11  0.068660
+147  subgraph_tier      email-Eu-core   spread_mean        r=1  0.002593  0.000136  1.288940e-09  0.069855
+153  subgraph_tier      email-Eu-core  spread_resid        r=1  0.009836 -0.000848  7.515728e-03  0.782115
+162  subgraph_tier  facebook_combined     spread_cv        r=1  0.005935 -0.000273  8.304800e-08  0.130810
+165  subgraph_tier  facebook_combined  spread_resid        r=1  0.011661 -0.000137  2.260067e-07  0.782115
+171  subgraph_tier     p2p-Gnutella08   spread_mean        r=1  0.009278 -0.000014  9.468739e-13  0.506313
+174  subgraph_tier     p2p-Gnutella08     spread_cv        r=1  0.007434  0.000029  1.135373e-12  0.523435
+
+max |mean_new - mean_old| by family/target:
+target         betweenness  spread_cv  spread_mean  spread_resid
+family                                                          
+dynamic_tier        0.0000     0.0000       0.0000        0.0000
+edge_tier           0.0000     0.0000       0.0000        0.0000
+hop_gain            0.0043     0.0354       0.0134        0.0314
+subgraph_tier       0.0043     0.0354       0.0134        0.0314
+
+rows whose mean moved at all (>1e-9):
+family         comparison
+dynamic_tier   r=1            2
+hop_gain       r0->r1        20
+               r1->r2        20
+subgraph_tier  r=1           20
+dtype: int64

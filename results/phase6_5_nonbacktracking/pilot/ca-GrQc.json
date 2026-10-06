@@ -1,0 +1,76 @@
+{
+  "status": "complete",
+  "pilot": true,
+  "started_utc": "2026-09-13T12:48:06.995849+00:00",
+  "identity": {
+    "tag": "ca-GrQc",
+    "configuration": {
+      "target": "spread_mean",
+      "draws": 4000,
+      "simulation_seed": 0,
+      "convention": "uniform",
+      "threads": 1,
+      "lengths": [
+        1,
+        2,
+        3
+      ],
+      "h_index_order": 3,
+      "rf_tier": "node",
+      "rf_radius": 2
+    },
+    "inputs": {
+      "meta": {
+        "path": "cache_meta_ca-GrQc.json",
+        "sha256": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b"
+      },
+      "features": {
+        "path": "cache_features_ca-GrQc.csv",
+        "sha256": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8"
+      },
+      "targets": {
+        "path": "cache_targets_ca-GrQc.csv",
+        "sha256": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62"
+      },
+      "registry": {
+        "path": "cache_registry_ca-GrQc.csv",
+        "sha256": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742"
+      },
+      "edgelist": {
+        "path": "data/ca-GrQc.txt",
+        "sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660"
+      },
+      "nonbacktracking_local": {
+        "path": "influence/nonbacktracking_local.py",
+        "sha256": "d49dbf02b609e1f7ee11a1a5fa109c891d48c9d330bfe86894f2af43fd2c88d1"
+      },
+      "probe_nonbacktracking_local": {
+        "path": "probe_nonbacktracking_local.py",
+        "sha256": "7a4c9f1c0627dddb295100634856c5537e51e19890ca5a70466fcc9a56c0d789"
+      },
+      "rf_helpers": {
+        "path": "analyse_local_predictors.py",
+        "sha256": "18a71a9ed02147dbd60a2fd9cdf572d4b2e3c75e4b0264e19d262b77fd0a1323"
+      },
+      "sweep": {
+        "path": "sweep_ca-GrQc.csv",
+        "sha256": "00adf5312c3fe8b630836072b84943dee57eb2ff834c93c6238d9e515a0c274c"
+      }
+    },
+    "imported_helpers": [
+      "analyse_local_predictors.load_rf_reference",
+      "analyse_local_predictors.rf_cell_tau"
+    ]
+  },
+  "completed_utc": "2026-09-13T12:48:07.566194+00:00",
+  "output_sha256": "e2b361a03f79b6569449737d3a66aff12124c716668c04194fd6b94ce8b7fab2",
+  "scores": {
+    "NB1": 0.8235599590219517,
+    "NB2": 0.790152467442422,
+    "NB3": 0.7478989136935633,
+    "Hindex3": 0.7708368626368075,
+    "RFnode_r2_mean10": 0.9421444054144267
+  },
+  "radius_note": "NB3 has information radius 2; cached H-index order 3 has radius 3.",
+  "scoring_status": "unscored_pilot"
+}
