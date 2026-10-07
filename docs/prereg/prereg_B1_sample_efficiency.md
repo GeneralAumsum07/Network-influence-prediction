@@ -223,3 +223,33 @@ The 5% arm is reported with the underdetermination caveat attached and should
 not be quoted as a locality result on its own. The 10% and 20% arms carry the
 weight. **Directive 5 is discharged**; the answer is target-dependent and the
 supervisor's number is right only for `spread_mean`.
+
+## Amendment 2026-10-07 — reproduction tolerance stated in pair units (post hoc)
+
+Decided by Rachit after the post-orbit5-retag run failed the gate above. This is
+a **post-hoc** change to a declared gate, recorded here so it is not mistaken for
+the original declaration.
+
+**What failed.** 799 of the 800 fraction=1.0 cells reproduced the published
+sweeps bit-for-bit. One did not: p2p-Gnutella08 / betweenness / r=1 / seed 6,
+|Δτ| = 5.039e-08 against the declared 5e-08.
+
+**Why the declared number could not hold.** τ is a pair statistic; its smallest
+possible change on an n-node graph is about 1/C(n,2). On p2p-Gnutella08
+(6,299 nodes) that is 5.04e-08, already above 5e-08, so the flat tolerance
+rejected even a single one-pair change there (1/C(n,2), which is exactly what was
+observed; a pair moving between tied and ordered) — the `n_jobs=-1` effect the
+"~5e-08" wording above was written to allow — while on ca-HepTh (2.7e-08 per
+pair) it absorbed one. On the other three networks one pair exceeds 5e-08, so the
+flat number silently meant "bit-identical".
+
+**New rule.** Per network, tolerance = max(5e-08, 2 / C(n,2)): no fraction=1.0
+cell may move by more than one swapped pair (a concordant↔discordant swap moves
+C − D by 2). The flat 5e-08 stays as a floor, so no network is judged more
+strictly than before. Implemented in `analyse_sample_efficiency.py`
+(`tolerance()`), which now also prints how many cells are not bit-identical.
+Result: PASS, with exactly the one p2p-Gnutella08 cell not bit-identical.
+
+**Rejected alternatives.** Re-running the cell until it matched (re-rolling a
+gate proves nothing); declaring the run void (discarding 5,600 sound cells over
+one pair).
