@@ -719,10 +719,11 @@ oversight (`HANDOFF.md` section 14). Two consequences you must respect meanwhile
   learner-specific (ridge decays with radius instead), so the claim to rely on is
   that it varies, not which way. Before comparing feature groups on a rank metric,
   check the target's skew and refit once on a transformed target.
-- **It can move the reported horizon.** Measured across the corpus, 3 of 50
-  r\*(ε) cells moved under a corrected objective - all on betweenness, all on
-  facebook_combined, and all **downward** (r\*=3 → 2 at the tight tolerances). None
-  of the 25 spreading-target cells moved. Run `probe_objective_horizon.py` and
+- **It can move the reported horizon.** Measured across the corpus, 4 of 50
+  r\*(ε) cells moved under a corrected objective - all on betweenness and all
+  **downward**. Three are on facebook_combined (r\*=3 → 2 at the tight tolerances,
+  unanimous across seeds). One is on ca-HepTh, where the raw horizon was already
+  split 8/2 across seeds. None of the 25 spreading-target cells moved. Run `probe_objective_horizon.py` and
   `analyse_objective_horizon.py` to reproduce.
 - **It can flip a rung's SIGN, not just shrink it.** The corpus re-sweep
   (2026-09-04) found the facebook r=1 edge rung goes from a significant

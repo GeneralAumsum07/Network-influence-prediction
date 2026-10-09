@@ -697,7 +697,8 @@ cell, and it costs no extra traversal, no extra hop and no extra column.
 along the ladder**, so it is confounded with the axis §26a measures. Measured across the
 corpus (`probe_objective_horizon.py`, 800 cells), the correction is **largest where the
 feature set is poorest** and shrinks as features are added - on facebook betweenness,
-+0.2906 at r=0, +0.1870 at r=1, +0.0983 at r=2, +0.0793 at r=3. Richer features
++0.2906 at r=0, +0.1798 at r=1 (+0.1870 before the orbit-radius retag), +0.0983 at r=2,
++0.0793 at r=3. Richer features
 **partially substitute for a correct objective**. So a rung measured under the bad
 objective flatters the richer arm, because the poorer arm was penalised harder. Correct
 the objective and the subgraph rung falls from +0.1291 to +0.0436 - 66% of the published
@@ -728,20 +729,28 @@ was not the cause). The objective was the third hypothesis.
 | `hgb` | badly, and compounded by a separate leaf-floor confound (below). |
 | `rf` | **partially, not fully.** Splits are order-based, but the split criterion and the leaf values are not. It still gains +0.18. |
 
-**Does the horizon move? MEASURED 2026-09-01 - yes, on one network, and it moves DOWN.**
+**Does the horizon move? MEASURED 2026-09-01, re-measured 2026-10-10 - yes, decisively on
+one network, and it moves DOWN.**
 `probe_objective_horizon.py` recomputes r\*(ε) under both objectives across all five
 networks, both `betweenness` and `spread_mean`, 4 radii × 10 seeds, using the project's
-own `r_star_per_seed`. The raw arm reproduces the published sweep to **1e-16**, so the
+own `r_star_per_seed`. The raw arm reproduces the published sweep to **1e-16** (on the
+2026-10-10 re-run, 399 of 400 cells; the 400th differs by one pair-step, 5.04e-08), so the
 only thing differing between arms is the transform.
 
-**3 of 50 (network × target × ε) horizon cells moved. All three are betweenness. All
-three are facebook_combined. 0 of 25 spreading cells moved.**
+**Re-measured 2026-10-10, after the orbit-radius retag: 4 of 50 (network × target × ε)
+horizon cells moved. All four are betweenness: three on facebook_combined, one on
+ca-HepTh. 0 of 25 spreading cells moved.** The 09-01 run moved the three facebook cells only.
 
 | network | target | ε | raw | log1p |
 |---|---|---|---|---|
 | facebook_combined | betweenness | 0.20 | 2 | **1** |
 | facebook_combined | betweenness | 0.02 | 3 | **2** |
 | facebook_combined | betweenness | 0.01 | 3 | **2** |
+| ca-HepTh | betweenness | 0.02 | 2 | **1** |
+
+The facebook moves are unanimous: 10/10 seeds agree under both objectives. The ca-HepTh
+move is borderline. Its raw horizon was already split (8 seeds at r=2, 2 at r=1), and log1p
+makes it unanimous at r=1. It is a split horizon tipping, not a second large effect.
 
 **The horizon gets SHORTER, and that is the interesting direction.** Part of the apparent
 need for a third hop on facebook betweenness was the model **buying with features what a
@@ -749,9 +758,9 @@ correct objective would have given it for free**. Under a properly-conditioned o
 r\*=2 suffices where r\*=3 was published. This strengthens the project's central claim -
 locality is *more* sufficient than reported - while correcting a published number.
 
-**The control worked.** Mean correction gain is **+0.0385 on betweenness** (mean skew
-11.29) against **+0.0005 on spread_mean** (mean skew 4.12) - a 77× difference tracking
-skew, with spread_mean's largest movement anywhere being +0.0047. So this is an artefact
+**The control worked.** Mean correction gain is **+0.0381 on betweenness** (mean skew
+11.29) against **+0.0006 on spread_mean** (mean skew 4.12) - a 64× difference tracking
+skew (re-measured 2026-10-10; pre-retag +0.0385 vs +0.0005, 77×), with spread_mean's largest movement anywhere being +0.0047. So this is an artefact
 of the objective/skew interaction, not of the transform perturbing r\* in general.
 
 **One honest wrinkle:** ca-GrQc betweenness at ε=0.01 loses seed stability under the
@@ -1197,17 +1206,24 @@ section carried until then, struck-through history included, is preserved verbat
 
   **What it changed, measured.** Betweenness τ at FULL rises everywhere; the spreading
   targets are bit-identical (`worst |dτ| = 0.000e+00`, asserted every run by
-  `verify_pipeline.py` N9). The horizon barely moves: **3 of 25** betweenness r\*(ε)
-  cells shifted, all `facebook_combined`, all **downward** — reproducing the
-  pre-registered probe from a third code path.
+  `verify_pipeline.py` N9). The horizon barely moves: **4 of 25** betweenness r\*(ε)
+  cells shifted, all **downward**. Three are `facebook_combined`; one is a ca-HepTh horizon
+  already split 8/2 across seeds. This was 3 of 25, all facebook, before the
+  orbit-radius retag. Re-measured 2026-10-10; the adopted
+  `estimators/sweep_<tag>__rf_log1p.csv` reproduces that re-run's log1p arm (200/200
+  cells, max |Δτ| 7.2e-07).
+
+  The r=1 column was re-measured 2026-10-10, after the retag; r=0, 2 and 3 are unchanged.
+  Pre-retag r=1: facebook +0.1870, email +0.0094, ca-GrQc +0.0020, ca-HepTh +0.0046,
+  p2p +0.0007.
 
   | network | r=0 | r=1 | r=2 | r=3 |
   |---|---|---|---|---|
-  | facebook_combined | **+0.2906** | **+0.1870** | **+0.0983** | **+0.0793** |
-  | email-Eu-core | +0.0402 | +0.0094 | +0.0084 | +0.0097 |
-  | ca-GrQc | +0.0138 | +0.0020 | +0.0074 | +0.0070 |
-  | ca-HepTh | −0.0000 | +0.0046 | +0.0040 | +0.0038 |
-  | p2p-Gnutella08 | −0.0005 | +0.0007 | +0.0019 | +0.0020 |
+  | facebook_combined | **+0.2906** | **+0.1798** | **+0.0983** | **+0.0793** |
+  | email-Eu-core | +0.0402 | +0.0091 | +0.0084 | +0.0097 |
+  | ca-GrQc | +0.0138 | +0.0015 | +0.0074 | +0.0070 |
+  | ca-HepTh | −0.0000 | +0.0049 | +0.0040 | +0.0038 |
+  | p2p-Gnutella08 | −0.0005 | +0.0005 | +0.0019 | +0.0020 |
 
   **The scope limitation travels with it.** The large effect is a `facebook_combined`
   effect and that is n=1 — four of five networks gain ≤ 0.04 anywhere and ≤ 0.01 at

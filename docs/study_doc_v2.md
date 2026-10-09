@@ -2469,7 +2469,7 @@ tau = kendalltau(y, predictions).statistic      # what it is judged against — 
 
 This is the part that changes a result rather than just improving a number.
 
-The handicap is **not constant across the richness ladder**, which means it is confounded with exactly the axis §26a is measuring. Measured across the corpus (`probe_objective_horizon.py`, 800 cells), the correction is **largest where the feature set is poorest** and shrinks as features are added — on facebook betweenness: **+0.2906** at r=0, **+0.1870** at r=1, **+0.0983** at r=2, **+0.0793** at r=3.
+The handicap is **not constant across the richness ladder**, which means it is confounded with exactly the axis §26a is measuring. Measured across the corpus (`probe_objective_horizon.py`, 800 cells), the correction is **largest where the feature set is poorest** and shrinks as features are added — on facebook betweenness: **+0.2906** at r=0, **+0.1798** at r=1 (+0.1870 before the orbit-radius retag; re-measured 2026-10-10), **+0.0983** at r=2, **+0.0793** at r=3.
 
 The reading: **richer features partially substitute for a correct objective.** A model handed a badly-posed objective and a thin feature set is doubly handicapped; extra columns give it other routes to recover ranking information. So a rung measured under the bad objective flatters the richer arm — not because the richer arm gained more, but because the poorer arm was penalised harder.
 
@@ -2513,21 +2513,24 @@ The general form of the lesson: order-based *structure* does not make a learner 
 
 ### Does the horizon move? — measured, and it moves *down*
 
-`probe_objective_horizon.py` recomputes r\*(ε) under both objectives on all five networks, `betweenness` and `spread_mean`, four radii × ten seeds, at the richest structural tier — using the project's own `r_star_per_seed` rather than a reimplementation, so the numbers are directly comparable to the published horizons. The raw arm reproduces the published sweep to **1e-16**, well inside the documented `n_jobs=-1` tolerance, so the only thing that differs between arms is the transform applied to the training target.
+`probe_objective_horizon.py` recomputes r\*(ε) under both objectives on all five networks, `betweenness` and `spread_mean`, four radii × ten seeds, at the richest structural tier — using the project's own `r_star_per_seed` rather than a reimplementation, so the numbers are directly comparable to the published horizons. The raw arm reproduces the published sweep to **1e-16** in 399 of 400 cells; the 400th (p2p-Gnutella08) differs by one pair-step (5.04e-08), the documented `n_jobs=-1` near-tie mechanism. So the only thing that differs between arms is the transform applied to the training target.
 
-**3 of 50 (network × target × ε) horizon cells moved. All three are betweenness; all three are facebook_combined. 0 of 25 spreading cells moved.**
+**4 of 50 (network × target × ε) horizon cells moved. All four are betweenness: three on facebook_combined, one on ca-HepTh. 0 of 25 spreading cells moved.** (Re-measured 2026-10-10 after the orbit-radius retag; the pre-retag run moved only the three facebook cells.)
 
 | network | target | ε | raw r\* | log1p r\* |
 |---|---|---|---|---|
 | facebook_combined | betweenness | 0.20 | 2 | **1** |
 | facebook_combined | betweenness | 0.02 | 3 | **2** |
 | facebook_combined | betweenness | 0.01 | 3 | **2** |
+| ca-HepTh | betweenness | 0.02 | 2 | **1** |
+
+The facebook moves are unanimous: 10 of 10 seeds agree under both objectives. The ca-HepTh move is borderline. Under the raw objective that horizon was already split (8 seeds at r=2, 2 at r=1), and log1p makes it unanimous at r=1. It is a split horizon tipping, not a second large effect.
 
 **Every movement shortens the horizon, and that is the substantive result.** Part of the apparent need for a third hop on facebook betweenness was the model **buying with features what a correct objective would have supplied for free**. Under a properly-conditioned objective r\*=2 suffices where r\*=3 was published.
 
 This cuts *for* the thesis rather than against it. The project's claim is that the horizon is a measured property of the (network, target) pair; the corrected measurement says locality is **more** sufficient on facebook betweenness than the published figure admits. It is still a correction to a published number, and it is reported as one.
 
-**The control did its job.** Mean correction gain is **+0.0385 on betweenness** (mean skew 11.29) against **+0.0005 on spread_mean** (mean skew 4.12) — a 77× separation tracking skew, with spread_mean's largest single movement anywhere being +0.0047. Had both targets moved, this would have been a fact about the transform perturbing r\* rather than about the objective mismatch. They did not.
+**The control did its job.** Mean correction gain is **+0.0381 on betweenness** (mean skew 11.29) against **+0.0006 on spread_mean** (mean skew 4.12) — a 64× separation tracking skew (re-measured 2026-10-10; pre-retag +0.0385 vs +0.0005, 77×), with spread_mean's largest single movement anywhere being +0.0047. Had both targets moved, this would have been a fact about the transform perturbing r\* rather than about the objective mismatch. They did not.
 
 **One wrinkle, reported rather than smoothed.** ca-GrQc betweenness at ε=0.01 keeps its modal r\* but loses seed stability under the corrected objective — modal support falls from 10/10 to 5/10. Every other cell in the probe holds at 9/10 or 10/10 under both objectives. That is one cell out of fifty and it is not a claim; it is a thing a careful reader would find and should not have to find alone.
 
@@ -2766,8 +2769,10 @@ section N9 rather than assumed:
    corrected corpus there would report Finding 11's objective effect under an
    estimator's name.
 
-**The horizon is largely unaffected**, which is the point worth carrying: 3 of 25
-betweenness r\*(ε) cells moved, all on `facebook_combined`, all downward. The adoption
+**The horizon is largely unaffected**, which is the point worth carrying: 4 of 25
+betweenness r\*(ε) cells moved, all downward. Three are on `facebook_combined`; one is a
+ca-HepTh horizon that was already split 8/2 across seeds (re-measured 2026-10-10 after the
+orbit-radius retag; previously 3 of 25, all facebook). The adoption
 sharpens the *richness attribution* (Finding 10's rung, the r=1 edge sign flip); it does
 not rewrite the locality thesis.
 

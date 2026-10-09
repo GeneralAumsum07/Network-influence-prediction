@@ -1,0 +1,144 @@
+==============================================================================
+1. LEVEL - tau at the richest structural tier, raw vs log1p objective
+   (tau is scored against the ORIGINAL target under both)
+==============================================================================
+
+  network              target            skew  r       raw     log1p      gain
+  ca-GrQc              betweenness       6.15  0    0.5422    0.5560   +0.0138*
+  ca-GrQc              betweenness       6.15  1    0.9183    0.9197   +0.0015*
+  ca-GrQc              betweenness       6.15  2    0.9214    0.9288   +0.0074*
+  ca-GrQc              betweenness       6.15  3    0.9213    0.9283   +0.0070*
+  ca-GrQc              spread_mean       7.00  0    0.7807    0.7812   +0.0005 
+  ca-GrQc              spread_mean       7.00  1    0.9073    0.9078   +0.0005*
+  ca-GrQc              spread_mean       7.00  2    0.9416    0.9417   +0.0001 
+  ca-GrQc              spread_mean       7.00  3    0.9441    0.9444   +0.0003 
+  ca-HepTh             betweenness       6.95  0    0.6611    0.6611   -0.0000 
+  ca-HepTh             betweenness       6.95  1    0.8974    0.9024   +0.0049*
+  ca-HepTh             betweenness       6.95  2    0.9152    0.9193   +0.0040*
+  ca-HepTh             betweenness       6.95  3    0.9161    0.9199   +0.0038*
+  ca-HepTh             spread_mean       4.87  0    0.7228    0.7227   -0.0001 
+  ca-HepTh             spread_mean       4.87  1    0.8966    0.8968   +0.0002 
+  ca-HepTh             spread_mean       4.87  2    0.9461    0.9461   +0.0001 
+  ca-HepTh             spread_mean       4.87  3    0.9508    0.9510   +0.0002 
+  email-Eu-core        betweenness       9.73  0    0.7429    0.7831   +0.0402*
+  email-Eu-core        betweenness       9.73  1    0.8987    0.9078   +0.0091*
+  email-Eu-core        betweenness       9.73  2    0.9048    0.9131   +0.0084*
+  email-Eu-core        betweenness       9.73  3    0.9037    0.9134   +0.0097*
+  email-Eu-core        spread_mean       1.18  0    0.8619    0.8615   -0.0004 
+  email-Eu-core        spread_mean       1.18  1    0.9570    0.9572   +0.0002 
+  email-Eu-core        spread_mean       1.18  2    0.9637    0.9638   +0.0001 
+  email-Eu-core        spread_mean       1.18  3    0.9687    0.9686   -0.0001 
+  facebook_combined    betweenness      28.88  0    0.3038    0.5944   +0.2906*
+  facebook_combined    betweenness      28.88  1    0.6297    0.8095   +0.1798*
+  facebook_combined    betweenness      28.88  2    0.8250    0.9233   +0.0983*
+  facebook_combined    betweenness      28.88  3    0.8510    0.9303   +0.0793*
+  facebook_combined    spread_mean       3.36  0    0.6705    0.6752   +0.0047*
+  facebook_combined    spread_mean       3.36  1    0.9453    0.9464   +0.0011*
+  facebook_combined    spread_mean       3.36  2    0.9574    0.9572   -0.0002 
+  facebook_combined    spread_mean       3.36  3    0.9586    0.9584   -0.0003 
+  p2p-Gnutella08       betweenness       4.77  0    0.8853    0.8848   -0.0005 
+  p2p-Gnutella08       betweenness       4.77  1    0.9230    0.9235   +0.0005*
+  p2p-Gnutella08       betweenness       4.77  2    0.9337    0.9357   +0.0019*
+  p2p-Gnutella08       betweenness       4.77  3    0.9367    0.9387   +0.0020*
+  p2p-Gnutella08       spread_mean       4.20  0    0.6705    0.6735   +0.0030*
+  p2p-Gnutella08       spread_mean       4.20  1    0.7928    0.7947   +0.0019*
+  p2p-Gnutella08       spread_mean       4.20  2    0.8867    0.8868   +0.0001 
+  p2p-Gnutella08       spread_mean       4.20  3    0.9160    0.9158   -0.0002 
+
+  Mean gain from correcting the objective, by target:
+    betweenness     +0.0381   (max +0.2906, min -0.0005, mean skew 11.29)
+    spread_mean     +0.0006   (max +0.0047, min -0.0004, mean skew 4.12)
+
+==============================================================================
+2. HORIZON - modal r*(eps) under each objective
+==============================================================================
+
+  network              target          eps   raw   log1p  verdict
+  ca-GrQc              betweenness    0.20     1       1  
+  ca-GrQc              betweenness    0.10     1       1  
+  ca-GrQc              betweenness    0.05     1       1  
+  ca-GrQc              betweenness    0.02     1       1  
+  ca-GrQc              betweenness    0.01     1       1  
+  ca-GrQc              spread_mean    0.20     0       0  
+  ca-GrQc              spread_mean    0.10     1       1  
+  ca-GrQc              spread_mean    0.05     1       1  
+  ca-GrQc              spread_mean    0.02     2       2  
+  ca-GrQc              spread_mean    0.01     2       2  
+  ca-HepTh             betweenness    0.20     1       1  
+  ca-HepTh             betweenness    0.10     1       1  
+  ca-HepTh             betweenness    0.05     1       1  
+  ca-HepTh             betweenness    0.02     2       1  <-- MOVED
+  ca-HepTh             betweenness    0.01     2       2  
+  ca-HepTh             spread_mean    0.20     1       1  
+  ca-HepTh             spread_mean    0.10     1       1  
+  ca-HepTh             spread_mean    0.05     2       2  
+  ca-HepTh             spread_mean    0.02     2       2  
+  ca-HepTh             spread_mean    0.01     2       2  
+  email-Eu-core        betweenness    0.20     0       0  
+  email-Eu-core        betweenness    0.10     1       1  
+  email-Eu-core        betweenness    0.05     1       1  
+  email-Eu-core        betweenness    0.02     1       1  
+  email-Eu-core        betweenness    0.01     1       1  
+  email-Eu-core        spread_mean    0.20     0       0  
+  email-Eu-core        spread_mean    0.10     1       1  
+  email-Eu-core        spread_mean    0.05     1       1  
+  email-Eu-core        spread_mean    0.02     1       1  
+  email-Eu-core        spread_mean    0.01     2       2  
+  facebook_combined    betweenness    0.20     2       1  <-- MOVED
+  facebook_combined    betweenness    0.10     2       2  
+  facebook_combined    betweenness    0.05     2       2  
+  facebook_combined    betweenness    0.02     3       2  <-- MOVED
+  facebook_combined    betweenness    0.01     3       2  <-- MOVED
+  facebook_combined    spread_mean    0.20     1       1  
+  facebook_combined    spread_mean    0.10     1       1  
+  facebook_combined    spread_mean    0.05     1       1  
+  facebook_combined    spread_mean    0.02     1       1  
+  facebook_combined    spread_mean    0.01     2       2  
+  p2p-Gnutella08       betweenness    0.20     0       0  
+  p2p-Gnutella08       betweenness    0.10     0       0  
+  p2p-Gnutella08       betweenness    0.05     1       1  
+  p2p-Gnutella08       betweenness    0.02     1       1  
+  p2p-Gnutella08       betweenness    0.01     2       2  
+  p2p-Gnutella08       spread_mean    0.20     1       1  
+  p2p-Gnutella08       spread_mean    0.10     2       2  
+  p2p-Gnutella08       spread_mean    0.05     2       2  
+  p2p-Gnutella08       spread_mean    0.02     3       3  
+  p2p-Gnutella08       spread_mean    0.01     3       3  
+
+  4 of 50 (network x target x eps) horizon cells moved under the corrected objective
+
+  Movements, split by target - this is the split that matters:
+    betweenness     4 / 25 moved
+        ca-HepTh             eps=0.02  r*: 2 -> 1
+        facebook_combined    eps=0.20  r*: 2 -> 1
+        facebook_combined    eps=0.02  r*: 3 -> 2
+        facebook_combined    eps=0.01  r*: 3 -> 2
+    spread_mean     0 / 25 moved
+
+==============================================================================
+3. STABILITY - how often the modal r* wins across the 10 seeds
+   (a horizon that does not move but was never stable has not been
+    shown robust - only shown noisy twice)
+==============================================================================
+
+  network              target          eps  raw support  log1p support
+  ca-GrQc              betweenness    0.05        10/10          10/10
+  ca-GrQc              betweenness    0.01        10/10           7/10
+  ca-GrQc              spread_mean    0.05        10/10          10/10
+  ca-GrQc              spread_mean    0.01        10/10          10/10
+  ca-HepTh             betweenness    0.05        10/10          10/10
+  ca-HepTh             betweenness    0.01        10/10          10/10
+  ca-HepTh             spread_mean    0.05        10/10          10/10
+  ca-HepTh             spread_mean    0.01        10/10          10/10
+  email-Eu-core        betweenness    0.05        10/10          10/10
+  email-Eu-core        betweenness    0.01        10/10          10/10
+  email-Eu-core        spread_mean    0.05        10/10          10/10
+  email-Eu-core        spread_mean    0.01        10/10          10/10
+  facebook_combined    betweenness    0.05        10/10          10/10
+  facebook_combined    betweenness    0.01        10/10          10/10
+  facebook_combined    spread_mean    0.05        10/10          10/10
+  facebook_combined    spread_mean    0.01        10/10          10/10
+  p2p-Gnutella08       betweenness    0.05        10/10          10/10
+  p2p-Gnutella08       betweenness    0.01        10/10          10/10
+  p2p-Gnutella08       spread_mean    0.05        10/10          10/10
+  p2p-Gnutella08       spread_mean    0.01        10/10          10/10
