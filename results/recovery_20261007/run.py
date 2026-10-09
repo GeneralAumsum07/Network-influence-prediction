@@ -87,13 +87,19 @@ def preconditions():
         raise RuntimeError('previous controller recorded stage 2 complete; this queue is stale')
     # The old lock names the killed PID. Starting while that PID is alive would
     # put two writers on the same CSVs.
+    # Windows recycles PIDs, so "some process has this PID" is not enough: on
+    # 2026-10-10 PID 23676 belonged to dllhost.exe (created 2026-10-07 19:45, after
+    # a reboot), and the old bare check refused to start. The 09-14 controller was
+    # python.exe, so only a python.exe holding that PID counts. A recycled PID that
+    # lands on an unrelated python.exe still refuses - the safe direction.
     old_lock = PREVIOUS / 'active.lock'
     if old_lock.exists():
         pid = old_lock.read_text().strip()
-        alive = subprocess.run(['tasklist', '/FI', f'PID eq {pid}', '/NH'],
+        alive = subprocess.run(['tasklist', '/FI', f'PID eq {pid}',
+                                '/FI', 'IMAGENAME eq python.exe', '/NH'],
                                capture_output=True, text=True).stdout
         if pid in alive:
-            raise RuntimeError(f'previous controller PID {pid} is still alive')
+            raise RuntimeError(f'previous controller PID {pid} is still alive as python.exe')
     missing = [p for p in identity_sources() if not p.exists()]
     if missing:
         raise RuntimeError(f'missing inputs: {[p.relative_to(ROOT).as_posix() for p in missing]}')
