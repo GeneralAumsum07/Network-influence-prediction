@@ -74,7 +74,7 @@ def identity_sources():
     # Stage 2 resume gates. The objective-horizon one was added 2026-10-07 when
     # that probe was made resumable; both decide whether a partial CSV is reused.
     sources += [HERE / 'check_b1_resume.py', HERE / 'check_objective_horizon_resume.py',
-                Path(__file__)]
+                HERE / 'check_a7_resume.py', Path(__file__)]
     return sources
 
 

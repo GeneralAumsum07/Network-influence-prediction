@@ -73,11 +73,11 @@ try {
     Invoke-Step 'objective-horizon analysis' @('analyse_objective_horizon.py') 'results/RESULTS_objective_horizon.txt'
 
     # --- A7 target noise: frozen arm, refit arm, scoring, paired analysis ---------
-    Remove-PreRefit 'results_target_noise.csv'
-    Remove-PreRefit 'results_target_noise_refit.csv'
-    Remove-PreRefit 'results_target_noise_scored.csv'
-    Remove-PreRefit 'results/results_paired_target_noise.csv'
-    Remove-PreRefit 'results/RESULTS_paired_target_noise.txt'
+    # Gate instead of Remove-PreRefit (wired in 2026-10-11 after the 2026-10-10 19:34
+    # self-reset). Once the frozen arm has written results_target_noise.csv, any relaunch
+    # would throw at Remove-PreRefit ("differs from its archived copy") and never reach
+    # the refit arm's resume. check_a7_resume.py states what is accepted instead.
+    Invoke-Step 'A7 resume gate' @("$here\check_a7_resume.py") $null
     Invoke-Step 'A7 frozen arm (200 reps, no fits)' @('probe_target_noise.py', '--reps', '200') $null
     # --check-pairing re-derives the frozen arm's replicate-0 tau before any fit and
     # then continues into the full run, so one invocation covers both.
