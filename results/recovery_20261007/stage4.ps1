@@ -9,8 +9,15 @@
 #
 # The step 1 archive is already in place (results/c8_historical_pre_20260912 holds
 # RESULTS_robustness.txt and robustness.csv), so step 1 logs "Preserving existing" and
-# copies nothing. Nothing in this stage is resumable: a FAILED line means re-run the
-# failed step by hand, not the whole stage.
+# copies nothing.
+#
+# Resumable since 2026-10-11 (after the 2026-10-10 19:34 self-reset): both
+# analyse_robustness.py steps pass --checkpoint, so each finished (network, rho)
+# block is recorded under checkpoints\ and a relaunch recomputes only the rest.
+# Finished steps replay and rewrite their CSV and RESULTS file byte-identically,
+# and fig3 and the verifier only read, so after a reset the whole stage is simply
+# run again. A checkpoint recorded under different code, inputs or arguments
+# refuses (the step FAILs) rather than mixing answers; see influence/checkpoint.py.
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 Set-Location -LiteralPath $root
@@ -18,6 +25,7 @@ $py = Join-Path $env:USERPROFILE 'miniconda3/envs/influence/python.exe'
 $env:PYTHONIOENCODING = 'utf-8'
 $archive = 'results/c8_historical_pre_20260912'
 $here = 'results\recovery_20261007'
+$ck = "$here\checkpoints"
 
 function Log([string]$Msg) { Write-Output "$(Get-Date -Format o) $Msg" }
 
@@ -46,9 +54,9 @@ try {
         Log "archived $src -> $dst"
     }
 
-    Invoke-Step 'robustness raw arm, five networks' @('analyse_robustness.py') 'results/RESULTS_robustness.txt'
+    Invoke-Step 'robustness raw arm, five networks' @('analyse_robustness.py', '--checkpoint', "$ck\robustness_raw.jsonl") 'results/RESULTS_robustness.txt'
     Invoke-Step 'fig3 raw arm' @('make_fig3.py') 'results/make_fig3_raw_20260912.log'
-    Invoke-Step 'robustness reported arm, betweenness only' @('analyse_robustness.py', '--objective', 'reported', '--targets', 'betweenness') 'results/RESULTS_robustness_log1p_20260912.txt'
+    Invoke-Step 'robustness reported arm, betweenness only' @('analyse_robustness.py', '--objective', 'reported', '--targets', 'betweenness', '--checkpoint', "$ck\robustness_reported_betweenness.jsonl") 'results/RESULTS_robustness_log1p_20260912.txt'
     Invoke-Step 'fig3 reported arm' @('make_fig3.py', '--objective', 'reported') 'results/make_fig3_log1p_20260912.log'
     Invoke-Step 'verify raw re-run and log1p arm' @('verify_robustness_rerun.py') 'results/VERIFY_robustness_rerun_20260912.txt'
 

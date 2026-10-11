@@ -87,9 +87,17 @@ leaves every other target on `rf`, which is what "reported" means for them.
 The header line names the arm so no output can be quoted without it.
 (Added 2026-09-12 by Claude Opus 5, Task 6 root integration run C8.)
 
+RESUMING (added 2026-10-11)
+--------------------------
+`--checkpoint PATH` records every fold-seed tau the moment it is computed, so
+a run interrupted by a crash or host reset refits only the seeds it never
+reached and prints the same bytes as an uninterrupted run (see
+influence/checkpoint.py). Without the flag nothing changes.
+
 Run:  python analyse_edge_tier.py [tag ...] [--tier subgraph]
                                   [--target betweenness] [--seeds 10]
                                   [--objective raw|reported]
+                                  [--checkpoint PATH]
 """
 import argparse
 
@@ -101,6 +109,10 @@ from influence.features import select_features
 from influence.experiment import out_of_fold_predictions, TIER_LADDER
 from influence.estimators import ESTIMATORS
 from influence.targets import assert_no_leakage
+from influence.checkpoint import Checkpoint
+
+# Inert unless main() replaces it, so score() keeps its old call signature.
+NO_CHECKPOINT = Checkpoint(None, "", {}, {})
 
 # The reference tier is the richest STRUCTURAL one, deliberately excluding
 # `dynamic` - same rule as analyse.py. The dynamic tier assumes the observer
@@ -137,17 +149,21 @@ def objective_factory(target: str, objective: str):
 
 
 def score(X: pd.DataFrame, cols: list[str], y: np.ndarray,
-          n_seeds: int, estimator=None) -> np.ndarray:
+          n_seeds: int, estimator=None, ck: Checkpoint = NO_CHECKPOINT,
+          key: str = "") -> np.ndarray:
     """
     Kendall tau at each seed, from out-of-fold predictions.
 
     Returns the per-seed vector rather than its mean so the caller can pair.
+    Each seed is one checkpoint unit under `key`; float() only converts
+    numpy's float64 to the Python float JSON round-trips exactly.
     """
     assert_no_leakage(cols)              # every variant, every time
     Xm = X[cols].to_numpy(dtype=np.float64)
     return np.array([
-        kendalltau(y, out_of_fold_predictions(Xm, y, 5, s,
-                                              estimator=estimator)).statistic
+        ck.unit(f"{key}|seed={s}", lambda s=s: float(kendalltau(
+            y, out_of_fold_predictions(Xm, y, 5, s,
+                                       estimator=estimator)).statistic))
         for s in range(n_seeds)
     ])
 
@@ -179,9 +195,20 @@ def main() -> None:
     ap.add_argument("--objective", default="raw", choices=["raw", "reported"],
                     help="raw = historical squared-error arm (reproduces the "
                          "2026-09-01 files); reported = rf_log1p for betweenness")
+    ap.add_argument("--checkpoint", default=None,
+                    help="resume log (JSON lines); see influence/checkpoint.py")
     args = ap.parse_args()
     BASE_TIERS, FULL_TIERS = RUNG[args.tier]
     estimator, objective_label = objective_factory(args.target, args.objective)
+
+    # Header pins every argument that changes the answer and the bytes of the
+    # three cache files each tag reads; inputs are labelled by file name only.
+    inputs = {f"{kind}_{tag}.csv": f"{kind}_{tag}.csv" for tag in args.tags
+              for kind in ("cache_features", "cache_targets", "cache_registry")}
+    ck = Checkpoint(args.checkpoint, "analyse_edge_tier.py",
+                    {"tags": args.tags, "target": args.target,
+                     "radius": args.radius, "seeds": args.seeds,
+                     "tier": args.tier, "objective": args.objective}, inputs)
 
     print("=" * 78)
     print(f"{args.tier.upper()} TIER ABLATION   target={args.target}  "
@@ -209,8 +236,10 @@ def main() -> None:
         full_cols = select_features(X, reg, max_hop=args.radius,
                                     tiers=FULL_TIERS)
 
-        base = score(X, base_cols, y, args.seeds, estimator)
-        full = score(X, full_cols, y, args.seeds, estimator)
+        base = score(X, base_cols, y, args.seeds, estimator, ck,
+                     f"tau|{tag}|base")
+        full = score(X, full_cols, y, args.seeds, estimator, ck,
+                     f"tau|{tag}|full")
         g_full, sd_full, sig_full = paired(full, base)
 
         print(f"\n{tag}   (n={len(y)})")
@@ -236,7 +265,8 @@ def main() -> None:
         for group, sub in edge.groupby("group"):
             add = sub.feature.tolist()
             cols = base_cols + [c for c in add if c in X.columns]
-            s = score(X, cols, y, args.seeds, estimator)
+            s = score(X, cols, y, args.seeds, estimator, ck,
+                      f"tau|{tag}|group={group}")
             g, sd, sig = paired(s, base)
             rows.append((group, len(add), s.mean(), g, sd, sig))
 

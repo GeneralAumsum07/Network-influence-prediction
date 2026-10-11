@@ -82,8 +82,21 @@ runs the reported arm with `--targets betweenness`. `--objective raw` is the
 default and reproduces the 2026-08-27 files; the output path defaults differ
 per arm so the reported arm can never overwrite the historical CSV.
 
+RESUMING (added 2026-10-11)
+--------------------------
+`--checkpoint PATH` records each (network, rho) block - every damage draw,
+target and method at that damage level, with everything it printed - the
+moment the block finishes. A rerun after a crash or host reset replays the
+finished blocks and recomputes only the rest; the CSV and the printed report
+are byte-identical to an uninterrupted run (see influence/checkpoint.py).
+A block, not a single draw, is the unit because the damaged-training arm
+trains each draw's model on ANOTHER draw at the same rho, so a draw cannot be
+scored without all of its rho's draws extracted anyway. Without the flag
+nothing changes.
+
 Run:  python analyse_robustness.py [--networks a,b] [--rhos 0.05,0.1,...]
       python analyse_robustness.py --objective reported --targets betweenness
+      (either with --checkpoint PATH to make it resumable)
 """
 import argparse
 import glob
@@ -104,10 +117,14 @@ from influence.experiment import TIER_LADDER, precision_at_k
 from influence.robustness import delete_edges, align_features
 from influence.targets import exact_betweenness, assert_no_leakage
 from influence.dynamics import simulate_ic_percolation
+from influence.checkpoint import Checkpoint
 
 FULL = TIER_LADDER["node+edge+subgraph"]
 N_FOLDS = 5
 N_TREES = 120
+
+# Inert unless main() replaces it, so run_network keeps its old call signature.
+NO_CHECKPOINT = Checkpoint(None, "", {}, {})
 
 
 def fit_folds(Xc: np.ndarray, y: np.ndarray, seed: int = 0,
@@ -162,7 +179,8 @@ def use_log1p(target: str, objective: str) -> bool:
 
 
 def run_network(tag: str, rhos, dseeds, targets, train_modes,
-                objective: str = "raw") -> pd.DataFrame:
+                objective: str = "raw",
+                ck: Checkpoint = NO_CHECKPOINT) -> pd.DataFrame:
     meta = json.load(open(f"cache_meta_{tag}.json"))
     net = load_edgelist(meta["provenance"]["source"].replace("\\", "/"))
     Xc_df = pd.read_csv(f"cache_features_{tag}.csv")
@@ -177,14 +195,27 @@ def run_network(tag: str, rhos, dseeds, targets, train_modes,
           f"{len(cols)} features   objective={objective}\n{'='*78}", flush=True)
 
     # One set of fold models per target, reused at every noise level.
+    # Fitted on first use rather than up front (2026-10-11) so a network whose
+    # every rho block is replayed from the checkpoint fits nothing. The fit is
+    # seeded (fold split and forest), so fitting it later, or again after a
+    # resume, gives the same models an uninterrupted run would have used.
     fitted = {}
-    for t in targets:
-        if t in Y.columns:
-            fitted[t] = fit_folds(Xc, Y[t].to_numpy(dtype=np.float64),
-                                  log1p=use_log1p(t, objective))
 
-    rows = []
-    for rho in rhos:
+    def clean_models():
+        if not fitted:
+            for t in targets:
+                if t in Y.columns:
+                    fitted[t] = fit_folds(Xc, Y[t].to_numpy(dtype=np.float64),
+                                          log1p=use_log1p(t, objective))
+        return fitted
+
+    def rho_block(rho) -> list[dict]:
+        # The original per-rho loop body, moved verbatim into a function so
+        # that one damage level is one checkpoint unit (2026-10-11). Only two
+        # things changed: the clean models come from clean_models(), and the
+        # rows are this block's return value instead of a shared list.
+        fitted = clean_models()
+        rows = []
         draws = dseeds if rho > 0 else [0]
 
         # Extract every damage draw at this rho FIRST. The damaged-training
@@ -244,6 +275,12 @@ def run_network(tag: str, rhos, dseeds, targets, train_modes,
                     rows.append({"network": tag, "target": t, "rho": rho,
                                  "damage_seed": ds, "method": method,
                                  **score(y, pred, nz)})
+        return rows
+
+    rows = []
+    for rho in rhos:
+        rows += ck.unit(f"block|{tag}|rho={rho!r}",
+                        lambda rho=rho: rho_block(rho))
     return pd.DataFrame(rows)
 
 
@@ -315,6 +352,8 @@ def main() -> None:
                          "raw and results/robustness_log1p.csv for reported, "
                          "so the reported arm cannot overwrite the historical "
                          "CSV that make_fig3.py and the study read")
+    ap.add_argument("--checkpoint", default=None,
+                    help="resume log (JSON lines); see influence/checkpoint.py")
     args = ap.parse_args()
 
     tags = args.networks.split(",") if args.networks else discover()
@@ -325,8 +364,24 @@ def main() -> None:
                        else "results/robustness_log1p.csv")
 
     train_modes = args.train_on.split(",")
+
+    # Header pins every argument that changes the rows (not --out, which only
+    # says where they go) and the bytes of everything each network reads.
+    inputs = {}
+    for t in tags:
+        meta_path = f"cache_meta_{t}.json"
+        src = json.load(open(meta_path))["provenance"]["source"].replace("\\", "/")
+        inputs[meta_path] = meta_path
+        inputs[src] = src
+        inputs.update({f"{kind}_{t}.csv": f"{kind}_{t}.csv" for kind in
+                       ("cache_features", "cache_targets", "cache_registry")})
+    ck = Checkpoint(args.checkpoint, "analyse_robustness.py",
+                    {"networks": tags, "rhos": rhos, "damage_seeds": dseeds,
+                     "targets": targets, "train_on": train_modes,
+                     "objective": args.objective}, inputs)
+
     all_rows = [run_network(t, rhos, dseeds, targets, train_modes,
-                            args.objective) for t in tags]
+                            args.objective, ck) for t in tags]
     df = pd.concat(all_rows, ignore_index=True)
     os.makedirs("results", exist_ok=True)
     df.to_csv(out, index=False)

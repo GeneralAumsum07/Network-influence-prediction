@@ -19,7 +19,16 @@ This is the same discipline as the orbit_04 and 5-node-hop-1 ablations: isolate
 the one thing that changed rather than re-running everything and reading a
 difference off two large tables.
 
-Run:  python analyse_edge5.py [tag ...] [--seeds 10]
+RESUMING (added 2026-10-11)
+--------------------------
+`--checkpoint PATH` makes a run resumable after a crash or host reset: every
+fold-seed tau is recorded the moment it is computed, and each finished
+network's whole printed block is recorded too, so a rerun replays finished
+networks without even re-extracting their features and refits only the seeds
+it never reached. A resumed run prints the same bytes as an uninterrupted one
+(see influence/checkpoint.py). Without the flag nothing changes.
+
+Run:  python analyse_edge5.py [tag ...] [--seeds 10] [--checkpoint PATH]
 """
 import argparse
 import glob
@@ -36,8 +45,13 @@ from influence.features import extract_features, select_features
 from influence.experiment import out_of_fold_predictions, TIER_LADDER
 from influence.estimators import ESTIMATORS
 from influence.targets import assert_no_leakage
+from influence.checkpoint import Checkpoint
 
 FULL = TIER_LADDER["node+edge+subgraph"]
+
+# Inert unless main() replaces it; keeps run()/analyse() callable as before
+# from anything that imports this module.
+NO_CHECKPOINT = Checkpoint(None, "", {}, {})
 
 
 def objective_factory(target: str, objective: str):
@@ -57,14 +71,21 @@ def objective_factory(target: str, objective: str):
 
 
 def run(X: pd.DataFrame, cols, y: np.ndarray, n_seeds: int,
-        estimator=None) -> np.ndarray:
+        estimator=None, ck: Checkpoint = NO_CHECKPOINT,
+        key: str = "") -> np.ndarray:
     Xm = X[cols].to_numpy(dtype=np.float64)
-    return np.array([kendalltau(y, out_of_fold_predictions(
-                         Xm, y, 5, s, estimator=estimator)).statistic
+    # One checkpoint unit per seed: the finest grain that is still one
+    # complete, deterministic fit. float() turns numpy's float64 into the
+    # Python float JSON round-trips exactly; the value is unchanged, so the
+    # array below is bit-identical whether a seed was fitted or replayed.
+    return np.array([ck.unit(f"{key}|seed={s}", lambda s=s: float(kendalltau(
+                         y, out_of_fold_predictions(
+                             Xm, y, 5, s, estimator=estimator)).statistic))
                      for s in range(n_seeds)])
 
 
-def analyse(tag: str, n_seeds: int, targets, objective: str = "raw") -> None:
+def analyse(tag: str, n_seeds: int, targets, objective: str = "raw",
+            ck: Checkpoint = NO_CHECKPOINT) -> None:
     meta = json.load(open(f"cache_meta_{tag}.json"))
     net = load_edgelist(meta["provenance"]["source"].replace("\\", "/"))
     Y = pd.read_csv(f"cache_targets_{tag}.csv")
@@ -108,7 +129,9 @@ def analyse(tag: str, n_seeds: int, targets, objective: str = "raw") -> None:
             assert_no_leakage(c4)
             assert_no_leakage(c5)
             est = objective_factory(target, objective)
-            a, b = run(X4, c4, y, n_seeds, est), run(X5, c5, y, n_seeds, est)
+            cell = f"tau|{tag}|{target}|r={r}"
+            a = run(X4, c4, y, n_seeds, est, ck, cell + "|4node")
+            b = run(X5, c5, y, n_seeds, est, ck, cell + "|5node")
             d = b - a
             star = "*" if abs(d.mean()) > 2 * d.std(ddof=1) else " "
             print(f"    r={r}  4-node {a.mean():.4f}  ->  5-node {b.mean():.4f}"
@@ -129,6 +152,30 @@ if __name__ == "__main__":
     ap.add_argument("--objective", default="raw", choices=["raw", "reported"],
                     help="raw = historical squared-error arm (reproduces the "
                          "2026-08-26 file); reported = rf_log1p for betweenness")
+    ap.add_argument("--checkpoint", default=None,
+                    help="resume log (JSON lines); see influence/checkpoint.py")
     a = ap.parse_args()
-    for t in (a.tags or discover()):
-        analyse(t, a.seeds, a.targets.split(","), a.objective)
+    tags = a.tags or discover()
+    targets = a.targets.split(",")
+
+    # The checkpoint header pins what decides the answer: arguments (the tag
+    # list included, so a new cache appearing changes it), the bytes of every
+    # input, and the loaded project code. Inputs are labelled by file name,
+    # never by an absolute path.
+    inputs = {}
+    for t in tags:
+        meta_path = f"cache_meta_{t}.json"
+        src = json.load(open(meta_path))["provenance"]["source"].replace("\\", "/")
+        inputs.update({meta_path: meta_path, f"cache_targets_{t}.csv":
+                       f"cache_targets_{t}.csv", src: src})
+    ck = Checkpoint(a.checkpoint, "analyse_edge5.py",
+                    {"tags": tags, "seeds": a.seeds, "targets": targets,
+                     "objective": a.objective}, inputs)
+
+    # A whole network is also a unit, wrapping its per-seed units, so a
+    # finished network replays its printed block and skips the 5-node edge
+    # orbit extraction entirely - that extraction is the one cost per-seed
+    # replay alone could not avoid.
+    for t in tags:
+        ck.unit(f"tag|{t}", lambda t=t: analyse(t, a.seeds, targets,
+                                                a.objective, ck))
