@@ -351,11 +351,87 @@ def guards() -> None:
             ab.OUT, ab.LOCATOR_DIR = saved_out, saved_loc
 
 
+def controller() -> None:
+    """probe_beta_sweep.py: the grid it runs, what it pins, when it calls a
+    unit complete, and the lock that lets it resume after a host reset."""
+    print("\n[controller] probe_beta_sweep.py")
+    import probe_beta_sweep as pb
+
+    counts = {m: len(pb.expected_keys(m)) for m in ab.SWEEP_MULTIPLES}
+    check("controller: 480 cells below m=1.25, 800 from 1.25 up",
+          counts == {0.8: 480, 1.0: 480, 1.25: 800, 2.0: 800, 3.0: 800}, str(counts))
+    total = sum(len(pb.expected_keys(m)) for _, m in pb.all_units())
+    # The 2026-09-14 12:16 clarification computed 16,800; this is that arithmetic.
+    check("controller: 25 units, 16,800 cells in all",
+          len(pb.all_units()) == 25 and total == 16800, str(total))
+    check("controller: cv/resid excluded below 1.25 only",
+          "spread_cv" not in pb.stage_targets(1.0) and "spread_resid" in pb.stage_targets(1.25))
+    check("controller: primary networks run first",
+          [t for t, _ in pb.all_units()[:10]] == [ab.PRIMARY_NETWORKS[0]] * 5 + [ab.PRIMARY_NETWORKS[1]] * 5)
+    for bad in ("email-Eu-core@1.5", "nonet@1.0", "email-Eu-core"):
+        try:
+            pb.parse_only([bad])
+            check(f"controller: --only {bad} refused", False)
+        except SystemExit:
+            check(f"controller: --only {bad} refused", True)
+
+    pinned = {p.relative_to(pb.ROOT).as_posix() for p in pb.identity_sources()}
+    must = {"stage1_prepare.py", "stage2_sweep.py", "influence/features.py",
+            "influence/dynamics.py", "influence/experiment.py", "influence/estimators.py",
+            "influence/sweep_inputs.py", "influence/preprocessing.py", "influence/targets.py",
+            "influence/criticality.py", "influence/graphlets.py", "vendor/orca.exe",
+            "data/email-Eu-core.txt",
+            "results/phase6_5_beta/locator/p2p-Gnutella08.json"}
+    check("controller: pins the stages, their imports, data and locator",
+          must <= pinned, str(sorted(must - pinned)))
+    check("controller: leaves L7's module and the analyser unpinned",
+          "influence/branch_anisotropy.py" not in pinned and "analyse_beta_sweep.py" not in pinned)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        d, tag, m = Path(tmp), "email-Eu-core", 1.0
+        keys = sorted(pb.expected_keys(m))
+        rows = pd.DataFrame([{"target": t, "radius": r, "richness": tier, "seed": s, "tau": 0.5}
+                             for t, r, tier, s in keys])
+        oof = {f"{t}|{r}|{tier}|{s}": np.zeros(3) for t, r, tier, s in keys}
+        rows.to_csv(d / f"sweep_{tag}.csv", index=False)
+        np.savez(d / f"cache_oof_{tag}.npz", **oof)
+        check("controller: complete unit recognised", pb.unit_done(d, tag, m)[0])
+        rows.iloc[1:].to_csv(d / f"sweep_{tag}.csv", index=False)
+        check("controller: a missing cell is incomplete", not pb.unit_done(d, tag, m)[0])
+        pd.concat([rows, rows.iloc[:1]]).to_csv(d / f"sweep_{tag}.csv", index=False)
+        check("controller: a duplicated cell is incomplete", not pb.unit_done(d, tag, m)[0])
+        rows.to_csv(d / f"sweep_{tag}.csv", index=False)
+        np.savez(d / f"cache_oof_{tag}.npz", **dict(list(oof.items())[1:]))
+        check("controller: a missing OOF prediction is incomplete", not pb.unit_done(d, tag, m)[0])
+
+        (d / f"cache_meta_{tag}.json").write_text(json.dumps(
+            {"multiple": 2.0, "n_sims": 4000, "convention": "uniform", "max_hop": 3}))
+        try:
+            pb.stage1_done(d, tag, m)
+            check("controller: a stage-1 cache for another multiple is refused", False)
+        except RuntimeError:
+            check("controller: a stage-1 cache for another multiple is refused", True)
+
+        # Lock: a dead PID is renamed and the run proceeds; a live python.exe
+        # (this process) refuses. 4,000,000,000 is above any Windows PID.
+        lock = d / "active.lock"
+        lock.write_text("4000000000")
+        note = pb.take_lock(lock)
+        stale = list(d.glob("stale_lock_4000000000_*.txt"))
+        check("controller: stale lock renamed and the run resumes",
+              len(stale) == 1 and lock.read_text() == str(__import__("os").getpid()), note)
+        try:
+            pb.take_lock(lock)
+            check("controller: a live controller's lock refuses", False)
+        except RuntimeError:
+            check("controller: a live controller's lock refuses", True)
+
+
 def main() -> int:
     print("=" * 78)
     print("verify_beta_sweep - Phase 6.5 L1 pre-launch checks (prereg part E)")
     print("=" * 78)
-    e1(); e2(); e4(); rule3(); label(); end_to_end(); guards()
+    e1(); e2(); e4(); rule3(); label(); end_to_end(); guards(); controller()
     print()
     if FAIL:
         print(f"FAILURES ({len(FAIL)}):")
