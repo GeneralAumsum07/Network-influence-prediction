@@ -454,3 +454,165 @@ points stay unmodified and all scientific outputs stay inside those directories.
 A prepared controller does not score the still-unimplemented empirical locator
 or noise-normalised horizon analyses. Their precise execution definitions and
 verification must be completed before this lane's full run is launched.
+
+## L1 execution definitions — 2026-10-12 12:15 IST — before any L1 preparation or fits
+
+Written by Claude Opus 5.5. Rachit decided the locator choice in chat (12:14): "χ primary
+with the fine grid". Nothing in this section has been computed. No L1 controller,
+analyser or cache exists yet. This addendum supplies the "precise execution definitions"
+that the 2026-09-14 12:16 clarification requires before the full run. It changes no
+prediction, counter or stop rule above.
+
+### A. Gate status
+
+The 2026-09-14 clarification gates L1 preparation and fits on the recovery controller's
+"genuine ALL STAGES COMPLETE terminal state, with no active recovery owner". That literal
+state was never reached.
+
+- `results/recovery_20261007/controller.log` ends with `FAILED stage4 exited 1`
+  (2026-10-12 05:57:30).
+- Every stage 4 fit finished (05:57:27). The only failing step is the verifier's
+  CHECK 1, which missed its 1e-6 bar on model rows (max |Δτ| 0.012). The miss is traced
+  to registry column order, and its prescribed action, re-quoting Angle 4, is done.
+- Rachit declared stage 4 COMPLETE at 11:35 on 2026-10-12 ("mark stage 4 complete";
+  LOG 2026-10-12 11:41). The `FAILED` line is kept as evidence.
+- No recovery lock is active; only two renamed stale locks remain.
+
+**The gate is therefore treated as met by Rachit's ruling, not by the controller's
+terminal string.** This is recorded here so that L1 does not launch on a gate that its
+own record shows as failed.
+
+### B. Empirical criticality locator
+
+**Primary: percolation susceptibility.** For a network at multiple m, draw J
+bond-percolation realisations. S₁ⱼ is the number of nodes in the largest connected
+component of draw j. Then
+
+  χ(m) = Var_j(S₁) / Mean_j(S₁)      (sample variance, ddof = 1)
+
+and **m\*_χ = argmax of χ over the fine grid below.** Ties go to the smallest m.
+
+**Secondary, reported and labelled, never substituted for the primary:**
+
+- the argmax of the mean second-largest component size ⟨S₂⟩;
+- the argmax of the between-node CV, sd_i(σ̄_i) / mean_i(σ̄_i), where σ̄_i is node i's
+  mean reached-set size over the draws.
+
+If the three disagree, every one of them is reported; the verdict uses χ only.
+
+**Why χ and not the CV.** The CV is computed from the per-node spreads, which are the
+target whose locality r\* measures. χ and ⟨S₂⟩ depend only on the percolation, so they
+can falsify the counter-prediction ("a peak at intermediate m > 1 misread as at
+criticality") without sharing a quantity with the outcome. Radicchi (2015,
+arXiv:1412.3678) reports that 1/λ₁ of the non-backtracking matrix, the β_c used here,
+is often a tight lower bound on the true threshold of real networks. So m = 1.0 is not
+assumed to be critical.
+
+**Recovering S₁ and S₂ from a cascade cache needs no new draws.**
+`simulate_ic_percolation` stores, for every node and draw, the size of the node's
+component (`sizes[i, j] = comp_sizes[labels][i]`). A component of size s therefore
+contributes exactly s entries equal to s, and:
+
+- S₁ⱼ = max_i sizes[i, j];
+- the number of components of size s in draw j is #{i : sizes[i, j] = s} / s, which
+  gives S₂ⱼ, with S₂ⱼ = S₁ⱼ when two components tie for largest.
+
+**Fine grid.**
+
+- m ∈ {0.50, 0.55, …, 3.00}, 51 points. It contains all five sweep multiples
+  (0.8, 1.0, 1.25, 2.0, 3.0) and the historical 1.5.
+- J = 500 draws per point.
+- p = `transmission_probability(β_c, m)`, with β_c the value recorded in the network's
+  `cache_meta_<tag>.json`, which is the value stage 1 recomputes.
+- `simulate_ic_percolation(net, p, n_sims=500, convention="uniform", seed=0)` at every
+  point. Under `uniform` the generator is used only for the live-edge uniforms, so a
+  common seed couples the draws across m. That reduces argmax noise; the fixture test
+  in D checks it.
+- No fits.
+- Output: `results/phase6_5_beta/locator/<tag>.csv`, one row per m, with χ, ⟨S₂⟩, CV,
+  p and β_c.
+
+**The locator is computed and recorded before any L1 stage 1 or stage 2 cell runs**, so
+m\*_χ is fixed before any r\* exists.
+
+**Uncertainty.** A 200-replicate bootstrap over the 500 draws gives the spread of the
+argmax. It is reported and not used in the verdict.
+
+**Boundary.** If m\*_χ falls at 0.50 or 3.00, the locator is undetermined for that
+network. This is reported, and H1 is not scored there.
+
+**Locator bin.** m_loc = the smallest sweep multiple ≥ m\*_χ.
+
+### C. r\* rules
+
+The three rules registered above are kept. For each one, r\* is computed per
+(network, m, target, tier) from the 10 seeds × radii 0–3 of `sweep_<tag>.csv` in
+`results/phase6_5_beta/m<m>/`.
+
+**Primary tier: `node+edge+subgraph`.** This is `analyse.FULL`, the default of
+`locality_horizon`, and the tier every existing r\* in the project uses. The `full` tier
+(with `dynamic`) is reported beside it.
+
+1. **Relative rule.** `locality_horizon(sweep, epsilon)` as implemented, at
+   ε ∈ {0.10, 0.05, 0.02}. Reported. The registered text warns that it can "confirm" H1
+   by ceiling collapse.
+
+2. **Noise-normalised rule (primary for H1).** The ceiling radius r_c is the argmax of
+   the mean τ over seeds; ties go to the smaller r. For each r, take the paired per-seed
+   differences dₛ(r) = τₛ(r_c) − τₛ(r). Then
+
+     r\*_noise = the smallest r with mean_s dₛ(r) ≤ 2 · sd_s(dₛ(r))   (ddof = 1).
+
+   r_c always qualifies. The rule is paired because every seed draws the same folds for
+   every radius. A7 found all 45 covariances positive, with the paired SD about 0.58 of
+   the unpaired one, so an unpaired SD would be too lenient and would bias r\* low.
+   `analyse.py`'s `beats_noise` uses the same yardstick, 2 × the SD of per-seed
+   differences.
+
+   **Correction to the registered wording.** The rule was cited above as "`analyse_topk.py`
+   §4 rule: smallest r within 2·sd_seed of the ceiling". `analyse_topk.py` §4 is a sign
+   test on p@1% vs τ horizon shifts and contains no such rule, so this definition
+   replaces the citation.
+
+3. **Target-noise rule.** Its input is executable without fits: stage 2 writes
+   `cache_oof_<tag>.npz` into each m directory, and `probe_target_noise.py` reads its
+   cwd caches. **TBD.** Two things are not yet defined:
+   - the threshold;
+   - whether "split-half draws", as registered above, or the column bootstrap that
+     `probe_target_noise.py` implements is the resampling unit.
+
+   This rule is reported only. It must be defined in a further dated addendum before the
+   full run launches. It does not block the primary verdict.
+
+### D. Verdict
+
+For each network, take the primary series r\*_noise(m) for `spread_mean` and tier
+`node+edge+subgraph` over the five multiples.
+
+- **Flat:** r\*_noise is equal at all five. Under decision 5 this sends L6 to one
+  multiple rather than a scan.
+- Otherwise, P is the set of multiples where r\*_noise is largest, and m_peak = min(P).
+- **The prediction**, a peak at m ∈ [1.0, 1.25], is scored as written above, on m_peak.
+- **H1 stands** on a network only if it is not flat, its locator is determined, and
+  m_peak ≤ m_loc ("H1 stands only if the peak sits at or below the empirical locator").
+- **Primary claim:** email-Eu-core and p2p-Gnutella08, as registered. The other three
+  networks and the other targets are reported and labelled, and are not substituted for
+  a failed primary.
+
+### E. Verification before the full run
+
+1. **Fixture test.** On hand-built graphs with known components, the S₁/S₂ recovery
+   from a `sizes` matrix equals a direct `connected_components` count. This includes a
+   tie for the largest component.
+2. **Coupling test.** With seed 0, the live-edge set at a larger m is a superset of the
+   set at a smaller m. So S₁ⱼ is non-decreasing in m, draw by draw.
+3. **Cache agreement, now, with no new fits.** χ from the existing root 1.5× caches
+   (4,000 draws) agrees with the fine-grid point m = 1.50 within 3 bootstrap SE. The
+   same check is repeated against each m directory's 4,000-draw cache once stage 1 has
+   written it.
+4. **Rule tests.** The r\* functions are tested on synthetic sweep frames covering:
+   - a tie at the ceiling;
+   - sd = 0 with a positive mean gap;
+   - a flat series;
+   - a peak at an end multiple.
+5. **The four gates** stay green after every change, as section 4 requires.
