@@ -1,5 +1,5 @@
 """
-Score the betweenness re-sweep against `docs/decl_objective_resweep.md`.
+Score the betweenness re-sweep against `docs/reference/decl_objective_resweep.md`.
 
 Three questions, and only the third is genuinely open:
 

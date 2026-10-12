@@ -339,7 +339,8 @@
   ],
   "deferred_code_rewrites": {
     "why": "hash-bound production modules are not edited while the stage 1-4 queue runs (Astra ruling, 2026-09-12); rewrite these docstring/comment paths after STAGE 4 LANES COMPLETE and empty the allow-list in verify_docs.py",
-    "files": {
+    "done": "2026-10-12 (Claude Opus 5.5), after STAGE 4 LANES COMPLETE: all 20 paths in the 14 files rewritten to their current locations (docs/prereg/, docs/reference/, or a #rec- anchor in the record). 17 are in comments or docstrings; 3 are printed labels (analyse_c3_benchmarks.py, analyse_coverage.py, analyse_estimators.py). The files' SHA-256s changed; recorded hashes were not rewritten.",
+    "rewritten": {
       "analyse_betweenness.py": [
         "docs/priority_search_D2.md"
       ],
@@ -385,6 +386,7 @@
         "docs/phase6_r1_ablation_implementation_brief.md",
         "docs/phase6_r1_ablation_readiness_addendum.md"
       ]
-    }
+    },
+    "files": {}
   }
 }

@@ -1,5 +1,5 @@
 """
-A7 arm 2 scoring: P1-P4 from `docs/prereg_A7_target_noise.md`, against
+A7 arm 2 scoring: P1-P4 from `docs/prereg/prereg_A7_target_noise.md`, against
 `results_target_noise_refit.csv`.
 
 WHAT THE TWO ARMS ARE

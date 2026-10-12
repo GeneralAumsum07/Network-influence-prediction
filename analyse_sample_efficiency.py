@@ -1,5 +1,5 @@
 """
-Score B1 against `docs/prereg_B1_sample_efficiency.md`.
+Score B1 against `docs/prereg/prereg_B1_sample_efficiency.md`.
 
 Four declared predictions, and the pre-registration fixed the scoring rule
 BEFORE the run so it cannot be tuned to the answer:

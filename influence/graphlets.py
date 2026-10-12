@@ -142,7 +142,7 @@ ORBIT_SPEC: dict[int, tuple[str, int]] = {
 # orbit 70, is the clearest case: the two endpoints of the missing edge are two
 # steps apart). A radius-1 observer cannot see that far. verify_calibration.py
 # now holds this table to the derivation, and the r=1 cells that used the six
-# columns were refitted (see docs/phase6_claude_worklog_20260910.md).
+# columns were refitted (see docs/archive/phase6_record.md#rec-phase6_claude_worklog_20260910).
 ORBIT5_RADIUS: dict[int, int] = {}
 for _k in (0, 2, 3, 7, 11, 13, 14, 23, 33, 42, 44, 55, 58, 61,
            67, 69, 71, 72):

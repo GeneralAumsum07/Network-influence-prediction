@@ -20,7 +20,7 @@ it is enough, because the axis was never plotted.
 
 THE PREDICTIONS WERE WRITTEN FIRST
 ----------------------------------
-docs/prereg_A2_coverage.md, dated 2026-08-28, before any number below was computed.
+docs/prereg/prereg_A2_coverage.md, dated 2026-08-28, before any number below was computed.
 Section 5 of this script scores them mechanically. That ordering is the point: this
 analysis can undermine the project's own framing, which is exactly the situation
 where a post-hoc prediction is worth nothing.
@@ -172,7 +172,7 @@ def directional_deltas(path: str = "results/RESULTS_failures.txt") -> dict:
 
 def score_predictions(covt: pd.DataFrame, deltas: dict) -> None:
     print("\n" + "=" * 78)
-    print("5. SCORING docs/prereg_A2_coverage.md  (written before these numbers existed)")
+    print("5. SCORING docs/prereg/prereg_A2_coverage.md  (written before these numbers existed)")
     print("=" * 78)
 
     at3 = covt[covt.radius == 3].set_index("network")

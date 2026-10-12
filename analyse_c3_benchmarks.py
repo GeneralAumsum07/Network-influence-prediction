@@ -1,6 +1,6 @@
 """C3 — zero-set inflation on the external betweenness-learning benchmarks.
 
-Pre-registered in `docs/prereg_C3_benchmark_inflation.md` (2026-09-06). Read that first;
+Pre-registered in `docs/prereg/prereg_C3_benchmark_inflation.md` (2026-09-06). Read that first;
 every threshold scored here was fixed there before any value was computed.
 
 WHAT THIS DOES, AND WHY IT IS CHEAP
@@ -620,7 +620,7 @@ def main(argv: list[str] | None = None, out_root: Path | None = None) -> int:
 
     say("=" * 78)
     say("C3 — zero-set inflation on the BRAVA-GNN benchmark corpus")
-    say("Pre-registration: docs/prereg_C3_benchmark_inflation.md")
+    say("Pre-registration: docs/prereg/prereg_C3_benchmark_inflation.md")
     say("=" * 78)
 
     # ---- P4 gate first. Nothing else runs if this fails. --------------------

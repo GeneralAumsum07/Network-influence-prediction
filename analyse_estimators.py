@@ -21,7 +21,7 @@ does not spontaneously form the ratio cut/vol out of a dozen shell columns.
 
 A linear model forms ratios for free. So Finding 10 is the one result here with
 a named mechanistic reason to be estimator-specific, and section 3 below is its
-pre-registered falsification test (see `docs/prereg_B2_estimator.md`).
+pre-registered falsification test (see `docs/prereg/prereg_B2_estimator.md`).
 
 THE ONE THING TO GET RIGHT IN THE COMPARISON
 --------------------------------------------
@@ -209,7 +209,7 @@ def section_finding10(avail: dict[str, list[str]]) -> None:
     print("   facebook_combined, betweenness, r=2:")
     print("   node+edge -> node+edge+subgraph, paired within seed.")
     print("   Pre-registered threshold: ridge < +0.040 confirms P1;")
-    print("   hgb >= +0.040 confirms P3.  See docs/prereg_B2_estimator.md")
+    print("   hgb >= +0.040 confirms P3.  See docs/prereg/prereg_B2_estimator.md")
     print("=" * 78)
 
     tag, target, r = "facebook_combined", "betweenness", 2

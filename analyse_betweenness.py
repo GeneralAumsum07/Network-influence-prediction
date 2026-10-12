@@ -181,7 +181,7 @@ def boundary_share(bc: np.ndarray) -> dict:
     # Claude Opus 5. The code below was always the exact expression.)
     # verified against 200 simulated draws of the exact hypothetical method on
     # all five networks: max |closed form - simulated| = 5.1e-4, against a
-    # simulation standard error of ~3e-4. See docs/priority_search_D2.md.
+    # simulation standard error of ~3e-4. See docs/archive/phase6_record.md#rec-priority_search_D2.
     #
     # w itself is untouched and still correct AS the share of scored pairs that
     # are boundary pairs. What was wrong was the step from that share to a tau.

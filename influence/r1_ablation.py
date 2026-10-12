@@ -1,8 +1,8 @@
 """Pure contract helper for the Phase 6 radius-one structural ablation.
 
 Created 2026-09-10 by Claude Opus 5 for Phase 6 Task 5 (r=1 ablation scope gap).
-Specification: docs/phase6_r1_ablation_implementation_brief.md, as corrected by
-docs/phase6_r1_ablation_readiness_addendum.md.
+Specification: docs/archive/phase6_record.md#rec-phase6_r1_ablation_implementation_brief, as corrected by
+docs/archive/phase6_record.md#rec-phase6_r1_ablation_readiness_addendum.
 
 WHY THIS EXISTS
 ---------------

@@ -41,10 +41,10 @@ WHAT IT CHECKS
   9.  (added 2026-09-12) Every document path under docs/ or results/ and every
       relative markdown link in the documents and code resolves to a file that
       exists, and every `#rec-...` anchor into the record exists. Code files
-      whose docstrings still carry pre-reorganisation paths are allow-listed
-      from the sidecar's `deferred_code_rewrites` until the stage 1-4 queue
-      drains (hash-bound modules are not edited while it runs); the check prints
-      how many remain so the debt is visible on every run.
+      whose docstrings carried pre-reorganisation paths were allow-listed from
+      the sidecar's `deferred_code_rewrites` while the stage 1-4 queue ran
+      (hash-bound modules are not edited while it runs). They were rewritten on
+      2026-10-12 and the allow-list is empty; the check now fails if it refills.
 
 WHAT IT DELIBERATELY DOES NOT DO
 --------------------------------
@@ -664,8 +664,9 @@ def check_links_resolve() -> None:
     frozen as of 2026-09-12 — the whole file is skipped because its preamble
     quotes the old ledger path on purpose), and the code files listed in the
     sidecar's deferred_code_rewrites (hash-bound modules are not edited while
-    the stage 1-4 queue runs). The deferred count is printed so the allow-list
-    is never silently permanent.
+    the stage 1-4 queue runs). That list was emptied on 2026-10-12 once stage 4
+    completed, so it is now checked to stay empty: a new entry would be a new
+    deferral, and it should be a visible failure, not a silent skip.
     """
     print("\n[9] document paths and links resolve")
     side = json.loads(MOVES.read_text(encoding='utf-8')) if MOVES.is_file() else {}
@@ -700,8 +701,10 @@ def check_links_resolve() -> None:
     check('links: every docs/ and results/ .md path exists', not missing,
           '; '.join(missing[:4]) + (' ...' if len(missing) > 4 else ''))
     check('links: every #rec- anchor exists in the record', not bad_anchor, '; '.join(bad_anchor[:4]))
-    print(f"        deferred code-comment paths still allow-listed: {n_deferred} "
-          f"in {len(deferred)} files (clear after STAGE 4 LANES COMPLETE)")
+    # The allow-list was cleared 2026-10-12; refilling it should fail loudly.
+    check('links: no code-comment paths allow-listed (cleared 2026-10-12)',
+          not deferred and n_deferred == 0,
+          f'{n_deferred} paths in {len(deferred)} files')
 
 
 def main() -> None:

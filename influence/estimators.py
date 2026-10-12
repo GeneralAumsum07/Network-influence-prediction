@@ -158,7 +158,7 @@ def make_hgb_matched(seed: int):
     helps and because changing three things at once is what caused this.
 
     THIS DOES NOT UN-FALSIFY P3. P3 is falsified and stays falsified; see
-    `docs/posthoc_B2_hgb_capacity.md`, which was written before this ran. The
+    `docs/archive/phase6_record.md#rec-posthoc_B2_hgb_capacity`, which was written before this ran. The
     pre-registered `hgb` arm's output files are KEPT alongside this one so the
     confound stays inspectable rather than being tidied away.
     """
@@ -209,7 +209,7 @@ def make_rf_log1p(seed: int):
       - `spread_cv` is left-skewed on p2p-Gnutella08 (-0.96); log1p would make
         the conditioning worse, not better.
     A transform applied where it is not indicated is an intervention, not a
-    correction. See `docs/decl_objective_resweep.md`.
+    correction. See `docs/reference/decl_objective_resweep.md`.
     """
     return TransformedTargetRegressor(
         # The SAME construction as `make_rf`, called rather than duplicated, so

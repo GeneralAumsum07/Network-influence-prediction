@@ -39,7 +39,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 # The stabilised corpus location.  The old default was a session-scoped temp
-# directory; see docs/phase6_claude_worklog_20260910.md Lane 3.
+# directory; see docs/archive/phase6_record.md#rec-phase6_claude_worklog_20260910 Lane 3.
 CORPUS_ROOT = Path("data/brava")
 ABCDE = CORPUS_ROOT / "datasets" / "abcde"
 

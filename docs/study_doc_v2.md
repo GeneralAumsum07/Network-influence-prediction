@@ -2973,8 +2973,9 @@ The lab's rule is **right for the easy target and wrong for the hard one**. The 
 `spread_mean` miss is facebook_combined at r=1 (−0.0347). The worst cell overall is
 facebook_combined `spread_resid` at r=1 (−0.0720). It is not
 a rule about label counts at all; it is a rule about how much signal the target has to
-spare. `spread_mean` is predicted at τ ≈ 0.90–0.96 and can afford to lose four fifths
-of its labels; `spread_resid` on email-Eu-core is predicted at τ ≈ 0.07 and cannot.
+spare. `spread_mean` is predicted at τ ≈ 0.79–0.97 with all labels (0.89–0.97 at
+r ≥ 2) and can afford to lose four fifths of them; `spread_resid` on email-Eu-core is
+predicted at τ ≈ 0.06–0.10 and cannot.
 
 ### Result 2 — the headline: r\*(ε) moves in opposite directions by target
 

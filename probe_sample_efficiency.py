@@ -9,7 +9,7 @@ Two questions, in order of who asked:
      training data is scarce?
 
 Design, confounds and the dated predictions are in
-`docs/prereg_B1_sample_efficiency.md`, written before this ran. Read that first;
+`docs/prereg/prereg_B1_sample_efficiency.md`, written before this ran. Read that first;
 this file is the instrument, not the argument.
 
 WHY THE TEST FOLD IS NEVER SUBSAMPLED
