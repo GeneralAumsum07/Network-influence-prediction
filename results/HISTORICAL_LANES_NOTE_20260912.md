@@ -47,3 +47,23 @@ shows the arm is not cosmetic here: the clean-trained local model gains +0.009 t
 rho = 0 and +0.017 at rho = 0.1 under log1p (seed 0). Whether that holds across networks,
 damage levels and the nonzero subset is what stage 4 measures (inferred from one cell:
 the raw-arm numbers may understate the reported arm's; not yet established).
+
+## Outcome (2026-10-12)
+
+Stage 4 ran to the end on 2026-10-12, finishing at 05:57 IST. The raw arm took 1 h 38 min and the log1p arm 1 h 03 min.
+
+**The "identical numbers" inference was wrong, but only about column order.**
+`verify_robustness_rerun.py` CHECK 1 missed its 1e-6 bar: the largest difference was 0.012 in tau, and only in the model rows. The recompute and degree rows were identical. The cause is the order of the feature columns, not their content:
+- the 2026-08-31 and 2026-09-11 registry retags kept the same 168 columns at max_hop 3 but changed their order;
+- a seeded random forest samples features by column position, so a reordered table grows different trees.
+
+The current code with the 2026-08-27 registry reproduces the archived file exactly. The size of the miss is about the size of the forest's own randomness, and no tau local-minus-recompute comparison changes sign. Study section 26 and HANDOFF Finding 9 were re-quoted from the new `robustness.csv` on the same day. The 2026-08-27 files are kept in `c8_historical_pre_20260912/`.
+
+CHECK 2 passed: the log1p arm's recompute and degree rows equal the raw arm's.
+
+**The log1p arm is not cosmetic.**
+- *Effect of the objective.* At every damage level the log1p arm beats the raw arm, and the gain grows as damage increases. At rho = 0.5 the local model gains +0.19 to +0.58 in tau.
+- *Local against recompute.* On `facebook_combined` the clean-trained local model **beats** recomputation at every rho > 0. On the other four networks recomputation still wins, but by a roughly constant -0.03 to -0.08 rather than the raw arm's widening -0.07 to -0.50.
+- *Degree.* Degree overtakes the clean-trained log1p model at rho = 0.5 on two networks, where on the raw arm it overtook it on all five.
+
+Rachit decided on 2026-10-12 that the log1p arm is the headline, with the raw arm alongside. Study section 26 and HANDOFF Finding 9 were rewritten that way the same day, and they carry these numbers.

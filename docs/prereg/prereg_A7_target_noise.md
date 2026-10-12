@@ -222,3 +222,39 @@ downgraded on the strength of this run.
 **`betweenness` remains excluded from both arms**, as pre-registered — exact by
 Brandes, no Monte Carlo noise, and a row of zeros would read as a bug rather than
 as a fact about the estimator.
+
+## Addendum 2026-10-12 — both arms re-run after the orbit-radius retag
+
+Recovery controller run 5 (stage 2) re-ran arm 1 and arm 2 (200 replicates, 60 cells)
+on 2026-10-11. The 2026-09-11 retag had changed the r=1 column set, and the sweeps that
+supply the seed sds were regenerated on the retagged columns the same day. `score_a7_arm2.py` re-scored it into
+`results/RESULTS_a7_arm2_scoring.txt`. The SCORED section above is left as written;
+this addendum supersedes its numbers. **Every verdict is unchanged.**
+
+| quantity | SCORED 2026-09-06 | re-run 2026-10-11 |
+|---|---|---|
+| P1: `refit/frozen < 1` | 2 of 60 | 2 of 60 |
+| `refit/frozen` median (range) | 1.220 (0.973–2.344) | **1.241** (0.973–2.327) |
+| by target: `spread_cv` / `spread_resid` / `spread_mean` | 1.299 / 1.252 / 1.165 | **1.304 / 1.270 / 1.184** |
+| P3a: `seed/refit < 1` | 56 of 60 | 56 of 60 |
+| arm 1 medians: `spread_cv` / `spread_resid` / `spread_mean` | 0.401 / 0.463 / 0.554 | **0.441 / 0.467 / 0.558** |
+| arm 2 medians: `spread_cv` / `spread_resid` / `spread_mean` | 0.307 / 0.344 / 0.441 | **0.323 / 0.331 / 0.441** |
+| facebook `spread_cv` seed/refit | 0.239 | **0.235** |
+| ca-HepTh `spread_resid` seed/refit | 0.240 | **0.211** |
+
+Verdicts: P1 FALSIFIED, P2 SUPPORTED, P3a SUPPORTED, P3b FALSIFIED (the margin is
+larger on all three targets), P4a SUPPORTED (the order is still `spread_cv`,
+`spread_resid`, `spread_mean`), P4b FALSIFIED for the reason given above. Arm 1's
+`seed/target < 1` count is still 55 of 60.
+
+The arm-1 medians moved although arm 1 is the frozen design: both of its inputs, the
+OOF predictions and the sweep seed sds, were regenerated on the retagged columns.
+Whether the r=1 cells account for all of the movement was not checked (TBC).
+
+**Paired follow-through** (`results/RESULTS_paired_target_noise.txt`, dynamic tier, 45
+contrasts): 40 retained, 1 lost, 0 new, 4 neither (was 38 / 3 / 0 / 4). The lost flag is
+email-Eu-core `spread_resid` r1→r2. The two facebook r1→r2 losses are now retained.
+Target/seed paired-SD ratio median 1.778, range 0.642–5.676 (was 1.733, 0.700–3.984);
+paired SD median 0.582 of the covariance-ignored SD (was 0.529); all 45 covariances
+positive. The structural-tier analysis (`results/RESULTS_paired_target_noise_structural.txt`,
+stage 1, re-run after the retag) gives the same counts and the same lost contrast.

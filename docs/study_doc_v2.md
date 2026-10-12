@@ -598,7 +598,7 @@ Completed analysis does not mean a positive prediction or a resolved limitation.
 | A1–A6: framing, coverage, top-k, multiplicity, documentation and zero-set formalisation | Revised study text; `results/RESULTS_coverage.txt`, `RESULTS_topk.txt`, `RESULTS_multiplicity.txt`; C1/C2 checks | Formalisation is not a claim to have invented the prior-art zero-set rule; paper positioning remains necessary. |
 | B2 estimator invariance | `docs/prereg/prereg_B2_estimator.md`; `results/estimator_shape.csv`, `estimator_horizons.csv`; §26c | Preserve the scored verdicts and design caveats; not an unrestricted invariance claim. |
 | B1 sample efficiency | `docs/prereg/prereg_B1_sample_efficiency.md`; `results/sample_efficiency.csv`; §26e | Completed; the direction prediction was falsified and effects differ by target. |
-| A7 target noise | `docs/prereg/prereg_A7_target_noise.md`; `results_target_noise_scored.csv`; §26h | Scored refit arm complete. Phase 6 dynamic-tier paired follow-through complete (38 retained / 3 lost flags); headline structural-tier comparisons remain unmeasured. |
+| A7 target noise | `docs/prereg/prereg_A7_target_noise.md`; `results_target_noise_scored.csv`; §26h | Scored refit arm complete. Phase 6 dynamic-tier paired follow-through complete (40 retained / 1 lost flag after the 2026-10-11 re-run); headline structural-tier comparisons remain unmeasured. |
 | C5 matched-radius closed form and C6 residual autocorrelation | `results_betweenness_k.csv`, `results_moran_correlogram.csv`, `results_moran_zeroset.csv`; §26f–§26g | Closed-form comparison and diagnostic complete; they do not supply learned baselines or blocked CV. |
 | C3 external benchmark analysis and C4 reporting | §26i–§26j, scored C3 tables, C4 audit/reporter and verification logs | Bounded implementation complete; prospective external validation and later confirmation remain separate. |
 
@@ -622,7 +622,7 @@ The headline is that the **directional** blind spot appears exactly where the lo
 
 Large positive Δ = under-predicted "hidden influencer."
 
-**Angle 4 — Robustness under noise.** **Delivered** — see §26. The answer is target-dependent: local prediction reaches parity with recomputation for spreading influence once ~5% of edges are missing, and loses to it for betweenness. The skew control matters and cuts against the naive reading, and degree on the damaged graph is a humbling baseline at high noise.
+**Angle 4 — Robustness under noise.** **Delivered** — see §26. The answer is target-dependent: local prediction reaches parity with recomputation for spreading influence once ~5% of edges are missing, and loses to it for betweenness on four of five networks under the reported log1p objective. On `facebook_combined` it wins; under the raw objective it lost on all five. The skew control matters and cuts against the naive reading, and degree on the damaged graph is a humbling baseline at high noise.
 
 ```math
 τ_local(ρ)  >  τ_recompute(ρ)  ?
@@ -1526,32 +1526,65 @@ still worthless" cannot be answered with "your test was underpowered."
 
 ORCA's 4-node **edge** orbits are in (12, aggregated three ways). The edge tier's own gain is now significant for betweenness on ca-GrQc (+0.0097, +0.0082, +0.0060 across radii) and for Gnutella betweenness at r≥2, so the edge axis is no longer inert either.
 
-**5-node edge orbits were implemented, radius-calibrated and then declined on evidence.** `analyse_edge5.py` compares the full structural tier with 4-node against 5-node edge orbits, paired over ten seeds — on **two networks**, chosen as the sparse/dense extremes of the three-network corpus. That was a decision to *not add* features, so the evidence bar is lower than for a positive claim; but note it was taken before facebook_combined existed, and facebook is the one network where the edge axis turned out to carry a large effect (§26a). The decision is not re-opened here, and it is flagged as resting on a corpus that excludes its most edge-sensitive member:
+**5-node edge orbits were implemented, radius-calibrated and then declined on evidence.** `analyse_edge5.py` compares the full structural tier with 4-node against 5-node edge orbits, paired over ten seeds. The decision was first taken on **two networks**, the sparse and dense extremes of the three-network corpus, before facebook_combined existed. facebook is the one network where the edge axis turned out to carry a large effect (§26a), so the decision was flagged as resting on a corpus that excluded its most edge-sensitive member. It has now been re-tested on all five networks, and it stands.
 
-> **Table below is pre-retag and raw-arm — re-run scheduled, 2026-09-12 by Claude Opus 5
-> (Task 6 findings P1-01/P2-11, run C8).** On 2026-09-11 nine 5-node *edge* orbits (49, 50,
-> 51, 59, 60, 61, 63, 64, 65) and six 5-node *node* orbits were found to sit at hop 2, not
-> hop 1, so the r=1 column of this table compared column sets a radius-1 observer cannot
-> compute; the r=2/r=3 columns are unaffected (cumulative sets contain both hops). The
-> betweenness rows are raw squared-error fits, not the log1p arm §26b reports. The lane is
-> being re-run on all five networks with the corrected tables
-> (`results/phase6_root_integration_stage3_20260912.ps1` → `results/RESULTS_edge5.txt`,
-> plus a betweenness-only log1p run); until that lands, this table is the 2026-08-26
-> historical record, kept at `results/c8_historical_pre_20260912/RESULTS_edge5.txt`. See
-> `results/HISTORICAL_LANES_NOTE_20260912.md`.
+*Re-run 2026-10-11 (stage 3 of the recovery controller, run 5) on all five networks with the
+corrected 2026-09-11 radius tables. Nine 5-node edge orbits (49, 50, 51, 59, 60, 61, 63, 64,
+65) moved from hop 1 to hop 2, so r=1 now adds 12 columns, not 39. Two arms:
+`results/RESULTS_edge5.txt` fits every target with the raw squared-error objective (the
+historical form), and `results/RESULTS_edge5_betweenness_log1p_20260912.txt` refits
+betweenness with the reported `rf_log1p` objective. See
+`results/HISTORICAL_LANES_NOTE_20260912.md`.*
 
-| Network | Target | r=1 (+39 cols) | r=2 (+132 cols) | r=3 (+165 cols) |
+Gain from 5-node over 4-node edge orbits, full structural tier, reported objective
+(`rf` for the spread targets, `rf_log1p` for betweenness); ✱ = beyond 2 sd of the paired
+difference:
+
+| Network | Target | r=1 (+12 cols) | r=2 (+132 cols) | r=3 (+165 cols) |
 |---|---|---|---|---|
-| ca-GrQc | spread mean | +0.0004 ✱ | −0.0002 | −0.0002 ✱ |
-| ca-GrQc | volatility | +0.0020 ✱ | +0.0002 | +0.0001 |
-| ca-GrQc | betweenness | +0.0000 | +0.0015 | +0.0016 |
-| email-Eu-core | spread mean | +0.0004 | **−0.0007** ✱ | **−0.0006** ✱ |
-| email-Eu-core | volatility | +0.0004 ✱ | **−0.0007** ✱ | −0.0002 |
-| email-Eu-core | betweenness | −0.0007 | −0.0002 | −0.0021 |
+| ca-GrQc | spread mean | +0.0000 | −0.0002 | −0.0002 |
+| ca-GrQc | spread_cv | −0.0000 | +0.0003 | +0.0002 |
+| ca-GrQc | betweenness | +0.0001 | +0.0013 | +0.0012 |
+| ca-HepTh | spread mean | −0.0000 | −0.0002 ✱ | −0.0002 ✱ |
+| ca-HepTh | spread_cv | +0.0001 | −0.0003 | −0.0001 |
+| ca-HepTh | betweenness | +0.0000 | +0.0006 ✱ | +0.0014 ✱ |
+| email-Eu-core | spread mean | −0.0002 | **−0.0007** ✱ | **−0.0006** ✱ |
+| email-Eu-core | spread_cv | −0.0003 | **−0.0007** ✱ | −0.0002 |
+| email-Eu-core | betweenness | −0.0001 | −0.0007 | **−0.0017** ✱ |
+| facebook_combined | spread mean | +0.0001 | +0.0002 | −0.0002 |
+| facebook_combined | spread_cv | −0.0000 | +0.0001 | −0.0001 |
+| facebook_combined | betweenness | −0.0003 | **−0.0018** ✱ | +0.0009 |
+| p2p-Gnutella08 | spread mean | −0.0000 | −0.0001 | −0.0000 |
+| p2p-Gnutella08 | spread_cv | −0.0000 | −0.0001 | +0.0002 |
+| p2p-Gnutella08 | betweenness | −0.0000 | −0.0002 ✱ | −0.0004 ✱ |
 
-The largest gain anywhere is +0.0020, and several entries are *significantly negative* — past roughly forty extra columns the additions dilute rather than help. They are off by default; `edge_graphlet_size=5` turns them on.
+The largest gain anywhere is +0.0014 (ca-HepTh betweenness, r=3). Several entries are
+*significantly negative*, and at r=1 nothing is distinguishable from zero on any network.
+They stay off by default; `edge_graphlet_size=5` turns them on.
 
-**The asymmetry with node orbits is the interesting part.** Widening the *node* orbit vocabulary from 4-node to 5-node was a decisive win at radius 1 (+0.035 on ca-GrQc volatility). Widening the *edge* vocabulary the same way buys nothing anywhere. Whatever five-node ego structure encodes about spreading, it is a property of the node's position within it rather than of the individual edges.
+**facebook's raw-arm betweenness gain does not survive the reported objective.** On the
+raw arm, facebook betweenness gains **+0.0270 ± 0.0057** ✱ at r=2 and **+0.0349 ± 0.0035** ✱ at
+r=3, the only edge-orbit gain in the corpus above +0.003. Under `rf_log1p` the same cells
+are −0.0018 ✱ and +0.0009. This is the same pattern as the facebook subgraph rung (raw
++0.1291, log1p +0.0436, §26a/§26b), and larger in relative terms. The rest of the raw
+betweenness rows are within 0.003 of the log1p rows. Raw ca-GrQc betweenness is
++0.0020 / +0.0014 at r=2 / r=3 and email −0.0026 at r=3, none beyond 2 sd. The spread rows
+are fitted identically in both arms.
+
+The 2026-08-26 two-network table (raw arm, pre-retag r=1 with +39 columns) is kept at
+`results/c8_historical_pre_20260912/RESULTS_edge5.txt`. Its r=1 entries (ca-GrQc
++0.0004 ✱ spread mean, +0.0020 ✱ volatility; email +0.0004 ✱ volatility) used columns a
+radius-1 observer cannot compute. On the corrected 12 columns they are +0.0000, −0.0000
+and −0.0003. Its r=2 and r=3 entries are reproduced to within 0.0005.
+
+**The asymmetry with node orbits, as first written, is withdrawn.** It said that widening
+the *node* orbit vocabulary from 4-node to 5-node was a decisive win at radius 1 (+0.035 on
+ca-GrQc volatility), while widening the *edge* vocabulary bought nothing. That node-orbit
+win used six 5-node node orbits that sit at hop 2. On the corrected columns, 5-node node
+orbits add nothing over 4-node at r=1 (§16, §26k.3: 17/20 → 0/20 flagged cells). There is
+no asymmetry left to explain at r=1. The edge-orbit result stands on its own: under the
+reported objective, widening the edge vocabulary buys at most +0.0014 on any network at any
+radius.
 ## 21. Finding 4 — the horizon is a property of the network, and specifically not of its density
 
 **Revised on the five-network corpus (2026-08-27).** The three-network version of this finding argued that density does not determine the horizon, resting on a single coincidence: ca-GrQc and Gnutella have almost the same mean degree and behave differently. That is one data point and it could have been luck. Adding ca-HepTh and facebook_combined was designed to break the argument if it was wrong, and it did not break it — it made it much stronger, because the two additions form a matched pair on each side.
@@ -2028,6 +2061,13 @@ Fixed by giving each row its own top-7 from its own table, and by computing the 
 
 *Numbers re-quoted 2026-10-12 from the 2026-10-12 re-run (`results/robustness.csv`). Its model rows differ from the 2026-08-27 run by at most 0.012 τ. The cause is column order: the 2026-08-31 and 2026-09-11 retags reordered the same 168 feature columns, and the seeded forest is sensitive to that order. Today's code with the 08-27 registry reproduces the 08-27 numbers exactly. No conclusion below changes. One significance marker drops: ca-GrQc `spread_mean` at ρ = 0.5 is no longer beyond 2 sd. The three-network and two-network tables come from the earlier three-network run, which was not re-run; they are left as recorded. The 08-27 CSV is kept in `results/c8_historical_pre_20260912/`.*
 
+*Betweenness re-based 2026-10-12. The study reports betweenness from the `rf_log1p` objective (§26d), but Angle 4 was fitted under the raw squared-error objective until the 2026-10-12 re-run added a log1p arm (`results/robustness_log1p.csv`: same seeds, same damage draws; its recompute and degree rows equal the raw arm's exactly). From here on, every five-network betweenness number in this section is the **log1p arm as the headline, with the raw arm alongside**. The original three-network and two-network betweenness tables are raw-arm and historical, and are labelled so. Spreading targets are fitted with the plain forest in both arms and are unaffected. The re-basing changes four betweenness conclusions:*
+
+- *recomputation's win on the full ranking is four of five networks, not five, and it does not widen with damage. On `facebook_combined` the clean-trained local model beats recomputation at every ρ > 0;*
+- *facebook's anti-correlation (τ = −0.101 at ρ = 0.5) is a raw-objective result. Under log1p the same features give 0.476;*
+- *degree overtakes the clean-trained model on two networks, not every network;*
+- *most of what damage-training "recovered" on the raw arm was the objective. Under log1p damage-training is worth +0.233 τ on facebook and at most +0.035 elsewhere.*
+
 ### The experiment
 
 Delete a fraction ρ of edges uniformly, then rank nodes by their **clean-graph** influence given only the damaged graph, three ways:
@@ -2061,7 +2101,7 @@ The crossover happens at ρ = 0.05–0.10 on all three of the networks this was 
 
 **Bridging influence — recomputation wins, and the gap widens.**
 
-`betweenness`, local minus recompute *(original three-network measurement)*:
+`betweenness`, local minus recompute *(original three-network measurement; raw squared-error arm)*:
 
 | ρ | ca-GrQc | email-Eu-core | p2p-Gnutella08 |
 |---|---|---|---|
@@ -2071,13 +2111,15 @@ The crossover happens at ρ = 0.05–0.10 on all three of the networks this was 
 
 Not a marginal loss and not a stable one: the local model degrades *faster*. **The Angle 4 hypothesis is rejected for betweenness.** Shortest paths reroute around a missing edge; a randomly thinned graph is still structurally close, so recomputed betweenness stays informative.
 
+*(2026-10-12: the widening is a property of the raw objective. Under the reported log1p arm the same three networks lose to recomputation by −0.030 to −0.079 at every ρ > 0, and end at ρ = 0.5 at −0.053 to −0.079 against −0.062 to −0.084 undamaged: a roughly constant margin, not a widening one. See the five-network replication below.)*
+
 ### The skew control cuts against the naive reading
 
 Section 24 showed 8.5–55% of nodes have betweenness exactly zero, and that a single local feature identifies that set perfectly. *(Range corrected 2026-08-28: "15–55%" was the three-network span and predates facebook_combined's 8.5%.)* Restricting to the nonzero subset — the nodes where the ranking actually matters — the picture changes:
 
-local minus recompute on the **nonzero** subset, `betweenness` — **two networks only**;
-this table was never extended past the original pair, and the five-network version of the
-same comparison (damage-trained) is in the replication subsection below:
+local minus recompute on the **nonzero** subset, `betweenness` — **two networks only, raw
+arm**; this table was never extended past the original pair, and the five-network version
+of the same comparison (damage-trained, both arms) is in the replication subsection below:
 
 | ρ | ca-GrQc | email-Eu-core |
 |---|---|---|
@@ -2090,48 +2132,70 @@ The gap **narrows** as damage increases, by roughly a factor of three on ca-GrQc
 
 ### The most uncomfortable line on the figure is the grey one
 
-Plain **degree on the damaged graph** beats the whole 171-feature local model for betweenness at high damage:
+Plain **degree on the damaged graph** matches or beats the whole 171-feature clean-trained local model for betweenness at high damage on four of five networks. On the raw arm it beat it on all five:
 
-| ρ = 0.5 | local | degree |
-|---|---|---|
-| facebook_combined | **−0.101** | **0.591** |
-| p2p-Gnutella08 | 0.239 | **0.735** |
-| ca-HepTh | 0.277 | **0.582** |
-| ca-GrQc | 0.307 | **0.460** |
-| email-Eu-core | 0.594 | **0.780** |
+| ρ = 0.5 | local (log1p) | local (raw) | degree |
+|---|---|---|---|
+| facebook_combined | 0.476 | −0.101 | **0.591** |
+| p2p-Gnutella08 | 0.662 | 0.239 | **0.735** |
+| ca-HepTh | 0.576 | 0.277 | 0.582 |
+| ca-GrQc | **0.509** | 0.307 | 0.460 |
+| email-Eu-core | 0.780 | 0.594 | 0.780 |
 
-*(ca-HepTh and facebook_combined added 2026-08-27. facebook's local τ is negative:
-the model is anti-correlated with true betweenness at that damage level.)*
+*(ca-HepTh and facebook_combined added 2026-08-27; log1p column added 2026-10-12. Bold marks
+a log1p-versus-degree difference beyond 2 sd of the paired difference. ca-HepTh (−0.007)
+and email (+0.001) are level. On the raw arm, facebook's local τ is negative: that model
+is anti-correlated with true betweenness at this damage level. The log1p model is not.)*
 
 That is worth sitting with rather than explaining away. The likely cause is **distribution shift**, not locality: the model learned a mapping from clean feature distributions, and heavy edge deletion moves the 171-dimensional input far outside the region it was fitted on. Degree has no such problem — it is a single monotone quantity that shrinks smoothly.
 
 If that reading is right, the binding constraint is the *protocol* rather than the *principle*. That was run as a separate line, and it confirms the reading.
 
-### Training on damaged data recovers most of the collapse
+### Training on damaged data: a large recovery on the raw arm, a small one on the reported arm
 
-`analyse_robustness.py --train-on clean,damaged` fits the folds on a *different* damage draw at the same ρ — a different realisation, so the model learns the regime rather than that particular set of missing edges — and predicts the held-out draw. τ against the clean truth, `betweenness`:
+`analyse_robustness.py --train-on clean,damaged` fits the folds on a *different* damage draw at the same ρ — a different realisation, so the model learns the regime rather than that particular set of missing edges — and predicts the held-out draw. τ against the clean truth, `betweenness`, ρ = 0.5:
 
-| ρ = 0.5 | clean-trained | damaged-trained | recovered |
-|---|---|---|---|
-| facebook_combined | −0.101 | **0.394** | **+0.495** |
-| p2p-Gnutella08 | 0.239 | **0.693** | +0.454 |
-| ca-HepTh | 0.277 | **0.569** | +0.291 |
-| ca-GrQc | 0.307 | **0.508** | +0.201 |
-| email-Eu-core | 0.594 | **0.768** | +0.174 |
+| ρ = 0.5 | log1p: clean-trained | log1p: damaged-trained | log1p: recovered | raw: clean-trained | raw: damaged-trained | raw: recovered |
+|---|---|---|---|---|---|---|
+| facebook_combined | 0.476 | **0.708** | **+0.233** | −0.101 | 0.394 | +0.495 |
+| p2p-Gnutella08 | 0.662 | 0.698 | +0.035 | 0.239 | 0.693 | +0.454 |
+| ca-HepTh | 0.576 | 0.584 | +0.008 | 0.277 | 0.569 | +0.291 |
+| ca-GrQc | 0.509 | 0.526 | +0.017 | 0.307 | 0.508 | +0.201 |
+| email-Eu-core | 0.780 | 0.797 | +0.017 | 0.594 | 0.768 | +0.174 |
 
-*(five networks as of 2026-08-27. The recovery is largest exactly where the collapse
-was largest, which is what a distribution-shift explanation predicts and a
-fragility-of-locality explanation does not.)*
+*(raw columns: five networks as of 2026-08-27, re-quoted 2026-10-12. log1p columns added
+2026-10-12. On the log1p arm every "recovered" entry except ca-HepTh is beyond 2 sd.)*
 
-**The collapse was distribution shift, not fragility of locality.** A model that has seen the noise regime it is deployed in loses most of the disadvantage; on Gnutella it recovers nearly half a tau point.
+On the raw arm the recovery is largest exactly where the collapse was largest. That is
+what a distribution-shift explanation predicts and a fragility-of-locality explanation
+does not, and it was read that way on 2026-08-27. The log1p arm splits that recovery in
+two:
+
+- **Most of it is the objective.** Changing only the loss, with the model still trained
+  on clean data, lifts clean-trained τ at ρ = 0.5 by +0.20 (ca-GrQc) to +0.58 (facebook).
+  After that there is little left for damage-training to recover: +0.008 to +0.035 on
+  four networks.
+- **The rest is distribution shift, and it is concentrated on facebook.** Damage-training
+  is still worth +0.233 there under log1p.
+- **At low damage, damage-training costs.** Under log1p, damaged-trained minus
+  clean-trained at ρ = 0.05 is −0.076 on ca-GrQc, −0.077 on ca-HepTh, −0.036 on Gnutella
+  and −0.009 on email, all beyond 2 sd. It turns positive only by ρ = 0.5. The raw arm
+  shows the same sign at ρ = 0.05 on ca-GrQc, ca-HepTh and email.
+
+Why the squared-error fit collapses so much harder under damage is not measured here.
+A plausible reading is that a squared-error loss on a heavy-tailed target is dominated
+by its few largest values, and the features those values lean on move most under edge
+deletion. That is inferred, not tested (TBC).
+
+**The raw-arm collapse was mostly the objective, partly distribution shift (most of all on facebook), and not fragility of locality.** Under the reported objective, a clean-trained model keeps τ of 0.48–0.78 at half the edges missing.
 
 Three qualifications, all of which matter:
 
-- **Recomputation still wins for betweenness.** Damaged-trained minus recompute is −0.05 to −0.14 over ρ = 0.05–0.5 on ca-GrQc, ca-HepTh, email and Gnutella, beyond 2 sd in every cell. It **narrows** steadily as damage grows: ca-GrQc goes from −0.133 to −0.071, ca-HepTh from −0.142 to −0.081, email from −0.093 to −0.065, Gnutella from −0.077 to −0.047. So the damage-trained loss is a modest margin that shrinks, not a widening collapse. facebook's values (−0.17 to −0.03) are not significant; see the caution further down. The Angle 4 conclusion for betweenness does not change; only the size and shape of the loss do. *(Corrected 2026-10-12. The earlier "−0.05 to −0.09 across the range, a stable margin" matched neither five-network run, and "stable" hid that the gap narrows.)*
+- **Recomputation still wins for betweenness on four of five networks.** Under log1p, damaged-trained minus recompute is −0.04 to −0.14 over ρ = 0.05–0.5 on ca-GrQc, ca-HepTh, email and Gnutella, beyond 2 sd in every cell. It **narrows** steadily as damage grows: ca-GrQc goes from −0.120 to −0.053, ca-HepTh from −0.137 to −0.066, email from −0.072 to −0.036, Gnutella from −0.074 to −0.043. On the raw arm the same four networks go from −0.133 to −0.071, −0.142 to −0.081, −0.093 to −0.065 and −0.077 to −0.047. On `facebook_combined` the log1p damaged-trained model **beats** recomputation at every ρ > 0, by +0.162 to +0.268 (paired sd 0.03–0.09, all beyond 2 sd). The raw-arm facebook values (−0.17 to −0.03) are not significant; see the caution further down. *(Corrected 2026-10-12. The earlier "−0.05 to −0.09 across the range, a stable margin" matched neither five-network run, and "stable" hid that the gap narrows. The log1p numbers were added the same day.)*
 - **It buys nothing for spreading** *(on four of five networks)*. Damaged-trained minus clean-trained is within ±0.010 for `spread_mean` on ca-GrQc, ca-HepTh, email and Gnutella (the original ±0.01 bound, unchanged by the two new networks). On `facebook_combined` it is worth up to **+0.240**, which is the exception the replication subsection is about. There was no shift to fix, because the clean-trained model was already at parity. The asymmetry is itself informative: betweenness prediction leans on features that move sharply under edge deletion, spreading prediction on degree-like quantities that shrink smoothly.
-- **Degree is still not beaten** on email (0.780 vs 0.768), Gnutella (0.735 vs 0.693), ca-HepTh (0.582 vs 0.569) or facebook (0.591 vs 0.394) at ρ = 0.5. Damaged training overtakes it on ca-GrQc alone (0.508 vs 0.460) - one network in five. A single monotone quantity remains startlingly hard to beat under heavy damage.
+- **Degree is beaten on four of five under log1p.** At ρ = 0.5 the log1p damaged-trained model is ahead of degree on facebook (0.708 vs 0.591), ca-GrQc (0.526 vs 0.460), email (0.797 vs 0.780) and, by 0.002, ca-HepTh (0.584 vs 0.582). It is behind on Gnutella (0.698 vs 0.735). All five differences are beyond 2 sd. On the raw arm damaged training overtook degree on ca-GrQc alone (0.508 vs 0.460), and degree still led on email (0.780 vs 0.768), Gnutella (0.735 vs 0.693), ca-HepTh (0.582 vs 0.569) and facebook (0.591 vs 0.394). A single monotone quantity is still hard to beat under heavy damage; the margins by which the log1p model beats it are small except on facebook and ca-GrQc.
 
-The honest framing: **the Angle 4 comparison as originally posed conflates two things** — how much information a bounded neighbourhood carries, and whether the model has seen the regime it is tested in. Separating them shows the second was doing most of the damage, and that the first still loses to recomputation for a shortest-path target.
+The honest framing: **the Angle 4 comparison as originally posed conflates three things.** They are how much information a bounded neighbourhood carries, whether the model has seen the regime it is tested in, and (found 2026-10-12) which loss the model was fitted under. Separating them shows that the loss and the regime were doing most of the damage. The first, for a shortest-path target, still loses to recomputation on four of five networks.
 
 ### Replication at five networks (2026-08-27)
 
@@ -2187,9 +2251,22 @@ conductance-based features the model leans on, moving the inputs far outside the
 region they were fitted on. The other four networks are sparse enough that deletion
 mostly rescales features it does not restructure.
 
-**Bridging: the loss to recomputation replicates without exception.**
+**Bridging: recomputation wins on four of five under the reported objective, by a
+margin that does not widen. On facebook, local wins.**
 
-`betweenness`, local minus recompute — every cell significant at 2 sd:
+`betweenness`, clean-trained local minus recompute, **log1p arm** (* = beyond 2 sd of the
+paired difference):
+
+| rho | ca-GrQc | ca-HepTh | email-Eu-core | facebook_combined | p2p-Gnutella08 |
+|---|---|---|---|---|---|
+| 0.00 | −0.070 | −0.080 | −0.084 | −0.070 | −0.062 |
+| 0.05 | −0.044* | −0.060* | −0.063* | **+0.024\*** | −0.038* |
+| 0.10 | −0.035* | −0.052* | −0.054* | **+0.044\*** | −0.033* |
+| 0.20 | −0.030* | −0.045* | −0.045* | **+0.073\*** | −0.037* |
+| 0.30 | −0.037* | −0.047* | −0.043* | **+0.077\*** | −0.046* |
+| 0.50 | −0.070* | −0.074* | −0.053* | **+0.033\*** | −0.079* |
+
+The same comparison on the **raw arm**, every cell significant at 2 sd:
 
 | rho | ca-GrQc | ca-HepTh | email-Eu-core | facebook_combined | p2p-Gnutella08 |
 |---|---|---|---|---|---|
@@ -2197,40 +2274,67 @@ mostly rescales features it does not restructure.
 | 0.20 | −0.101 | −0.150 | −0.111 | −0.356 | −0.211 |
 | 0.50 | −0.272 | −0.373 | −0.239 | −0.544 | −0.502 |
 
-Five for five, widening in every case. **The Angle 4 hypothesis stays rejected for
-betweenness**, now on a corpus that includes both a same-family replicate and a
-structurally unlike dense network.
+On the raw arm the loss is five for five and widens in every case. That is how it was
+written up on 2026-08-27, as a rejection "now on a corpus that includes both a
+same-family replicate and a structurally unlike dense network".
 
-facebook is the extreme case and worth stating plainly: its clean-trained local model
-goes from tau = 0.853 undamaged to tau = **−0.101** at rho = 0.5. Not degraded —
-*anti-correlated* with true betweenness. A model that has learned "dense, cliquey
-ego-net implies high betweenness" on the clean graph reads a thinned graph's
-surviving dense pockets as bridges when the actual bridges are elsewhere.
+Under log1p the picture is different in shape, and on one network in sign:
 
-**The grey line is universal, not a facebook pathology.**
+- **On ca-GrQc, ca-HepTh, email and Gnutella, recomputation still wins at every ρ, by
+  −0.030 to −0.084.** The gap narrows slightly at moderate damage and at ρ = 0.5 sits at
+  −0.053 to −0.079, against −0.062 to −0.084 undamaged. Damage does not open it the way
+  the raw arm showed.
+- **On `facebook_combined`, the clean-trained local model beats recomputation at every
+  ρ > 0**, by +0.024 to +0.077. Recomputed betweenness itself falls hardest there:
+  0.443 at ρ = 0.5, against 0.579–0.833 elsewhere.
+
+**The Angle 4 hypothesis stays rejected for betweenness on four of five networks.** It
+is not rejected on facebook, the structurally unlike dense network.
+
+facebook was the extreme case on the raw arm and that is still worth stating: its
+clean-trained raw-arm model goes from tau = 0.853 undamaged to tau = **−0.101** at
+rho = 0.5. That is not merely degraded; it is *anti-correlated* with true betweenness.
+The 2026-08-27 write-up explained it with a model that had learned "dense, cliquey
+ego-net implies high betweenness" and so read a thinned graph's surviving dense pockets
+as bridges. That was an inference about the features. The log1p arm sees the same
+features and goes from 0.930 to **0.476**, so the features cannot carry the whole
+explanation. The anti-correlation belongs to the squared-error objective. Why that
+objective inverts here is not measured (TBC).
+
+**The grey line: universal on the raw arm, two of five on the reported arm.**
 
 Plain degree on the damaged graph overtakes the full 171-feature clean-trained model
-for betweenness on **every** network; only the damage level at which it happens
-differs:
+for betweenness at a damage level that depends on the network:
 
-| network | first rho where degree ≥ local |
-|---|---|
-| facebook_combined | 0.05 |
-| p2p-Gnutella08 | 0.05 |
-| ca-HepTh | 0.30 |
-| email-Eu-core | 0.30 |
-| ca-GrQc | 0.50 |
+| network | first rho where degree ≥ local, log1p | raw |
+|---|---|---|
+| facebook_combined | 0.20 | 0.05 |
+| p2p-Gnutella08 | 0.20 (−0.005, within 2 sd; −0.023 beyond 2 sd at 0.30) | 0.05 |
+| ca-HepTh | 0.50 (−0.007, within 2 sd) | 0.30 |
+| email-Eu-core | never (level at 0.50: 0.780 vs 0.780) | 0.30 |
+| ca-GrQc | never (local ahead by 0.049 at 0.50) | 0.50 |
 
-The three-network write-up presented this as a high-damage embarrassment. At five
-networks it is better read as a **rule with a network-dependent onset**: a single
+The three-network write-up presented this as a high-damage embarrassment. The
+five-network raw arm made it a **rule with a network-dependent onset**: a single
 monotone quantity that shrinks smoothly under deletion beats a high-dimensional
-learned mapping as soon as the mapping's inputs leave their training regime.
+learned mapping as soon as the mapping's inputs leave their training regime. Under
+the reported objective the rule holds, beyond 2 sd, on facebook and Gnutella only. On
+ca-HepTh and email degree draws level by ρ = 0.5, and on ca-GrQc it never does.
 
 **On the nodes that matter, the damage-trained model reaches recomputation.**
 
 This is the strongest result in the arm and it did not exist at three networks.
 Restricting to the nonzero-betweenness subset (Section 24) *and* training on the
-damage regime, damaged-trained minus recompute:
+damage regime, damaged-trained minus recompute, **log1p arm** (* = beyond 2 sd):
+
+| rho | ca-GrQc | ca-HepTh | email-Eu-core | facebook_combined | p2p-Gnutella08 |
+|---|---|---|---|---|---|
+| 0.00 | −0.222 | −0.224 | −0.111 | −0.082 | −0.109 |
+| 0.10 | −0.127* | −0.146* | −0.074* | **+0.212\*** | −0.042* |
+| 0.30 | −0.053* | −0.066* | −0.048* | **+0.281\*** | −0.009* |
+| 0.50 | **+0.001** | −0.020* | −0.033* | **+0.280\*** | **+0.004** |
+
+The same comparison on the **raw arm**:
 
 | rho | ca-GrQc | ca-HepTh | email-Eu-core | facebook_combined | p2p-Gnutella08 |
 |---|---|---|---|---|---|
@@ -2239,24 +2343,33 @@ damage regime, damaged-trained minus recompute:
 | 0.30 | −0.044 | −0.059 | −0.057 | **+0.026** | −0.011 |
 | 0.50 | **+0.002** | −0.016 | −0.058 | **+0.017** | **+0.001** |
 
-On four of five networks the gap closes to parity or better by rho = 0.5. Only
-email-Eu-core holds a stable −0.058. So the honest form of the betweenness result is
-narrower than "recomputation wins": recomputation wins **on the full ranking, with a
-clean-trained model**. Remove both of those qualifiers — score only the nodes whose
-ranking is meaningful, and let the model see the noise regime — and local prediction
-is level with recomputing the global score on most of the corpus.
+On both arms, by rho = 0.5 the gap closes to parity or better on ca-GrQc, Gnutella and
+facebook, and to about −0.02 on ca-HepTh (−0.020 log1p, −0.016 raw). Under log1p facebook goes well past parity (+0.280), and email-Eu-core holds
+−0.033 (raw −0.058). So the honest form of the betweenness result is narrower than
+"recomputation wins": recomputation wins **on the full ranking, with a clean-trained
+model, on four of five networks**. Remove both of those qualifiers — score only the
+nodes whose ranking is meaningful, and let the model see the noise regime — and local
+prediction is level with recomputing the global score on most of the corpus.
+
+Under log1p the clean-trained model is already close on this subset. Its nonzero-subset
+gap at ρ = 0.5 is −0.014 to −0.056 on the four networks and +0.007 on facebook. The raw
+clean-trained gap is −0.084 to −0.436.
 
 Two cautions on that. First, the nonzero-subset numbers are not the headline metric
 and were not pre-registered as one; they are a diagnostic that happens to point the
-other way from the headline, which is why both are reported. Second, facebook's
-*full-tau* damaged-trained numbers carry paired sds of 0.10-0.19 and are **not**
-significant at 2 sd — the point estimates (−0.17 to −0.03) should not be quoted as if
-they were. The nonzero-subset column above is the stable one there.
+other way from the headline, which is why both are reported. Second, on the **raw**
+arm facebook's *full-tau* damaged-trained numbers carry paired sds of 0.10-0.19 and are
+**not** significant at 2 sd. Those point estimates (−0.17 to −0.03) should not be quoted
+as if they were; on the raw arm the nonzero-subset column is the stable one. On the
+log1p arm the same full-tau numbers are significant: +0.162 to +0.268, with sds of
+0.03–0.09.
 
 ### What to claim
 
 *Rewritten 2026-08-27 on the five-network corpus. Two of the three bullets below
-changed; the middle one changed the most.*
+changed; the middle one changed the most. The betweenness, degree and fragility bullets
+were rewritten again 2026-10-12 on the reported (log1p) arm, with raw-arm values
+alongside.*
 
 - For **spreading** targets, a clean-trained local model reaches parity with
   recomputation once even 5% of edges are missing and holds it - **on four of five
@@ -2267,22 +2380,34 @@ changed; the middle one changed the most.*
   influence is at least as good as recomputation on a damaged graph, provided the
   model has seen the damage regime.* Without that proviso it is a four-of-five claim.
 
-- For **betweenness**, recomputation wins on the **full ranking with a clean-trained
-  model** - five networks out of five, widening with damage, no exceptions. Drop
-  either qualifier and the result changes: on the nonzero subset with a
-  damage-trained model, local is at parity or ahead on four of five by rho = 0.5.
-  Both statements are measured and they point opposite ways. Neither may be reported
-  alone.
+- For **betweenness**, under the reported (log1p) objective, recomputation wins on the
+  **full ranking with a clean-trained model** on four of five networks, by −0.030 to
+  −0.084. That margin does not widen with damage. On `facebook_combined` local wins at
+  every rho > 0 (+0.024 to +0.077). *(Raw arm: five of five, widening to −0.24 to
+  −0.54 at rho = 0.5. The widening was the objective, not locality.)* Drop either
+  qualifier and the result changes: on the nonzero subset with a damage-trained model,
+  local is at parity or ahead on ca-GrQc, Gnutella and facebook by rho = 0.5, and
+  within about 0.02 on ca-HepTh. Both statements are measured and they point opposite
+  ways. Neither may be reported alone.
 
-- Plain **degree** on the damaged graph beats the 171-feature clean-trained model for
-  betweenness on **every** network - at rho = 0.05 on facebook and Gnutella, at 0.30
-  on ca-HepTh and email, at 0.50 on ca-GrQc. This is a rule with a network-dependent
-  onset, not a high-damage curiosity, and it is the cheapest available evidence that
-  the binding constraint is distribution shift rather than information content.
+- Plain **degree** on the damaged graph overtakes the 171-feature clean-trained log1p
+  model, beyond 2 sd, on **two** networks: from rho = 0.20 on facebook and from 0.30 on
+  Gnutella. It draws level on ca-HepTh and email by rho = 0.5 and never catches ca-GrQc.
+  *(Raw arm: on every network, from 0.05 on facebook and Gnutella, 0.30 on ca-HepTh and
+  email, 0.50 on ca-GrQc.)* A damage-trained log1p model beats degree at rho = 0.5 on
+  four of five, Gnutella excepted. Degree is still a hard baseline under heavy damage.
+  The "rule with a network-dependent onset" was a five-of-five rule only on the raw arm.
 
 - The comparison is **not** evidence that local features are intrinsically fragile.
-  Training on the noise regime recovers up to +0.45 tau on betweenness and turns
-  facebook's spreading result from worst to best, which settles that.
+  Under the reported objective, a clean-trained model keeps tau 0.48–0.78 with half the
+  edges gone. Training on the noise regime adds +0.233 on facebook and at most +0.035
+  elsewhere (raw arm: up to +0.495). It also turns facebook's spreading result from worst
+  to best.
+
+- **Open, and not answered by this arm:** why the squared-error objective collapses
+  under damage and inverts on facebook (τ −0.101) while log1p on the same features does
+  not. A plausible cause is heavy-tail domination of the loss, but it has not been
+  tested. (TBC)
 
 - **Open, and not answered by this arm:** whether the facebook transfer failure is
   specifically a dense-overlapping-ego-net effect is a hypothesis fitted to one
@@ -2324,6 +2449,15 @@ Paired within seed (`analyse_edge_tier.py`, which now takes `--tier`):
 The **subgraph** tier is worth +0.129 at fixed radius, roughly 30 sd. For scale, the largest richness effect previously recorded anywhere in this project was +0.035, and the largest single depth step — one whole extra hop of information on ca-GrQc betweenness — is +0.376. A single tier, at fixed radius, is delivering roughly a third of what an entire extra hop delivers.
 
 The edge tier does contribute here (+0.032, and beyond 2 sd), which is itself larger than it is anywhere else in the corpus. But it is a fifth of the effect, not the effect.
+
+*(Added 2026-10-12. Both facebook rungs were re-run under the reported `rf_log1p` objective
+(stage 3, run 5). The edge rung is **+0.0117 ± 0.0014** \* (0.8680 → 0.8797; `edge_orbits`
++0.0090 \*, `hop1_ego` +0.0067 \*), against +0.0318 on the raw arm. The subgraph rung reproduces
+§26b's **+0.0436 ± 0.0011** \* (0.8797 → 0.9233), and `shells_ci_hop_2` alone carries +0.0338 \* of
+it. The edge rung is still about a fifth of the two rungs' combined gain under log1p
+(0.0117 of 0.0553), as on the raw arm (0.0318 of 0.1609).
+Sources: `results/RESULTS_edge_tier_log1p_facebook_20260912.txt`,
+`results/RESULTS_edge_tier_subgraph_log1p_facebook_20260912.txt`.)*
 
 ### Which part of the tier, isolated
 
@@ -2786,6 +2920,8 @@ requires re-running it.
 
 ## 26e. Finding 12 — the sample-efficiency effect changes SIGN by target *(2026-09-04)*
 
+*Re-quoted 2026-10-12 from the post-retag re-run completed 2026-10-07 (`results/RESULTS_sample_efficiency.txt`). The 2026-09-04 run predates the 2026-09-11 orbit-radius retag, which changed the r = 1 column set. All four verdicts stand. Two statements weaken: `spread_mean` is within 0.02 on 14 of 15 cells, not 15, and "zero counterexamples in either direction" no longer holds for `spread_mean`, which now moves up on four facebook cells. The 2026-09-04 numbers are kept in the pre-registration's scored addendum.*
+
 Supervisor directive 5, requested July 2026 and outstanding for two months, is
 discharged. It asked a simple question — the lab believes ~20% of labelled nodes
 may suffice — and the answer turned out to depend on something nobody had asked
@@ -2815,10 +2951,13 @@ straight into the measured effect.
 So the duplication was checked, not trusted. All **800** fraction=1.0 cells were
 compared against the published `sweep_<tag>.csv` at FULL:
 
-    worst |dtau| = 0.000e+00      (declared tolerance 5e-08)
+    worst |dtau| = 5.039e-08      (tolerance per network: max(5e-08, one swapped pair))
 
-Bit-identical on all five networks. The pre-registration said the run was **void**
-otherwise, and this gate runs before any prediction is scored.
+799 of 800 cells are bit-identical. The one exception (p2p-Gnutella08 / betweenness / r=1 /
+seed 6) differs by exactly one pair-step on a 6,299-node network. The pre-registration said
+the run was **void** otherwise, and this gate runs before any prediction is scored. *(The
+2026-09-04 run was bit-identical on all 800 cells against a flat 5e-08. The per-network
+tolerance is a post-hoc amendment of 2026-10-07, recorded in the pre-registration.)*
 
 ### Result 1 — the ~20% claim is target-dependent
 
@@ -2826,11 +2965,13 @@ otherwise, and this gate runs before any prediction is scored.
 
 | target | cells within 0.02 | mean cost |
 |---|---|---|
-| `spread_mean` | **15/15** | −0.0097 |
-| `spread_cv` | 11/15 | −0.0157 |
-| `spread_resid` | **3/15** | −0.0285 |
+| `spread_mean` | **14/15** | −0.0109 |
+| `spread_cv` | 13/15 | −0.0150 |
+| `spread_resid` | **3/15** | −0.0288 |
 
-The lab's rule is **right for the easy target and wrong for the hard one**. It is not
+The lab's rule is **right for the easy target and wrong for the hard one**. The one
+`spread_mean` miss is facebook_combined at r=1 (−0.0347). The worst cell overall is
+facebook_combined `spread_resid` at r=1 (−0.0720). It is not
 a rule about label counts at all; it is a rule about how much signal the target has to
 spare. `spread_mean` is predicted at τ ≈ 0.90–0.96 and can afford to lose four fifths
 of its labels; `spread_resid` on email-Eu-core is predicted at τ ≈ 0.07 and cannot.
@@ -2844,13 +2985,16 @@ support is ≥ 6/10 under both arms — with email-Eu-core excluded as underdete
 
 | target | DOWN | UP | unchanged |
 |---|---|---|---|
-| `betweenness` | **9** | **0** | 30 |
-| `spread_mean` | 1 | 0 | 38 |
-| `spread_cv` | 0 | **9** | 31 |
-| `spread_resid` | 0 | **6** | 32 |
+| `betweenness` | **11** | **0** | 28 |
+| `spread_mean` | 1 | 4 | 35 |
+| `spread_cv` | 0 | **9** | 29 |
+| `spread_resid` | 0 | **6** | 34 |
 
-**Zero counterexamples in either direction.** Two mechanisms, each owning a set of
-targets:
+**Zero counterexamples on the three targets that move.** `betweenness` never moves up;
+`spread_cv` and `spread_resid` never move down. `spread_mean` is mixed: one DOWN on
+ca-HepTh and four UP, all on facebook_combined. The 2026-09-04 run had `spread_mean` at
+1 / 0 / 38, and the four facebook moves appeared after the retag changed the r = 1 columns.
+Two mechanisms, each owning a set of targets:
 
 - **On `betweenness`, the plan's mechanism holds.** Its deep-radius advantage is
   carried by a few high-variance columns — Finding 10's `local_conductance_2` rung —
@@ -2861,7 +3005,7 @@ targets:
   features and less redundancy to average over. The relative ranking tips deeper and
   r\* rises.
 
-Overall, 20 cells moved up against 15 down, so **the plan's standing prediction is
+Overall, 21 cells moved up against 17 down, so **the plan's standing prediction is
 falsified as stated.** That is reported rather than reframed because the
 pre-registration declared the competing mechanism, with its opposite sign, before the
 run — precisely so this outcome would be scoreable. The general statement that
@@ -2888,7 +3032,7 @@ many columns as rows. Such a fit prefers a shallow radius for reasons unrelated 
 information horizon — which would *manufacture* exactly the DOWN moves the plan
 predicted. The robustness pass therefore drops email, the network most able to
 fabricate the original hypothesis. Removing it **strengthens** the UP verdict
-(10 down / 15 up becomes the tally on the remaining four), and both fractions agree
+(12 down / 19 up becomes the tally on the remaining four), and both fractions agree
 independently. The falsification does not rest on the weakest data.
 
 Label starvation is *not* the driver either: nonzero betweenness labels survive uniform
@@ -3152,15 +3296,17 @@ The percolation shortcut evaluates all seeds against the **same** 4,000 live-edg
 
 | target | arm 1 (frozen) | arm 2 (refit) |
 |---|---|---|
-| `spread_cv` | 0.401 | **0.307** |
-| `spread_resid` | 0.463 | **0.344** |
-| `spread_mean` | 0.554 | **0.441** |
+| `spread_cv` | 0.441 | **0.323** |
+| `spread_resid` | 0.467 | **0.331** |
+| `spread_mean` | 0.558 | **0.441** |
 
-Seed noise is smaller than target noise on **55 of 60** cells frozen and **56 of 60** refit — and once the model is free to adapt it is typically a **quarter to a half** of the target noise, not a half. The ratio of refit to frozen target-noise sd has median **1.220** and falls below 1 on only 2 of 60 cells.
+Seed noise is smaller than target noise on **55 of 60** cells frozen and **56 of 60** refit — and once the model is free to adapt it is typically a **quarter to a half** of the target noise, not a half. The ratio of refit to frozen target-noise sd has median **1.241** and falls below 1 on only 2 of 60 cells.
+
+*Re-quoted 2026-10-12 from the 2026-10-11 re-run of both arms (recovery controller run 5, after the 2026-09-11 orbit-radius retag changed the r = 1 column set). Published 2026-09-06: arm 1 0.401 / 0.463 / 0.554, arm 2 0.307 / 0.344 / 0.441, refit/frozen median 1.220. Every verdict is unchanged; the dated record is in the pre-registration's 2026-10-12 addendum.*
 
 The pre-registration predicted the opposite direction (P1) and **named the competing mechanism in advance (P2)** precisely so that an increase would be reportable rather than explained after the fact. P2 is what happened: a random forest fitted to a noisier target realisation makes genuinely worse splits, and that degradation is invisible to a frozen design. The realisation-mismatch channel is real but smaller.
 
-**Phase 6 paired follow-through (2026-09-07).** The saved dynamic-tier corpus now supplies 45 adjacent-radius contrasts with 200 paired target-bootstrap replicates and ten paired seeds. Under the descriptive |mean gain| > 2·sample SD rule, 38 flags are retained, 3 lost and none new (4 neither). All 45 target-radius covariances are positive; paired SD is median 0.529 of covariance-ignored SD. The target/seed paired-SD ratio is median 1.733. Lost flags are email spread_resid r1→r2 and facebook spread_cv/spread_resid r1→r2. See [design and limits](archive/phase6_record.md#rec-phase6_paired_noise_analysis). This is post-hoc and conditional, not total uncertainty or an updated significance test. The saved corpus uses the richest dynamic tier; headline radius tables use the richest structural tier. Therefore this measurement does not resolve or downgrade those headline stars. Structural-tier paired refits and blocked CV remain unrun.
+**Phase 6 paired follow-through (2026-09-07).** The saved dynamic-tier corpus now supplies 45 adjacent-radius contrasts with 200 paired target-bootstrap replicates and ten paired seeds. Under the descriptive |mean gain| > 2·sample SD rule, 40 flags are retained, 1 lost and none new (4 neither). All 45 target-radius covariances are positive; paired SD is median 0.582 of covariance-ignored SD. The target/seed paired-SD ratio is median 1.778 (range 0.642–5.676). The lost flag is email spread_resid r1→r2. *(Re-quoted 2026-10-12 from the 2026-10-11 re-run. The 2026-09-07 analysis gave 38 / 3 / 0, paired-SD median 0.529 and ratio median 1.733. Its two facebook r1→r2 losses are retained after the retag.)* See [design and limits](archive/phase6_record.md#rec-phase6_paired_noise_analysis). This is post-hoc and conditional, not total uncertainty or an updated significance test. The saved corpus uses the richest dynamic tier; headline radius tables use the richest structural tier. Therefore this measurement does not resolve or downgrade those headline stars. Structural-tier paired refits and blocked CV remain unrun.
 
 ---
 
@@ -3419,7 +3565,7 @@ and the C3 verdicts in §26i did not change.
 | D3 controlled synthetic confirmation | Generators and `stage0_generate.py` exist and are verified; the confirmatory sweep remains unrun. No D3 registration is present among the checked preregistration files. Fix predictions and scoring rules before executing a new experiment. |
 | Real-corpus scale-out and cross-network transfer | Five-network fitted evidence and the 14-graph aggregate audit answer different questions. No broader fitted confirmation or cross-network generalisation result is established by C4; these follow the controlled arm in the current plan. |
 | Published learned baselines inside the radius protocol | Still deferred; C3 re-analysis is not execution of a baseline. Requires its own scope and environment. |
-| A7 paired target-noise impact and blocked CV | Saved dynamic-tier paired analysis delivered: 38 retained, 3 lost, 0 new heuristic flags across 45 contrasts. These are not headline structural-tier stars. The authorised September 8 extension now runs structural-tier paired refits; buffered-CV implementation is active. Results remain pending; see §26k. |
+| A7 paired target-noise impact and blocked CV | Saved dynamic-tier paired analysis delivered: 40 retained, 1 lost, 0 new heuristic flags across 45 contrasts (2026-10-11 re-run; 38 / 3 / 0 before the retag). These are not headline structural-tier stars. The authorised September 8 extension now runs structural-tier paired refits; buffered-CV implementation is active. Results remain pending; see §26k. |
 
 The implementation dependency in the work plan is discharged. Later empirical work still
 needs its own predeclaration and execution scope; documentation completion is not permission
@@ -3460,25 +3606,29 @@ and simulation dependence also limit an independence interpretation.
 ### 26k.1 Structural paired target uncertainty — measured
 
 The full corpus completed: 12,000 cells, all 45 predeclared adjacent-radius contrasts scored
-with the predeclared descriptive paired-SD heuristic. The outcome is **38 flags retained, 3
+with the predeclared descriptive paired-SD heuristic. The outcome is **40 flags retained, 1
 lost, 4 neither, and none new**.
 
-The three lost flags all sit at the radius 1→2 step: email-Eu-core/`spread_resid`
-(mean gain −0.005752, paired SD 0.021810), facebook_combined/`spread_cv` (+0.002007, 0.001674)
-and facebook_combined/`spread_resid` (+0.004565, 0.002437). No headline structural-tier flag
-failed that A7 had retained.
+The one lost flag sits at the radius 1→2 step: email-Eu-core/`spread_resid` (mean gain
+−0.002897, paired SD 0.024431). No headline structural-tier flag failed that A7 had retained.
 
-This reproduces A7's saved dynamic-tier analysis exactly — the same counts *and* the same three
-contrasts. **That agreement is weaker evidence than it looks, and is qualified here rather than
+*Re-quoted 2026-10-12 from `results/RESULTS_paired_target_noise_structural.txt` (stage 1,
+re-run after the 2026-09-11 orbit-radius retag). This subsection was written 2026-09-10 from
+the pre-retag corpus: 38 retained, 3 lost (email `spread_resid` and facebook `spread_cv` /
+`spread_resid`, all r1→r2), ratio median 1.700, range 0.700–3.984. The two facebook flags
+are retained on the post-retag corpus.*
+
+This reproduces A7's saved dynamic-tier analysis exactly — the same counts *and* the same
+contrast. It did so before the retag as well, with 38 / 3 and three contrasts on both tiers. **That agreement is weaker evidence than it looks, and is qualified here rather than
 reported as replication.** The two tiers share their target-noise resamples by design (asserted
 by `verify_structural_target_noise.py`), so they see identical perturbed targets. What it
 establishes is that the fragility of those three flags is driven by **target noise**, not by the
 feature tier.
 
 The quantitative statement the corpus does support: the ratio of target-noise paired SD to
-seed-only paired SD has median **1.700** and exceeds 1 in **41 of 45** contrasts (range
-0.700–3.984). Ten-seed intervals therefore understate total uncertainty on most contrasts, which
-is the mechanism behind the three losses. Detail in
+seed-only paired SD has median **1.758** and exceeds 1 in **41 of 45** contrasts (range
+0.642–5.676). Ten-seed intervals therefore understate total uncertainty on most contrasts, which
+is the mechanism behind the loss. Detail in
 [the structural task report](archive/phase6_record.md#rec-phase6_structural_task_report).
 
 ### 26k.2 Buffered CV — measured
@@ -3950,7 +4100,7 @@ Every technical term and mathematical expression used in this document, in plain
 | Cost/quality frontier built on a broken cost model | **Fixed.** `feature_cost` sums the timed extraction groups a cell actually used |
 | Cascade estimates too noisy | Standard-error report built into every run; all five networks pass |
 | Feature leakage | `assert_no_leakage` runs on every grid cell, not once |
-| Angle 4 conflates locality with distribution shift | **Resolved.** Run as a separate line: training on a different damage draw at the same rho recovers up to +0.45 tau (Gnutella, rho=0.5). The collapse was shift, not fragility. Recomputation still wins for betweenness by a modest stable margin; spreading is unaffected because there was no shift to fix |
+| Angle 4 conflates locality with distribution shift | **Resolved, then re-attributed 2026-10-12.** Run as a separate line: training on a different damage draw at the same rho recovers up to +0.495 tau on the raw arm (facebook, rho=0.5). The log1p arm shows most of that collapse was the squared-error objective. Under log1p, damage-training adds +0.233 on facebook and at most +0.035 elsewhere. Recomputation still wins for betweenness on four of five networks by a margin that does not widen; spreading is unaffected because there was no shift to fix (§26) |
 | Angle 4 damage model is too gentle | Uniform edge deletion is *missing observation*, chosen deliberately over adversarial removal because targeted deletion would rig the comparison in our favour. A targeted variant is worth running, clearly labelled as a different question |
 | Angle 4 result read off the full tau only | **Controlled.** Every comparison is reported over all nodes and over the nonzero subset. For betweenness the two point opposite ways, and the doc says so |
 | Results not reproducible across rebuilds | **Fixed, with a stated limit.** `environment.yml` pins versions and the BLAS implementation; `cache_meta_<tag>.json` records the versions each result was produced under. Reproducible to 5e-08 in τ at `n_jobs=-1`, bit-exact at `n_jobs=1` — see §16 |

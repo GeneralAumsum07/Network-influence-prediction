@@ -752,12 +752,13 @@ Measured over 5,600 cells: only the *training* portion of each fold is subsample
 the test fold always stays whole, so every fraction estimates the same quantity.
 
 - **"~20% of labels is enough" is true only for the easy target.** τ at 20% vs 100%,
-  radius ≥ 1: `spread_mean` is within 0.02 in **15/15** cells (mean cost −0.0097),
-  `spread_cv` in 11/15, and `spread_resid` in only **3/15** (worst −0.0441). Quote
+  radius ≥ 1: `spread_mean` is within 0.02 in **14/15** cells (mean cost −0.0109),
+  `spread_cv` in 13/15, and `spread_resid` in only **3/15** (worst −0.0720).
+  *(Re-quoted 2026-10-12 from the post-retag re-run.)* Quote
   the rule with the target attached or do not quote it.
 - **Label scarcity moves the reported horizon in OPPOSITE directions depending on
   the target.** With email-Eu-core excluded as underdetermined, r\*(ε) moved down on
-  `betweenness` (9 down, **0 up**) and up on `spread_cv` and `spread_resid`
+  `betweenness` (11 down, **0 up**) and up on `spread_cv` and `spread_resid`
   (**0 down**, 15 up). Zero counterexamples either way. If you are label-limited,
   the radius you should buy depends on which target you are predicting - shallower
   for betweenness, deeper for the residual targets.

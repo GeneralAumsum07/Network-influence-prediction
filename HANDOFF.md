@@ -148,7 +148,7 @@ From the July 2026 meeting:
 2. **Do not pay for GPU resources.** *(Held. The 2026-08-27 move to WSL + cuML uses the **local** RTX 5060, which costs nothing, so the directive is not breached - but it was written when the project was CPU-only, and a supervisor who reads "GPU" in a methods section will ask. Have the answer ready: local hardware, zero spend, and the non-neural constraint in directive 1 is untouched - cuML's RandomForest is the same family of model, not a neural one. See section 11.)*
 3. **Do not trust published baselines.** Reproduce or reimplement. *(Held - see section 8.)*
 4. **Add edge-level and subgraph-level features.** *(Now genuinely done: 50 edge, 74 subgraph. It was NOT done before - see section 10, Finding 3.)*
-5. **Test sample efficiency** - the lab claims ~20% of nodes may suffice. *(**DONE 2026-09-04.** 5,600 cells. The answer is **target-dependent**: the ~20% claim holds cleanly for `spread_mean` (15/15 cells within 0.02 tau) and **fails for `spread_resid`** (3/15). See section 10, Finding 12.)*
+5. **Test sample efficiency** - the lab claims ~20% of nodes may suffice. *(**DONE 2026-09-04.** 5,600 cells. The answer is **target-dependent**: the ~20% claim holds for `spread_mean` (14/15 cells within 0.02 tau; 15/15 before the 2026-09-11 retag) and **fails for `spread_resid`** (3/15). See section 10, Finding 12.)*
 6. **Feature-extraction compute is the main bottleneck.** *(Addressed: merged traversal gave 4-8x, verified bit-identical.)*
 
 The professor also described the locality-budget experiment and said *"you have one result already with you."* That plot exists and is now `results/fig1_locality_budget.png`, with error bars.
@@ -268,7 +268,7 @@ The 71 → 70 step is the one nobody had written down. Orbit 15 is registered ra
 
 *An external review flagged the unexplained 73 -> 71 gap as exactly the kind of loose end a referee pulls on - and it was right that the documents could not answer it, even though the code could. After the ORCA paw-orbit incident, orbit accounting is the last place this project should be taking anything on trust.*
 
-**Optional:** `edge_graphlet_size=5` adds 5-node edge orbits, taking the table to 339 columns. Off by default - see section 14. Its radius calibration is 16 at r1, 39 at r2, 12 at r3, 1 at r4 = **68**, which is ORCA's full 5-node edge-orbit count (no exclusions there, since no edge orbit duplicates an existing column).
+**Optional:** `edge_graphlet_size=5` adds 5-node edge orbits, taking the table to 339 columns. Off by default - see section 14. Its radius calibration is 16 at r1, 39 at r2, 12 at r3, 1 at r4 = **68** (as first calibrated; the 2026-09-11 correction moved nine of the r1 orbits - 49, 50, 51, 59, 60, 61, 63, 64, 65 - to hop 2), which is ORCA's full 5-node edge-orbit count (no exclusions there, since no edge orbit duplicates an existing column).
 
 ### 7.4 The percolation shortcut
 
@@ -570,17 +570,17 @@ The sign is NOT stable: on ca-GrQc the locally-bridge-like nodes are the ones th
 
 Two artefacts had to be removed first, and the second nearly produced a spurious result: shrinkage (any regression pulls toward the middle) and **heteroscedasticity** (residual variance is far from constant, so tails fill with the periphery regardless of structure - the symptom was that *both tails profiled identically*).
 
-### Finding 9 - Angle 4: what survives damage depends on the target (REVISED at five networks, 2026-08-27; re-quoted 2026-10-12)
+### Finding 9 - Angle 4: what survives damage depends on the target (REVISED at five networks, 2026-08-27; re-quoted 2026-10-12; betweenness re-based on log1p 2026-10-12)
 
-Delete a fraction rho of edges; rank nodes by their **clean** influence given only the damaged graph. Re-run on all five networks, 3 damage draws per cell, paired within draw. Numbers re-quoted 2026-10-12 from the 2026-10-12 re-run. The model rows moved by at most 0.012 tau because the 08-31 and 09-11 retags reordered the feature columns; no conclusion changed (study §26).
+Delete a fraction rho of edges; rank nodes by their **clean** influence given only the damaged graph. Re-run on all five networks, 3 damage draws per cell, paired within draw. Numbers re-quoted 2026-10-12 from the 2026-10-12 re-run. The model rows moved by at most 0.012 tau because the 08-31 and 09-11 retags reordered the feature columns; no conclusion changed (study §26). **Betweenness bullets below are the reported log1p arm** (`results/robustness_log1p.csv`, added by the same re-run) with raw-arm values in parentheses. Four betweenness conclusions changed on re-basing; spreading is unaffected.
 
 - **Spreading:** local reaches **parity** with recomputation at rho = 0.05-0.10 and holds it - **on four of five**. `facebook_combined` never crosses and the gap *widens* (-0.013 -> -0.086). Margins elsewhere are a few thousandths: parity, not a rout.
 - **facebook's failure is transfer, not locality.** Retraining on the damage regime turns it from worst to best: damaged-trained minus recompute goes **+0.014 -> +0.154** across rho, the largest margin any method achieves over recomputation anywhere in the arm. On the other four, damage-training moves `spread_mean` by <=0.010 - there is no shift to fix. Hypothesis for why (fitted to one network, **untested**): facebook is the one corpus network built of overlapping dense ego-nets, so uniform deletion shreds the triangle/conductance features rather than merely rescaling them.
-- **Betweenness:** recomputation wins on **all five**, widening with damage, no exceptions. **Hypothesis rejected**, now on a corpus with a same-family replicate and a structurally unlike dense network. facebook is extreme: clean-trained local goes from tau 0.853 undamaged to **-0.101** at rho=0.5 - anti-correlated, not merely degraded.
-- **Skew control still cuts the other way, and further than before.** On the nonzero subset *with* damage-training, local reaches parity or better with recomputation on **four of five** by rho=0.5 (ca-GrQc +0.002, Gnutella +0.001, facebook +0.017, ca-HepTh -0.016); only email holds a stable -0.058. So "recomputation wins for betweenness" is precisely: *on the full ranking, with a clean-trained model.* Drop either qualifier and it stops being true.
-- **The collapse was distribution shift, not fragility.** Damage-training recovers up to **+0.495 tau** (facebook, rho=0.5; Gnutella +0.454). The recovery is largest exactly where the collapse was largest - which distribution shift predicts and fragility-of-locality does not.
-- **Degree on the damaged graph overtakes the 171-feature clean-trained model on EVERY network** for betweenness; only the onset differs: rho=0.05 (facebook, Gnutella), 0.30 (ca-HepTh, email), 0.50 (ca-GrQc). At three networks this read as a high-damage embarrassment; at five it is a rule with a network-dependent onset. Even damage-trained, degree is beaten on ca-GrQc alone.
-- **Caveat on quoting facebook:** its *full-tau* damaged-trained betweenness numbers carry paired sds of 0.10-0.19 and are **not** significant at 2 sd. Quote the nonzero-subset column there, not the point estimates.
+- **Betweenness:** recomputation wins on **four of five**, by -0.030 to -0.084, and the margin does not widen with damage. On `facebook_combined` the clean-trained local model **beats** recomputation at every rho > 0 (+0.024 to +0.077, beyond 2 sd). **Hypothesis rejected on four of five, not on facebook.** (Raw arm: all five, widening to -0.24 to -0.54 at rho=0.5.) The raw arm's facebook anti-correlation (tau 0.853 -> **-0.101** at rho=0.5) belongs to the squared-error objective: log1p on the same features goes 0.930 -> 0.476. Why the raw fit inverts is untested (TBC).
+- **Skew control still cuts the other way, and further than before.** On the nonzero subset *with* damage-training, local reaches parity or better with recomputation by rho=0.5 on ca-GrQc (+0.001), Gnutella (+0.004) and facebook (**+0.280**), with ca-HepTh at -0.020; email holds -0.033. (Raw: +0.002, +0.001, +0.017, -0.016; email -0.058.) So "recomputation wins for betweenness" is precisely: *on the full ranking, with a clean-trained model.* Drop either qualifier and it stops being true.
+- **The raw-arm collapse was mostly the objective, partly distribution shift, not fragility.** On the raw arm damage-training recovers up to **+0.495 tau** (facebook, rho=0.5; Gnutella +0.454). Switching the loss to log1p alone, still clean-trained, recovers +0.20 to +0.58 at rho=0.5, leaving damage-training +0.233 on facebook and at most +0.035 elsewhere. At rho=0.05 damage-training *costs* up to -0.077 under log1p. The shift is real but concentrated on facebook.
+- **Degree on the damaged graph overtakes the clean-trained log1p model on TWO networks** beyond 2 sd: facebook from rho=0.20, Gnutella from 0.30. It draws level on ca-HepTh and email by 0.5 and never catches ca-GrQc. (Raw arm: EVERY network, onset 0.05 facebook/Gnutella, 0.30 ca-HepTh/email, 0.50 ca-GrQc.) Damage-trained log1p beats degree at rho=0.5 on four of five, Gnutella excepted (raw: ca-GrQc alone).
+- **Caveat on quoting facebook:** on the **raw** arm its *full-tau* damaged-trained betweenness numbers carry paired sds of 0.10-0.19 and are **not** significant at 2 sd. Quote the nonzero-subset column there, not the point estimates. On the log1p arm they are significant (+0.162 to +0.268, sds 0.03-0.09).
 
 ### Finding 10 - one rung of the ladder is not a null; it is network-dependent, and ONE feature carries it (NEW)
 
@@ -842,25 +842,28 @@ repaired sweeps:
 The claim was true. It is now *checked*, which it was not before - this project does
 not get to leave a verification claim resting on data it subsequently repaired.
 
-### Finding 12 - the sample-efficiency effect changes SIGN by target (NEW, 2026-09-04)
+### Finding 12 - the sample-efficiency effect changes SIGN by target (NEW, 2026-09-04; re-quoted 2026-10-12)
+
+Numbers below are from the post-retag re-run completed 2026-10-07. All four verdicts stand; the 2026-09-04 values are in the pre-registration's scored addendum.
 
 Supervisor directive 5, outstanding since July 2026, discharged. 5,600 cells:
 5 networks x 4 targets x 4 radii x 7 training fractions x 10 seeds, FULL tier,
 test fold always whole and only the *training* portion subsampled. Pre-registered in
 `docs/prereg/prereg_B1_sample_efficiency.md`, scored by `analyse_sample_efficiency.py`.
 
-**Validity first.** The fraction=1.0 arm reproduces `sweep_<tag>.csv` at FULL to
-`max|dtau| = 0.000e+00` across all **800** comparable cells - bit-identical, against a
-declared 5e-08 tolerance. The bespoke OOF loop in `probe_sample_efficiency.py` is the
+**Validity first.** The fraction=1.0 arm reproduces `sweep_<tag>.csv` at FULL on all
+**800** comparable cells: 799 bit-identical, one (p2p-Gnutella08 / betweenness / r=1 / seed 6)
+off by one pair-step, 5.039e-08. That passes the per-network one-swapped-pair tolerance, a
+post-hoc amendment of 2026-10-07; the 2026-09-04 run was bit-identical. The bespoke OOF loop in `probe_sample_efficiency.py` is the
 pipeline, so the measured effect is the effect and not an artefact of the duplication.
 
 **1. The lab's ~20% claim is target-dependent.** τ at 20% labels vs 100%, r ≥ 1:
 
 | target | cells within 0.02 | mean drop |
 |---|---|---|
-| `spread_mean` | **15/15** | −0.0097 |
-| `spread_cv` | 11/15 | −0.0157 |
-| `spread_resid` | **3/15** | −0.0285 |
+| `spread_mean` | **14/15** | −0.0109 |
+| `spread_cv` | 13/15 | −0.0150 |
+| `spread_resid` | **3/15** | −0.0288 |
 
 The rule is right for the easy target and wrong for the hard one. Quote it with the
 target attached, never bare.
@@ -871,12 +874,12 @@ both arms), with email-Eu-core excluded as underdetermined:
 
 | target | DOWN | UP | same |
 |---|---|---|---|
-| `betweenness` | **9** | **0** | 30 |
-| `spread_mean` | 1 | 0 | 38 |
-| `spread_cv` | 0 | **9** | 31 |
-| `spread_resid` | 0 | **6** | 32 |
+| `betweenness` | **11** | **0** | 28 |
+| `spread_mean` | 1 | 4 | 35 |
+| `spread_cv` | 0 | **9** | 29 |
+| `spread_resid` | 0 | **6** | 34 |
 
-**Zero counterexamples in either direction.** Two mechanisms, each owning a set of
+**Zero counterexamples on the three targets that move:** betweenness never up, `spread_cv`/`spread_resid` never down. `spread_mean` is mixed (1 down, 4 up, all four on facebook; 1 / 0 / 38 before the retag). Two mechanisms, each owning a set of
 targets: on `betweenness` the deep radii are carried by a few high-variance columns
 (Finding 10's conductance rung) that degrade fastest as rows are removed, so the deep
 advantage goes first and r\* falls. On the hard targets scarcity hurts the *shallow*
@@ -884,7 +887,7 @@ radii proportionally more - fewer, cruder features, less redundancy to average o
 so the relative ranking tips deeper and r\* rises.
 
 **The plan's standing prediction ("scarcity pushes r\* down") is FALSIFIED as stated**
-- 20 UP against 15 DOWN overall. It was declared alongside its own competing mechanism
+- 21 UP against 17 DOWN overall. It was declared alongside its own competing mechanism
 (P4) precisely so an upward move would be reportable rather than explainable, and P4
 is what governs two of the four targets.
 
@@ -1272,10 +1275,12 @@ section carried until then, struck-through history included, is preserved verbat
 
 - **Which edge-probability convention to headline.** Weighted cascade is most defensible for social networks; uniform is what the fast percolation path supports. Currently uniform, and it is recorded in `cache_meta`.
 - **Whether to add a threshold model (Linear Threshold)** as a second dynamics arm.
-- **~~Whether 5-node graphlets justify their cost over 4-node.~~ ANSWERED: yes, decisively, and specifically at radius 1.** See Finding 3.
+- **~~Whether 5-node graphlets justify their cost over 4-node.~~ ANSWERED: yes, decisively, and specifically at radius 1.** See Finding 3. *(Reversed 2026-09-12: the r=1 win used six 5-node node orbits that sit at hop 2; on the corrected columns 5-node adds nothing over 4-node at r=1, 17/20 -> 0/20 flagged cells. Study §16 and §26k.3.)*
 - **~~Whether 5-node EDGE orbits justify 204 more columns.~~ ANSWERED: no.** Implemented and radius-calibrated (16 at r1, 39 at r2, 12 at r3, 1 at r4), then tested directly with `analyse_edge5.py` on two networks, three targets, ten seeds paired. The largest gain anywhere is **+0.0020** (ca-GrQc volatility at r=1, for 39 extra columns) and several are **significantly negative** (email spread mean at r=2 and r=3, -0.0007 and -0.0006, both beyond 2 sd) - the extra 132-165 columns dilute rather than help. They stay **off by default**; `edge_graphlet_size=5` turns them on if anyone wants to re-check.
 
-  Note the contrast with 5-node NODE orbits, which were a decisive win at r=1. Expanding the *node* orbit vocabulary mattered; expanding the *edge* one did not. That asymmetry is worth a sentence in any writeup.
+  **Re-checked 2026-10-11 on all five networks** (stage 3, run 5; corrected radius tables, so r=1 adds 12 columns, not 39). The answer is still no. Under the reported objective (`rf` for the spread targets, `rf_log1p` for betweenness) the largest gain anywhere is **+0.0014** (ca-HepTh betweenness, r=3), nothing at r=1 is distinguishable from zero, and several entries are significantly negative. The one large raw-arm gain, facebook betweenness +0.0270 / +0.0349 at r=2 / r=3, is -0.0018 / +0.0009 under log1p. The two-network numbers above are the 2026-08-26 record (study, edge axis).
+
+  ~~Note the contrast with 5-node NODE orbits, which were a decisive win at r=1. Expanding the *node* orbit vocabulary mattered; expanding the *edge* one did not. That asymmetry is worth a sentence in any writeup.~~ **Withdrawn 2026-10-12:** the node-orbit side of the asymmetry was the 2026-09-11 radius-tagging artefact, so there is no asymmetry at r=1 to write up.
 - **Whether to keep the `dynamic` tier.** It works, it is cleanly isolated, and it contributes ~0 everywhere (max +0.0008). Keeping it costs 25% of sweep time for a citable null. Worth keeping until the corpus is larger.
 - **When to report the p-multiple sweep.** The 1.2x email cache in `cache_archive/` is the start of one.
 

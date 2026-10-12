@@ -253,3 +253,60 @@ Result: PASS, with exactly the one p2p-Gnutella08 cell not bit-identical.
 **Rejected alternatives.** Re-running the cell until it matched (re-rolling a
 gate proves nothing); declaring the run void (discarding 5,600 sound cells over
 one pair).
+
+## Addendum 2026-10-12 — re-scored on the post-retag re-run
+
+The scored outcome above (2026-09-04) was fitted before the 2026-09-11 orbit-radius
+retag, which moved six 5-node node orbits and nine 5-node edge orbits from hop 1 to
+hop 2. That changed the r=1 column set. The full 5,600-cell sweep was re-run on the
+retagged registry and completed 2026-10-07. It passes the validity gate under the
+amendment above: 799 of 800 fraction=1.0 cells are bit-identical, and one differs by
+one pair-step. `analyse_sample_efficiency.py` re-scored it into
+`results/RESULTS_sample_efficiency.txt`. The sections above are left as written; this
+addendum supersedes their numbers, not their predictions.
+
+| # | 2026-09-04 | re-run (2026-10-07) | verdict |
+|---|---|---|---|
+| P1 | 29/45 within 0.02 | **30/45** | NOT MET (unchanged) |
+| P2 | 20 UP vs 15 DOWN | **21 UP vs 17 DOWN** | FALSIFIED (unchanged) |
+| P3 | betweenness −0.208, `spread_mean` −0.020 | **−0.245, +0.040** | MET (unchanged) |
+
+**P1 by target** (within 0.02 / mean drop at 20%): `spread_mean` **14/15**, −0.0109
+(was 15/15, −0.0097); `spread_cv` 13/15, −0.0150 (was 11/15, −0.0157); `spread_resid`
+3/15, −0.0288 (was 3/15, −0.0285). The one `spread_mean` miss is facebook_combined at
+r=1 (−0.0347). The worst cell is now facebook_combined `spread_resid` at r=1 (−0.0720),
+not email-Eu-core `spread_resid` at r=2 (now −0.0441, the second worst). "Holds cleanly
+for `spread_mean` — every cell" no longer holds. The rule holds on 14 of 15 cells, and
+the target-dependence verdict is unchanged.
+
+**P2 split by target, email-Eu-core excluded** (DOWN / UP / same):
+
+| target | 2026-09-04 | re-run |
+|---|---|---|
+| `betweenness` | 9 / 0 / 30 | **11 / 0 / 28** |
+| `spread_mean` | 1 / 0 / 38 | **1 / 4 / 35** |
+| `spread_cv` | 0 / 9 / 31 | 0 / 9 / 29 |
+| `spread_resid` | 0 / 6 / 32 | 0 / 6 / 34 |
+
+"Zero counterexamples in either direction" no longer holds for `spread_mean`. All four
+of its UP moves are on facebook_combined, at fractions 0.05 and 0.10 and ε 0.05 and
+0.02, each from a reference r\*=1 to a scarce r\*=2. Whether they come from the r=1
+column change alone was not separately tested (TBC). The dissociation the addendum above
+reports still holds on the three targets that move: `betweenness` never moves up, and
+`spread_cv` and `spread_resid` never move down.
+
+**Robustness** (DOWN / UP / same): all scored cells 17 / 21 / 148 (was 15 / 20 / 150);
+email excluded 12 / 19 / 126 (was 10 / 15 / 131); fraction 0.05 only 10 / 12 / 71 (was
+9 / 11 / 71); fraction 0.10 only 7 / 9 / 77 (was 6 / 9 / 79). 14 of 200 cells were
+dropped for support < 6/10 (was 15). No cell moved UP by more than one hop. UP still
+exceeds DOWN in every row.
+
+**P3 mean signed shift:** `betweenness` −0.245, `spread_mean` +0.040, `spread_cv`
++0.170, `spread_resid` +0.150 (was −0.208, −0.020, +0.200, +0.158). Betweenness is
+still the most negative, so P3 is met as written.
+
+**Unchanged:** the declared-floor table (rows per feature at 5%, r=3) and the realised
+nonzero betweenness labels at 5%. Both depend on row counts, not on columns.
+
+The betweenness arm is still fitted with `make_rf` (raw squared error), not the
+reported `rf_log1p` objective. Re-basing it would need a separate run (study §26d).
