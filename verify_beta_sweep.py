@@ -13,6 +13,11 @@ E2  With a common seed, every node's cluster at a larger m contains its
 E4  The r* rules and the verdict on synthetic sweep frames: a tie at the
     ceiling, sd = 0 with a positive gap, a flat series, a peak at an end
     multiple, an undetermined locator, the cv/resid exclusion below 1.25.
+Rule 3 (prereg addendum 12:31): the threshold, the pairing (identical
+    predictions give sd_target = 0), a hand-computed sd_target, deterministic
+    replicates sharing one index set, and the rebuild self-check failing closed.
+End to end: run_score on a synthetic tree of all five multiples finds the
+    peak it was built with, so the wiring is exercised before the real sweep.
 Plus the fail-closed guards: the locator refuses to overwrite itself, and
 scoring refuses a network without a recorded locator.
 
@@ -24,6 +29,7 @@ No fits, no network data; seconds to run.
 """
 from __future__ import annotations
 
+import json
 import tempfile
 from pathlib import Path
 
@@ -192,6 +198,136 @@ def e4() -> None:
     check("E4 directory names", ab.mult_dir(1.0).name == "m1.00" and ab.mult_dir(1.25).name == "m1.25")
 
 
+def rule3() -> None:
+    print("\n[rule 3] target-noise rule (prereg addendum 12:31)")
+    # Threshold: same form as rule 2, only the yardstick differs.
+    gap = {0: 0.20, 1: 0.05, 2: 0.01, 3: 0.0}
+    check("rule3 threshold picks the smallest r inside 2 x sd_target",
+          ab.r_star_target(gap, {0: 0.01, 1: 0.03, 2: 0.0, 3: 0.0}) == 1)
+    check("rule3 sd_target = 0 with a positive gap does not qualify",
+          ab.r_star_target(gap, {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0}) == 3)
+    try:
+        ab.r_star_target(gap, {0: 0.1, 1: 0.1})
+        check("rule3 mismatched radii rejected", False)
+    except ValueError:
+        check("rule3 mismatched radii rejected", True)
+
+    # Pairing: a prediction identical to the ceiling's gives D_b = 0 in every
+    # replicate, so sd_target is exactly 0 however noisy the targets are.
+    rng = np.random.default_rng(3)
+    base = rng.normal(size=60)
+    y_reps = [base + rng.normal(scale=0.5, size=60) for _ in range(30)]
+    preds = {0: rng.normal(size=60), 1: base.copy(), 2: base.copy()}
+    sd = ab.target_noise_sd(y_reps, preds, r_c=2)
+    check("rule3 identical predictions -> sd_target 0 (paired)", sd[1] == 0.0 and sd[2] == 0.0)
+    check("rule3 a different prediction -> sd_target > 0", sd[0] > 0)
+    # Hand computation for one radius.
+    from scipy.stats import kendalltau
+    want = np.std([kendalltau(y, preds[2]).statistic - kendalltau(y, preds[0]).statistic
+                   for y in y_reps], ddof=1)
+    check("rule3 sd_target matches a hand computation", np.isclose(sd[0], want, rtol=0, atol=1e-15))
+
+    # Replicates: deterministic, one index set shared by every target, and the
+    # self-check against the published targets fails closed.
+    c = rng.integers(1, 30, size=(40, 300))
+    pub = pd.DataFrame(ab.targets_from_cascades(c))
+    a = ab.replicate_targets(c, ["spread_mean", "spread_cv"], pub, reps=5, seed=0)
+    b = ab.replicate_targets(c, ["spread_mean", "spread_cv"], pub, reps=5, seed=0)
+    check("rule3 replicates are deterministic for a fixed seed",
+          all(np.array_equal(x, y) for t in a for x, y in zip(a[t], b[t])))
+    idx = np.random.default_rng(0).integers(0, 300, size=300)
+    check("rule3 first replicate uses the seed-0 index set for every target",
+          np.allclose(a["spread_mean"][0], c[:, idx].mean(axis=1))
+          and np.allclose(a["spread_cv"][0], c[:, idx].std(axis=1, ddof=1) / c[:, idx].mean(axis=1)))
+    bad = pub.copy()
+    bad["spread_mean"] = bad["spread_mean"] + 1e-6
+    try:
+        ab.replicate_targets(c, ["spread_mean"], bad, reps=1)
+        check("rule3 rebuild mismatch with cache_targets rejected", False)
+    except AssertionError:
+        check("rule3 rebuild mismatch with cache_targets rejected", True)
+
+
+def label() -> None:
+    print("\n[label] robustness label (prereg addendum 13:44)")
+    loc = {"determined": True, "m_loc": 1.25}
+    stands = ab.verdict({0.8: 1, 1.0: 3, 1.25: 2, 2.0: 2, 3.0: 1}, loc)
+    also = ab.verdict({0.8: 1, 1.0: 2, 1.25: 2, 2.0: 1, 3.0: 1}, loc)
+    flat3 = ab.verdict({0.8: 1, 1.0: 1, 1.25: 1, 2.0: 1, 3.0: 1}, loc)
+    late3 = ab.verdict({0.8: 1, 1.0: 1, 1.25: 1, 2.0: 2, 3.0: 1}, loc)
+    fails = ab.verdict({0.8: 1, 1.0: 1, 1.25: 1, 2.0: 3, 3.0: 1}, loc)
+    undet = ab.verdict({0.8: 1, 1.0: 3, 1.25: 2, 2.0: 2, 3.0: 1}, {"determined": False, "m_loc": None})
+    check("label: stands under both -> robust",
+          ab.robust_label(stands, also) == ab.ROBUST)
+    check("label: rule 3 flat -> seed noise only",
+          ab.robust_label(stands, flat3) == ab.SEED_ONLY)
+    check("label: rule 3 peak above m_loc -> seed noise only",
+          ab.robust_label(stands, late3) == ab.SEED_ONLY)
+    check("label: H1 fails under rule 2 -> no label, whatever rule 3 says",
+          ab.robust_label(fails, also) is None)
+    check("label: locator undetermined -> no label", ab.robust_label(undet, undet) is None)
+    check("label: incomplete rule 3 series -> seed noise only",
+          ab.robust_label(stands, ab.verdict({0.8: 1, 1.0: 2}, loc)) == ab.SEED_ONLY)
+
+
+def end_to_end() -> None:
+    """run_score on a synthetic tree of all five multiples, so the wiring (paths,
+    OOF key format, the cv/resid exclusion, the verdict file) is exercised before
+    a 25 h sweep could expose a typo in it."""
+    print("\n[end to end] score on a synthetic five-multiple tree")
+    saved_out, saved_loc = ab.OUT, ab.LOCATOR_DIR
+    rng = np.random.default_rng(5)
+    tag, n = "email-Eu-core", 40
+    with tempfile.TemporaryDirectory() as d:
+        ab.OUT = Path(d)
+        ab.LOCATOR_DIR = Path(d) / "locator"
+        try:
+            ab.LOCATOR_DIR.mkdir()
+            (ab.LOCATOR_DIR / f"{tag}.json").write_text(
+                '{"m_star_chi": 1.15, "determined": true, "m_loc": 1.25}')
+            # r* peaks at m = 1.0 by construction: there the curve keeps rising
+            # to r = 3; elsewhere it saturates at r = 1.
+            peak_m = 1.0
+            for m in ab.SWEEP_MULTIPLES:
+                md = ab.mult_dir(m)
+                md.mkdir(parents=True)
+                c = rng.integers(1, 30, size=(n, 200))
+                np.save(md / f"cache_cascades_{tag}.npy", c)
+                tg = pd.DataFrame(ab.targets_from_cascades(c))
+                tg.to_csv(md / f"cache_targets_{tag}.csv", index=False)
+                targets = ab.targets_for(m, {"spread_mean", "spread_cv", "spread_resid"})
+                rows, oof = [], {}
+                for t in targets:
+                    for tier in (ab.PRIMARY_TIER, ab.FULL_TIER):
+                        for r in range(4):
+                            level = (0.5 + 0.12 * r) if m == peak_m else (0.5 + 0.3 * min(r, 1))
+                            for s in range(10):
+                                rows.append({"target": t, "richness": tier, "radius": r, "seed": s,
+                                             "kendall_tau": level + rng.normal(scale=0.001)})
+                            oof[f"{t}|{r}|{tier}|0"] = tg[t].to_numpy() + rng.normal(scale=1 + 3 - r, size=n)
+                pd.DataFrame(rows).to_csv(md / f"sweep_{tag}.csv", index=False)
+                np.savez(md / f"cache_oof_{tag}.npz", **oof)
+            ab.run_score()
+            v = json.loads((Path(d) / "verdict.json").read_text())["networks"][tag]
+            rs = pd.read_csv(Path(d) / "rstar.csv")
+            check("e2e verdict scored, peak at the constructed multiple",
+                  v["status"] == "scored" and v["m_peak"] == peak_m and v["h1_stands"] is True,
+                  f"{v.get('status')} m_peak={v.get('m_peak')}")
+            check("e2e rule 3 series present for all five multiples",
+                  all(v["r_star_target_spread_mean"][str(m)] is not None for m in ab.SWEEP_MULTIPLES))
+            check("e2e robustness label written and well-formed",
+                  v["robust_label"] in (ab.ROBUST, ab.SEED_ONLY) and "rule3_verdict" in v,
+                  str(v.get("robust_label")))
+            low = rs[(rs.m < ab.CV_RESID_MIN_M)]
+            check("e2e no cv/resid rows below m = 1.25", set(low.target) == {"spread_mean"})
+            want = sum(len(ab.targets_for(m, {"spread_mean", "spread_cv", "spread_resid"}))
+                       for m in ab.SWEEP_MULTIPLES) * 2 * (2 + len(ab.RELATIVE_EPS))
+            check("e2e row count: targets x 2 tiers x (2 rules + 3 eps)", len(rs) == want,
+                  f"{len(rs)} vs {want}")
+        finally:
+            ab.OUT, ab.LOCATOR_DIR = saved_out, saved_loc
+
+
 def guards() -> None:
     print("\n[guards] fail-closed behaviour")
     saved_out, saved_loc = ab.OUT, ab.LOCATOR_DIR
@@ -219,7 +355,7 @@ def main() -> int:
     print("=" * 78)
     print("verify_beta_sweep - Phase 6.5 L1 pre-launch checks (prereg part E)")
     print("=" * 78)
-    e1(); e2(); e4(); guards()
+    e1(); e2(); e4(); rule3(); label(); end_to_end(); guards()
     print()
     if FAIL:
         print(f"FAILURES ({len(FAIL)}):")

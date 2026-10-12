@@ -616,3 +616,82 @@ For each network, take the primary series r\*_noise(m) for `spread_mean` and tie
    - a flat series;
    - a peak at an end multiple.
 5. **The four gates** stay green after every change, as section 4 requires.
+
+## L1 target-noise rule — 2026-10-12 12:31 IST — before any L1 sweep data
+
+Written by Claude Opus 5.5. Rachit agreed it in chat at 12:28 ("agree with 1-4"). It
+closes the TBD left in part C, rule 3, of the 12:15 addendum. No L1 sweep cell exists.
+The locator was recorded at about 12:29 (`results/phase6_5_beta/locator/`), and no
+r\* has been computed. Nothing above is changed. **Whether a "robust" label is
+registered is still open.** It is not decided here.
+
+**Rule 3, target-noise-normalised r\*.** It is computed per (network, m, target, tier)
+in `results/phase6_5_beta/m<m>/` and runs no fits.
+
+1. **Resampling unit: the column bootstrap, not split-half.** The registered L1 text
+   says "split-half draws". This replaces that.
+   - The bootstrap resamples the 4,000 live-edge draws with replacement. It rebuilds
+     every target column from the resampled draws with `targets_from_cascades`
+     (`probe_target_noise.py`), which is what A7 implemented and validated.
+   - It reproduces the full-size sampling process and keeps the cross-node covariance.
+     A split-half target is built from 2,000 draws, so its noise has to be rescaled, and
+     the rescaling assumes the halves are independent.
+   - The rebuild must first reproduce the m directory's `cache_targets_<tag>.csv` to
+     1e-9 for every scored target, or the rule raises.
+2. **Frozen model.** The out-of-fold predictions of sweep seed 0 are frozen, A7's
+   default, and nothing is refit.
+   - A7's refit arm found refit noise a median of 1.24× the frozen noise (range
+     0.97–2.33, at 1.5×), so this rule understates target noise.
+   - That ratio is reported as context. It is not applied as a correction, because it
+     was measured at a different multiple.
+3. **Paired across radii.** B = 200 replicates, with seed 0 for the resampling. Each
+   replicate's index set is shared across targets, radii and tiers. For replicate b:
+
+     D_b(r) = τ(y_b, ŷ_{r_c}) − τ(y_b, ŷ_r),   sd_target(r) = SD_b(D_b(r))   (ddof = 1)
+
+   Here r_c is rule 2's ceiling radius (the best seed-mean τ), and ŷ_r is the frozen
+   seed-0 prediction at radius r.
+4. **Threshold, the same form as rule 2:**
+
+     r\*_target = the smallest r with mean_s dₛ(r) ≤ 2 · sd_target(r)
+
+   The left side is rule 2's paired seed-mean gap. Rules 2 and 3 differ only in which
+   noise source the yardstick measures, so a disagreement between them is attributable
+   to that source alone.
+
+**Status: reported only.** Rule 3 does not change the H1 verdict, the stop rule or
+L6's multiple. They stay on rule 2.
+
+## L1 robustness label — 2026-10-12 13:44 IST — before any L1 sweep data
+
+Written by Claude Opus 5.5. Rachit decided it in chat at 13:44 ("register the robust
+label"). It closes the question left open at 12:31. No L1 sweep cell exists, and no
+r\* has been computed. The locator was recorded at 12:29. Nothing above is changed.
+
+**The label is a qualifier on the wording of the H1 claim, per network.** It is not a
+second verdict. Let V₂ be the part D verdict computed on rule 2's r\*_noise series, and
+V₃ the same verdict logic, with the same recorded locator, applied to rule 3's
+r\*_target series for `spread_mean`, tier `node+edge+subgraph`.
+
+- **"robust to target noise"**: H1 stands under V₂ **and** under V₃.
+- **"stands under seed noise; not resolved against target noise"**: H1 stands under V₂
+  but not under V₃. This includes a V₃ series that is flat, or whose peak lies above
+  m_loc.
+- **No label**: H1 does not stand under V₂, or H1 is not scored there (locator
+  undetermined, or the series incomplete).
+
+**What the label does not change:** the H1 verdict, the part D prediction, the stop rule
+and L6's multiple. All of them stay on rule 2 alone.
+
+**Why "stands under both" rather than "same m_peak".** r\* takes only the values
+0–3. A one-step move in m_peak that leaves the conclusion unchanged is not fragility, and
+the label asks whether the conclusion survives, not where exactly the peak sits.
+
+**Caveat carried in the label's definition.** Rule 3 uses a frozen model. A7's refit arm
+put refit target noise at a median of 1.24× the frozen figure (range 0.97–2.33, at 1.5×).
+So "robust to target noise" is easier to earn than it would be under refit noise, and any
+text using the label states this.
+
+**Where it applies.** The label is attached wherever H1 is scored. The primary claim
+remains email-Eu-core and p2p-Gnutella08. On the recorded locator, ca-GrQc and
+facebook_combined are undetermined, so they get no label.

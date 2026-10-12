@@ -23,13 +23,17 @@ a registered fact, not as a cache to refresh.
 m<m>/ and computes r* under the registered rules. It refuses to run for a
 network whose locator has not been recorded, for the same reason.
 
-WHAT IS NOT HERE
-----------------
-The third r* rule (target-noise-normalised) is still TBD in the prereg. It is
-added only after its own dated addendum.
+THE THIRD r* RULE
+-----------------
+The target-noise rule follows the prereg section "L1 target-noise rule -
+2026-10-12 12:31 IST": a column bootstrap of the live-edge draws, frozen seed-0
+OOF predictions, paired across radii, and the same threshold form as rule 2.
+It is REPORTED ONLY; the verdict stays on rule 2. Its one registered use is
+the robustness label (prereg addendum 13:44): "robust to target noise" when
+H1 stands under rule 2 and under rule 3 through the same verdict logic.
 
 Everything is single-process and deterministic: fixed seeds for the draws and
-the bootstrap, and no model fits anywhere in this file.
+the bootstraps, and no model fits anywhere in this file.
 """
 from __future__ import annotations
 
@@ -43,8 +47,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import kendalltau
 
 from analyse import FULL
+# Reused, not re-derived: A7 validated this rebuild against the published
+# target columns, and a second copy here could drift from build_targets.
+from probe_target_noise import targets_from_cascades
 from influence.criticality import transmission_probability
 from influence.dynamics import simulate_ic_percolation
 from influence.experiment import locality_horizon
@@ -75,6 +83,13 @@ RELATIVE_EPS = (0.10, 0.05, 0.02)
 # the prereg excludes them below m = 1.25. Enforced here, not just assumed.
 CV_RESID_MIN_M = 1.25
 PREDICTED_PEAK = (1.0, 1.25)                     # H1 prediction, inclusive
+
+# Rule 3 (prereg addendum 2026-10-12 12:31): 200 column-bootstrap replicates,
+# resampling seed 0, frozen OOF predictions of sweep seed 0 (A7's default).
+TN_REPS = 200
+TN_SEED = 0
+TN_PRED_SEED = 0
+TN_SELF_CHECK_TOL = 1e-9
 
 ROOT_MULTIPLE = 1.5          # the root caches were built at 1.5 x beta_c
 OUT = Path("results/phase6_5_beta")
@@ -385,6 +400,66 @@ def r_star_relative(sweep: pd.DataFrame, target: str, tier: str, eps: float) -> 
             "agree": int(top), "n": len(vals)}
 
 
+def replicate_targets(c: np.ndarray, targets, published: pd.DataFrame,
+                      reps: int = TN_REPS, seed: int = TN_SEED) -> dict[str, list]:
+    """Rule 3's bootstrap targets: one rebuilt column per replicate per target.
+
+    c is the (n_nodes, n_draws) cascade matrix of one m directory. Each
+    replicate resamples the draw indices with replacement and rebuilds the
+    targets from those columns. The SAME index set serves every target in a
+    replicate (and, through the caller, every radius and tier), which is what
+    makes the per-radius differences paired.
+
+    First, the rebuild must reproduce the published targets to 1e-9. If it
+    does not, the bootstrap would perturb a column the sweep never trained on,
+    and every number from it would be about the wrong quantity, so it raises.
+    """
+    rebuilt = targets_from_cascades(c)
+    for t in targets:
+        if not np.allclose(rebuilt[t], published[t].to_numpy(float),
+                           rtol=0, atol=TN_SELF_CHECK_TOL, equal_nan=True):
+            raise AssertionError(f"{t}: rebuilt target differs from cache_targets "
+                                 f"by more than {TN_SELF_CHECK_TOL}")
+    rng = np.random.default_rng(seed)
+    n_draws = c.shape[1]
+    out = {t: [] for t in targets}
+    for _ in range(reps):
+        idx = rng.integers(0, n_draws, size=n_draws)
+        rep = targets_from_cascades(c[:, idx])
+        for t in targets:
+            out[t].append(rep[t])
+    return out
+
+
+def target_noise_sd(y_reps: list, preds: dict, r_c: int) -> dict:
+    """sd_target(r) = SD over replicates of D_b(r) = tau(y_b, pred[r_c]) - tau(y_b, pred[r]).
+
+    Both taus in a replicate are scored against the SAME resampled target, so
+    the target noise they share cancels in the difference, exactly as shared
+    folds cancel in rule 2. At r = r_c the difference is identically 0.
+    """
+    out = {}
+    for r, pred in preds.items():
+        if r == r_c:
+            out[int(r)] = 0.0
+            continue
+        d = [kendalltau(y, preds[r_c]).statistic - kendalltau(y, pred).statistic
+             for y in y_reps]
+        out[int(r)] = float(np.std(d, ddof=1))
+    return out
+
+
+def r_star_target(gap: dict, sd_target: dict) -> int:
+    """Rule 3: the smallest r with (rule 2's seed-mean gap) <= 2 * sd_target(r).
+
+    The left side is deliberately rule 2's gap, so rules 2 and 3 differ only in
+    which noise the yardstick measures.
+    """
+    if set(gap) != set(sd_target):
+        raise ValueError(f"radii differ: gap {sorted(gap)} vs sd {sorted(sd_target)}")
+    return int(min(r for r in sorted(gap) if gap[r] <= 2 * sd_target[r]))
+
+
 def verdict(r_by_m: dict, locator: dict) -> dict:
     """Prereg D for one network: flat, m_peak, the prediction and H1.
 
@@ -411,6 +486,25 @@ def verdict(r_by_m: dict, locator: dict) -> dict:
             "h1_stands": (m_peak <= m_loc + 1e-12) if determined else None}
 
 
+ROBUST = "robust to target noise"
+SEED_ONLY = "stands under seed noise; not resolved against target noise"
+
+
+def robust_label(v_rule2: dict, v_rule3: dict) -> str | None:
+    """The registered qualifier on the H1 wording (prereg addendum 13:44).
+
+    A label, not a second verdict: it only says whether a conclusion that
+    already stands under rule 2 survives when rule 3's series goes through the
+    same verdict logic with the same locator. Where H1 does not stand under
+    rule 2, or is not scored, there is nothing to qualify, so no label. The
+    frozen-model caveat (rule 3 understates target noise, A7: x1.24 median)
+    belongs to any text that quotes the label.
+    """
+    if v_rule2.get("h1_stands") is not True:
+        return None
+    return ROBUST if v_rule3.get("h1_stands") is True else SEED_ONLY
+
+
 def targets_for(m: float, present) -> list[str]:
     """Spread targets scored at multiple m, with the registered exclusion."""
     keep = []
@@ -431,21 +525,37 @@ def run_score() -> int:
             print(f"{tag}: no recorded locator; refusing to score (prereg B: locator first)")
             continue
         locator = json.loads(loc_path.read_text(encoding="utf-8"))
-        primary = {}
+        primary, primary_target_rule = {}, {}
         for m in SWEEP_MULTIPLES:
             path = mult_dir(m) / f"sweep_{tag}.csv"
             if not path.exists():
                 continue
             sweep = pd.read_csv(path)
-            for target in targets_for(m, set(sweep.target)):
+            scored = targets_for(m, set(sweep.target))
+            # Rule 3's inputs, from the same directory the sweep was fitted in.
+            d = mult_dir(m)
+            c = np.load(d / f"cache_cascades_{tag}.npy")
+            y_reps = replicate_targets(c, scored, pd.read_csv(d / f"cache_targets_{tag}.csv"))
+            del c
+            oof = np.load(d / f"cache_oof_{tag}.npz")
+            for target in scored:
                 for tier in (PRIMARY_TIER, FULL_TIER):
                     res = r_star_noise(tau_table(sweep, target, tier))
                     rows.append({"network": tag, "m": m, "target": target, "tier": tier,
                                  "rule": "noise_paired_2sd", "eps": None,
                                  "r_star": res["r_star"], "agree": None,
                                  "r_ceiling": res["r_ceiling"], "ceiling": res["ceiling"]})
+                    preds = {r: oof[f"{target}|{r}|{tier}|{TN_PRED_SEED}"]
+                             for r in res["gap"]}
+                    sd_t = target_noise_sd(y_reps[target], preds, res["r_ceiling"])
+                    r3 = r_star_target(res["gap"], sd_t)
+                    rows.append({"network": tag, "m": m, "target": target, "tier": tier,
+                                 "rule": "target_noise_paired_2sd", "eps": None,
+                                 "r_star": r3, "agree": None,
+                                 "r_ceiling": res["r_ceiling"], "ceiling": res["ceiling"]})
                     if target == "spread_mean" and tier == PRIMARY_TIER:
                         primary[m] = res["r_star"]
+                        primary_target_rule[m] = r3
                     for eps in RELATIVE_EPS:
                         rel = r_star_relative(sweep, target, tier, eps)
                         rows.append({"network": tag, "m": m, "target": target, "tier": tier,
@@ -455,19 +565,26 @@ def run_score() -> int:
         verdicts[tag] = {"primary_network": tag in PRIMARY_NETWORKS,
                          "r_star_noise_spread_mean": {str(m): primary.get(m)
                                                       for m in SWEEP_MULTIPLES},
+                         # Rule 3, reported only (prereg 12:31): it feeds the
+                         # robustness label, never the verdict itself.
+                         "r_star_target_spread_mean": {str(m): primary_target_rule.get(m)
+                                                       for m in SWEEP_MULTIPLES},
                          "m_star_chi": locator["m_star_chi"],
                          **verdict(primary, locator)}
+        v3 = verdict(primary_target_rule, locator)
+        verdicts[tag]["rule3_verdict"] = v3
+        verdicts[tag]["robust_label"] = robust_label(verdicts[tag], v3)
     if not rows:
         print("nothing to score yet")
         return 0
     write_atomic(OUT / "rstar.csv", pd.DataFrame(rows).to_csv(index=False, lineterminator="\n"))
     write_atomic(OUT / "verdict.json", json.dumps(
         {"registered_in": "prereg addendum 2026-10-12 12:15 IST, parts C-D",
-         "target_noise_rule": "TBD in the prereg; not computed",
+         "target_noise_rule": "reported only (prereg addendum 2026-10-12 12:31)",
          "networks": verdicts}, indent=2) + "\n")
     for tag, v in verdicts.items():
         print(f"{tag:20s} {v.get('status'):10s} m_peak={v.get('m_peak')} "
-              f"m_loc={v.get('m_loc')} H1={v.get('h1_stands')}")
+              f"m_loc={v.get('m_loc')} H1={v.get('h1_stands')} label={v.get('robust_label')}")
     return 0
 
 

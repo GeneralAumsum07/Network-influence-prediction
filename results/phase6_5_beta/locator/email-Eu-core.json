@@ -1,0 +1,43 @@
+{
+  "network": "email-Eu-core",
+  "registered_in": "prereg addendum 2026-10-12 12:15 IST, part B",
+  "grid": [
+    0.5,
+    3.0,
+    0.05
+  ],
+  "n_draws": 500,
+  "seed": 0,
+  "beta_c": 0.01337856605222597,
+  "m_star_chi": 1.15,
+  "determined": true,
+  "m_loc": 1.25,
+  "secondary": {
+    "m_star_s2": 1.25,
+    "m_star_cv": 1.25
+  },
+  "bootstrap": {
+    "reps": 200,
+    "seed": 0,
+    "q025": 1.15,
+    "median": 1.15,
+    "q975": 1.2512500000000002,
+    "share_at_point_estimate": 0.77
+  },
+  "coupled_s1_nondecreasing": true,
+  "e3_root_identity": {
+    "first_500_columns_identical": true,
+    "chi_root_4000": 8.470305874321006,
+    "chi_fresh_500": 7.909032749069302,
+    "bootstrap_se_500": 0.6132768425295542,
+    "abs_diff_in_se": 0.9152035203818346,
+    "within_3_se": true,
+    "pass": true
+  },
+  "inputs": {
+    "edge_list": "data/email-Eu-core.txt",
+    "edge_list_sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+    "analyser_sha256": "438559810dab30e989806b363aff88a31b2b45f38ed127b0e8a2635be517f876"
+  },
+  "seconds": 4.6
+}
