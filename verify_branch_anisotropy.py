@@ -6,7 +6,7 @@ import numpy as np
 import scipy.sparse as sp
 from influence.preprocessing import Network
 from influence.branch_anisotropy import branch_anisotropy
-from probe_branch_anisotropy import tails, contrast, run_network
+from probe_branch_anisotropy import tails, contrast, run_network, qualifies
 def graph(n,edges,order=False):
     e=list(reversed(edges)) if order else edges; r=[a for a,b in e]+[b for a,b in e]; c=[b for a,b in e]+[a for a,b in e]; a=sp.csr_matrix((np.ones(len(r)),(r,c)),shape=(n,n)); a.sort_indices(); return Network('x',a,[a.indices[a.indptr[i]:a.indptr[i+1]] for i in range(n)],np.diff(a.indptr),np.arange(n))
 def close(a,b):
@@ -23,6 +23,10 @@ def features():
 def logic():
     over,under,k=tails(np.array([0.,0.,1.,1.,2.,2.,3.,3.,4.,4.,5.,5.,6.,6.,7.,7.,8.,8.,9.,9.])); assert k==10 and not set(over)&set(under)
     effects,_,_=contrast({'x':np.arange(20.)},np.arange(20.)); assert effects['x']['cliffs_delta_under_minus_over']>0
+    # The verdict's per-network rule: either feature beyond |d| = 0.2, either sign;
+    # exactly 0.2 does not qualify (strict inequality, as registered).
+    e=lambda a,b:{'effects':{'max_branch_share':{'cliffs_delta_under_minus_over':a},'branch_entropy_nats':{'cliffs_delta_under_minus_over':b}}}
+    assert qualifies(e(.05,-.25)) and qualifies(e(.21,.0)) and not qualifies(e(.2,-.2)) and not qualifies(e(.1,-.19))
 def guards():
     with tempfile.TemporaryDirectory() as d:
         p=Path(d); (p/'ca-GrQc.json').write_text('{"status":"complete","identity":{"bad":true}}')

@@ -84,6 +84,15 @@ def run_network(tag,out,pilot=False):
         atomic_npz(datap,**output); status.update(status='complete',completed_utc=stamp(),output_sha256=sha(datap),arms=results,empty_shell2_count=int(empty.sum()),scoring_status='unscored_pilot' if pilot else 'ready_for_scoring'); atomic_json(statusp,status); return status
     except Exception as e:
         status.update(status='failed',completed_utc=stamp(),error=str(e)); atomic_json(statusp,status); raise
+def qualifies(primary):
+    # Registered (2026-09-13 18:17): a network qualifies if EITHER feature's
+    # |Cliff's d| exceeds 0.2 on the primary contrast. This is the maximum over
+    # two features, not two confirmations. Fixed 2026-10-13: the inline
+    # version took abs() of each effect's dict rather than its d value, so
+    # summary() raised a TypeError on the first full run and wrote no verdict.
+    # It is a function now so that verify_branch_anisotropy.py can test it.
+    ds=[e['cliffs_delta_under_minus_over'] for e in primary['effects'].values()]
+    return max(abs(d) for d in ds if d is not None)>.2
 def summary(out):
     networks={}; hashes={}; eligible=[]
     for tag in TAGS:
@@ -100,7 +109,7 @@ def summary(out):
         vals=[x['cliffs_delta_under_minus_over'] for x in primary['effects'].values()]
         if any(v is None for v in vals): continue
         eligible.append(tag); hashes[tag]={'status_sha256':sha(sp),'output_sha256':sha(dp)}
-    hits=sum(max(abs(v) for v in networks[t]['arms']['primary_reported_betweenness']['effects'].values() if v['cliffs_delta_under_minus_over'] is not None)>.2 for t in eligible)
+    hits=sum(qualifies(networks[t]['arms']['primary_reported_betweenness']) for t in eligible)
     verdict='supported' if hits>=3 else ('not_supported' if hits+(5-len(eligible))<3 else 'unscored')
     atomic_json(out/'analysis.json',{'created_utc':stamp(),'network_results':networks,'hashes':hashes,'primary_prediction':{'status':verdict,'qualified_networks':hits,'scored_primary_networks':len(eligible),'rule':'max(abs(d)) across max_branch_share and branch_entropy_nats > 0.2; support >=3/5'},'reconstruction_gate':'DEFERRED: no model fitting; R2 gate awaits Stage4.'})
 def main():

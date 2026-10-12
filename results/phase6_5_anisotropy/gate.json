@@ -1,0 +1,229 @@
+{
+  "registered_in": "prereg 2026-09-12 clarification; L7 execution definitions 2026-09-13 18:17; L7 run status 2026-10-13 01:56",
+  "protocol": {
+    "function": "analyse_features.predictability",
+    "max_rows": 4000,
+    "seed": 0,
+    "threshold": 0.95,
+    "predictors": [
+      "ego_betweenness",
+      "edge_overlap_max",
+      "edge_overlap_mean",
+      "edge_overlap_min",
+      "edge_overlap_std"
+    ]
+  },
+  "add_one": "NOT RUN: no registered protocol (run-status addendum part B)",
+  "networks": {
+    "ca-GrQc": {
+      "network": "ca-GrQc",
+      "n": 4158,
+      "rows_used": 4000,
+      "predictors": {
+        "ego_betweenness": 1,
+        "edge_overlap_max": 1,
+        "edge_overlap_mean": 1,
+        "edge_overlap_min": 1,
+        "edge_overlap_std": 1
+      },
+      "gate": {
+        "max_branch_share": {
+          "r2": 0.8246633011379029,
+          "verdict": "pass"
+        },
+        "branch_entropy_nats": {
+          "r2": 0.8785323543167332,
+          "verdict": "pass"
+        }
+      },
+      "network_passes": true,
+      "tail_k": 208,
+      "boundary_ties": {
+        "primary_reported_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_raw_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_spread_mean": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "a92951dacb65381ecd6f3b881b88b851e5a68bf489fbe5d5156a32d64a0bb3a4",
+        "cache_features_sha256": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8"
+      }
+    },
+    "ca-HepTh": {
+      "network": "ca-HepTh",
+      "n": 8638,
+      "rows_used": 4000,
+      "predictors": {
+        "ego_betweenness": 1,
+        "edge_overlap_max": 1,
+        "edge_overlap_mean": 1,
+        "edge_overlap_min": 1,
+        "edge_overlap_std": 1
+      },
+      "gate": {
+        "max_branch_share": {
+          "r2": 0.8383008466208325,
+          "verdict": "pass"
+        },
+        "branch_entropy_nats": {
+          "r2": 0.8971392664590513,
+          "verdict": "pass"
+        }
+      },
+      "network_passes": true,
+      "tail_k": 432,
+      "boundary_ties": {
+        "primary_reported_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_raw_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_spread_mean": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "0227e549eb7f212308e72a921ede505022ae5800abf48ffda5008ce5e92df564",
+        "cache_features_sha256": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d"
+      }
+    },
+    "p2p-Gnutella08": {
+      "network": "p2p-Gnutella08",
+      "n": 6299,
+      "rows_used": 4000,
+      "predictors": {
+        "ego_betweenness": 1,
+        "edge_overlap_max": 1,
+        "edge_overlap_mean": 1,
+        "edge_overlap_min": 1,
+        "edge_overlap_std": 1
+      },
+      "gate": {
+        "max_branch_share": {
+          "r2": 0.9277414272651214,
+          "verdict": "pass"
+        },
+        "branch_entropy_nats": {
+          "r2": 0.9773990041273254,
+          "verdict": "fail"
+        }
+      },
+      "network_passes": true,
+      "tail_k": 315,
+      "boundary_ties": {
+        "primary_reported_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_raw_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_spread_mean": {
+          "over_boundary": 1,
+          "under_boundary": 0
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "39bf71678fd9fa4a01fe03a706824dbac83db928f12ed2609fc818e736d88075",
+        "cache_features_sha256": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4"
+      }
+    },
+    "email-Eu-core": {
+      "network": "email-Eu-core",
+      "n": 986,
+      "rows_used": 986,
+      "predictors": {
+        "ego_betweenness": 1,
+        "edge_overlap_max": 1,
+        "edge_overlap_mean": 1,
+        "edge_overlap_min": 1,
+        "edge_overlap_std": 1
+      },
+      "gate": {
+        "max_branch_share": {
+          "r2": 0.9082225618168751,
+          "verdict": "pass"
+        },
+        "branch_entropy_nats": {
+          "r2": 0.9655240702657557,
+          "verdict": "fail"
+        }
+      },
+      "network_passes": true,
+      "tail_k": 49,
+      "boundary_ties": {
+        "primary_reported_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_raw_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_spread_mean": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "b18a1b6af9d8b41f15bf95f7ba58df382b8550ec91b08f6d9eb5892bbb1affed",
+        "cache_features_sha256": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477"
+      }
+    },
+    "facebook_combined": {
+      "network": "facebook_combined",
+      "n": 4039,
+      "rows_used": 4000,
+      "predictors": {
+        "ego_betweenness": 1,
+        "edge_overlap_max": 1,
+        "edge_overlap_mean": 1,
+        "edge_overlap_min": 1,
+        "edge_overlap_std": 1
+      },
+      "gate": {
+        "max_branch_share": {
+          "r2": 0.6278136037213862,
+          "verdict": "pass"
+        },
+        "branch_entropy_nats": {
+          "r2": 0.7799454828219118,
+          "verdict": "pass"
+        }
+      },
+      "network_passes": true,
+      "tail_k": 202,
+      "boundary_ties": {
+        "primary_reported_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_raw_betweenness": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        },
+        "sensitivity_spread_mean": {
+          "over_boundary": 0,
+          "under_boundary": 0
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "84ca2910812203dd97452818e23fdcdfd72c7138b6f0aeb297afe7bb8ac5635d",
+        "cache_features_sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382"
+      }
+    }
+  }
+}

@@ -1,0 +1,749 @@
+{
+  "created_utc": "2026-10-12T20:27:14.074895+00:00",
+  "network_results": {
+    "ca-GrQc": {
+      "status": "complete",
+      "pilot": false,
+      "started_utc": "2026-10-12T20:27:07.590235+00:00",
+      "identity": {
+        "tag": "ca-GrQc",
+        "configuration": {
+          "threads": 1,
+          "radius": 3,
+          "richness": "node+edge+subgraph",
+          "seeds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "primary": "reported_rf_log1p_betweenness",
+          "sensitivities": [
+            "raw_betweenness",
+            "spread_mean"
+          ],
+          "tail_fraction": 0.05,
+          "tie_rule": "ascending np.lexsort((node, adjusted_delta))"
+        },
+        "recorded_source_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+        "source_hash_origin": "cache_provenance_audit_20260911.json",
+        "inputs": {
+          "meta": {
+            "path": "cache_meta_ca-GrQc.json",
+            "sha256": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b"
+          },
+          "features": {
+            "path": "cache_features_ca-GrQc.csv",
+            "sha256": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8"
+          },
+          "targets": {
+            "path": "cache_targets_ca-GrQc.csv",
+            "sha256": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62"
+          },
+          "reported_oof": {
+            "path": "estimators/cache_oof_ca-GrQc__rf_log1p.npz",
+            "sha256": "38773c9e6491de447ffa22daa3508b8ff68560720de2427185cacd11a13df877"
+          },
+          "raw_oof": {
+            "path": "cache_oof_ca-GrQc.npz",
+            "sha256": "b55027a85a24966aa86c8ad8449f7371e66304feb04aee7f6eb16fe6141b3cb2"
+          },
+          "edgelist": {
+            "path": "data/ca-GrQc.txt",
+            "sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660"
+          },
+          "source_audit": {
+            "path": "cache_provenance_audit_20260911.json",
+            "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+          },
+          "branch_anisotropy": {
+            "path": "influence/branch_anisotropy.py",
+            "sha256": "7084b0510a55415253c93baaafa4693fb2cdcf08629eb1ec7645a0e1cdd30472"
+          },
+          "probe": {
+            "path": "probe_branch_anisotropy.py",
+            "sha256": "de18775c59e8f964e469ead72acfb57c8daec6e159c9e0d7d6e1675ed98389e1"
+          },
+          "analyse_failures": {
+            "path": "analyse_failures.py",
+            "sha256": "c39ecf319cbcf374d9c6a9ceaecb83ef0a07be5259aa23ca4212d389a23d64ae"
+          },
+          "sweep_inputs": {
+            "path": "influence/sweep_inputs.py",
+            "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+          }
+        }
+      },
+      "completed_utc": "2026-10-12T20:27:07.914465+00:00",
+      "output_sha256": "a92951dacb65381ecd6f3b881b88b851e5a68bf489fbe5d5156a32d64a0bb3a4",
+      "arms": {
+        "primary_reported_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "rf_log1p",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": 0.14963942307692313,
+              "p_value": 0.008297488034537108,
+              "under_n": 208,
+              "over_n": 208
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": -0.20458117603550297,
+              "p_value": 0.000307490937138286,
+              "under_n": 208,
+              "over_n": 208
+            }
+          }
+        },
+        "sensitivity_raw_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": 0.1935558431952662,
+              "p_value": 0.0006390413670357372,
+              "under_n": 208,
+              "over_n": 208
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": -0.23430565828402372,
+              "p_value": 3.575771693580941e-05,
+              "under_n": 208,
+              "over_n": 208
+            }
+          }
+        },
+        "sensitivity_spread_mean": {
+          "status": "scored",
+          "target": "spread_mean",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": 0.05528846153846145,
+              "p_value": 0.3195169283972833,
+              "under_n": 208,
+              "over_n": 208
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": -0.050226516272189325,
+              "p_value": 0.3658529952353582,
+              "under_n": 208,
+              "over_n": 208
+            }
+          }
+        }
+      },
+      "empty_shell2_count": 0,
+      "scoring_status": "ready_for_scoring"
+    },
+    "ca-HepTh": {
+      "status": "complete",
+      "pilot": false,
+      "started_utc": "2026-10-12T20:27:07.959342+00:00",
+      "identity": {
+        "tag": "ca-HepTh",
+        "configuration": {
+          "threads": 1,
+          "radius": 3,
+          "richness": "node+edge+subgraph",
+          "seeds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "primary": "reported_rf_log1p_betweenness",
+          "sensitivities": [
+            "raw_betweenness",
+            "spread_mean"
+          ],
+          "tail_fraction": 0.05,
+          "tie_rule": "ascending np.lexsort((node, adjusted_delta))"
+        },
+        "recorded_source_sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+        "source_hash_origin": "cache_provenance_audit_20260911.json",
+        "inputs": {
+          "meta": {
+            "path": "cache_meta_ca-HepTh.json",
+            "sha256": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388"
+          },
+          "features": {
+            "path": "cache_features_ca-HepTh.csv",
+            "sha256": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d"
+          },
+          "targets": {
+            "path": "cache_targets_ca-HepTh.csv",
+            "sha256": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe"
+          },
+          "reported_oof": {
+            "path": "estimators/cache_oof_ca-HepTh__rf_log1p.npz",
+            "sha256": "e520cd7059fd509b22ab5d940eefbe119d8ae5d30cc34ec6aa8b9a8d0f9347e7"
+          },
+          "raw_oof": {
+            "path": "cache_oof_ca-HepTh.npz",
+            "sha256": "4b4b9f9ef28ec876ee91031b5794b230674a2f8143f8e8ff1a941b5097167527"
+          },
+          "edgelist": {
+            "path": "data/ca-HepTh.txt",
+            "sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90"
+          },
+          "source_audit": {
+            "path": "cache_provenance_audit_20260911.json",
+            "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+          },
+          "branch_anisotropy": {
+            "path": "influence/branch_anisotropy.py",
+            "sha256": "7084b0510a55415253c93baaafa4693fb2cdcf08629eb1ec7645a0e1cdd30472"
+          },
+          "probe": {
+            "path": "probe_branch_anisotropy.py",
+            "sha256": "de18775c59e8f964e469ead72acfb57c8daec6e159c9e0d7d6e1675ed98389e1"
+          },
+          "analyse_failures": {
+            "path": "analyse_failures.py",
+            "sha256": "c39ecf319cbcf374d9c6a9ceaecb83ef0a07be5259aa23ca4212d389a23d64ae"
+          },
+          "sweep_inputs": {
+            "path": "influence/sweep_inputs.py",
+            "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+          }
+        }
+      },
+      "completed_utc": "2026-10-12T20:27:08.502201+00:00",
+      "output_sha256": "0227e549eb7f212308e72a921ede505022ae5800abf48ffda5008ce5e92df564",
+      "arms": {
+        "primary_reported_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "rf_log1p",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.0991030092592593,
+              "p_value": 0.011676631450422347,
+              "under_n": 432,
+              "over_n": 432
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.1289705504115226,
+              "p_value": 0.0010329731665568184,
+              "under_n": 432,
+              "over_n": 432
+            }
+          }
+        },
+        "sensitivity_raw_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.23080096879286693,
+              "p_value": 4.2479521422487046e-09,
+              "under_n": 432,
+              "over_n": 432
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.2833719135802468,
+              "p_value": 5.532207074436209e-13,
+              "under_n": 432,
+              "over_n": 432
+            }
+          }
+        },
+        "sensitivity_spread_mean": {
+          "status": "scored",
+          "target": "spread_mean",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.03546167695473246,
+              "p_value": 0.3535154729554473,
+              "under_n": 432,
+              "over_n": 432
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.03914287551440321,
+              "p_value": 0.3057815936932299,
+              "under_n": 432,
+              "over_n": 432
+            }
+          }
+        }
+      },
+      "empty_shell2_count": 0,
+      "scoring_status": "ready_for_scoring"
+    },
+    "p2p-Gnutella08": {
+      "status": "complete",
+      "pilot": false,
+      "started_utc": "2026-10-12T20:27:08.540200+00:00",
+      "identity": {
+        "tag": "p2p-Gnutella08",
+        "configuration": {
+          "threads": 1,
+          "radius": 3,
+          "richness": "node+edge+subgraph",
+          "seeds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "primary": "reported_rf_log1p_betweenness",
+          "sensitivities": [
+            "raw_betweenness",
+            "spread_mean"
+          ],
+          "tail_fraction": 0.05,
+          "tie_rule": "ascending np.lexsort((node, adjusted_delta))"
+        },
+        "recorded_source_sha256": "fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499",
+        "source_hash_origin": "cache_provenance_audit_20260911.json",
+        "inputs": {
+          "meta": {
+            "path": "cache_meta_p2p-Gnutella08.json",
+            "sha256": "33b473fa95c051759d7748002c228bb9740c8c9dee0e7ff3ec5f725e301c2a17"
+          },
+          "features": {
+            "path": "cache_features_p2p-Gnutella08.csv",
+            "sha256": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4"
+          },
+          "targets": {
+            "path": "cache_targets_p2p-Gnutella08.csv",
+            "sha256": "1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6"
+          },
+          "reported_oof": {
+            "path": "estimators/cache_oof_p2p-Gnutella08__rf_log1p.npz",
+            "sha256": "803b5f7cd079be1a64dea3276462c2941b1b597941c95894ced5248e3f74864e"
+          },
+          "raw_oof": {
+            "path": "cache_oof_p2p-Gnutella08.npz",
+            "sha256": "2ef77a59924e3179c0bca1a35a16af427daef0e2570fe87cfa9cab679e3dd2c8"
+          },
+          "edgelist": {
+            "path": "data/p2p-Gnutella08.txt",
+            "sha256": "fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499"
+          },
+          "source_audit": {
+            "path": "cache_provenance_audit_20260911.json",
+            "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+          },
+          "branch_anisotropy": {
+            "path": "influence/branch_anisotropy.py",
+            "sha256": "7084b0510a55415253c93baaafa4693fb2cdcf08629eb1ec7645a0e1cdd30472"
+          },
+          "probe": {
+            "path": "probe_branch_anisotropy.py",
+            "sha256": "de18775c59e8f964e469ead72acfb57c8daec6e159c9e0d7d6e1675ed98389e1"
+          },
+          "analyse_failures": {
+            "path": "analyse_failures.py",
+            "sha256": "c39ecf319cbcf374d9c6a9ceaecb83ef0a07be5259aa23ca4212d389a23d64ae"
+          },
+          "sweep_inputs": {
+            "path": "influence/sweep_inputs.py",
+            "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+          }
+        }
+      },
+      "completed_utc": "2026-10-12T20:27:09.022735+00:00",
+      "output_sha256": "39bf71678fd9fa4a01fe03a706824dbac83db928f12ed2609fc818e736d88075",
+      "arms": {
+        "primary_reported_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "rf_log1p",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": 0.013323255228017139,
+              "p_value": 0.7724575806868104,
+              "under_n": 315,
+              "over_n": 315
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": -0.043970773494583004,
+              "p_value": 0.3396679247722352,
+              "under_n": 315,
+              "over_n": 315
+            }
+          }
+        },
+        "sensitivity_raw_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.019672461577223466,
+              "p_value": 0.6693306441142393,
+              "under_n": 315,
+              "over_n": 315
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.0053716301335349215,
+              "p_value": 0.90729393666329,
+              "under_n": 315,
+              "over_n": 315
+            }
+          }
+        },
+        "sensitivity_spread_mean": {
+          "status": "scored",
+          "target": "spread_mean",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.04979591836734698,
+              "p_value": 0.2733844963051124,
+              "under_n": 315,
+              "over_n": 315
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.06608213655832706,
+              "p_value": 0.1460574230213071,
+              "under_n": 315,
+              "over_n": 315
+            }
+          }
+        }
+      },
+      "empty_shell2_count": 0,
+      "scoring_status": "ready_for_scoring"
+    },
+    "email-Eu-core": {
+      "status": "complete",
+      "pilot": false,
+      "started_utc": "2026-10-12T20:27:09.045171+00:00",
+      "identity": {
+        "tag": "email-Eu-core",
+        "configuration": {
+          "threads": 1,
+          "radius": 3,
+          "richness": "node+edge+subgraph",
+          "seeds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "primary": "reported_rf_log1p_betweenness",
+          "sensitivities": [
+            "raw_betweenness",
+            "spread_mean"
+          ],
+          "tail_fraction": 0.05,
+          "tie_rule": "ascending np.lexsort((node, adjusted_delta))"
+        },
+        "recorded_source_sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+        "source_hash_origin": "cache_provenance_audit_20260911.json",
+        "inputs": {
+          "meta": {
+            "path": "cache_meta_email-Eu-core.json",
+            "sha256": "155de0bd18b22570b711439e40b35af5bd0b85b4979a5509c94659d1d7b1101a"
+          },
+          "features": {
+            "path": "cache_features_email-Eu-core.csv",
+            "sha256": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477"
+          },
+          "targets": {
+            "path": "cache_targets_email-Eu-core.csv",
+            "sha256": "1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a"
+          },
+          "reported_oof": {
+            "path": "estimators/cache_oof_email-Eu-core__rf_log1p.npz",
+            "sha256": "19bb1c56e694a87def712b4c86d9bf9733c23c9ee43a1d8e272d0153cb37d235"
+          },
+          "raw_oof": {
+            "path": "cache_oof_email-Eu-core.npz",
+            "sha256": "7fcc239fbc09adcc211d0ebbfcf56d2731b79a6d680ad5e40c488ca71e417d0b"
+          },
+          "edgelist": {
+            "path": "data/email-Eu-core.txt",
+            "sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c"
+          },
+          "source_audit": {
+            "path": "cache_provenance_audit_20260911.json",
+            "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+          },
+          "branch_anisotropy": {
+            "path": "influence/branch_anisotropy.py",
+            "sha256": "7084b0510a55415253c93baaafa4693fb2cdcf08629eb1ec7645a0e1cdd30472"
+          },
+          "probe": {
+            "path": "probe_branch_anisotropy.py",
+            "sha256": "de18775c59e8f964e469ead72acfb57c8daec6e159c9e0d7d6e1675ed98389e1"
+          },
+          "analyse_failures": {
+            "path": "analyse_failures.py",
+            "sha256": "c39ecf319cbcf374d9c6a9ceaecb83ef0a07be5259aa23ca4212d389a23d64ae"
+          },
+          "sweep_inputs": {
+            "path": "influence/sweep_inputs.py",
+            "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+          }
+        }
+      },
+      "completed_utc": "2026-10-12T20:27:09.728487+00:00",
+      "output_sha256": "b18a1b6af9d8b41f15bf95f7ba58df382b8550ec91b08f6d9eb5892bbb1affed",
+      "arms": {
+        "primary_reported_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "rf_log1p",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.09037900874635574,
+              "p_value": 0.44286588227037704,
+              "under_n": 49,
+              "over_n": 49
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.08038317367763437,
+              "p_value": 0.49517559231032127,
+              "under_n": 49,
+              "over_n": 49
+            }
+          }
+        },
+        "sensitivity_raw_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.7659308621407747,
+              "p_value": 6.26483897229409e-11,
+              "under_n": 49,
+              "over_n": 49
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.7934194085797583,
+              "p_value": 1.2699408598211595e-11,
+              "under_n": 49,
+              "over_n": 49
+            }
+          }
+        },
+        "sensitivity_spread_mean": {
+          "status": "scored",
+          "target": "spread_mean",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.23198667221990832,
+              "p_value": 0.04765784645959492,
+              "under_n": 49,
+              "over_n": 49
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.20366513952519782,
+              "p_value": 0.08217580878622076,
+              "under_n": 49,
+              "over_n": 49
+            }
+          }
+        }
+      },
+      "empty_shell2_count": 0,
+      "scoring_status": "ready_for_scoring"
+    },
+    "facebook_combined": {
+      "status": "complete",
+      "pilot": false,
+      "started_utc": "2026-10-12T20:27:09.762125+00:00",
+      "identity": {
+        "tag": "facebook_combined",
+        "configuration": {
+          "threads": 1,
+          "radius": 3,
+          "richness": "node+edge+subgraph",
+          "seeds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "primary": "reported_rf_log1p_betweenness",
+          "sensitivities": [
+            "raw_betweenness",
+            "spread_mean"
+          ],
+          "tail_fraction": 0.05,
+          "tie_rule": "ascending np.lexsort((node, adjusted_delta))"
+        },
+        "recorded_source_sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296",
+        "source_hash_origin": "cache_provenance_audit_20260911.json",
+        "inputs": {
+          "meta": {
+            "path": "cache_meta_facebook_combined.json",
+            "sha256": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c"
+          },
+          "features": {
+            "path": "cache_features_facebook_combined.csv",
+            "sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382"
+          },
+          "targets": {
+            "path": "cache_targets_facebook_combined.csv",
+            "sha256": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9"
+          },
+          "reported_oof": {
+            "path": "estimators/cache_oof_facebook_combined__rf_log1p.npz",
+            "sha256": "8bc72285bec490f38fe4042afab83c1c4bbf07142ba50a69acdf3f000615f759"
+          },
+          "raw_oof": {
+            "path": "cache_oof_facebook_combined.npz",
+            "sha256": "76744a93740294f5f83c7937a07e9f9dabce9dfc2452177e8729bed3fb09bbeb"
+          },
+          "edgelist": {
+            "path": "data/facebook_combined.txt",
+            "sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296"
+          },
+          "source_audit": {
+            "path": "cache_provenance_audit_20260911.json",
+            "sha256": "df00de4d8805fb7bd8333e7abbdb7e6b1feb72396e313cb15dcb419b306e62f4"
+          },
+          "branch_anisotropy": {
+            "path": "influence/branch_anisotropy.py",
+            "sha256": "7084b0510a55415253c93baaafa4693fb2cdcf08629eb1ec7645a0e1cdd30472"
+          },
+          "probe": {
+            "path": "probe_branch_anisotropy.py",
+            "sha256": "de18775c59e8f964e469ead72acfb57c8daec6e159c9e0d7d6e1675ed98389e1"
+          },
+          "analyse_failures": {
+            "path": "analyse_failures.py",
+            "sha256": "c39ecf319cbcf374d9c6a9ceaecb83ef0a07be5259aa23ca4212d389a23d64ae"
+          },
+          "sweep_inputs": {
+            "path": "influence/sweep_inputs.py",
+            "sha256": "7298302e70315289af21de3237902a994d3b55fe1621f5a8a90f866e7051e9a3"
+          }
+        }
+      },
+      "completed_utc": "2026-10-12T20:27:13.905135+00:00",
+      "output_sha256": "84ca2910812203dd97452818e23fdcdfd72c7138b6f0aeb297afe7bb8ac5635d",
+      "arms": {
+        "primary_reported_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "rf_log1p",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.14042740907754137,
+              "p_value": 0.014648289602661943,
+              "under_n": 202,
+              "over_n": 202
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.07009116753259481,
+              "p_value": 0.2231721217939071,
+              "under_n": 202,
+              "over_n": 202
+            }
+          }
+        },
+        "sensitivity_raw_betweenness": {
+          "status": "scored",
+          "target": "betweenness",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.3560435251445937,
+              "p_value": 5.53731928420317e-10,
+              "under_n": 202,
+              "over_n": 202
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.4913243799627487,
+              "p_value": 1.1274847263080486e-17,
+              "under_n": 202,
+              "over_n": 202
+            }
+          }
+        },
+        "sensitivity_spread_mean": {
+          "status": "scored",
+          "target": "spread_mean",
+          "objective_arm": "raw",
+          "effects": {
+            "max_branch_share": {
+              "cliffs_delta_under_minus_over": -0.020537202235075047,
+              "p_value": 0.721368426337899,
+              "under_n": 202,
+              "over_n": 202
+            },
+            "branch_entropy_nats": {
+              "cliffs_delta_under_minus_over": 0.002916380746985636,
+              "p_value": 0.9599011315223833,
+              "under_n": 202,
+              "over_n": 202
+            }
+          }
+        }
+      },
+      "empty_shell2_count": 0,
+      "scoring_status": "ready_for_scoring"
+    }
+  },
+  "hashes": {
+    "ca-GrQc": {
+      "status_sha256": "a5d366623a79c050e2e7f28722978a4f1ba967af9c0f4823ca70a1bdd34a510d",
+      "output_sha256": "a92951dacb65381ecd6f3b881b88b851e5a68bf489fbe5d5156a32d64a0bb3a4"
+    },
+    "ca-HepTh": {
+      "status_sha256": "95522bd6b27a3be223c0413ecca25fd96b40ddcc96534fe6f2abf46fd871c752",
+      "output_sha256": "0227e549eb7f212308e72a921ede505022ae5800abf48ffda5008ce5e92df564"
+    },
+    "p2p-Gnutella08": {
+      "status_sha256": "610b9ede9d4ca9b1eb5f59469e1bde6e7228bdfe5676dad62e6096d51ab2e55f",
+      "output_sha256": "39bf71678fd9fa4a01fe03a706824dbac83db928f12ed2609fc818e736d88075"
+    },
+    "email-Eu-core": {
+      "status_sha256": "9d1a6bf962911867bc0b041bb05bfb3406b54d074447e05429912521e7484cde",
+      "output_sha256": "b18a1b6af9d8b41f15bf95f7ba58df382b8550ec91b08f6d9eb5892bbb1affed"
+    },
+    "facebook_combined": {
+      "status_sha256": "a25f35fbfe6b20faead439968cb62223aa263a6163d92152cb19e7ac3200d688",
+      "output_sha256": "84ca2910812203dd97452818e23fdcdfd72c7138b6f0aeb297afe7bb8ac5635d"
+    }
+  },
+  "primary_prediction": {
+    "status": "not_supported",
+    "qualified_networks": 1,
+    "scored_primary_networks": 5,
+    "rule": "max(abs(d)) across max_branch_share and branch_entropy_nats > 0.2; support >=3/5"
+  },
+  "reconstruction_gate": "DEFERRED: no model fitting; R2 gate awaits Stage4."
+}

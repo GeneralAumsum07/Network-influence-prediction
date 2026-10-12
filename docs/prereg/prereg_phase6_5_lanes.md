@@ -695,3 +695,110 @@ text using the label states this.
 **Where it applies.** The label is attached wherever H1 is scored. The primary claim
 remains email-Eu-core and p2p-Gnutella08. On the recorded locator, ca-GrQc and
 facebook_combined are undetermined, so they get no label.
+
+## L7 run status — 2026-10-13 01:56 IST — before the full extraction and the R² gate
+
+Written by Claude Opus 5.5. Rachit's instruction (chat, 01:54): "start L7". No full
+L7 output exists. This section records how the registered definitions (2026-09-12
+clarification, 2026-09-13 18:17 execution definitions) are executed. It changes no
+definition, prediction or threshold above.
+
+**A. Gate status.** The R² reconstruction gate was "deferred until Stage4". Stage 4 is
+treated as complete by Rachit's ruling of 2026-10-12 11:35, on the same evidence and
+with the same caveat as part A of the L1 execution definitions (2026-10-12 12:15).
+So the gate runs now. It uses `analyse_features.predictability` exactly:
+- HistGradientBoostingRegressor, max_iter 120, 70/30 split, seed 0;
+- at most 4,000 rows, drawn with `default_rng(0)` as `analyse_features.analyse` does;
+- predictors: the cached `ego_betweenness`, `edge_overlap_max`, `edge_overlap_mean`,
+  `edge_overlap_min` and `edge_overlap_std` (registry hop 1, all within radius 2);
+- each candidate is reconstructed separately.
+R² < 0.95 passes, R² ≥ 0.95 fails, and undefined R² is unscored, as registered.
+
+**B. Add-one fits are not run.** The registered prediction "add-one gain at r=2 <
+0.005" has no protocol: no target, tier, seed count or pairing is written down. No
+add-one fit runs until a further dated addendum defines one. A gate pass only makes
+a network eligible.
+
+**C. Tie rule, as implemented.** `probe_branch_anisotropy.tails` orders nodes by
+`np.lexsort((node, adjusted))`, ascending. The over-predicted tail is the first k
+nodes and the under-predicted tail the last k. Among exact ties at a tail boundary,
+the over-predicted tail therefore takes the smaller node indices and the
+under-predicted tail the larger ones. This is the reading of "break ties by smallest
+node index" that the reviewed code applies. Boundary ties are counted and reported
+with the scores.
+
+**D. Prior pilot, disclosed.** `results/phase6_5_anisotropy/pilot/ca-GrQc.json`
+(2026-09-14, Astra) holds unscored ca-GrQc effect sizes computed on that day's caches.
+The full run recomputes every network on the current caches, and the pilot is not
+used in scoring. Whether its numbers were read before this section is not recorded.
+
+**E. Run.** `python probe_branch_anisotropy.py` (all five networks, one thread, zero
+fits), then the gate. Outputs go to `results/phase6_5_anisotropy/`. The scored
+addendum follows the results.
+
+## L7 scored addendum — 2026-10-13 01:59 IST — Claude Opus 5.5
+
+Full zero-fit extraction: 2026-10-13 01:57:05–01:57:14, exit 0, all five networks.
+R² gate: 10 HGB fits, run immediately after. Evidence:
+`results/phase6_5_anisotropy/analysis.json`, `gate.json`, `<tag>.json`, `<tag>.npz`.
+Definitions as registered on 2026-09-12 and 2026-09-13, executed as the 01:56 run
+status says.
+
+**Disclosed fix before scoring.** The first full run (01:56:30) extracted all five
+networks, then `summary()` raised a TypeError: it took `abs()` of each effect's dict
+rather than its d value, so no verdict was written. The rule moved into
+`qualifies()` unchanged and now has a verifier case. That changed the probe's hash,
+which is part of every network's recorded identity, so the five unread outputs were
+deleted and recomputed (01:57). No definition or threshold changed.
+
+Primary contrast: reported (rf_log1p) betweenness, radius 3, `node+edge+subgraph`,
+ten seeds, the top and bottom 5% of adjusted residuals. d is Cliff's delta, under-
+minus over-predicted. Empty shell 2: 0 nodes on every network. Boundary ties in the
+primary arm: 0.
+
+| network | k | d max share | d entropy | qualifies | R² max share | R² entropy |
+|---|---:|---:|---:|---|---:|---:|
+| ca-GrQc | 208 | +0.150 | **−0.205** | yes | 0.825 pass | 0.879 pass |
+| ca-HepTh | 432 | −0.099 | +0.129 | no | 0.838 pass | 0.897 pass |
+| p2p-Gnutella08 | 315 | +0.013 | −0.044 | no | 0.928 pass | **0.977 fail** |
+| email-Eu-core | 49 | −0.090 | +0.080 | no | 0.908 pass | **0.966 fail** |
+| facebook_combined | 202 | −0.140 | +0.070 | no | 0.628 pass | 0.780 pass |
+
+- **Prediction, |d| > 0.2 on ≥ 3/5 (primary): NOT SUPPORTED, 1/5.** The one
+  qualifier, ca-GrQc, clears by 0.005, through entropy, the larger of the two
+  features. That maximum was predeclared.
+- **Counter, R² ≥ 0.95 → drop: fires for branch entropy on p2p-Gnutella08 and
+  email-Eu-core only.** Maximum branch share passes on all five networks
+  (R² 0.628–0.928), and entropy on the other three. Per the registered caveat, a
+  pass only makes a network eligible for an add-one fit; it is not evidence the
+  feature helps.
+- **Prediction, add-one gain at r = 2 < 0.005: UNSCORED.** No add-one protocol is
+  registered (run status, part B), and none was run.
+
+**Sensitivities (reported; they do not rescue the primary).** Maximum |d| over the
+two features:
+
+| arm | GrQc | HepTh | p2p | email | facebook | > 0.2 |
+|---|---:|---:|---:|---:|---:|---:|
+| raw betweenness | 0.234 | 0.283 | 0.020 | 0.793 | 0.491 | 4/5 |
+| spread_mean | 0.055 | 0.039 | 0.066 | 0.232 | 0.021 | 1/5 |
+
+One exact tie decided tail membership, at the over-predicted boundary of
+p2p-Gnutella08's spread_mean arm.
+
+**Reading (inference, not tested).**
+- The association is large under the raw objective and mostly vanishes under
+  log1p, on the same target, nodes and tails. The project has already measured
+  that squared error on heavy-tailed betweenness distorts the ranking it is scored
+  on (study §26). The likeliest reading is that the raw arm's residual tails track
+  that distortion, which correlates with branching structure, rather than
+  information that anisotropy adds. That is why the registered primary uses the
+  reported arm.
+- Where an effect is non-negligible on HepTh, email and facebook, the
+  under-predicted nodes have the lower maximum share and the higher entropy: their
+  shell 2 is spread more evenly across first-hop branches. ca-GrQc's primary
+  effect has the same direction for entropy but the opposite sign for maximum
+  share. No sign was predicted.
+
+**Lane status.** The standalone and the gate are scored. The add-one fit waits for a
+protocol addendum and Rachit's decision whether to run it at all.
