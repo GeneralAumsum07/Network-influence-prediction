@@ -1,0 +1,60 @@
+60 cells, 200 replicates each.
+
+==========================================================================
+P1 - the frozen arm OVERSTATED target noise: refit/frozen < 1 on a majority
+==========================================================================
+  refit_over_frozen < 1 on 2 of 60 cells
+  median 1.241   range 0.973 - 2.327
+  by target:
+                median  n_lt_1   n
+target                            
+spread_cv     1.303649       2  20
+spread_mean   1.184138       0  20
+spread_resid  1.269728       0  20
+  VERDICT P1: FALSIFIED
+  VERDICT P2 (training channel dominates, refit/frozen > 1): SUPPORTED
+
+==========================================================================
+P3 - target noise still exceeds seed noise: seed_over_refit < 1 on a
+     majority, but by a SMALLER margin than arm 1's 0.40-0.55 medians
+==========================================================================
+  seed_over_refit < 1 on 56 of 60 cells
+              arm1_median  arm2_median  margin_shrank
+target                                               
+spread_cv           0.441        0.323          False
+spread_mean         0.558        0.441          False
+spread_resid        0.467        0.331          False
+  majority clause: SUPPORTED
+  smaller-margin clause: FALSIFIED (arm-2 ratio closer to 1 on all three targets = smaller margin)
+
+==========================================================================
+P4 - ordering by target preserved: spread_resid worst-affected, spread_mean least
+==========================================================================
+  arm 1 order (worst first): ['spread_cv', 'spread_resid', 'spread_mean']
+  arm 2 order (worst first): ['spread_cv', 'spread_resid', 'spread_mean']
+  clause (i)  ordering preserved between arms: SUPPORTED
+  clause (ii) spread_resid worst / spread_mean least: FALSIFIED
+    NOTE: clause (ii) is false of ARM 1 as well (arm-1 worst was spread_cv, median 0.441). The pre-registration misstated its own already-published arm-1 result; arm 2 reproduced arm 1's ordering exactly.
+
+==========================================================================
+Per-cell table (median over radii)
+==========================================================================
+                                refit_over_frozen  seed_over_refit  ratio_seed_over_target
+network           target                                                                  
+ca-GrQc           spread_cv                 1.608            0.430                   0.630
+                  spread_mean               1.272            0.358                   0.485
+                  spread_resid              1.319            0.341                   0.450
+ca-HepTh          spread_cv                 1.250            0.317                   0.376
+                  spread_mean               1.159            0.324                   0.385
+                  spread_resid              1.109            0.211                   0.234
+email-Eu-core     spread_cv                 0.993            0.268                   0.281
+                  spread_mean               1.154            0.574                   0.655
+                  spread_resid              1.308            0.386                   0.538
+facebook_combined spread_cv                 1.956            0.235                   0.461
+                  spread_mean               1.176            0.489                   0.595
+                  spread_resid              1.199            0.325                   0.399
+p2p-Gnutella08    spread_cv                 1.334            0.354                   0.464
+                  spread_mean               1.218            0.618                   0.732
+                  spread_resid              1.515            0.315                   0.512
+
+Wrote results_target_noise_scored.csv

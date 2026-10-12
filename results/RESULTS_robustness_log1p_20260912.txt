@@ -1,0 +1,287 @@
+
+==============================================================================
+ca-GrQc   n=4,158  m=13,422  168 features   objective=reported
+==============================================================================
+  rho=0     seed=0  edges 13,422/13,422  isolated 0
+  rho=0.05  seed=0  edges 12,722/13,422  isolated 22
+  rho=0.05  seed=1  edges 12,738/13,422  isolated 43
+  rho=0.05  seed=2  edges 12,758/13,422  isolated 37
+  rho=0.1   seed=0  edges 12,031/13,422  isolated 66
+  rho=0.1   seed=1  edges 12,066/13,422  isolated 80
+  rho=0.1   seed=2  edges 12,026/13,422  isolated 89
+  rho=0.2   seed=0  edges 10,712/13,422  isolated 163
+  rho=0.2   seed=1  edges 10,738/13,422  isolated 168
+  rho=0.2   seed=2  edges 10,694/13,422  isolated 189
+  rho=0.3   seed=0  edges 9,435/13,422  isolated 290
+  rho=0.3   seed=1  edges 9,383/13,422  isolated 281
+  rho=0.3   seed=2  edges 9,340/13,422  isolated 325
+  rho=0.5   seed=0  edges 6,721/13,422  isolated 656
+  rho=0.5   seed=1  edges 6,740/13,422  isolated 640
+  rho=0.5   seed=2  edges 6,655/13,422  isolated 664
+
+==============================================================================
+ca-HepTh   n=8,638  m=24,806  168 features   objective=reported
+==============================================================================
+  rho=0     seed=0  edges 24,806/24,806  isolated 0
+  rho=0.05  seed=0  edges 23,574/24,806  isolated 70
+  rho=0.05  seed=1  edges 23,548/24,806  isolated 75
+  rho=0.05  seed=2  edges 23,588/24,806  isolated 73
+  rho=0.1   seed=0  edges 22,286/24,806  isolated 159
+  rho=0.1   seed=1  edges 22,305/24,806  isolated 151
+  rho=0.1   seed=2  edges 22,236/24,806  isolated 181
+  rho=0.2   seed=0  edges 19,877/24,806  isolated 353
+  rho=0.2   seed=1  edges 19,824/24,806  isolated 382
+  rho=0.2   seed=2  edges 19,798/24,806  isolated 386
+  rho=0.3   seed=0  edges 17,526/24,806  isolated 617
+  rho=0.3   seed=1  edges 17,306/24,806  isolated 641
+  rho=0.3   seed=2  edges 17,317/24,806  isolated 647
+  rho=0.5   seed=0  edges 12,428/24,806  isolated 1418
+  rho=0.5   seed=1  edges 12,368/24,806  isolated 1380
+  rho=0.5   seed=2  edges 12,401/24,806  isolated 1415
+
+==============================================================================
+email-Eu-core   n=986  m=16,064  168 features   objective=reported
+==============================================================================
+  rho=0     seed=0  edges 16,064/16,064  isolated 0
+  rho=0.05  seed=0  edges 15,244/16,064  isolated 0
+  rho=0.05  seed=1  edges 15,249/16,064  isolated 8
+  rho=0.05  seed=2  edges 15,281/16,064  isolated 6
+  rho=0.1   seed=0  edges 14,405/16,064  isolated 2
+  rho=0.1   seed=1  edges 14,438/16,064  isolated 12
+  rho=0.1   seed=2  edges 14,403/16,064  isolated 11
+  rho=0.2   seed=0  edges 12,850/16,064  isolated 15
+  rho=0.2   seed=1  edges 12,826/16,064  isolated 18
+  rho=0.2   seed=2  edges 12,826/16,064  isolated 23
+  rho=0.3   seed=0  edges 11,333/16,064  isolated 25
+  rho=0.3   seed=1  edges 11,209/16,064  isolated 39
+  rho=0.3   seed=2  edges 11,199/16,064  isolated 33
+  rho=0.5   seed=0  edges 8,060/16,064  isolated 57
+  rho=0.5   seed=1  edges 8,013/16,064  isolated 64
+  rho=0.5   seed=2  edges 8,000/16,064  isolated 61
+
+==============================================================================
+facebook_combined   n=4,039  m=88,234  168 features   objective=reported
+==============================================================================
+  rho=0     seed=0  edges 88,234/88,234  isolated 0
+  rho=0.05  seed=0  edges 83,856/88,234  isolated 5
+  rho=0.05  seed=1  edges 83,805/88,234  isolated 5
+  rho=0.05  seed=2  edges 83,792/88,234  isolated 1
+  rho=0.1   seed=0  edges 79,281/88,234  isolated 10
+  rho=0.1   seed=1  edges 79,413/88,234  isolated 9
+  rho=0.1   seed=2  edges 79,296/88,234  isolated 8
+  rho=0.2   seed=0  edges 70,538/88,234  isolated 22
+  rho=0.2   seed=1  edges 70,618/88,234  isolated 17
+  rho=0.2   seed=2  edges 70,605/88,234  isolated 21
+  rho=0.3   seed=0  edges 61,859/88,234  isolated 40
+  rho=0.3   seed=1  edges 61,740/88,234  isolated 34
+  rho=0.3   seed=2  edges 61,815/88,234  isolated 32
+  rho=0.5   seed=0  edges 44,024/88,234  isolated 83
+  rho=0.5   seed=1  edges 44,064/88,234  isolated 81
+  rho=0.5   seed=2  edges 44,234/88,234  isolated 85
+
+==============================================================================
+p2p-Gnutella08   n=6,299  m=20,776  168 features   objective=reported
+==============================================================================
+  rho=0     seed=0  edges 20,776/20,776  isolated 0
+  rho=0.05  seed=0  edges 19,753/20,776  isolated 85
+  rho=0.05  seed=1  edges 19,710/20,776  isolated 91
+  rho=0.05  seed=2  edges 19,764/20,776  isolated 98
+  rho=0.1   seed=0  edges 18,671/20,776  isolated 188
+  rho=0.1   seed=1  edges 18,658/20,776  isolated 186
+  rho=0.1   seed=2  edges 18,639/20,776  isolated 207
+  rho=0.2   seed=0  edges 16,668/20,776  isolated 390
+  rho=0.2   seed=1  edges 16,572/20,776  isolated 380
+  rho=0.2   seed=2  edges 16,582/20,776  isolated 417
+  rho=0.3   seed=0  edges 14,708/20,776  isolated 600
+  rho=0.3   seed=1  edges 14,478/20,776  isolated 618
+  rho=0.3   seed=2  edges 14,500/20,776  isolated 639
+  rho=0.5   seed=0  edges 10,461/20,776  isolated 1166
+  rho=0.5   seed=1  edges 10,360/20,776  isolated 1170
+  rho=0.5   seed=2  edges 10,354/20,776  isolated 1200
+
+==============================================================================
+ca-GrQc   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+  objective: log1p betweenness (rf_log1p construction; the arm the study reports, --objective reported)
+==============================================================================
+
+  tau
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.9296                 0.9296     1.0000  0.5516            -0.0704                  -0.0704                       0.0000
+   0.05    0.8356                 0.7595     0.8797  0.5433            -0.0442                  -0.1203                      -0.0761
+   0.10    0.7876                 0.7197     0.8230  0.5357            -0.0354                  -0.1033                      -0.0679
+   0.20    0.7213                 0.6728     0.7509  0.5206            -0.0296                  -0.0781                      -0.0484
+   0.30    0.6560                 0.6249     0.6933  0.5022            -0.0373                  -0.0684                      -0.0312
+   0.50    0.5090                 0.5260     0.5793  0.4598            -0.0703                  -0.0533                       0.0170
+
+  tau_nonzero
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.7781                 0.7781     1.0000  0.4101            -0.2219                  -0.2219                       0.0000
+   0.05    0.7351                 0.7236     0.8842  0.4057            -0.1491                  -0.1606                      -0.0115
+   0.10    0.6962                 0.6854     0.8125  0.4016            -0.1163                  -0.1272                      -0.0108
+   0.20    0.6348                 0.6302     0.7143  0.3881            -0.0795                  -0.0841                      -0.0046
+   0.30    0.5714                 0.5794     0.6323  0.3742            -0.0610                  -0.0530                       0.0080
+   0.50    0.4408                 0.4732     0.4724  0.3411            -0.0316                   0.0008                       0.0324
+
+  p_at_5pct
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.7826                 0.7826     1.0000  0.3140            -0.2174                  -0.2174                       0.0000
+   0.05    0.7697                 0.7681     0.9388  0.3172            -0.1691                  -0.1707                      -0.0016
+   0.10    0.7697                 0.7681     0.9179  0.3156            -0.1481                  -0.1498                      -0.0016
+   0.20    0.7536                 0.7536     0.8535  0.3172            -0.0998                  -0.0998                       0.0000
+   0.30    0.7311                 0.7311     0.8116  0.3301            -0.0805                  -0.0805                       0.0000
+   0.50    0.6554                 0.6634     0.6828  0.3156            -0.0274                  -0.0193                       0.0081
+
+==============================================================================
+ca-HepTh   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+  objective: log1p betweenness (rf_log1p construction; the arm the study reports, --objective reported)
+==============================================================================
+
+  tau
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.9196                 0.9196     1.0000  0.6860            -0.0804                  -0.0804                      -0.0000
+   0.05    0.8658                 0.7887     0.9255  0.6779            -0.0598                  -0.1368                      -0.0771
+   0.10    0.8261                 0.7600     0.8779  0.6708            -0.0518                  -0.1179                      -0.0661
+   0.20    0.7633                 0.7159     0.8084  0.6524            -0.0450                  -0.0925                      -0.0475
+   0.30    0.7057                 0.6763     0.7524  0.6317            -0.0468                  -0.0761                      -0.0294
+   0.50    0.5759                 0.5843     0.6503  0.5824            -0.0743                  -0.0659                       0.0084
+
+  tau_nonzero
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.7756                 0.7756     1.0000  0.5598            -0.2244                  -0.2244                      -0.0000
+   0.05    0.7419                 0.7304     0.9024  0.5540            -0.1605                  -0.1720                      -0.0116
+   0.10    0.7111                 0.6983     0.8438  0.5493            -0.1328                  -0.1456                      -0.0128
+   0.20    0.6566                 0.6457     0.7471  0.5341            -0.0905                  -0.1014                      -0.0109
+   0.30    0.6059                 0.6025     0.6689  0.5193            -0.0630                  -0.0664                      -0.0035
+   0.50    0.5099                 0.5093     0.5295  0.4808            -0.0195                  -0.0202                      -0.0007
+
+  p_at_5pct
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.7819                 0.7819     1.0000  0.6056            -0.2181                  -0.2181                       0.0000
+   0.05    0.7680                 0.7765     0.9366  0.5994            -0.1686                  -0.1601                       0.0085
+   0.10    0.7510                 0.7626     0.9033  0.5994            -0.1524                  -0.1408                       0.0116
+   0.20    0.7254                 0.7409     0.8322  0.6002            -0.1067                  -0.0913                       0.0155
+   0.30    0.7030                 0.7169     0.7819  0.5932            -0.0789                  -0.0650                       0.0139
+   0.50    0.6597                 0.6636     0.6814  0.5661            -0.0217                  -0.0178                       0.0039
+
+==============================================================================
+email-Eu-core   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+  objective: log1p betweenness (rf_log1p construction; the arm the study reports, --objective reported)
+==============================================================================
+
+  tau
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.9156                 0.9156     1.0000  0.8057            -0.0844                  -0.0844                       0.0000
+   0.05    0.9017                 0.8930     0.9645  0.8034            -0.0628                  -0.0715                      -0.0087
+   0.10    0.8895                 0.8813     0.9440  0.8007            -0.0545                  -0.0627                      -0.0082
+   0.20    0.8688                 0.8619     0.9141  0.7976            -0.0452                  -0.0522                      -0.0069
+   0.30    0.8410                 0.8374     0.8835  0.7911            -0.0425                  -0.0461                      -0.0036
+   0.50    0.7803                 0.7975     0.8335  0.7796            -0.0532                  -0.0360                       0.0172
+
+  tau_nonzero
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.8890                 0.8890     1.0000  0.7497            -0.1110                  -0.1110                       0.0000
+   0.05    0.8730                 0.8688     0.9549  0.7474            -0.0820                  -0.0861                      -0.0042
+   0.10    0.8585                 0.8547     0.9290  0.7441            -0.0705                  -0.0743                      -0.0038
+   0.20    0.8353                 0.8329     0.8911  0.7418            -0.0558                  -0.0583                      -0.0024
+   0.30    0.8027                 0.8044     0.8520  0.7353            -0.0493                  -0.0476                       0.0017
+   0.50    0.7363                 0.7587     0.7919  0.7243            -0.0556                  -0.0333                       0.0224
+
+  p_at_5pct
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.8571                 0.8571     1.0000  0.7347            -0.1429                  -0.1429                       0.0000
+   0.05    0.8299                 0.8435     0.9592  0.7415            -0.1293                  -0.1156                       0.0136
+   0.10    0.8231                 0.8299     0.9320  0.7483            -0.1088                  -0.1020                       0.0068
+   0.20    0.7755                 0.7891     0.9116  0.7551            -0.1361                  -0.1224                       0.0136
+   0.30    0.7687                 0.8027     0.9048  0.7415            -0.1361                  -0.1020                       0.0340
+   0.50    0.7483                 0.7687     0.8299  0.7279            -0.0816                  -0.0612                       0.0204
+
+==============================================================================
+facebook_combined   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+  objective: log1p betweenness (rf_log1p construction; the arm the study reports, --objective reported)
+==============================================================================
+
+  tau
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.9297                 0.9297     1.0000  0.6083            -0.0703                  -0.0703                       0.0000
+   0.05    0.7121                 0.8496     0.6881  0.6078             0.0240                   0.1615                       0.1375
+   0.10    0.6399                 0.8001     0.5962  0.6063             0.0437                   0.2040                       0.1602
+   0.20    0.5890                 0.7686     0.5164  0.6035             0.0726                   0.2522                       0.1796
+   0.30    0.5560                 0.7462     0.4787  0.6002             0.0773                   0.2675                       0.1902
+   0.50    0.4755                 0.7083     0.4430  0.5907             0.0325                   0.2654                       0.2328
+
+  tau_nonzero
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.9177                 0.9177     1.0000  0.5433            -0.0823                  -0.0823                       0.0000
+   0.05    0.6658                 0.8282     0.6561  0.5428             0.0097                   0.1722                       0.1624
+   0.10    0.5836                 0.7714     0.5597  0.5414             0.0239                   0.2117                       0.1878
+   0.20    0.5267                 0.7360     0.4729  0.5384             0.0538                   0.2631                       0.2093
+   0.30    0.4894                 0.7112     0.4301  0.5354             0.0592                   0.2810                       0.2218
+   0.50    0.3988                 0.6715     0.3918  0.5267             0.0071                   0.2797                       0.2726
+
+  p_at_5pct
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.8507                 0.8507     1.0000  0.1791            -0.1493                  -0.1493                       0.0000
+   0.05    0.7562                 0.7662     0.9420  0.1791            -0.1857                  -0.1758                       0.0100
+   0.10    0.6020                 0.6949     0.8590  0.1758            -0.2570                  -0.1642                       0.0929
+   0.20    0.4627                 0.6219     0.7977  0.1808            -0.3350                  -0.1758                       0.1592
+   0.30    0.3831                 0.5887     0.7396  0.1808            -0.3566                  -0.1509                       0.2056
+   0.50    0.2836                 0.5240     0.5920  0.1808            -0.3085                  -0.0680                       0.2405
+
+==============================================================================
+p2p-Gnutella08   target = betweenness
+  tau against the CLEAN truth. 'nonzero' restricts to nodes
+  where the clean target is not zero - the skew control.
+  objective: log1p betweenness (rf_log1p construction; the arm the study reports, --objective reported)
+==============================================================================
+
+  tau
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.9385                 0.9385     1.0000  0.9075            -0.0615                  -0.0615                       0.0000
+   0.05    0.9103                 0.8739     0.9481  0.8871            -0.0378                  -0.0742                      -0.0364
+   0.10    0.8812                 0.8486     0.9146  0.8668            -0.0334                  -0.0660                      -0.0326
+   0.20    0.8285                 0.8101     0.8656  0.8335            -0.0370                  -0.0555                      -0.0184
+   0.30    0.7787                 0.7746     0.8249  0.8021            -0.0463                  -0.0504                      -0.0041
+   0.50    0.6621                 0.6975     0.7407  0.7349            -0.0786                  -0.0431                       0.0354
+
+  tau_nonzero
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.8913                 0.8913     1.0000  0.8341            -0.1087                  -0.1087                       0.0000
+   0.05    0.8576                 0.8550     0.9164  0.8131            -0.0588                  -0.0614                      -0.0026
+   0.10    0.8248                 0.8244     0.8666  0.7930            -0.0418                  -0.0422                      -0.0004
+   0.20    0.7719                 0.7770     0.7987  0.7610            -0.0268                  -0.0217                       0.0051
+   0.30    0.7283                 0.7389     0.7477  0.7319            -0.0194                  -0.0088                       0.0105
+   0.50    0.6409                 0.6585     0.6545  0.6681            -0.0136                   0.0040                       0.0176
+
+  p_at_5pct
+   method   local  local_trained_damaged  recompute  degree  local - recompute  dmg-trained - recompute  dmg-trained - clean-trained
+   rho                                                                                                                              
+   0.00    0.8025                 0.8025     1.0000  0.7548            -0.1975                  -0.1975                       0.0000
+   0.05    0.7771                 0.7792     0.8715  0.7208            -0.0945                  -0.0924                       0.0021
+   0.10    0.7505                 0.7537     0.8280  0.7006            -0.0775                  -0.0743                       0.0032
+   0.20    0.6794                 0.7038     0.7527  0.6805            -0.0732                  -0.0488                       0.0244
+   0.30    0.6327                 0.6529     0.6783  0.6285            -0.0456                  -0.0255                       0.0202
+   0.50    0.5287                 0.5403     0.5573  0.5340            -0.0287                  -0.0170                       0.0117
+
+wrote results/robustness_log1p.csv   (objective=reported)

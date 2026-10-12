@@ -1,0 +1,55 @@
+
+==============================================================================
+ca-GrQc   n=4,158   171 features with 4-node edge orbits, 339 with 5-node
+objective: reported arms - rf_log1p for betweenness, rf for the spread targets (--objective reported, added 2026-09-12)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.9197  ->  5-node 0.9199   gain +0.0001 +/- 0.0004    (+12 columns)
+    r=2  4-node 0.9288  ->  5-node 0.9300   gain +0.0013 +/- 0.0010    (+132 columns)
+    r=3  4-node 0.9283  ->  5-node 0.9295   gain +0.0012 +/- 0.0011    (+165 columns)
+
+==============================================================================
+ca-HepTh   n=8,638   171 features with 4-node edge orbits, 339 with 5-node
+objective: reported arms - rf_log1p for betweenness, rf for the spread targets (--objective reported, added 2026-09-12)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.9024  ->  5-node 0.9024   gain +0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9192  ->  5-node 0.9198   gain +0.0006 +/- 0.0003*   (+132 columns)
+    r=3  4-node 0.9199  ->  5-node 0.9213   gain +0.0014 +/- 0.0004*   (+165 columns)
+
+==============================================================================
+email-Eu-core   n=986   171 features with 4-node edge orbits, 339 with 5-node
+objective: reported arms - rf_log1p for betweenness, rf for the spread targets (--objective reported, added 2026-09-12)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.9078  ->  5-node 0.9077   gain -0.0001 +/- 0.0004    (+12 columns)
+    r=2  4-node 0.9131  ->  5-node 0.9124   gain -0.0007 +/- 0.0007    (+132 columns)
+    r=3  4-node 0.9133  ->  5-node 0.9116   gain -0.0017 +/- 0.0007*   (+165 columns)
+
+==============================================================================
+facebook_combined   n=4,039   171 features with 4-node edge orbits, 339 with 5-node
+objective: reported arms - rf_log1p for betweenness, rf for the spread targets (--objective reported, added 2026-09-12)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.8095  ->  5-node 0.8092   gain -0.0003 +/- 0.0004    (+12 columns)
+    r=2  4-node 0.9234  ->  5-node 0.9216   gain -0.0018 +/- 0.0008*   (+132 columns)
+    r=3  4-node 0.9303  ->  5-node 0.9311   gain +0.0009 +/- 0.0007    (+165 columns)
+
+==============================================================================
+p2p-Gnutella08   n=6,299   171 features with 4-node edge orbits, 339 with 5-node
+objective: reported arms - rf_log1p for betweenness, rf for the spread targets (--objective reported, added 2026-09-12)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.9235  ->  5-node 0.9234   gain -0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9357  ->  5-node 0.9355   gain -0.0002 +/- 0.0001*   (+132 columns)
+    r=3  4-node 0.9387  ->  5-node 0.9383   gain -0.0004 +/- 0.0001*   (+165 columns)

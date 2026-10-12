@@ -1,0 +1,105 @@
+
+==============================================================================
+ca-GrQc   n=4,158   171 features with 4-node edge orbits, 339 with 5-node
+objective: raw squared-error for every target (historical arm; the study reports log1p for betweenness)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  spread_mean   (10 seeds, paired)
+    r=1  4-node 0.9073  ->  5-node 0.9073   gain +0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9416  ->  5-node 0.9414   gain -0.0002 +/- 0.0002    (+132 columns)
+    r=3  4-node 0.9441  ->  5-node 0.9439   gain -0.0002 +/- 0.0001    (+165 columns)
+
+  spread_cv   (10 seeds, paired)
+    r=1  4-node 0.6720  ->  5-node 0.6719   gain -0.0000 +/- 0.0004    (+12 columns)
+    r=2  4-node 0.8046  ->  5-node 0.8048   gain +0.0003 +/- 0.0005    (+132 columns)
+    r=3  4-node 0.8204  ->  5-node 0.8206   gain +0.0002 +/- 0.0006    (+165 columns)
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.9183  ->  5-node 0.9182   gain -0.0001 +/- 0.0003    (+12 columns)
+    r=2  4-node 0.9211  ->  5-node 0.9231   gain +0.0020 +/- 0.0014    (+132 columns)
+    r=3  4-node 0.9217  ->  5-node 0.9230   gain +0.0014 +/- 0.0011    (+165 columns)
+
+==============================================================================
+ca-HepTh   n=8,638   171 features with 4-node edge orbits, 339 with 5-node
+objective: raw squared-error for every target (historical arm; the study reports log1p for betweenness)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  spread_mean   (10 seeds, paired)
+    r=1  4-node 0.8966  ->  5-node 0.8966   gain -0.0000 +/- 0.0000    (+12 columns)
+    r=2  4-node 0.9461  ->  5-node 0.9458   gain -0.0002 +/- 0.0001*   (+132 columns)
+    r=3  4-node 0.9508  ->  5-node 0.9506   gain -0.0002 +/- 0.0001*   (+165 columns)
+
+  spread_cv   (10 seeds, paired)
+    r=1  4-node 0.6566  ->  5-node 0.6566   gain +0.0001 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.8001  ->  5-node 0.7998   gain -0.0003 +/- 0.0003    (+132 columns)
+    r=3  4-node 0.8219  ->  5-node 0.8218   gain -0.0001 +/- 0.0003    (+165 columns)
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.8974  ->  5-node 0.8974   gain -0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9152  ->  5-node 0.9155   gain +0.0003 +/- 0.0004    (+132 columns)
+    r=3  4-node 0.9162  ->  5-node 0.9172   gain +0.0011 +/- 0.0004*   (+165 columns)
+
+==============================================================================
+email-Eu-core   n=986   171 features with 4-node edge orbits, 339 with 5-node
+objective: raw squared-error for every target (historical arm; the study reports log1p for betweenness)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  spread_mean   (10 seeds, paired)
+    r=1  4-node 0.9570  ->  5-node 0.9568   gain -0.0002 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9638  ->  5-node 0.9630   gain -0.0007 +/- 0.0003*   (+132 columns)
+    r=3  4-node 0.9687  ->  5-node 0.9682   gain -0.0006 +/- 0.0002*   (+165 columns)
+
+  spread_cv   (10 seeds, paired)
+    r=1  4-node 0.9495  ->  5-node 0.9493   gain -0.0003 +/- 0.0002    (+12 columns)
+    r=2  4-node 0.9575  ->  5-node 0.9568   gain -0.0007 +/- 0.0002*   (+132 columns)
+    r=3  4-node 0.9629  ->  5-node 0.9627   gain -0.0002 +/- 0.0002    (+165 columns)
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.8987  ->  5-node 0.8984   gain -0.0003 +/- 0.0005    (+12 columns)
+    r=2  4-node 0.9048  ->  5-node 0.9042   gain -0.0005 +/- 0.0016    (+132 columns)
+    r=3  4-node 0.9033  ->  5-node 0.9008   gain -0.0026 +/- 0.0019    (+165 columns)
+
+==============================================================================
+facebook_combined   n=4,039   171 features with 4-node edge orbits, 339 with 5-node
+objective: raw squared-error for every target (historical arm; the study reports log1p for betweenness)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  spread_mean   (10 seeds, paired)
+    r=1  4-node 0.9453  ->  5-node 0.9455   gain +0.0001 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9574  ->  5-node 0.9576   gain +0.0002 +/- 0.0002    (+132 columns)
+    r=3  4-node 0.9586  ->  5-node 0.9585   gain -0.0002 +/- 0.0003    (+165 columns)
+
+  spread_cv   (10 seeds, paired)
+    r=1  4-node 0.8273  ->  5-node 0.8273   gain -0.0000 +/- 0.0004    (+12 columns)
+    r=2  4-node 0.8363  ->  5-node 0.8365   gain +0.0001 +/- 0.0009    (+132 columns)
+    r=3  4-node 0.8360  ->  5-node 0.8360   gain -0.0001 +/- 0.0007    (+165 columns)
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.6297  ->  5-node 0.6296   gain -0.0001 +/- 0.0019    (+12 columns)
+    r=2  4-node 0.8245  ->  5-node 0.8515   gain +0.0270 +/- 0.0057*   (+132 columns)
+    r=3  4-node 0.8509  ->  5-node 0.8858   gain +0.0349 +/- 0.0035*   (+165 columns)
+
+==============================================================================
+p2p-Gnutella08   n=6,299   171 features with 4-node edge orbits, 339 with 5-node
+objective: raw squared-error for every target (historical arm; the study reports log1p for betweenness)
+edge-orbit radius table: EDGE_ORBIT5_RADIUS as corrected 2026-09-11 (orbits 49,50,51,59,60,61,63,64,65 at hop 2)
+==============================================================================
+
+  spread_mean   (10 seeds, paired)
+    r=1  4-node 0.7928  ->  5-node 0.7928   gain -0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.8867  ->  5-node 0.8867   gain -0.0001 +/- 0.0002    (+132 columns)
+    r=3  4-node 0.9160  ->  5-node 0.9159   gain -0.0000 +/- 0.0001    (+165 columns)
+
+  spread_cv   (10 seeds, paired)
+    r=1  4-node 0.5849  ->  5-node 0.5849   gain -0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.7183  ->  5-node 0.7182   gain -0.0001 +/- 0.0005    (+132 columns)
+    r=3  4-node 0.7793  ->  5-node 0.7795   gain +0.0002 +/- 0.0004    (+165 columns)
+
+  betweenness   (10 seeds, paired)
+    r=1  4-node 0.9230  ->  5-node 0.9230   gain +0.0000 +/- 0.0001    (+12 columns)
+    r=2  4-node 0.9337  ->  5-node 0.9337   gain -0.0000 +/- 0.0002    (+132 columns)
+    r=3  4-node 0.9367  ->  5-node 0.9366   gain -0.0002 +/- 0.0001    (+165 columns)
