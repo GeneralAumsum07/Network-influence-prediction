@@ -1,0 +1,14 @@
+{
+  "tag": "email-Eu-core",
+  "sweep": "sweep_email-Eu-core.csv",
+  "inputs": {
+    "cache_features_email-Eu-core.csv": "29671c763bc0e433b5a2dde8416bcb67d9ff2ca8ccf1c64737f39e6eedb199c3",
+    "cache_registry_email-Eu-core.csv": "9a99d471ac552ad63c6319d725fbdd199db573a279168b876ae1a2483808b614",
+    "cache_targets_email-Eu-core.csv": "b6607a8b612326bf03497fc6c08b10c0f118a2cb7af2a6a1691ef0e6f301b57c",
+    "cache_meta_email-Eu-core.json": "4f7a772b969c0082cfd69c9a2351317249c8b39973223bf8e5ac4007cc744be2"
+  },
+  "recorded": "2026-10-12T20:55:05+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}
