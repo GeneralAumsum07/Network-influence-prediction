@@ -404,6 +404,40 @@ def controller() -> None:
         np.savez(d / f"cache_oof_{tag}.npz", **dict(list(oof.items())[1:]))
         check("controller: a missing OOF prediction is incomplete", not pb.unit_done(d, tag, m)[0])
 
+        # Refit reconciliation (2026-10-13). A deterministic refit repeats its
+        # row except fit_seconds: the stale copy goes, the last copy stays,
+        # the unit becomes complete and every other line is byte-identical.
+        # A refit with any other difference refuses. Uses "\r\n" endings
+        # because pandas writes os.linesep on Windows.
+        np.savez(d / f"cache_oof_{tag}.npz", **oof)
+        timed = rows.assign(fit_seconds=1.0)
+        sweep = d / f"sweep_{tag}.csv"
+        timed.to_csv(sweep, index=False, lineterminator="\r\n")
+        clean = sweep.read_bytes()
+        refit = timed.iloc[3:5].assign(fit_seconds=2.0)
+        pd.concat([timed, refit]).to_csv(sweep, index=False, lineterminator="\r\n")
+        removed = pb.reconcile_refits(d, tag)
+        after = sweep.read_bytes().decode("utf-8").splitlines(keepends=True)
+        ref = clean.decode("utf-8").splitlines(keepends=True)
+        check("controller: refit duplicates reconciled, last copy kept",
+              removed == 2 and pb.unit_done(d, tag, m)[0]
+              and after[:-2] == ref[:4] + ref[6:]
+              and all(",2.0" in line for line in after[-2:]), str(removed))
+        evidence = (d / f"refit_duplicates_{tag}.csv").read_text(encoding="utf-8").splitlines()
+        check("controller: removed rows kept as evidence",
+              len(evidence) == 3 and all(",1.0" in line for line in evidence[1:]))
+        check("controller: nothing to reconcile is a no-op",
+              pb.reconcile_refits(d, tag) == 0 and sweep.read_bytes().decode("utf-8").splitlines(
+                  keepends=True) == after)
+        pd.concat([timed, timed.iloc[:1].assign(tau=0.6)]).to_csv(sweep, index=False,
+                                                                  lineterminator="\r\n")
+        try:
+            pb.reconcile_refits(d, tag)
+            check("controller: a refit with a different result refuses", False)
+        except RuntimeError:
+            check("controller: a refit with a different result refuses", True)
+        rows.to_csv(sweep, index=False)
+
         (d / f"cache_meta_{tag}.json").write_text(json.dumps(
             {"multiple": 2.0, "n_sims": 4000, "convention": "uniform", "max_hop": 3}))
         try:

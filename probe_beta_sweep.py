@@ -31,7 +31,10 @@ controller and the scorer cannot disagree about where a multiple lives.
 3. stage 2 (stage2_sweep.py <tag> <targets> 3 10), same cwd. stage 2 resumes
    cell by cell itself and refuses if its stage-1 inputs changed underneath a
    partial sweep (influence/sweep_inputs.py).
-4. A completeness check: the sweep CSV holds exactly the registered cells and
+4. Refit reconciliation (added 2026-10-13 after a host reset): see
+   reconcile_refits. stage 2 refits a cell whose CSV row survived but whose
+   prediction vector did not, and appends a second row for it.
+5. A completeness check: the sweep CSV holds exactly the registered cells and
    the OOF store has a prediction for each. Only then is the unit logged COMPLETE.
 
 The targets are every spread column, with spread_cv and spread_resid dropped
@@ -85,6 +88,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import csv
 import hashlib
 import json
 import os
@@ -320,6 +324,90 @@ def unit_done(d: Path, tag: str, m: float) -> tuple[bool, str]:
     return True, f"{len(want)} cells"
 
 
+# The one column a deterministic refit is allowed to change: wall-clock fit
+# time. feature_seconds comes from stage-1 timings, so it must repeat exactly.
+REFIT_FREE_COLUMNS = ("fit_seconds",)
+
+
+def reconcile_refits(d: Path, tag: str) -> int:
+    """Remove the stale copy of each cell stage 2 refitted after an interruption.
+
+    WHY DUPLICATES APPEAR. stage2_sweep.py appends each cell's CSV row at once
+    but flushes the OOF prediction store once per grid row (ten seeds). A host
+    reset inside a grid row leaves cells with a row and no prediction vector.
+    On resume stage 2 counts a cell as done only if it has both, so it refits
+    those cells, which is deliberate, and appends a second row for each. Seen
+    first on 2026-10-13: the 05:36 reset left seeds 0-3 of
+    (spread_resid, r=3, node+edge) at p2p-Gnutella08@2.0 with rows but no
+    predictions.
+
+    WHAT COUNTS AS A SAFE DUPLICATE. Every fit is seeded, so a refit must
+    reproduce its earlier row exactly. The rows are compared as raw CSV text,
+    not parsed floats, so nothing is re-serialised and "equal" means
+    byte-equal in every field except fit_seconds. Any other difference would
+    mean the fit is not reproducible, and that is a failure, not something to
+    tidy away. Each duplicated cell must also have its vector in the OOF
+    store, which only the refit can have written.
+
+    WHICH COPY IS KEPT. The last one: it belongs to the same run as the stored
+    prediction vector. The removed lines are appended to
+    refit_duplicates_<tag>.csv next to the sweep as evidence. The sweep is
+    rewritten atomically, and every other line is kept byte for byte.
+
+    stage2_sweep.py is pinned, so the fix lives here rather than in its
+    resume logic. Returns the number of lines removed (0 = nothing to do).
+    """
+    sweep = d / f"sweep_{tag}.csv"
+    oof = d / f"cache_oof_{tag}.npz"
+    if not sweep.exists():
+        return 0
+    raw = sweep.read_bytes().decode("utf-8")
+    lines = raw.splitlines(keepends=True)
+    header = next(csv.reader([lines[0]]))
+    col = {name: i for i, name in enumerate(header)}
+    free = {col[c] for c in REFIT_FREE_COLUMNS}
+
+    # Map each cell key to the indices of its data lines, in file order.
+    seen: dict[tuple[str, str, str, str], list[int]] = {}
+    fields: dict[int, list[str]] = {}
+    for i in range(1, len(lines)):
+        row = next(csv.reader([lines[i]]))
+        fields[i] = row
+        key = (row[col["target"]], row[col["radius"]], row[col["richness"]], row[col["seed"]])
+        seen.setdefault(key, []).append(i)
+    groups = {k: v for k, v in seen.items() if len(v) > 1}
+    if not groups:
+        return 0
+
+    with np.load(oof) as store:
+        stored = set(store.files)
+    drop: list[int] = []
+    for key, idx in groups.items():
+        ref = [f for j, f in enumerate(fields[idx[-1]]) if j not in free]
+        for i in idx[:-1]:
+            other = [f for j, f in enumerate(fields[i]) if j not in free]
+            if other != ref:
+                raise RuntimeError(f"{tag}: cell {key} was refitted with a different result; "
+                                   "the fit is not reproducible, refusing to reconcile")
+        if "|".join(key) not in stored:
+            raise RuntimeError(f"{tag}: cell {key} is duplicated but has no OOF prediction")
+        drop.extend(idx[:-1])
+
+    # Evidence first, then the rewrite. A crash in between leaves the evidence
+    # and the old sweep; the next run reconciles again and appends the same
+    # lines a second time, which is harmless.
+    evidence = d / f"refit_duplicates_{tag}.csv"
+    with open(evidence, "a", encoding="utf-8", newline="") as f:
+        if f.tell() == 0:
+            f.write(lines[0])
+        f.writelines(lines[i] for i in sorted(drop))
+    keep = "".join(line for i, line in enumerate(lines) if i not in set(drop))
+    tmp = sweep.with_name(sweep.name + ".tmp")
+    tmp.write_bytes(keep.encode("utf-8"))
+    os.replace(tmp, sweep)
+    return len(drop)
+
+
 def check_multiple_identity(tag: str, d: Path, m: float) -> dict:
     """Prereg E3 at multiple m, against the stage-1 cache in d.
 
@@ -450,6 +538,10 @@ def run_unit(tag: str, m: float, identity: dict[str, str]) -> None:
     log(f"  E3 {tag}@{m} PASS (chi 4000 vs 500: {e3['abs_diff_in_se']:.2f} SE)")
     secs = run_stage("stage2", [str(ROOT / "stage2_sweep.py"), tag, ",".join(stage_targets(m)),
                                 str(MAX_HOP), str(N_SEEDS)], d, tag)
+    removed = reconcile_refits(d, tag)
+    if removed:
+        log(f"  reconciled {tag}@{m}: {removed} stale row(s) of refitted cells removed "
+            f"(identical except fit_seconds; see refit_duplicates_{tag}.csv)")
     done, why = unit_done(d, tag, m)
     if not done:
         raise RuntimeError(f"stage2 {tag}@{m} exited 0 but the unit is incomplete: {why}")
