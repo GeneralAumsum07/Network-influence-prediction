@@ -90,6 +90,7 @@ import argparse
 import ast
 import csv
 import hashlib
+import inspect
 import json
 import os
 import subprocess
@@ -102,11 +103,22 @@ import numpy as np
 import pandas as pd
 
 import analyse_beta_sweep as ab
-from influence.criticality import transmission_probability
+from influence.criticality import leading_eigenvalue, transmission_probability
 from influence.dynamics import simulate_ic_percolation
 from influence.preprocessing import load_edgelist
 
 ROOT = Path(__file__).resolve().parent
+
+# How closely stage 1's recomputed beta_c must match the root cache's. It is
+# read from the eigensolve's own convergence tolerance rather than chosen by
+# hand: ARPACK only promises the leading eigenvalue to `tol` relative, so two
+# solves of the same matrix may differ by up to that much, and any tighter
+# bound is a guess about solver noise. 1e-12 was such a guess (set from one
+# 1.7e-14 observation) and stopped the sweep at ca-GrQc@1.25 on 2026-10-14
+# with a 1.37e-12 difference and bit-identical draws. A wrong graph or method
+# moves beta_c by far more than 1e-8; the exact draw bit-identity check in
+# check_multiple_identity is the guard that matters. (Rachit, 2026-10-15.)
+BETA_C_RTOL = inspect.signature(leading_eigenvalue).parameters["tol"].default
 OUT = ROOT / ab.OUT
 LOG = OUT / "controller.log"
 LOCK = OUT / "active.lock"
@@ -414,9 +426,10 @@ def check_multiple_identity(tag: str, d: Path, m: float) -> dict:
     Three checks, all required:
     - beta_c and p in this directory's cache agree with the values the locator
       used (the root cache's beta_c, and transmission_probability at m) to a
-      relative 1e-12. Stage 1 recomputes beta_c, and the eigensolve
-      reproduces it only to a few ulps, so equality is not available. A real
-      mismatch (a different graph or method) is many orders larger.
+      relative BETA_C_RTOL, the eigensolve's own tolerance. Stage 1
+      recomputes beta_c, and ARPACK reproduces it only to within that
+      tolerance, so equality is not available. A real mismatch (a different
+      graph or method) is many orders larger.
     - The first 500 cached draws equal a fresh 500-draw run at seed 0 BIT FOR
       BIT, so the fitted targets come from the same live-edge draws the
       locator measured at this m. chi of those draws must equal the recorded
@@ -445,18 +458,19 @@ def check_multiple_identity(tag: str, d: Path, m: float) -> dict:
     z = abs(chi_all - chi_fresh) / se if se > 0 else float("inf")
     curve = pd.read_csv(ROOT / ab.LOCATOR_DIR / f"{tag}.csv")
     chi_recorded = float(curve.loc[np.isclose(curve["m"], m), "chi"].iloc[0])
-    # beta_c is compared to a relative 1e-12, not exactly. The first pilot
-    # (email-Eu-core@1.25, 2026-10-12 13:59) found stage 1's recomputed beta_c
-    # 1.7e-14 away from the root cache's, a few ulps from the iterative
-    # eigensolve, with its draws still bit-identical. Exact equality was the
-    # wrong test. Bit-identity of the draws below is the property the locator
-    # needs, and it stays exact.
+    # beta_c is compared to the eigensolve's tolerance (BETA_C_RTOL), not
+    # exactly. The first pilot (email-Eu-core@1.25, 2026-10-12 13:59) found
+    # stage 1's recomputed beta_c 1.7e-14 away from the root cache's, and
+    # ca-GrQc@1.25 (2026-10-14) 1.37e-12, both with bit-identical draws.
+    # Bit-identity of the draws is the property the locator needs, and it
+    # stays exact.
     rel_beta = abs(meta["beta_c"] - root_meta["beta_c"]) / root_meta["beta_c"]
     rel_p = abs(meta["p"] - p) / p
     res = {"network": tag, "m": m,
            "beta_c_rel_diff": rel_beta, "p_rel_diff": rel_p,
-           "beta_c_matches_locator": bool(rel_beta <= 1e-12),
-           "p_matches_locator": bool(rel_p <= 1e-12),
+           "beta_c_rtol": BETA_C_RTOL,
+           "beta_c_matches_locator": bool(rel_beta <= BETA_C_RTOL),
+           "p_matches_locator": bool(rel_p <= BETA_C_RTOL),
            "first_500_columns_identical": identical,
            "chi_fresh_500": chi_fresh, "chi_recorded_locator": chi_recorded,
            "chi_matches_locator": bool(np.isclose(chi_fresh, chi_recorded, rtol=1e-12, atol=0)),
