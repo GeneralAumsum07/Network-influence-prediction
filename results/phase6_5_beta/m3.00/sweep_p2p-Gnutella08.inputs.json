@@ -1,0 +1,14 @@
+{
+  "tag": "p2p-Gnutella08",
+  "sweep": "sweep_p2p-Gnutella08.csv",
+  "inputs": {
+    "cache_features_p2p-Gnutella08.csv": "d5621288943144756bbced86f9629ca9c3e954f8522ae3f218337f14c66dae34",
+    "cache_registry_p2p-Gnutella08.csv": "4b3b75b45dc3b8f860318e2e125383cd7fea264d713a6cfcb1a176dda7718698",
+    "cache_targets_p2p-Gnutella08.csv": "2a1ed03943f2674ce701841eb71d7548639056a1382f15d16fdbb04580fc5710",
+    "cache_meta_p2p-Gnutella08.json": "e441c165eff34c299717124d8267b37f5fde2870ea664b10649f8ea50ec19e20"
+  },
+  "recorded": "2026-10-13T10:43:46+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

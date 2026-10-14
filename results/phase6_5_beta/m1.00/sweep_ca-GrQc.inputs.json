@@ -1,0 +1,14 @@
+{
+  "tag": "ca-GrQc",
+  "sweep": "sweep_ca-GrQc.csv",
+  "inputs": {
+    "cache_features_ca-GrQc.csv": "936f884a388aa5b69725324bdbd0a71e7de1199cc89fc7701e0917a0ce224f0e",
+    "cache_registry_ca-GrQc.csv": "5b006199079a638c0f81ca56252a54e179f6b5eec25512b19755b1b2d1c01235",
+    "cache_targets_ca-GrQc.csv": "dcd1c83b922a2dc1617b477fea65a61745ce9a42e032a9fb0fc4c49675501915",
+    "cache_meta_ca-GrQc.json": "eab8a9001f2658f8d01052d68ca6a8bf3851a4214f23698424d87c01da172a50"
+  },
+  "recorded": "2026-10-13T22:33:21+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

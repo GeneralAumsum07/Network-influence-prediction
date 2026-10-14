@@ -1,0 +1,17 @@
+{
+  "network": "p2p-Gnutella08",
+  "m": 3.0,
+  "beta_c_rel_diff": 1.8671247775124448e-13,
+  "p_rel_diff": 1.8677379547792796e-13,
+  "beta_c_matches_locator": true,
+  "p_matches_locator": true,
+  "first_500_columns_identical": true,
+  "chi_fresh_500": 6.279878272625666,
+  "chi_recorded_locator": 6.279878272625666,
+  "chi_matches_locator": true,
+  "chi_cache_4000": 6.636415763519871,
+  "bootstrap_se_500": 0.4303961730821534,
+  "abs_diff_in_se": 0.8283937292958907,
+  "within_3_se": true,
+  "pass": true
+}

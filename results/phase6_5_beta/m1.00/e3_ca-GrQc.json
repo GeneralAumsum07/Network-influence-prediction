@@ -1,0 +1,17 @@
+{
+  "network": "ca-GrQc",
+  "m": 1.0,
+  "beta_c_rel_diff": 4.3709064425149776e-13,
+  "p_rel_diff": 4.3709064425149776e-13,
+  "beta_c_matches_locator": true,
+  "p_matches_locator": true,
+  "first_500_columns_identical": true,
+  "chi_fresh_500": 2.766365132499636,
+  "chi_recorded_locator": 2.766365132499636,
+  "chi_matches_locator": true,
+  "chi_cache_4000": 3.0925146608316094,
+  "bootstrap_se_500": 0.1771968856758276,
+  "abs_diff_in_se": 1.8406053079772902,
+  "within_3_se": true,
+  "pass": true
+}
