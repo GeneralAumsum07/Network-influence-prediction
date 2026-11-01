@@ -1,0 +1,14 @@
+{
+  "tag": "facebook_combined",
+  "sweep": "sweep_facebook_combined.csv",
+  "inputs": {
+    "cache_features_facebook_combined.csv": "b057ed103a088a4f30b2d594a3ed4a02d3c6c443c22445ba2ef518e69764a0d0",
+    "cache_registry_facebook_combined.csv": "15dc78550d35b83a4f37fa0a69c70c0dbc89f48d428ea24be1f58e47a3377cd4",
+    "cache_targets_facebook_combined.csv": "fac06682eb154b6f363bfeb5fa66b536212cde45c36f35f187e8d7f4b7614c82",
+    "cache_meta_facebook_combined.json": "997c5b97304ff1c383222577dd2f0235708134513a3ab28bfc179feba8956d8c"
+  },
+  "recorded": "2026-10-15T21:09:29+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}
