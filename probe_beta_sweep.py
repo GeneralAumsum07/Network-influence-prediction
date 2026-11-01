@@ -340,8 +340,46 @@ def unit_done(d: Path, tag: str, m: float) -> tuple[bool, str]:
 # time. feature_seconds comes from stage-1 timings, so it must repeat exactly.
 REFIT_FREE_COLUMNS = ("fit_seconds",)
 
+# The score columns, which a refit reproduces only to the last bits rather than
+# byte for byte. The random forest runs at n_jobs=-1 and sums its trees in
+# whatever order the workers finish; influence/experiment.py (the n_jobs
+# comment in its fit loop) measured repeat runs differing by 5.7e-14 in the
+# predictions and about 5e-08 in Kendall tau. The byte-exact comparison this
+# replaced ignored that, and stopped the sweep at facebook_combined@1.25 on
+# 2026-11-01: rmse 0.5100422232958056 vs ...057, one ulp, every rank metric
+# identical.
+#
+# Why 1e-6, absolute. There is no tolerance constant to read from experiment.py
+# (unlike BETA_C_RTOL), only a measurement on one network, and a bound copied
+# from one observation is what broke the beta_c check. So it is set by what it
+# has to protect instead: about 20x the measured tau wobble, and about 1000x
+# below the ~1e-3 seed-to-seed spread that experiment.py names as the smallest
+# difference that could move a conclusion. A precision@k change is always a
+# whole step (at least 1/40 at facebook's top 1%), far above 1e-6, so a refit
+# that flips a near-tie across the top-k cutoff still stops the run for a
+# decision. (Rachit, 2026-11-01.)
+REFIT_METRIC_COLUMNS = ("kendall_tau", "spearman", "precision_at_1pct",
+                        "precision_at_5pct", "rmse")
+REFIT_METRIC_ATOL = 1e-6
 
-def reconcile_refits(d: Path, tag: str) -> int:
+
+def _metric_equal(a: str, b: str) -> bool:
+    """Equal to within REFIT_METRIC_ATOL, and nan only where the other is nan.
+
+    The raw text is checked first, so a byte-identical pair never goes through
+    float parsing. spread_ignition is constant at some m, which makes tau and
+    spearman nan in both copies; that counts as equal, but nan against a number
+    does not.
+    """
+    if a == b:
+        return True
+    x, y = float(a), float(b)
+    if np.isnan(x) or np.isnan(y):
+        return bool(np.isnan(x) and np.isnan(y))
+    return abs(x - y) <= REFIT_METRIC_ATOL
+
+
+def reconcile_refits(d: Path, tag: str) -> tuple[int, float]:
     """Remove the stale copy of each cell stage 2 refitted after an interruption.
 
     WHY DUPLICATES APPEAR. stage2_sweep.py appends each cell's CSV row at once
@@ -353,13 +391,15 @@ def reconcile_refits(d: Path, tag: str) -> int:
     (spread_resid, r=3, node+edge) at p2p-Gnutella08@2.0 with rows but no
     predictions.
 
-    WHAT COUNTS AS A SAFE DUPLICATE. Every fit is seeded, so a refit must
-    reproduce its earlier row exactly. The rows are compared as raw CSV text,
-    not parsed floats, so nothing is re-serialised and "equal" means
-    byte-equal in every field except fit_seconds. Any other difference would
-    mean the fit is not reproducible, and that is a failure, not something to
-    tidy away. Each duplicated cell must also have its vector in the OOF
-    store, which only the refit can have written.
+    WHAT COUNTS AS A SAFE DUPLICATE. Every fit is seeded, so the cell's
+    identity and inputs (target, radius, richness, n_features, feature_seconds,
+    network, seed) must match as raw CSV text, byte for byte. The five score
+    columns must match within REFIT_METRIC_ATOL: n_jobs=-1 reproduces them
+    only to the last bits (see that constant). fit_seconds is free. Anything
+    beyond that would mean the fit is not reproducible, and that is a failure,
+    not something to tidy away. Each duplicated cell must also have its vector
+    in the OOF store, which only the refit can have written. The largest
+    score difference accepted is returned so the controller log shows it.
 
     WHICH COPY IS KEPT. The last one: it belongs to the same run as the stored
     prediction vector. The removed lines are appended to
@@ -367,17 +407,19 @@ def reconcile_refits(d: Path, tag: str) -> int:
     rewritten atomically, and every other line is kept byte for byte.
 
     stage2_sweep.py is pinned, so the fix lives here rather than in its
-    resume logic. Returns the number of lines removed (0 = nothing to do).
+    resume logic. Returns (lines removed, largest score difference accepted);
+    (0, 0.0) means nothing to do.
     """
     sweep = d / f"sweep_{tag}.csv"
     oof = d / f"cache_oof_{tag}.npz"
     if not sweep.exists():
-        return 0
+        return 0, 0.0
     raw = sweep.read_bytes().decode("utf-8")
     lines = raw.splitlines(keepends=True)
     header = next(csv.reader([lines[0]]))
     col = {name: i for i, name in enumerate(header)}
     free = {col[c] for c in REFIT_FREE_COLUMNS}
+    metric = {col[c] for c in REFIT_METRIC_COLUMNS}
 
     # Map each cell key to the indices of its data lines, in file order.
     seen: dict[tuple[str, str, str, str], list[int]] = {}
@@ -389,18 +431,27 @@ def reconcile_refits(d: Path, tag: str) -> int:
         seen.setdefault(key, []).append(i)
     groups = {k: v for k, v in seen.items() if len(v) > 1}
     if not groups:
-        return 0
+        return 0, 0.0
 
     with np.load(oof) as store:
         stored = set(store.files)
     drop: list[int] = []
+    worst = 0.0
     for key, idx in groups.items():
-        ref = [f for j, f in enumerate(fields[idx[-1]]) if j not in free]
+        last = fields[idx[-1]]
         for i in idx[:-1]:
-            other = [f for j, f in enumerate(fields[i]) if j not in free]
-            if other != ref:
+            row = fields[i]
+            # Identity and input columns: byte for byte, as before.
+            exact_ok = all(row[j] == last[j] for j in range(len(last))
+                           if j not in free and j not in metric)
+            # Score columns: within the n_jobs=-1 last-bits tolerance.
+            score_ok = all(_metric_equal(row[j], last[j]) for j in metric)
+            if not (exact_ok and score_ok):
                 raise RuntimeError(f"{tag}: cell {key} was refitted with a different result; "
                                    "the fit is not reproducible, refusing to reconcile")
+            for j in metric:
+                if row[j] != last[j] and not np.isnan(float(row[j])):
+                    worst = max(worst, abs(float(row[j]) - float(last[j])))
         if "|".join(key) not in stored:
             raise RuntimeError(f"{tag}: cell {key} is duplicated but has no OOF prediction")
         drop.extend(idx[:-1])
@@ -417,7 +468,7 @@ def reconcile_refits(d: Path, tag: str) -> int:
     tmp = sweep.with_name(sweep.name + ".tmp")
     tmp.write_bytes(keep.encode("utf-8"))
     os.replace(tmp, sweep)
-    return len(drop)
+    return len(drop), worst
 
 
 def check_multiple_identity(tag: str, d: Path, m: float) -> dict:
@@ -552,10 +603,11 @@ def run_unit(tag: str, m: float, identity: dict[str, str]) -> None:
     log(f"  E3 {tag}@{m} PASS (chi 4000 vs 500: {e3['abs_diff_in_se']:.2f} SE)")
     secs = run_stage("stage2", [str(ROOT / "stage2_sweep.py"), tag, ",".join(stage_targets(m)),
                                 str(MAX_HOP), str(N_SEEDS)], d, tag)
-    removed = reconcile_refits(d, tag)
+    removed, worst = reconcile_refits(d, tag)
     if removed:
         log(f"  reconciled {tag}@{m}: {removed} stale row(s) of refitted cells removed "
-            f"(identical except fit_seconds; see refit_duplicates_{tag}.csv)")
+            f"(inputs identical, fit_seconds free; largest score difference {worst:.3g}, "
+            f"tolerance {REFIT_METRIC_ATOL:g}; see refit_duplicates_{tag}.csv)")
     done, why = unit_done(d, tag, m)
     if not done:
         raise RuntimeError(f"stage2 {tag}@{m} exited 0 but the unit is incomplete: {why}")
