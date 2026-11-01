@@ -1,0 +1,175 @@
+{
+  "registered_in": "prereg addendum 2026-10-12 12:15 IST, parts C-D",
+  "target_noise_rule": "reported only (prereg addendum 2026-10-12 12:31)",
+  "networks": {
+    "ca-GrQc": {
+      "primary_network": false,
+      "r_star_noise_spread_mean": {
+        "0.8": 2,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "r_star_target_spread_mean": {
+        "0.8": 2,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "m_star_chi": 3.0,
+      "status": "scored",
+      "flat": false,
+      "m_peak": 1.0,
+      "prediction_met": true,
+      "locator_determined": false,
+      "m_loc": null,
+      "h1_stands": null,
+      "rule3_verdict": {
+        "status": "scored",
+        "flat": false,
+        "m_peak": 1.0,
+        "prediction_met": true,
+        "locator_determined": false,
+        "m_loc": null,
+        "h1_stands": null
+      },
+      "robust_label": null
+    },
+    "ca-HepTh": {
+      "primary_network": false,
+      "r_star_noise_spread_mean": {
+        "0.8": 3,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "r_star_target_spread_mean": {
+        "0.8": 3,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "m_star_chi": 2.35,
+      "status": "scored",
+      "flat": true,
+      "m_peak": null,
+      "prediction_met": false,
+      "h1_stands": false,
+      "note": "flat: under decision 5, L6 uses one multiple",
+      "rule3_verdict": {
+        "status": "scored",
+        "flat": true,
+        "m_peak": null,
+        "prediction_met": false,
+        "h1_stands": false,
+        "note": "flat: under decision 5, L6 uses one multiple"
+      },
+      "robust_label": null
+    },
+    "email-Eu-core": {
+      "primary_network": true,
+      "r_star_noise_spread_mean": {
+        "0.8": 3,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "r_star_target_spread_mean": {
+        "0.8": 3,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "m_star_chi": 1.15,
+      "status": "scored",
+      "flat": true,
+      "m_peak": null,
+      "prediction_met": false,
+      "h1_stands": false,
+      "note": "flat: under decision 5, L6 uses one multiple",
+      "rule3_verdict": {
+        "status": "scored",
+        "flat": true,
+        "m_peak": null,
+        "prediction_met": false,
+        "h1_stands": false,
+        "note": "flat: under decision 5, L6 uses one multiple"
+      },
+      "robust_label": null
+    },
+    "facebook_combined": {
+      "primary_network": false,
+      "r_star_noise_spread_mean": {
+        "0.8": 2,
+        "1.0": 2,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "r_star_target_spread_mean": {
+        "0.8": 2,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "m_star_chi": 3.0,
+      "status": "scored",
+      "flat": false,
+      "m_peak": 1.25,
+      "prediction_met": true,
+      "locator_determined": false,
+      "m_loc": null,
+      "h1_stands": null,
+      "rule3_verdict": {
+        "status": "scored",
+        "flat": false,
+        "m_peak": 1.0,
+        "prediction_met": true,
+        "locator_determined": false,
+        "m_loc": null,
+        "h1_stands": null
+      },
+      "robust_label": null
+    },
+    "p2p-Gnutella08": {
+      "primary_network": true,
+      "r_star_noise_spread_mean": {
+        "0.8": 3,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "r_star_target_spread_mean": {
+        "0.8": 3,
+        "1.0": 3,
+        "1.25": 3,
+        "2.0": 3,
+        "3.0": 3
+      },
+      "m_star_chi": 1.2,
+      "status": "scored",
+      "flat": true,
+      "m_peak": null,
+      "prediction_met": false,
+      "h1_stands": false,
+      "note": "flat: under decision 5, L6 uses one multiple",
+      "rule3_verdict": {
+        "status": "scored",
+        "flat": true,
+        "m_peak": null,
+        "prediction_met": false,
+        "h1_stands": false,
+        "note": "flat: under decision 5, L6 uses one multiple"
+      },
+      "robust_label": null
+    }
+  }
+}
