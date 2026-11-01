@@ -416,7 +416,7 @@ def controller() -> None:
         clean = sweep.read_bytes()
         refit = timed.iloc[3:5].assign(fit_seconds=2.0)
         pd.concat([timed, refit]).to_csv(sweep, index=False, lineterminator="\r\n")
-        removed = pb.reconcile_refits(d, tag)
+        removed, _ = pb.reconcile_refits(d, tag)
         after = sweep.read_bytes().decode("utf-8").splitlines(keepends=True)
         ref = clean.decode("utf-8").splitlines(keepends=True)
         check("controller: refit duplicates reconciled, last copy kept",
@@ -427,7 +427,7 @@ def controller() -> None:
         check("controller: removed rows kept as evidence",
               len(evidence) == 3 and all(",1.0" in line for line in evidence[1:]))
         check("controller: nothing to reconcile is a no-op",
-              pb.reconcile_refits(d, tag) == 0 and sweep.read_bytes().decode("utf-8").splitlines(
+              pb.reconcile_refits(d, tag) == (0, 0.0) and sweep.read_bytes().decode("utf-8").splitlines(
                   keepends=True) == after)
         pd.concat([timed, timed.iloc[:1].assign(tau=0.6)]).to_csv(sweep, index=False,
                                                                   lineterminator="\r\n")
@@ -436,6 +436,51 @@ def controller() -> None:
             check("controller: a refit with a different result refuses", False)
         except RuntimeError:
             check("controller: a refit with a different result refuses", True)
+
+        # Score tolerance (2026-11-01). n_jobs=-1 repeats scores only to the
+        # last bits, so the five real score columns are compared within
+        # REFIT_METRIC_ATOL while everything else stays byte-exact. This uses
+        # the real column names; the frame above has only a "tau" column,
+        # which is therefore compared exactly.
+        scored = rows.assign(kendall_tau=0.9547846216769375, spearman=float("nan"),
+                             precision_at_1pct=0.675, precision_at_5pct=0.99,
+                             rmse=0.5100422232958056, fit_seconds=1.0)
+
+        def refit_of(**changes):
+            stale = scored.iloc[:1]
+            fresh = stale.assign(fit_seconds=2.0, **changes)
+            pd.concat([scored, fresh]).to_csv(sweep, index=False, lineterminator="\r\n")
+            if (d / f"refit_duplicates_{tag}.csv").exists():
+                (d / f"refit_duplicates_{tag}.csv").unlink()
+
+        refit_of(rmse=0.5100422232958057)
+        removed, worst = pb.reconcile_refits(d, tag)
+        check("controller: a one-ulp rmse refit reconciles, difference reported",
+              removed == 1 and 0 < worst < 1e-15, f"{removed}, {worst}")
+        refit_of(kendall_tau=0.9547846216769375 - 1e-3)
+        try:
+            pb.reconcile_refits(d, tag)
+            check("controller: a score refit beyond the tolerance refuses", False)
+        except RuntimeError:
+            check("controller: a score refit beyond the tolerance refuses", True)
+        refit_of(precision_at_1pct=0.7)
+        try:
+            pb.reconcile_refits(d, tag)
+            check("controller: a precision@k step refuses", False)
+        except RuntimeError:
+            check("controller: a precision@k step refuses", True)
+        refit_of(spearman=0.5)
+        try:
+            pb.reconcile_refits(d, tag)
+            check("controller: nan against a number refuses", False)
+        except RuntimeError:
+            check("controller: nan against a number refuses", True)
+        refit_of(tau=0.5 + 1e-12)
+        try:
+            pb.reconcile_refits(d, tag)
+            check("controller: a non-score column still compares exactly", False)
+        except RuntimeError:
+            check("controller: a non-score column still compares exactly", True)
         rows.to_csv(sweep, index=False)
 
         (d / f"cache_meta_{tag}.json").write_text(json.dumps(

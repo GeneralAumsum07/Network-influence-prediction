@@ -373,7 +373,9 @@ def _metric_equal(a: str, b: str) -> bool:
     """
     if a == b:
         return True
-    x, y = float(a), float(b)
+    # pandas writes nan as an empty field, which is how every real sweep
+    # stores the undefined tau of spread_ignition; float("") would raise.
+    x, y = (float(v) if v.strip() else float("nan") for v in (a, b))
     if np.isnan(x) or np.isnan(y):
         return bool(np.isnan(x) and np.isnan(y))
     return abs(x - y) <= REFIT_METRIC_ATOL
@@ -419,7 +421,11 @@ def reconcile_refits(d: Path, tag: str) -> tuple[int, float]:
     header = next(csv.reader([lines[0]]))
     col = {name: i for i, name in enumerate(header)}
     free = {col[c] for c in REFIT_FREE_COLUMNS}
-    metric = {col[c] for c in REFIT_METRIC_COLUMNS}
+    # Only the score columns the file actually has. A real stage-2 sweep has
+    # all five; a frame without one (verify_beta_sweep.py's synthetic sweep)
+    # loses nothing, because every column that IS present is still compared,
+    # exactly or within the tolerance. Indexing blindly raised KeyError there.
+    metric = {col[c] for c in REFIT_METRIC_COLUMNS if c in col}
 
     # Map each cell key to the indices of its data lines, in file order.
     seen: dict[tuple[str, str, str, str], list[int]] = {}
@@ -450,8 +456,13 @@ def reconcile_refits(d: Path, tag: str) -> tuple[int, float]:
                 raise RuntimeError(f"{tag}: cell {key} was refitted with a different result; "
                                    "the fit is not reproducible, refusing to reconcile")
             for j in metric:
-                if row[j] != last[j] and not np.isnan(float(row[j])):
-                    worst = max(worst, abs(float(row[j]) - float(last[j])))
+                # Both copies passed _metric_equal, so a differing pair is
+                # either two numbers or two spellings of nan ("" and "nan");
+                # only the numbers have a difference worth reporting.
+                if row[j] != last[j] and row[j].strip() and last[j].strip():
+                    diff = abs(float(row[j]) - float(last[j]))
+                    if not np.isnan(diff):
+                        worst = max(worst, diff)
         if "|".join(key) not in stored:
             raise RuntimeError(f"{tag}: cell {key} is duplicated but has no OOF prediction")
         drop.extend(idx[:-1])
