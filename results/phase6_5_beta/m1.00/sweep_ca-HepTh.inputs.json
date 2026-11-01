@@ -1,0 +1,14 @@
+{
+  "tag": "ca-HepTh",
+  "sweep": "sweep_ca-HepTh.csv",
+  "inputs": {
+    "cache_features_ca-HepTh.csv": "29b09b19fb1e3c904531e210f9c1dd4fc888d654294add10b011b8f2f43aca97",
+    "cache_registry_ca-HepTh.csv": "1d9ab14d8c69aa8eb8a9435987a9a7a9d22919bc83ab9d60eda7a6234f12789d",
+    "cache_targets_ca-HepTh.csv": "ea1007c530f09a0f8e9132eeab6bc2ec4323afefd90184d86fc0a390d90e2660",
+    "cache_meta_ca-HepTh.json": "96fcc36220e58a745c0bb474cbc779d5fed3c0f5023a43d509b0d9583d1812b2"
+  },
+  "recorded": "2026-10-14T22:22:18+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}
