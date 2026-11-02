@@ -1260,3 +1260,113 @@ graph is not evidence of locality, and the scored text must say so.
 - It runs after `verify_threshold_local.py` passes. It reads no fit output, so it can
   run while the stage-2 fits are in progress. Its CPU load slows them but cannot
   change their results.
+
+## L5 post-hoc measures — 2026-11-02 17:15 IST — after the 16:59 probe results, before any of the below is computed
+
+Written by Claude Opus 5.5.
+- **Decided by Rachit in chat (17:13):** register and run both of the following, and
+  use Somers' D for the sensitivity check in part B.
+- **Agent definitions:** the precise rules below.
+
+**Added after seeing results.**
+- **Part A** exists because of the 16:59 probe's results
+  (`results/phase7_threshold/local_exact.json`, committed in 59d24a9).
+- **Part B** follows from the same diagnosis.
+
+Neither part replaces or reinterprets a registered result:
+- The 16:59 rule's outcome stands as registered. On all three networks r\*_exact is
+  "> 3", so the counter is not supported by the probe.
+- The L5 lane verdict stays part D of the 10:55 definitions, scored with Kendall τ-b.
+
+**State at writing.**
+- The L5 fits for email-Eu-core and ca-GrQc are complete; ca-HepTh is running.
+- No L5 r\* has been computed, and no Somers' D or censored value has been computed.
+- Seen so far: the fit-log τ rows named in the 16:59 addendum, and the 16:59 probe
+  output.
+
+**The diagnosis (inference, from `local_exact.json`).**
+1. **τ-b penalises tie-breaking.** The ignite block of spread_θ is largely tied at one
+   global size. A predictor that orders the nodes inside that block loses τ-b, even
+   when the ordering is harmless.
+   - Example: on email-Eu-core at r = 3, 99.8% of igniters are certified to ignite,
+     yet τ_3 = 0.818.
+2. **certified_r is capped by ball size.** It needs the ball to hold more than 5% of
+   n. The mean coverage at r = 3 is 4.1% (ca-GrQc) and 3.5% (ca-HepTh), so most
+   nodes cannot be certified there whatever their dynamics.
+
+### A. Censored r-local predictor (fixes both, zero training)
+
+**Containment.**
+- For r ≥ 1, node i is **contained at r** if no node at distance exactly r from i is
+  active in the truncated cascade's fixed point.
+- **Claim:** if i is contained at r, then trunc_r(i) = spread_θ(i) exactly.
+- **Proof.** Every node at distance > r has its neighbours at distance ≥ r. None of
+  those is active: those at distance r by containment, and those beyond r because
+  activation is confined to the ball. So no node outside the ball can activate. The
+  truncated fixed point is therefore closed under the full rule, and it contains
+  N[i]. The full cascade is the smallest such set, so the two are equal.
+- At r = 1 no node with k ≥ 1 is contained, because every distance-1 node is a seed.
+- Containment uses only the ball, so it is radius-r information.
+
+**Predictor.** x_r(i) = trunc_r(i) if i is contained at r; otherwise one shared value,
+n + 1, placed above every contained node.
+
+**Computed** for r = 1–5 on the three passing networks at θ = 0.2.
+- **τ_cens_r:** τ-b(x_r, spread_θ).
+  - At r = 1, x_r is constant, so this is undefined and reported as such.
+- **τ_cens_r^ign:** τ-b(x_r, ignites_θ).
+- **contained share of fizzlers:** the fraction of fizzlers that are contained at r.
+  Their final size is proven from radius r.
+- **contained share of igniters**, reported alongside.
+- **P(ignites | escaped at r)** and **P(escaped at r)**.
+
+**Rule.** The 16:59 form, with x_r in place of trunc_r.
+- r\*_cens is the smallest r ∈ {1, 2, 3} with τ_cens_r ≥ 0.95. Otherwise "> 3".
+- r\*_cens^ign is the smallest r with τ_cens_r^ign ≥ 0.95 · ceiling^ign. ceiling^ign is
+  τ-b(spread_θ, ignites_θ) as before.
+- Counter reading: r\* ≤ 2 supports it.
+- The coverage flag stays at mean coverage ≥ 0.5.
+- **Descriptive, not scored:** P(ignites | escaped at r = 2). This is the
+  counter-hypothesis in its own terms.
+
+**Code.**
+- `threshold_local.py` gains containment output. Its earlier version is committed in
+  59d24a9 together with the 16:59 output it produced.
+- `verify_threshold_local.py` gains the check that contained ⇒ trunc_r = the full
+  cascade.
+- Output goes to `results/phase7_threshold/local_censored.json`. `local_exact.json` is
+  not rewritten.
+
+### B. Somers' D sensitivity for the L5 fits
+
+**Definition.** D = (C − D_pairs) / (pairs untied in the target).
+- C and D_pairs count the concordant and discordant pairs between prediction and
+  target.
+- A pair tied in the prediction but not in the target counts in the denominator only.
+- A pair tied in the target is excluded.
+- So breaking the target's ties costs nothing, while failing to separate what the
+  target separates still costs.
+- **Computation:** from τ-b's numerator, S = τ_b · √((n0 − n1)(n0 − n2)), then D = S /
+  (n0 − n2), where n1 and n2 are the tied-pair counts in the prediction and the target.
+
+**Data.**
+- The stored out-of-fold predictions: `results/phase7_threshold/cache_oof_<tag>.npz`
+  for spread_θ and ignites_θ, and the root `cache_oof_<tag>.npz` for spread_mean at
+  1.5×.
+- The `node+edge+subgraph` rung, every radius and seed.
+- No model is refitted.
+
+**Consistency check.** For every cell, τ-b recomputed from the stored predictions must
+equal the sweep CSV's `kendall_tau` within 1e-9. Any mismatch refuses the whole
+analysis: it would mean the predictions are not the ones that were scored.
+
+**Rule.** Part D exactly, with Somers' D in place of τ-b:
+- r\* is the per-seed `locality_horizon` at ε = 0.05 on the `somers_d` metric, then the
+  modal value across seeds, ties to the smaller r;
+- r\*(spread_mean) is recomputed the same way, from the root predictions;
+- the same per-pair outcomes and the same lane aggregation.
+
+**Status.** Reported beside the τ-b verdict, labelled as a sensitivity check.
+- **If it agrees,** the verdict did not depend on tie-breaking.
+- **If it disagrees,** both are reported. The τ-b verdict remains the registered one,
+  and the disagreement is stated as a limitation of it.
