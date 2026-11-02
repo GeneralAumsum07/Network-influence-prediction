@@ -1676,3 +1676,91 @@ PREDICTION or COUNTER SUPPORTED. FLAT or UNDECIDED ends L6 at the MVP.
   within 1e-8 relative.
 - On one L6 graph, against the dense spectrum, which is affordable at 2n = 10⁴.
 - λ₁ must equal 1/β_c from `epidemic_threshold` within 1e-8 relative.
+
+## L6 scored addendum — 2026-11-02 21:25 IST — Claude Opus 5.5
+
+**Run.** `python probe_certificate.py fit`, 19:59:09 → 21:19:10 (80 min, against a
+projected ≈ 21:25). All 11 graphs × 2 arms complete at 80 cells each, with no
+refit reconciliation needed. The outputs are `results/phase7_certificate/ratios.csv` and
+`verdict.json`.
+
+**One edit after the fit, before any number was read.** `analyse_certificate.py`
+crashed after writing `ratios.csv` and before printing. The cause was that the
+provenance block passed a `str` to `sha256`, which takes a `Path`. The fix wraps the
+argument in `Path`. It changes no computation. The rerun rewrote `ratios.csv` from
+the same sweeps.
+
+### Verdict (registered, part C)
+
+| γ_target | 2.1 | 2.3 | 2.5 | 2.8 | 3.0 | 3.3 | 3.6 | 4.0 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| τ₁ | .927 | .924 | .918 | .899 | .887 | .889 | .907 | .919 |
+| τ₃ | .937 | .942 | .943 | .944 | .946 | .941 | .943 | .946 |
+| ρ̄ = τ₁/τ₃ | .989 | .981 | .973 | .952 | .938 | .945 | .962 | .972 |
+| sd (seed) | .0005 | .0005 | .0003 | .0004 | .0003 | .0006 | .0004 | .0006 |
+| r\* (ε = .05) | 1 | 1 | 1 | 1 | 2 | 2 | 1 | 1 |
+
+- All 8 are scored, since every τ₃ > 0.
+- T = Kendall τ-b(γ_target, ρ̄) = **−0.429**. t_crit = 0.571 at n = 8.
+- ρ̄(2.1) − ρ̄(4.0) = 0.0176 and 2·sd_pool = 0.0010, so the magnitude condition holds.
+- **Outcome: FLAT.** T falls short of the threshold.
+- **Stop rule:** L6 ends at the MVP. The 31-graph corpus is not fitted.
+- r\* agreement is 5/5 seeds on every graph.
+
+### Reported beside the primary (not scored)
+
+**Controls (spread_mean):**
+
+| graph | ρ̄ | τ₃ | r\* |
+|---|---:|---:|---:|
+| ER | .972 | .962 | 1 |
+| BA | .932 | .927 | 2 |
+| WS (p = .1) | .724 | .781 | 3 |
+
+WS is the only graph in the corpus where radius 3 is needed. It also has the
+smallest NB gap by far (.046, against .59–.82 elsewhere).
+
+**Betweenness (`rf_log1p`):**
+- T = **+0.571**, exactly at t_crit.
+- ρ̄(2.1) − ρ̄(4.0) = −0.014, against 2·sd_pool = 0.0018.
+- By the part C rule applied to it, that reads COUNTER. It is a reported control,
+  not the lane verdict.
+- It sits on the boundary: one swapped pair would make it FLAT.
+- ρ̄ runs .972 → .956 (minimum at γ = 2.5) → .986. Every r\* is 1.
+
+**Structure along the γ family (Kendall τ):**
+- NB gap vs γ: −0.929;
+- duel ratio vs γ: +0.929;
+- NB gap vs duel ratio: −0.857.
+
+As registered, the two are near-collinear on this family, so the claim that the NB
+gap adds nothing once the duel ratio is controlled cannot be tested here.
+
+### Reading (inference, not registered)
+
+- **The spread ratio is U-shaped, not monotone.** ρ̄ falls from .989 at γ = 2.1 to a
+  minimum of .938 at γ = 3.0, then rises to .972 at γ = 4.0. Kendall's T is built
+  to detect a monotone trend and cannot see that shape. This is one realisation
+  per γ, and the shape was not registered, so it is a description, not a finding.
+- **The magnitude condition is weaker than its numbers look.** sd_g is the spread
+  across fitting seeds on one fixed graph and one fixed set of cascades. It
+  measures fold and forest noise only. It does not measure graph-realisation
+  noise: there is one graph per γ, seed 0.
+  - The end-to-end gap clears 2·sd_pool by 18×. That says the gap is not fitting
+    noise. It does not say the gap is a γ effect.
+  - This does not change FLAT. It does mean the betweenness "COUNTER" and any
+    future use of this condition need a between-realisation yardstick, i.e.
+    several generator seeds per γ.
+- **On every Chung-Lu graph, radius 1 already reaches 94–99% of radius 3.** The
+  locality question on this family is about the last 1–6% of τ.
+- **The part A confounds are still present.** Along γ, LCC n rises 4303 → 4965 and
+  ⟨k⟩ falls 6.82 → 6.05. Fitted γ is unreliable at γ_target 4.0 (2.21 ± 0.79).
+  Neither is adjusted for.
+
+### Not done here
+
+- No 31-graph corpus (stop rule).
+- No multi-seed generator replicate.
+- No test of the U-shape.
+- No regression of ρ̄ on the NB gap across all 11 graphs. Each would need its own
+  registration.

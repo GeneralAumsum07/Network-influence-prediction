@@ -22,6 +22,7 @@ import itertools
 import json
 import sys
 from math import factorial
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -124,7 +125,8 @@ def main() -> int:
                "primary": trend(spread),
                "betweenness_reported": trend(betw),
                "structure_reported": structure,
-               "sources": {p: sha256(p) for p in ("analyse_certificate.py", "probe_certificate.py",
+               # sha256 (probe_threshold_arm) takes a Path, not a str.
+               "sources": {p: sha256(Path(p)) for p in ("analyse_certificate.py", "probe_certificate.py",
                                                     "analyse_beta_sweep.py")}}
     (OUT / "verdict.json").write_text(json.dumps(verdict, indent=2, default=float) + "\n",
                                       encoding="utf-8")

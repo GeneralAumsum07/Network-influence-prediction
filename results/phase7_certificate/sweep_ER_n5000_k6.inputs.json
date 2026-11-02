@@ -1,0 +1,14 @@
+{
+  "tag": "ER_n5000_k6",
+  "sweep": "sweep_ER_n5000_k6.csv",
+  "inputs": {
+    "cache_features_ER_n5000_k6.csv": "b7a03cc1b76293686c5d99a8450fd6ec8a7f2f420a0d4568a0694c98c15ed99a",
+    "cache_registry_ER_n5000_k6.csv": "8257617ccb48b45e600d6a56f7a5e89af1471252159257bfa7786c7beba7b88f",
+    "cache_targets_ER_n5000_k6.csv": "68b4271e66c80acf32d33bed3c0bb51db43d0f95d7f1dcc31e12a1ccb070384c",
+    "cache_meta_ER_n5000_k6.json": "b647e78471984667a10eb655874f3c2a6816f8b54c2f1447dab6e32839ea5d71"
+  },
+  "recorded": "2026-11-02T15:28:35+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

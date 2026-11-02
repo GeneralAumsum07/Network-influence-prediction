@@ -1,0 +1,14 @@
+{
+  "tag": "BA_n5000_m3",
+  "sweep": "sweep_BA_n5000_m3.csv",
+  "inputs": {
+    "cache_features_BA_n5000_m3.csv": "e7efb974448e303e9378afaab14f117cd0938db2b3f479d07f8ed9441b402be0",
+    "cache_registry_BA_n5000_m3.csv": "1a2abf3ee1e422d2baef1962c44d45c2f77a273f75bc1aa76bda16c4cdbcf614",
+    "cache_targets_BA_n5000_m3.csv": "9239d0da8a63f68f1853760ce0b8960364c2d2e093d7488faaade0043bfd26a3",
+    "cache_meta_BA_n5000_m3.json": "0ae50967432d17df94e2203798b7363f15f1ef5c32266992221d41e87f8605b5"
+  },
+  "recorded": "2026-11-02T15:34:00+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}

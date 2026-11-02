@@ -1,0 +1,14 @@
+{
+  "tag": "CL_n5000_g4_k6",
+  "sweep": "estimators/sweep_CL_n5000_g4_k6__rf_log1p.csv",
+  "inputs": {
+    "cache_features_CL_n5000_g4_k6.csv": "eb71854820299bd050d0fc4cba02a834f48e7b0924734786d6a68959aaa555dd",
+    "cache_registry_CL_n5000_g4_k6.csv": "dcffcc19f2f14f279962431a929738fe2956059c6c329e791d29ee97c2f6ddf4",
+    "cache_targets_CL_n5000_g4_k6.csv": "cb3b7949fd2dddc9ecf9214b6161dd398518aacbc204f270e90f4502a2c3f6bc",
+    "cache_meta_CL_n5000_g4_k6.json": "95783965843e8867d11c91823d9407cf895e5092bbbaebd932f49b282317f7dd"
+  },
+  "recorded": "2026-11-02T15:25:15+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (Claude Opus 5, 2026-09-11, P2-04)"
+}
