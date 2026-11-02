@@ -1765,7 +1765,7 @@ gap adds nothing once the duel ratio is controlled cannot be tested here.
 - No regression of ρ̄ on the NB gap across all 11 graphs. Each would need its own
   registration.
 
-## L6 realisation-noise calibration — execution definitions — 2026-11-02 23:34 IST — before any replicate graph is generated
+## L6 realisation-noise calibration — execution definitions — 2026-11-02 23:30 IST — before any replicate graph is generated
 
 ### A. Why, and what this cannot do
 

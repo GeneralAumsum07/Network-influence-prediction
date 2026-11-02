@@ -1,0 +1,60 @@
+{
+  "timings": {
+    "hop0_node": 3.91000066883862e-05,
+    "hop1_ego": 0.31664019999152515,
+    "hop1_neighbor_degree_agg": 0.09223899999051355,
+    "hop2_neighbor_structure_agg": 0.1843257000000449,
+    "hop1_ego_betweenness": 0.08959690001211129,
+    "h_index_order_1": 0.024271200003568083,
+    "h_index_order_2": 0.024075599998468533,
+    "h_index_order_3": 0.022910600004252046,
+    "shells_ci_hop_1": 0.07097390027774964,
+    "shells_ci_hop_2": 0.3193045996595174,
+    "shells_ci_hop_3": 0.6709599002497271,
+    "hop1_clusterrank": 6.259999645408243e-05,
+    "hop3_semilocal": 0.01752649999980349,
+    "graphlet_orbits": 0.5767485000105808,
+    "edge_orbits": 0.1830404000065755
+  },
+  "beta_c": 0.06671908528474162,
+  "p": 0.10007862792711242,
+  "multiple": 1.5,
+  "n_sims": 4000,
+  "convention": "uniform",
+  "simulation_seed": 0,
+  "max_hop": 3,
+  "n": 4897,
+  "m": 14943,
+  "mean_degree": 6.10292015519706,
+  "stage_seconds": {
+    "cascades": 1.0510141849517822,
+    "features": 2.6714975833892822,
+    "targets": 2.1486923694610596
+  },
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "scikit-learn": "1.9.0",
+    "pandas": "3.0.5",
+    "python-igraph": "1.0.0"
+  },
+  "provenance": {
+    "source": "..\\..\\..\\..\\data\\synthetic\\s2\\CL_n5000_g3_k6.txt",
+    "raw_edge_rows": 14943,
+    "self_loops_removed": 0,
+    "multi_edges_collapsed": 0,
+    "reciprocated_pairs_folded": 0,
+    "duplicate_rows_folded_total": 0,
+    "multi_edge_semantics": "same-orientation duplicates (since 2026-09-11)",
+    "nodes_before_lcc": 4897,
+    "nodes_after_lcc": 4897,
+    "nodes_dropped_by_lcc": 0,
+    "components_found": 1,
+    "symmetrized": true,
+    "weights_discarded": true,
+    "source_sha256": "f09cb1f3e4dca52f44dbb001a90e4608341366fb69bf2cb25ef0ca0868b2e44f",
+    "source_bytes": 157980,
+    "rows_unparsed": 0
+  }
+}
