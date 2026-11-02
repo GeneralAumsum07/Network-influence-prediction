@@ -1832,3 +1832,75 @@ Notation:
 - The run is one pass of 9 graphs. There is no follow-on rule.
 - **Projected time (inference):** about 4 min of stage 2 per graph, from L6's
   measured 214–249 s, plus under 40 s of stage 1, giving ≈ 40 min.
+
+## L6 realisation-noise calibration — reported addendum — 2026-11-03 00:10 IST — Claude Opus 5.5
+
+**Run.** `python probe_realisation.py fit`, 23:33:53 → 00:05:05 (31 min, against a
+projected ≈ 00:15). All 9 graphs are complete at 80 cells each, with no refit
+reconciliation needed. The outputs are `results/phase7_certificate/realisations/`
+`rho_by_realisation.csv` and `calibration.json`. Nothing here is scored, and L6
+remains FLAT.
+
+### Reported (part D)
+
+**ρ̄ = τ₁/τ₃ by realisation** (k = 0 is L6's graph):
+
+| γ_target | k = 0 | k = 1 | k = 2 | k = 3 | s_γ (realisation) | mean fitting sd |
+|---|---:|---:|---:|---:|---:|---:|
+| 2.1 | .9891 | .9867 | .9892 | .9893 | .0013 | .0005 |
+| 3.0 | .9376 | .9469 | .9439 | .9498 | .0052 | .0005 |
+| 4.0 | .9715 | .9708 | .9676 | .9719 | .0020 | .0006 |
+
+1. **Realisation sd.**
+   - sd_real = **0.0033**.
+   - sd_fit = 0.0005 over the same 12 graphs, and L6's sd_pool was 0.00048.
+   - **sd_real / sd_fit = 6.0.** Graph-to-graph noise is six times the fitting noise
+     that L6's magnitude condition used, and largest at γ = 3.0.
+2. **L6's end-to-end gap.**
+   - m(2.1) − m(4.0) = 0.0181 over all 4 realisations, and 0.0182 over seeds 1–3.
+   - 2·sd_real = 0.0066.
+   - The gap clears the realisation yardstick by 2.7×, against the 18× it showed
+     on the fitting yardstick.
+3. **The dip, on seeds 1–3 only.**
+   - D = **−0.032**, with SE 0.0019 and D/SE = −17.4.
+   - In each of the three new realisations the order is ρ̄(3.0) < ρ̄(4.0) < ρ̄(2.1).
+   - **Caveats:**
+     - the SE rests on 3 draws per γ, so it is itself poorly estimated;
+     - the realisations share a generator seed across γ within each k;
+     - only three γ values are fitted, so where the minimum falls between 2.8 and
+       3.3 is not located.
+   - As registered, this describes the dip. It is not a test.
+4. **Structure across realisations (mean ± sd over k = 0..3):**
+
+   | γ_target | LCC n | ⟨k⟩ | NB gap |
+   |---|---|---|---|
+   | 2.1 | 4326 ± 47 | 6.85 ± .11 | .825 ± .007 |
+   | 3.0 | 4905 ± 12 | 6.09 ± .02 | .644 ± **.076** |
+   | 4.0 | 4962 ± 9 | 6.03 ± .03 | .618 ± .005 |
+
+   The part A drift replicates: n rises and ⟨k⟩ falls along γ, by far more than
+   their realisation sd.
+
+### Reading (inference)
+
+- **The U-shape is not one graph's noise.** The dip is about 10× sd_real and appears
+  in every new draw.
+  - On this generator, at n = 5000 and ⟨k⟩ = 6, ρ depends on γ non-monotonically.
+  - L6's FLAT therefore means "no monotone trend". It does not mean "γ does not
+    matter". The registered Kendall rule could only detect a monotone trend, so it
+    was the wrong instrument for this shape.
+  - The verdict stands as registered. How it is worded is Rachit's decision.
+- **The dip is not explained by the NB gap.** At γ = 3.0 the gap varies from .548
+  to .705 across draws while ρ̄ stays within .938–.950, with no ordering between
+  them. Beyond that, the cause of the dip is not identified, and the part A drift
+  in n and ⟨k⟩ is a candidate that has not been ruled out.
+- **For later synthetic trend tests.** Any noise yardstick built from fitting seeds
+  on one graph per condition understates the noise about 6×. The defensible design
+  uses several generator realisations per condition, with the realisation sd as the
+  yardstick. Choosing that rule is Rachit's decision.
+
+### Not done here
+
+- No test of the U-shape.
+- No fit at the intermediate γ values of the new seeds.
+- No attempt to explain the dip, for example by holding n and ⟨k⟩ fixed.
