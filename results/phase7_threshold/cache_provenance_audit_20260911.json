@@ -1,0 +1,82 @@
+{
+  "recorded_by": "record_cache_provenance_audit.py (Claude Opus 5)",
+  "recorded_on": "2026-09-11",
+  "note": "sidecar to cache_meta_<tag>.json; those files are hash-bound by Phase 6 provenance records and are deliberately not modified",
+  "networks": {
+    "ca-GrQc": {
+      "cache_meta_sha256": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b",
+      "source_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+      "source_bytes": 351704,
+      "rows_unparsed": 0,
+      "raw_edge_rows": 28980,
+      "multi_edges_collapsed": 0,
+      "reciprocated_pairs_folded": 14484,
+      "duplicate_rows_folded_total": 14484,
+      "multi_edge_semantics": "same-orientation duplicates (since 2026-09-11)",
+      "matches_manifest_sha256": true,
+      "reconciles_legacy_multi_edge_count": true,
+      "reconciles_graph_size": true,
+      "legacy_multi_edges_collapsed_meaning": "pre-2026-09-11 sum of same-orientation duplicates and reciprocated pairs (P1-03)"
+    },
+    "ca-HepTh": {
+      "cache_meta_sha256": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388",
+      "source_sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+      "source_bytes": 658826,
+      "rows_unparsed": 0,
+      "raw_edge_rows": 51971,
+      "multi_edges_collapsed": 0,
+      "reciprocated_pairs_folded": 25973,
+      "duplicate_rows_folded_total": 25973,
+      "multi_edge_semantics": "same-orientation duplicates (since 2026-09-11)",
+      "matches_manifest_sha256": true,
+      "reconciles_legacy_multi_edge_count": true,
+      "reconciles_graph_size": true,
+      "legacy_multi_edges_collapsed_meaning": "pre-2026-09-11 sum of same-orientation duplicates and reciprocated pairs (P1-03)"
+    },
+    "email-Eu-core": {
+      "cache_meta_sha256": "155de0bd18b22570b711439e40b35af5bd0b85b4979a5509c94659d1d7b1101a",
+      "source_sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+      "source_bytes": 192698,
+      "rows_unparsed": 0,
+      "raw_edge_rows": 25571,
+      "multi_edges_collapsed": 0,
+      "reciprocated_pairs_folded": 8865,
+      "duplicate_rows_folded_total": 8865,
+      "multi_edge_semantics": "same-orientation duplicates (since 2026-09-11)",
+      "matches_manifest_sha256": true,
+      "reconciles_legacy_multi_edge_count": true,
+      "reconciles_graph_size": true,
+      "legacy_multi_edges_collapsed_meaning": "pre-2026-09-11 sum of same-orientation duplicates and reciprocated pairs (P1-03)"
+    },
+    "facebook_combined": {
+      "cache_meta_sha256": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c",
+      "source_sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296",
+      "source_bytes": 854362,
+      "rows_unparsed": 0,
+      "raw_edge_rows": 88234,
+      "multi_edges_collapsed": 0,
+      "reciprocated_pairs_folded": 0,
+      "duplicate_rows_folded_total": 0,
+      "multi_edge_semantics": "same-orientation duplicates (since 2026-09-11)",
+      "matches_manifest_sha256": true,
+      "reconciles_legacy_multi_edge_count": true,
+      "reconciles_graph_size": true,
+      "legacy_multi_edges_collapsed_meaning": "pre-2026-09-11 sum of same-orientation duplicates and reciprocated pairs (P1-03)"
+    },
+    "p2p-Gnutella08": {
+      "cache_meta_sha256": "33b473fa95c051759d7748002c228bb9740c8c9dee0e7ff3ec5f725e301c2a17",
+      "source_sha256": "fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499",
+      "source_bytes": 215359,
+      "rows_unparsed": 0,
+      "raw_edge_rows": 20777,
+      "multi_edges_collapsed": 0,
+      "reciprocated_pairs_folded": 0,
+      "duplicate_rows_folded_total": 0,
+      "multi_edge_semantics": "same-orientation duplicates (since 2026-09-11)",
+      "matches_manifest_sha256": true,
+      "reconciles_legacy_multi_edge_count": true,
+      "reconciles_graph_size": true,
+      "legacy_multi_edges_collapsed_meaning": "pre-2026-09-11 sum of same-orientation duplicates and reciprocated pairs (P1-03)"
+    }
+  }
+}

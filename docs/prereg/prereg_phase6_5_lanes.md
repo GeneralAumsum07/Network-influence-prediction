@@ -1066,3 +1066,197 @@ reported, and a pair whose spread_θ ceiling τ is ≤ 0 is unscored, because
    - the isolated-node guard;
    - the N[i] lower bound.
 2. The four gates stay green after every change (§4).
+
+## L5 run status — 2026-11-02 16:09 IST — before any L5 fit
+
+Written by Claude Opus 5.5.
+- **Decided by Rachit in chat (16:04):** keep spread_θ as the primary target and add
+  the ignition indicator as a secondary target, disclosed as added after the gate.
+- **Agent definitions:** how stage 2 is fed (part B), which the 10:55 definitions
+  deferred to this addendum.
+
+The gate ran at 10:56 (`results/phase7_threshold/gate.json`, committed in fd225f1).
+Three pairs pass, all at θ = 0.2: ca-GrQc, ca-HepTh and email-Eu-core. No model has
+been fitted on any L5 target.
+
+### A. Secondary target, added after the gate
+
+- **Definition:** ignites_θ(i) = 1 if spread_θ(i) > 0.05 · n, else 0. This is the
+  gate's own per-node indicator. Column name `ignites_theta0.2`.
+- **Why it was added.** The gate showed spread_θ to be close to binary on the passing
+  pairs. Measured 2026-11-02 from `sizes_<tag>.npz`, before any fit:
+
+  | network | untied pairs ignite vs fizzle | both fizzle | both ignite | τ(spread_θ, degree), fizzlers only |
+  |---|---:|---:|---:|---:|
+  | ca-GrQc | 0.72 | 0.20 | 0.08 | 0.36 |
+  | ca-HepTh | 0.73 | 0.25 | 0.02 | 0.33 |
+  | email-Eu-core | 0.67 | 0.16 | 0.17 | 0.74 |
+
+  So most of spread_θ's rankable pairs are already the ignition question. The
+  both-fizzle pairs are ranked largely by degree, and degree leans toward a small r\*
+  (caveat B of the 10:55 definitions). ignites_θ drops those pairs.
+- **Status.** It was chosen after seeing the target's distribution and before any
+  fit. It is scored per pair by the part D rule and reported beside spread_θ. **It
+  does not enter the lane verdict,** which stays on spread_θ alone.
+- **If the two targets give different r\*,** that difference is reported as a
+  finding. It is not reconciled or averaged.
+
+### B. How stage 2 is fed
+
+**Directory.** cwd is `results/phase7_threshold/` for every passing network.
+
+**Files, per network.**
+- **Copied byte for byte from the repo root:** `cache_features_<tag>.csv`,
+  `cache_registry_<tag>.csv`, `cache_meta_<tag>.json`.
+  - Each copy is checked by SHA-256 against its root original.
+  - The features' `node` and `original_id` columns are checked against the same
+    columns in `sizes_<tag>.npz`.
+  - Any mismatch refuses before a fit.
+- **Also copied byte for byte:** `cache_provenance_audit_20260911.json`.
+  - With it, stage 2's source-identity line finds the recorded edge-list hash.
+  - Stage 2 resolves the meta's relative edge-list path against its cwd, where the
+    file does not exist. It reports this and carries on (non-fatal, by its design).
+    The controller therefore hashes each edge list itself against the audit record
+    before any fit.
+- **New:** `cache_targets_<tag>.csv`, with the columns `node`, `spread_theta0.2` and
+  `ignites_theta0.2`.
+  - It is built from `sizes_<tag>.npz`. These are the gate's own numbers, not a
+    re-run of the cascade.
+
+**Command.** Unmodified: `stage2_sweep.py <tag> spread_theta0.2,ignites_theta0.2 3 10`.
+
+**Dynamic tier: a disclosed deviation from part D.** Part D drops the `dynamic`
+tier. But stage 2 has no tier argument and fits every rung of `TIER_LADDER`. The
+options were:
+1. edit stage 2, which part D registers as unmodified;
+2. strip the two dynamic columns, which makes rung 4 an exact duplicate of rung 3:
+   40 identical fits per target, filed under a "dynamic" label;
+3. fit the dynamic rung and never score it.
+
+The choice is (3).
+- Rung 4 carries the root cache's two IC-derived dynamic columns. They were
+  computed at 1.5×, not for the threshold model.
+- It is reported, labelled unscored. r\* uses `node+edge+subgraph`, as part D says.
+- **Cost (inference):** about 20 of roughly 90 minutes, estimated from the root
+  sweep's spread_mean fit times on these three networks.
+
+**Cells.** 2 targets × 4 radii × 4 rungs × 10 seeds = 320 per network, 960 in all.
+
+**Pinning and resume.**
+- `results/phase7_threshold/sources.json` records SHA-256 for:
+  - `stage2_sweep.py` and every repo module it imports;
+  - the root caches that were copied;
+  - the three edge lists;
+  - `influence/threshold_dynamics.py`.
+- The controller checks it before each network, and a mismatch stops the run. The
+  recorded hashes are never rewritten to pass.
+- The lock, the stage runner and the refit reconciliation are imported from
+  `probe_beta_sweep.py`, not reimplemented. The L1 sweep exercised them through
+  three host resets.
+
+**Order.** Smallest network first: email-Eu-core, ca-GrQc, ca-HepTh.
+- The prereg's pilot/full split assumed 2 of 10 pairs for the pilot. Only three pairs
+  pass, so all three are fitted in this one run.
+- Each network is logged COMPLETE once exactly its 320 cells and their OOF
+  predictions are present.
+
+### C. Scoring
+
+`analyse_threshold_arm.py` applies part D of the 10:55 definitions to both targets:
+- the relative ε = 0.05 rule, unchanged;
+- ε = 0.10 and ε = 0.02 reported beside it;
+- the paired-noise rule (rule 2) reported beside it, not scored.
+
+The lane verdict is computed on spread_θ only, as part A says.
+
+## L5 exact r-local probe — 2026-11-02 16:59 IST — before any computation and before L5 scoring
+
+Written by Claude Opus 5.5.
+- **Decided by Rachit in chat (16:58):** "go ahead" on building the threshold model's
+  own r-local estimate, as a zero-training probe beside L5. It is not a stage-2 tier.
+- **Agent definitions, open to Rachit's veto:** the rule and flags below.
+
+**State when this was written.**
+- No L5 r\* has been computed.
+- The fit logs print mean τ per grid row. I have seen two of them while checking
+  progress:
+  - email-Eu-core, spread_θ, r=0 node: τ 0.689;
+  - ca-GrQc, r=3 node+edge and node+edge+subgraph: 0.592 and 0.595.
+- No truncated cascade has been run on any real network.
+
+### A. Why
+
+L5's fitted tiers are structural. IC also has a dynamic rung (`perc_reach_*`), but
+the threshold model had no estimate of its own. Unlike IC, the threshold model is
+deterministic. So what a radius-r observer can know about the cascade is exactly
+computable: run the cascade inside the radius-r ball. That tests the counter-
+hypothesis ("ignition is decided by whether N[i] touches a vulnerable pair → r\* ≤
+2") with no learner in between. It is the threshold model's analogue of L3.
+
+### B. Definition
+
+For seed node i, radius r and θ = 0.2, let B_r(i) be the set of nodes within
+shortest-path distance r of i.
+- **Start:** A ← N[i].
+- **Activation:** an inactive j activates iff j ∈ B_r(i) and |N(j) ∩ A| / k_j ≥ θ.
+  - k_j is j's full degree, so a neighbour outside the ball counts as inactive.
+  - The test is exact, in integers, exactly as in `threshold_cascade_sizes`.
+- **Iterate to the fixed point.** trunc_r(i) = |A|.
+
+**Properties, each checked by the verifier.**
+- trunc_r ≤ spread_θ.
+- trunc_r does not decrease as r grows.
+- trunc_r = spread_θ once B_r(i) is the whole graph.
+- For r ≤ 1, B_r(i) ⊆ N[i], so trunc_r = k_i + 1. That is degree, and r = 0 adds
+  nothing over r = 1.
+
+**Radius convention.** Deciding j's activation needs k_j. That is the same convention
+as degree being a hop-0 feature of i, so radius r uses only what the hop-r feature
+tiers may use.
+
+**Code.**
+- New module `influence/threshold_local.py`, with `verify_threshold_local.py`.
+- New script `probe_threshold_local.py`, writing
+  `results/phase7_threshold/local_exact.json`.
+- No pinned file is touched. `influence/threshold_dynamics.py` is imported, not
+  edited.
+
+### C. What is computed
+
+On the three passing networks at θ = 0.2, for r = 1, 2, 3 (scored) and r = 4, 5 (for
+convergence only):
+- **τ_r:** Kendall τ-b(trunc_r, spread_θ) over all n nodes. There are no seeds; the
+  value is exact.
+- **τ_r^ign:** τ-b(trunc_r, ignites_θ).
+- **certified_r:** the fraction of igniting nodes with trunc_r > 0.05 · n. Because
+  trunc_r is a lower bound, these nodes are proven to ignite from radius-r
+  information alone.
+- **coverage_r:** the mean and median of |B_r(i)| / n.
+
+### D. Rule
+
+**spread_θ.**
+- r\*_exact is the smallest r ∈ {1, 2, 3} with τ_r ≥ 0.95. Otherwise it is "> 3".
+- The ceiling is exactly 1, reached at the graph's eccentricity, so 0.95 is the
+  relative ε = 0.05 rule against a known ceiling.
+
+**ignites_θ.**
+- ceiling^ign = τ-b(spread_θ, ignites_θ). This is below 1, because the indicator ties
+  what spread_θ ranks.
+- r\*_exact^ign is the smallest r ∈ {1, 2, 3} with τ_r^ign ≥ 0.95 · ceiling^ign.
+
+**Reading against the counter, per network.**
+- r\*_exact ≤ 2 → the probe supports the counter.
+- r\*_exact = 3 or > 3 → it does not.
+
+**Coverage flag.** If coverage_r (mean) ≥ 0.5 at the r\*_exact that is reported, the
+result is flagged **"ball near-global"**. Support from a ball that holds half the
+graph is not evidence of locality, and the scored text must say so.
+
+### E. Status
+
+- The probe is reported beside L5. **It does not enter the L5 lane verdict.**
+- It aggregates nothing across networks; each network is reported separately.
+- It runs after `verify_threshold_local.py` passes. It reads no fit output, so it can
+  run while the stage-2 fits are in progress. Its CPU load slows them but cannot
+  change their results.
