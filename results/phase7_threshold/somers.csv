@@ -1,0 +1,7 @@
+network,target,ceiling_somers,r_mean_somers,agree_mean,r_star_somers,agree,outcome
+email-Eu-core,spread_theta0.2,0.8896430562780541,1,10/10,1,10/10,counter
+email-Eu-core,ignites_theta0.2,0.9751765390434073,1,10/10,0,10/10,counter
+ca-GrQc,spread_theta0.2,0.7376189011204595,1,10/10,2,10/10,both
+ca-GrQc,ignites_theta0.2,0.916553618440064,1,10/10,2,10/10,both
+ca-HepTh,spread_theta0.2,0.7542378832953872,2,10/10,2,10/10,counter
+ca-HepTh,ignites_theta0.2,0.8824982411450751,2,10/10,2,10/10,counter

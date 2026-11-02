@@ -1,0 +1,210 @@
+{
+  "registered_in": [
+    "prereg 2026-11-02 10:55 part D",
+    "prereg 2026-11-02 16:09 parts A, C"
+  ],
+  "lane_prediction": "NOT SUPPORTED",
+  "lane_counter": "SUPPORTED",
+  "spread_outcomes": [
+    "counter",
+    "both",
+    "counter"
+  ],
+  "ignites_outcomes_secondary": [
+    "counter",
+    "both",
+    "counter"
+  ],
+  "pairs": [
+    {
+      "network": "email-Eu-core",
+      "theta": 0.2,
+      "target": "spread_theta0.2",
+      "role": "primary",
+      "ceiling_tau": 0.7642986302261868,
+      "scored": true,
+      "r_star_rule2": 2,
+      "r_mean_rel005": 1,
+      "r_mean_rule2": 3,
+      "r_star_rel0.1": 0,
+      "agree_rel0.1": "5/10",
+      "r_star_rel0.05": 1,
+      "agree_rel0.05": "10/10",
+      "r_star_rel0.02": 1,
+      "agree_rel0.02": "10/10",
+      "outcome": "counter"
+    },
+    {
+      "network": "email-Eu-core",
+      "theta": 0.2,
+      "target": "ignites_theta0.2",
+      "role": "secondary (post-gate)",
+      "ceiling_tau": 0.7560246345115743,
+      "scored": true,
+      "r_star_rule2": 2,
+      "r_mean_rel005": 1,
+      "r_mean_rule2": 3,
+      "r_star_rel0.1": 0,
+      "agree_rel0.1": "10/10",
+      "r_star_rel0.05": 0,
+      "agree_rel0.05": "10/10",
+      "r_star_rel0.02": 1,
+      "agree_rel0.02": "10/10",
+      "outcome": "counter"
+    },
+    {
+      "network": "ca-GrQc",
+      "theta": 0.2,
+      "target": "spread_theta0.2",
+      "role": "primary",
+      "ceiling_tau": 0.5946027187912306,
+      "scored": true,
+      "r_star_rule2": 3,
+      "r_mean_rel005": 1,
+      "r_mean_rule2": 3,
+      "r_star_rel0.1": 2,
+      "agree_rel0.1": "10/10",
+      "r_star_rel0.05": 2,
+      "agree_rel0.05": "10/10",
+      "r_star_rel0.02": 2,
+      "agree_rel0.02": "8/10",
+      "outcome": "both"
+    },
+    {
+      "network": "ca-GrQc",
+      "theta": 0.2,
+      "target": "ignites_theta0.2",
+      "role": "secondary (post-gate)",
+      "ceiling_tau": 0.6288928026027404,
+      "scored": true,
+      "r_star_rule2": 3,
+      "r_mean_rel005": 1,
+      "r_mean_rule2": 3,
+      "r_star_rel0.1": 2,
+      "agree_rel0.1": "10/10",
+      "r_star_rel0.05": 2,
+      "agree_rel0.05": "10/10",
+      "r_star_rel0.02": 3,
+      "agree_rel0.02": "7/10",
+      "outcome": "both"
+    },
+    {
+      "network": "ca-HepTh",
+      "theta": 0.2,
+      "target": "spread_theta0.2",
+      "role": "primary",
+      "ceiling_tau": 0.6200614409014218,
+      "scored": true,
+      "r_star_rule2": 3,
+      "r_mean_rel005": 2,
+      "r_mean_rule2": 3,
+      "r_star_rel0.1": 2,
+      "agree_rel0.1": "10/10",
+      "r_star_rel0.05": 2,
+      "agree_rel0.05": "10/10",
+      "r_star_rel0.02": 2,
+      "agree_rel0.02": "10/10",
+      "outcome": "counter"
+    },
+    {
+      "network": "ca-HepTh",
+      "theta": 0.2,
+      "target": "ignites_theta0.2",
+      "role": "secondary (post-gate)",
+      "ceiling_tau": 0.6209805201473418,
+      "scored": true,
+      "r_star_rule2": 3,
+      "r_mean_rel005": 2,
+      "r_mean_rule2": 3,
+      "r_star_rel0.1": 2,
+      "agree_rel0.1": "10/10",
+      "r_star_rel0.05": 2,
+      "agree_rel0.05": "10/10",
+      "r_star_rel0.02": 2,
+      "agree_rel0.02": "9/10",
+      "outcome": "counter"
+    }
+  ],
+  "sources": {
+    "analyse_threshold_arm.py": "650e02c8b72e928b5cead47087db970879e48807c80fba99e94dac7ffedf9e31",
+    "analyse_beta_sweep.py": "1537b12829b43c800e652679a0bc7076ddd3290be6d9f9c38d98aad4fb070743",
+    "probe_threshold_arm.py": "e885678dc5d80fa88290a4ae0a9a772d2532bf9f41232a1f032bb0c77bf8febd"
+  },
+  "somers_sensitivity": {
+    "registered_in": "prereg 2026-11-02 17:15 part B (sensitivity, not the verdict)",
+    "lane_prediction": "NOT SUPPORTED",
+    "lane_counter": "SUPPORTED",
+    "spread_outcomes": [
+      "counter",
+      "both",
+      "counter"
+    ],
+    "ignites_outcomes_secondary": [
+      "counter",
+      "both",
+      "counter"
+    ],
+    "pairs": [
+      {
+        "network": "email-Eu-core",
+        "target": "spread_theta0.2",
+        "ceiling_somers": 0.8896430562780541,
+        "r_mean_somers": 1,
+        "agree_mean": "10/10",
+        "r_star_somers": 1,
+        "agree": "10/10",
+        "outcome": "counter"
+      },
+      {
+        "network": "email-Eu-core",
+        "target": "ignites_theta0.2",
+        "ceiling_somers": 0.9751765390434073,
+        "r_mean_somers": 1,
+        "agree_mean": "10/10",
+        "r_star_somers": 0,
+        "agree": "10/10",
+        "outcome": "counter"
+      },
+      {
+        "network": "ca-GrQc",
+        "target": "spread_theta0.2",
+        "ceiling_somers": 0.7376189011204595,
+        "r_mean_somers": 1,
+        "agree_mean": "10/10",
+        "r_star_somers": 2,
+        "agree": "10/10",
+        "outcome": "both"
+      },
+      {
+        "network": "ca-GrQc",
+        "target": "ignites_theta0.2",
+        "ceiling_somers": 0.916553618440064,
+        "r_mean_somers": 1,
+        "agree_mean": "10/10",
+        "r_star_somers": 2,
+        "agree": "10/10",
+        "outcome": "both"
+      },
+      {
+        "network": "ca-HepTh",
+        "target": "spread_theta0.2",
+        "ceiling_somers": 0.7542378832953872,
+        "r_mean_somers": 2,
+        "agree_mean": "10/10",
+        "r_star_somers": 2,
+        "agree": "10/10",
+        "outcome": "counter"
+      },
+      {
+        "network": "ca-HepTh",
+        "target": "ignites_theta0.2",
+        "ceiling_somers": 0.8824982411450751,
+        "r_mean_somers": 2,
+        "agree_mean": "10/10",
+        "r_star_somers": 2,
+        "agree": "10/10",
+        "outcome": "counter"
+      }
+    ]
+  }
+}

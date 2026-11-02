@@ -1370,3 +1370,153 @@ analysis: it would mean the predictions are not the ones that were scored.
 - **If it agrees,** the verdict did not depend on tie-breaking.
 - **If it disagrees,** both are reported. The τ-b verdict remains the registered one,
   and the disagreement is stated as a limitation of it.
+
+## L5 scored addendum — 2026-11-02 17:44 IST — Claude Opus 5.5
+
+Scored by `analyse_threshold_arm.py` on 2026-11-02 at 17:42. Its outputs are in
+`results/phase7_threshold/`:
+- `rstar.csv`, `curves.csv` and `somers.csv`;
+- `verdict.json`, which records the sha256 of the scorer and of its imports.
+
+The fits finished at 17:41 and `controller.log` reads "ALL NETWORKS COMPLETE (3)":
+
+| network | cells | stage-2 time |
+|---|---:|---:|
+| email-Eu-core | 320 | 348 s |
+| ca-GrQc | 320 | 3018 s |
+| ca-HepTh | 320 | 2063 s |
+
+**What governs this addendum.** The rules are part D of the 10:55 definitions and parts
+A and C of the 16:09 run status; nothing here changes a rule.
+- The verdict and the per-pair outcomes are registered results.
+- The section "Reading the verdict against the r-local probes" is inference and is
+  labelled as such.
+- The wording of any claim is Rachit's.
+
+### Verdict (registered, part D, Kendall τ-b)
+
+**Lane: prediction NOT SUPPORTED, counter SUPPORTED.**
+
+Primary target spread_θ, θ = 0.2, tier `node+edge+subgraph`, relative ε = 0.05:
+
+| network | ceiling τ | r\*(spread_θ) | seeds agreeing | r\*(spread_mean) | outcome |
+|---|---:|---:|---:|---:|---|
+| email-Eu-core | 0.764 | 1 | 10/10 | 1 | counter |
+| ca-GrQc | 0.595 | 2 | 10/10 | 1 | both |
+| ca-HepTh | 0.620 | 2 | 10/10 | 2 | counter |
+
+**How the outcomes combine.**
+- ca-GrQc is "both": 2 ≥ 1 + 1 and 2 ≤ 2. It counts for neither.
+- Over the two remaining pairs, the prediction holds on none and the counter holds on
+  both.
+- r\*(spread_mean) equals the registered root values (1 / 2 / 1). The scorer checks
+  this and refuses to run otherwise.
+- Every ceiling τ is positive, so every pair is scored.
+
+**Seed-mean τ by radius, `node+edge+subgraph`, spread_θ:**
+
+| network | r = 0 | r = 1 | r = 2 | r = 3 |
+|---|---:|---:|---:|---:|
+| email-Eu-core | 0.689 | 0.757 | 0.764 | 0.764 |
+| ca-GrQc | 0.308 | 0.504 | 0.586 | 0.595 |
+| ca-HepTh | 0.405 | 0.517 | 0.613 | 0.620 |
+
+### Reported beside the primary (not scored)
+
+**ε = 0.10 and ε = 0.02.** The ε = 0.02 values do not change any outcome.
+
+| network | r\* at ε = 0.10 | r\* at ε = 0.02 |
+|---|---|---|
+| email-Eu-core | 0 (5/10 seeds) | 1 (10/10) |
+| ca-GrQc | 2 (10/10) | 2 (8/10) |
+| ca-HepTh | 2 (10/10) | 2 (10/10) |
+
+**Rule 2 (paired noise).**
+- r\*(spread_θ) is 2 / 3 / 3 (email, GrQc, HepTh), and r\*(spread_mean) is 3 on all
+  three.
+- As part A of 10:55 said, the prediction cannot hold under rule 2 when radii stop at
+  3.
+
+**ignites_θ, the post-gate secondary (16:09 part A), outside the lane verdict.**
+- Ceiling τ: 0.756 / 0.629 / 0.621.
+- r\*: 0 / 2 / 2.
+- Outcomes: counter / both / counter. These match the primary pair for pair.
+
+**The dynamic rung (16:09 part B deviation), descriptive only.**
+- `node+edge+subgraph+dynamic` equals `node+edge+subgraph` to three decimals at every
+  radius on all three networks.
+- The IC-specific dynamic features add nothing to either threshold target.
+
+### Somers' D sensitivity (17:15 part B, not the verdict)
+
+**Consistency check.** τ-b recomputed from the stored out-of-fold predictions matched
+the sweep CSVs' `kendall_tau` within 1e-9 on every cell. The scorer refuses to run on
+any mismatch.
+
+| network | target | ceiling D | r\*(θ), agreement | r\*(spread_mean) under D | outcome |
+|---|---|---:|---|---:|---|
+| email-Eu-core | spread_θ | 0.890 | 1, 10/10 | 1 | counter |
+| ca-GrQc | spread_θ | 0.738 | 2, 10/10 | 1 | both |
+| ca-HepTh | spread_θ | 0.754 | 2, 10/10 | 2 | counter |
+
+**Lane under Somers' D:** prediction NOT SUPPORTED, counter SUPPORTED. The ignites
+outcomes are counter / both / counter.
+
+**The two statistics agree on every pair,** so the verdict did not depend on τ-b's
+penalty for breaking the target's ties.
+- That penalty is large in level. D is 0.13–0.14 above τ-b on spread_θ, and 0.22–0.29
+  above it on ignites_θ.
+- It does not change where the curves flatten.
+
+### Reading the verdict against the r-local probes (inference)
+
+**The verdict measures where the learned curve flattens.** The 16:59 and 17:15 probes
+measure what exact radius-r information is worth. The two disagree, and the
+disagreement is the main qualification on this lane:
+
+| network | learned, r = 2 → 3 | exact trunc_r, r = 2 → 3 → 5 | censored, r = 3 → 4 |
+|---|---|---|---|
+| email-Eu-core | 0.764 → 0.764 | 0.802 → 0.818 → 0.998 | 0.710 → 0.969 |
+| ca-GrQc | 0.586 → 0.595 | 0.533 → 0.622 → 0.705 | 0.570 → 0.718 |
+| ca-HepTh | 0.613 → 0.620 | 0.613 → 0.696 → 0.774 | 0.550 → 0.702 |
+
+1. **At r = 3 the learned model is below the single exact r-local scalar on all three
+   networks**: by 0.054, 0.027 and 0.076 τ (email, GrQc, HepTh).
+   - trunc_3 uses only radius-3 information.
+   - So at least that much rank information is available within 3 hops but is not
+     captured by the feature tiers as fitted.
+   - The comparison is between a trained regressor's out-of-fold τ and an untrained
+     scalar's in-sample τ. The scalar has no parameters, so overfitting cannot account
+     for the gap.
+2. **From r = 2 to r = 3 the learned curve gains 0.000 / 0.009 / 0.007,** while the
+   exact scalar gains 0.016 / 0.089 / 0.083.
+   - The flattening that puts r\* at ≤ 2 is a property of the feature tiers, not of the
+     threshold dynamics.
+   - On the two collaboration networks the exact information keeps rising through
+     r = 5.
+3. **What the lane result supports, then:**
+   - **Supported:** "with the project's radius-r feature tiers, threshold spread is no
+     less local than mean IC spread".
+   - **Not supported:** "threshold influence is decided within 2 hops". Both probes
+     reject that on all three networks.
+4. **Bias toward the counter.** The 10:55 caveat (part B) said fizzles of size
+   k_i + 1 favour a small r\*, and it applies here.
+   - At r = 0, where the features are degree and other node-level facts, τ is already
+     0.689 on email-Eu-core. That is 90% of its ceiling, and it is why email's r\* is 1.
+   - The fizzle mass is 33% / 37% / 42% (email, GrQc, HepTh): the shares of nodes that
+     do not ignite at the gate.
+
+**Probe caveats (from the 17:15 work, repeated here so they travel with the result).**
+- The censored predictor discards the ordering among escaped nodes.
+- On email-Eu-core at r ≥ 4 it re-breaks the target's ties: contained igniters get
+  their exact size and escaped nodes get n + 1. That is why τ_cens falls from 0.969
+  at r = 4 to 0.885 at r = 5.
+- At the scored radii, contained igniters are ≤ 0.3% on email-Eu-core and 0 on the
+  collaboration networks.
+
+### Not done here
+
+- No refit.
+- No change to any registered rule.
+- No new probe.
+- L6 is the next lane.
