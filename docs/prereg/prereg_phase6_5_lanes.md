@@ -802,3 +802,267 @@ p2p-Gnutella08's spread_mean arm.
 
 **Lane status.** The standalone and the gate are scored. The add-one fit waits for a
 protocol addendum and Rachit's decision whether to run it at all.
+
+## L1 scored addendum — 2026-11-02 04:05 IST — Claude Opus 5.5
+
+**DRAFT. The claim wording (the paragraph marked "Claim") is Rachit's to set.**
+Everything else reports what the registered rules output.
+
+Full sweep: 25 units (5 networks × m ∈ {0.8, 1.0, 1.25, 2.0, 3.0}), all complete
+2026-11-02 01:29 IST. Scored 02:29 by `analyse_beta_sweep.py score`. Evidence:
+`results/phase6_5_beta/rstar.csv` and `verdict.json` (commit 1bd2924), the per-unit
+`m<m>/sweep_<tag>.csv`, and the locator in `locator/` (recorded 2026-10-12 12:29,
+before any sweep cell). `verify_beta_sweep.py` passes 72/72. It is a synthetic
+self-test of the rules and the controller's guards, not a re-check of the sweep data.
+Definitions are as registered on 2026-09-12, 2026-09-14 and 2026-10-12 (12:15, 12:31,
+13:44).
+
+**Disclosed changes during the run.** No prediction, rule, threshold or target changed.
+All three changes are in the unpinned controller `probe_beta_sweep.py`. Each one
+stopped the run, and each loosening was Rachit's decision.
+
+1. **β_c identity tolerance (d63b870, 2026-10-15).**
+   - E3 compared stage 1's recomputed β_c with the root cache's to a hand-set relative
+     1e-12. That value was chosen from a single 1.7e-14 observation.
+   - ca-GrQc@1.25 came in at 1.37e-12 and the sweep stopped. Its draws were
+     bit-identical and χ was 0.008 SE away.
+   - The bound is now the eigensolve's own tol, 1e-8. Draw bit-identity and the
+     registered 3-SE test are unchanged.
+2. **Refit duplicates (85067cd, 2026-10-13).**
+   - A host reset inside a stage 2 grid row leaves cells with a CSV row but no stored
+     prediction. On resume they are refitted, which appends a second row.
+   - The controller now drops the stale copy, provided the duplicate qualifies under
+     item 3, and records the dropped copy in `refit_duplicates_<tag>.csv`.
+   - This happened in three units: facebook_combined@1.25, p2p-Gnutella08@2.0 and
+     ca-HepTh@3.0.
+3. **Refit score tolerance (e5a1c11, a0c69ac, 2026-11-01).**
+   - Identity and input columns are compared byte for byte.
+   - The five score columns are compared within an absolute 1e-6, because the n_jobs=-1
+     forest is reproducible only to its last bits (about 5e-8 in τ, documented in
+     `influence/experiment.py`).
+   - The largest accepted difference was 1.1e-16 (facebook_combined@1.25, rmse).
+   - e5a1c11 shipped with three faults that the verifier caught, and a0c69ac fixed
+     them. They affected no scored number.
+
+**Locator (recorded before the sweep).**
+
+| network | m\*_χ | m_loc |
+|---|---:|---|
+| email-Eu-core | 1.15 | 1.25 |
+| p2p-Gnutella08 | 1.20 | 1.25 |
+| ca-HepTh | 2.35 | 3.0 |
+| ca-GrQc | 3.00 | undetermined (at the grid edge) |
+| facebook_combined | 3.00 | undetermined (at the grid edge) |
+
+**Primary series.** This is r\*_noise (rule 2) for `spread_mean`, tier
+`node+edge+subgraph`, ten seeds, over m = 0.8 / 1.0 / 1.25 / 2.0 / 3.0. The ceiling
+radius is r_c = 3 in all 25 cells.
+
+| network | r\*_noise | part D verdict | rule 3 (r\*_target) | label |
+|---|---|---|---|---|
+| **email-Eu-core** (primary) | 3 3 3 3 3 | flat → **H1 does not stand** | 3 3 3 3 3, flat | none |
+| **p2p-Gnutella08** (primary) | 3 3 3 3 3 | flat → **H1 does not stand** | 3 3 3 3 3, flat | none |
+| ca-HepTh | 3 3 3 3 3 | flat → H1 does not stand | 3 3 3 3 3, flat | none |
+| ca-GrQc | 2 3 3 3 3 | m_peak 1.0, in [1.0, 1.25]; **H1 not scored** (locator undetermined) | 2 3 3 3 3 | none |
+| facebook_combined | 2 2 3 3 3 | m_peak 1.25, in [1.0, 1.25]; **H1 not scored** (locator undetermined) | 2 3 3 3 3 (m_peak 1.0) | none |
+
+- **Prediction (r\* peaks at m ∈ [1.0, 1.25] on both primary networks, rule 2): NOT
+  SUPPORTED.** Both primary series are flat, so there is no peak.
+- **Stop rule (r\* unchanged across m on both primary networks): FIRES.** H1 is
+  dropped. Under §5 (the L1 scale decision), L6 runs at one multiple, 1.5×, and not as
+  a scan.
+- **Counter (r\* smallest near m ≈ 1 and rising with m): NOT SUPPORTED on the primary
+  networks**, where r\* does not move. ca-GrQc and facebook_combined have the counter's
+  rise-then-plateau shape, but on non-primary networks with an undetermined locator.
+  See the reading below.
+- **Robustness label:** none anywhere, because H1 is not standing under rule 2 on any
+  network. Rule 3 agrees with rule 2 on every flat series.
+- `analyser` writes `prediction_met: true` for ca-GrQc and facebook_combined. That flag
+  only tests whether min(P) falls in [1.0, 1.25]. Each of these series is a single step
+  up to a plateau at 3, so min(P) is just the first multiple of the plateau. Neither
+  network carries an H1 verdict.
+
+**Reported beside the primary (not scored).**
+- **Full tier** (`node+edge+subgraph+dynamic`): the r\*_noise series match the primary
+  tier on four networks. ca-GrQc reads 2 2 3 3 3 rather than 2 3 3 3 3; it is still not
+  flat and its locator is still undetermined.
+- **Rule 1** (relative ε, which the registration warns can "confirm" H1 through ceiling
+  collapse), spread_mean, primary tier:
+
+  | network | ε = 0.10 | ε = 0.05 | ε = 0.02 |
+  |---|---|---|---|
+  | email-Eu-core | 0 1 1 0 0 | 1 1 1 1 1 | 1 1 1 1 1 |
+  | p2p-Gnutella08 | 1 1 2 2 1 | 1 2 2 2 2 | 2 2 3 3 2 |
+  | ca-HepTh | 1 1 1 2 2 | 1 1 1 2 2 | 1 1 2 3 3 |
+  | ca-GrQc | 0 1 1 1 2 | 1 1 1 2 2 | 1 1 1 2 3 |
+  | facebook_combined | 0 1 1 1 1 | 1 1 1 1 1 | 1 1 1 1 2 |
+
+- **spread_cv and spread_resid** are scored at m ≥ 1.25 only, as registered. Rule 2
+  puts them at r\* = 3 everywhere, with these exceptions:
+  - email-Eu-core spread_cv: 2 3 3;
+  - facebook_combined spread_cv: 2 3 3;
+  - email-Eu-core spread_resid: 2 0 0. Its ceiling falls to r_c = 0 at m = 2.0 and
+    r_c = 1 at m = 3.0;
+  - facebook_combined spread_resid: 2 2 3;
+  - p2p-Gnutella08 spread_resid: 3 3 2.
+- **spread_std and spread_ignition** are in every sweep CSV. Per the 2026-09-14
+  clarification, they were fitted and not dropped. The analyser scores neither.
+  spread_ignition's τ is undefined in 2,240 of its 4,000 rows. Those are the 14 units
+  where the ignition column has no rank variation: GrQc and HepTh below 3.0, and
+  facebook and p2p below 2.0. email-Eu-core is defined everywhere. **No rule was
+  registered for either target, so neither carries a verdict.**
+
+**Reading (inference, not tested).**
+1. **"Flat" means r\* sits at the edge of the radius grid. It does not mean r\* is
+   invariant to β.**
+   - r_c = 3, the largest radius fitted, in every primary cell. So these data show
+     r\* ≥ 3 at every multiple and cannot place a peak above 3.
+   - The paired yardstick is very tight. On the primary networks, 2·sd at r = 2 is
+     0.0004–0.0011 τ. That makes
+     r\*_noise "the smallest radius statistically indistinguishable from the ceiling",
+     and any real gain from r = 2 to r = 3 puts it at 3.
+   - The gains are real but small:
+
+     | network | m = 0.8 | 1.0 | 1.25 | 2.0 | 3.0 |
+     |---|---:|---:|---:|---:|---:|
+     | email-Eu-core | 0.0019 | 0.0034 | 0.0050 | 0.0048 | 0.0021 |
+     | p2p-Gnutella08 | 0.0015 | 0.0051 | 0.0196 | 0.0314 | 0.0120 |
+
+     These are the paired mean τ gaps from r = 2 to r = 3. Each is 2.0–39.5 times its
+     2·sd threshold. The smallest margin is email@3.0, at 2.0 times.
+   - The size of that gain does vary with m, and on both networks it is largest at
+     m ≥ 1.25. That is a continuous quantity, like the τ₁/τ₃ statistic registered for
+     L6. **It was not registered for L1 and is not scored here.**
+2. **ca-GrQc and facebook_combined do not partly support H1.** Each is one step up to a
+   plateau. That shape matches the registered counter, whose "smallest near m ≈ 1,
+   rising with m" describes it, more than it matches a peak.
+3. **The locator does not settle criticality on the larger networks.** It puts the χ
+   peak at 3.0 on GrQc and facebook, and at 2.35 on HepTh, against the NB β_c's
+   m = 1.0. On these graph sizes the NB threshold is not the effective critical point.
+   The registration anticipated this ("on 1–8k nodes 'm = 1.0' is not demonstrably
+   critical").
+
+**Claim (Rachit's wording; the line below is a placeholder, not a claim).**
+> TBD: one or two sentences stating what L1 shows about H1. Constraint from the
+> evidence: the claim can say H1 is not supported at r ≤ 3. It cannot say r\* is
+> invariant to β, because of reading 1.
+
+**Lane status.** L1 is scored. H1 is dropped on the primary networks by the registered
+stop rule. L6 runs at 1.5× only. No further L1 fits are planned. A radius-4 extension
+would be a new registration, not part of this lane.
+
+## L5 execution definitions — 2026-11-02 10:55 IST — before any L5 cascade on a real network
+
+Written by Claude Opus 5.5.
+- **Decided by Rachit in chat (asked 04:12, answered about 10:54):** "Relative ε=0.05 primary" and "> 5% of n".
+- **Agent definitions, open to Rachit's veto before the gate runs:** the lane-level
+  aggregation in part D and the overlap rule.
+
+No threshold cascade has been run on any of the five networks. The only code is
+`influence/threshold_dynamics.py`, with `verify_threshold_dynamics.py` at 8/8 on
+fixtures. The prediction, the counter, θ ∈ {0.1, 0.2}, N[i] seeding, the gate band
+and the stop rule above are unchanged.
+
+### A. Why the r\* rule has to be named
+
+- The L5 text writes "r\*" and names no rule.
+- Under rule 2 of the L1 definitions (paired noise), r\*(spread_mean) at the root
+  1.5× is 3 on all five networks. That is r_c, the largest radius fitted. The
+  number was computed 2026-11-02 from the existing root `sweep_<tag>.csv`, which
+  holds no L5 data.
+- So "r\*(spread_θ) ≥ r\*(spread_mean) + 1" would need r\* = 4, and radii are 0–3.
+  Under rule 2 the prediction could never be supported.
+
+### B. Model and target
+
+- **Model:** `threshold_cascade_sizes(net, θ)`. Seed N[i]. A node j activates once
+  (active neighbours) / k_j ≥ θ, with ≥ tested exactly in integers. Iterate to the
+  fixed point.
+- **Determinism:** the model is deterministic, so there is one cascade per node and
+  no draws. Rule 3 (target noise) does not apply.
+- **spread_θ** is node i's final cascade size, N[i] included. This is the same
+  convention as spread_mean, which includes the seed.
+  - **Caveat (inference):** a cascade that fizzles has size ≥ k_i + 1. Where most
+    nodes fizzle, degree alone ranks much of spread_θ, which favours a small r\*.
+    That leans toward the counter, and the scored text must say so.
+- **Networks:** the five project networks, loaded exactly as stage 1 loads them,
+  with n and m checked against `cache_meta_<tag>.json`.
+
+### C. Gate (0 fits)
+
+- **Ignition:** node i ignites at θ if spread_θ(i) > 0.05 · n. This is strictly
+  greater, as in production `CascadeResults.ignition_probability(0.05)`.
+- **Ignition fraction:** the mean of that indicator over all n nodes.
+- **Pass:** the ignition fraction lies in [0.1, 0.9], inclusive, per (network, θ).
+- **Output:** `results/phase7_threshold/gate.json` holds, per (network, θ):
+  - the fraction;
+  - pass or fail;
+  - n;
+  - the size quantiles;
+  - the source hashes.
+- If no (network, θ) passes, the gate is reported and no fits run (§3).
+
+### D. Fits and r\*
+
+Fits run only for passing (network, θ) pairs.
+
+**Protocol.**
+- Unmodified stage 2 with `cwd=results/phase7_threshold/`.
+- spread_θ is added as a target column named `spread_theta<θ>`.
+- Tiers: `node`, `node+edge`, `node+edge+subgraph`. The `dynamic` tier is dropped
+  as registered, because it is IC-specific.
+- Radii 0–3, ten seeds: 120 cells per pair.
+- **How stage 2 is fed** (cache layout, feature reuse from the root caches) is
+  defined in a run-status addendum before the pilot.
+
+**Primary rule: relative ε = 0.05.**
+- Per seed, `locality_horizon(sweep, epsilon=0.05, richness="node+edge+subgraph")`.
+- r\* is the modal value across the ten seeds, with ties going to the smaller r.
+  This is `analyse_beta_sweep.r_star_relative`, unchanged.
+- **The comparison value r\*(spread_mean)** is the same function on the root 1.5×
+  `sweep_<tag>.csv`. For reference, at 1.5× that value is:
+
+  | network | r\*(spread_mean), ε = 0.05 |
+  |---|---:|
+  | ca-GrQc | 1 |
+  | ca-HepTh | 2 |
+  | email-Eu-core | 1 |
+  | facebook_combined | 1 |
+  | p2p-Gnutella08 | 2 |
+
+  It was computed from data that predates L5.
+- **Reported beside the primary:** ε = 0.10 and ε = 0.02, and rule 2 (paired noise)
+  for both targets. The rule 2 r\*(spread_mean) is 3 everywhere, as part A says.
+
+**Scoring, per passing pair.**
+- **Prediction holds:** r\*(spread_θ) ≥ r\*(spread_mean) + 1.
+- **Counter holds:** r\*(spread_θ) ≤ 2.
+- Both can hold at once, for example r\*(spread_mean) = 1 and r\*(spread_θ) = 2. Such
+  a pair is reported as **"both"** and counts for neither.
+
+**Lane level.** Over the passing pairs whose outcome is not "both":
+- **SUPPORTED:** the prediction holds on all of them.
+- **NOT SUPPORTED:** it holds on none of them.
+- **MIXED:** anything in between.
+
+The counter is aggregated the same way. If every passing pair is "both", the lane
+is **UNDECIDED**.
+
+**Ceiling-collapse caveat.** The L1 text warns that the relative rule can "confirm"
+H1 through ceiling collapse near m = 1. Here both targets are compared at the same
+1.5×, so that mechanism does not apply directly. A low ceiling τ can still compress
+r\* under the relative rule (inference). Each pair's ceiling τ is therefore
+reported, and a pair whose spread_θ ceiling τ is ≤ 0 is unscored, because
+`locality_horizon` raises on it.
+
+### E. Verification before any real-network run
+
+1. `verify_threshold_dynamics.py` is green. It covers:
+   - hand-computed paths;
+   - the exact boundary at k = 30;
+   - 30 random graphs × 5 θ against a sequential queue implementation;
+   - batch-size invariance;
+   - monotonicity in θ;
+   - the isolated-node guard;
+   - the N[i] lower bound.
+2. The four gates stay green after every change (§4).
