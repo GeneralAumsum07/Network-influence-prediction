@@ -17,7 +17,9 @@ Not part of the L5 lane verdict; each network is reported on its own.
 Reads only gate.json and sizes_<tag>.npz (the gate's own numbers). It reads
 no stage-2 output, so it may run while the L5 fits are in progress.
 
-Run from the repo root: python probe_threshold_local.py
+Run from the repo root:
+  python probe_threshold_local.py            # 16:59 exact probe -> local_exact.json
+  python probe_threshold_local.py censored   # 17:15 part A -> local_censored.json
 """
 import json
 import sys
@@ -121,7 +123,71 @@ def probe_one(tag: str, theta: str) -> dict:
                                               TAU_BAR * ceiling_ign))}
 
 
+def probe_censored(tag: str, theta: str) -> dict:
+    """Part A of the 2026-11-02 17:15 addendum: the censored predictor.
+
+    x_r = trunc_r where the cascade is contained at r (provably complete),
+    else one shared value n + 1 above every contained node. Escaped nodes are
+    tied, as igniters are tied at the global size in the target, so the
+    ordering inside the ignite block no longer costs tau-b (flaw 1); and a
+    fizzle is proven by containment, not by the ball holding 5% of n (flaw 2).
+    """
+    net, _, path = load_network(tag)
+    with np.load(OUT / f"sizes_{tag}.npz") as z:
+        node, spread = z["node"], z[f"theta{theta}"]
+    if not np.array_equal(node, np.arange(net.n)):
+        raise SystemExit(f"{tag}: sizes_{tag}.npz is not in loader order")
+    n = net.n
+    ignites = spread > IGNITION_FRAC * n
+
+    t0 = time.perf_counter()
+    trunc, contained = truncated_threshold_sizes(net, float(theta), RADII, with_contained=True)
+    balls = ball_sizes(net, RADII)
+    secs = time.perf_counter() - t0
+    for r in RADII:
+        # The proof, checked on the real network rather than trusted.
+        assert (trunc[r][contained[r]] == spread[contained[r]]).all(), (tag, r)
+
+    ceiling_ign = tau_b(spread, ignites.astype(np.int64))
+    per_r = {}
+    for r in RADII:
+        c = contained[r]
+        x = np.where(c, trunc[r], n + 1)
+        esc = ~c
+        per_r[r] = {"tau_cens": tau_b(x, spread),
+                    "tau_cens_ign": tau_b(x, ignites.astype(np.int64)),
+                    "contained_fizzlers": float(c[~ignites].mean()),
+                    "contained_igniters": float(c[ignites].mean()),
+                    "p_escaped": float(esc.mean()),
+                    # None when nothing escapes (a large r on a small graph).
+                    "p_ignites_given_escaped": float(ignites[esc].mean()) if esc.any() else None,
+                    "coverage_mean": float((balls[r] / n).mean()),
+                    "scored": r in SCORED}
+
+    def verdict(r_star):
+        if r_star == "> 3":
+            return {"r_star": r_star, "counter": "not supported", "ball_near_global": None}
+        return {"r_star": r_star,
+                "counter": "supported" if r_star <= 2 else "not supported",
+                "ball_near_global": bool(per_r[r_star]["coverage_mean"] >= COVERAGE_FLAG)}
+
+    return {"theta": float(theta), "n": n, "edge_list_sha256": sha256(path),
+            "seconds": round(secs, 2), "ceiling_ign": ceiling_ign,
+            "per_radius": {str(r): v for r, v in per_r.items()},
+            "spread": verdict(first_reaching({r: per_r[r]["tau_cens"] for r in SCORED}, TAU_BAR)),
+            "ignites": verdict(first_reaching({r: per_r[r]["tau_cens_ign"] for r in SCORED},
+                                              TAU_BAR * ceiling_ign)),
+            "descriptive_p_ignites_given_escaped_r2": per_r[2]["p_ignites_given_escaped"]}
+
+
 def main() -> int:
+    # "exact" is the 16:59 probe; "censored" is the 17:15 part A predictor.
+    # Each writes its own file, so re-running one never rewrites the other.
+    mode = sys.argv[1] if len(sys.argv) > 1 else "exact"
+    if mode not in ("exact", "censored"):
+        raise SystemExit("usage: python probe_threshold_local.py [exact|censored]")
+    if mode == "censored":
+        return main_censored()
     plan = passing_plan()
     result = {"registered_in": "prereg addendum 2026-11-02 16:59 IST, L5 exact r-local probe",
               "rule": {"tau_bar": TAU_BAR, "coverage_flag": COVERAGE_FLAG,
@@ -140,6 +206,27 @@ def main() -> int:
                   f"({res['spread']['counter']}), {res['seconds']:.0f} s", flush=True)
     write_atomic(OUT / "local_exact.json", json.dumps(result, indent=2) + "\n")
     print("wrote", OUT / "local_exact.json")
+    return 0
+
+
+def main_censored() -> int:
+    result = {"registered_in": "prereg addendum 2026-11-02 17:15 IST, L5 post-hoc measures, part A",
+              "rule": {"tau_bar": TAU_BAR, "coverage_flag": COVERAGE_FLAG,
+                       "scored_radii": list(SCORED), "radii": list(RADII)},
+              "sources": {p: sha256(Path(p)) for p in
+                          ("probe_threshold_local.py", "influence/threshold_local.py",
+                           "influence/threshold_dynamics.py", "probe_threshold_arm.py",
+                           "analyse_beta_sweep.py")},
+              "networks": {}}
+    for tag, thetas in passing_plan().items():
+        for theta in thetas:
+            res = probe_censored(tag, theta)
+            result["networks"][f"{tag}@{theta}"] = res
+            taus = "  ".join(f"r{r} {res['per_radius'][str(r)]['tau_cens']}" for r in RADII)
+            print(f"{tag}@{theta}: {taus}  -> r*={res['spread']['r_star']}, "
+                  f"{res['seconds']:.0f} s", flush=True)
+    write_atomic(OUT / "local_censored.json", json.dumps(result, indent=2) + "\n")
+    print("wrote", OUT / "local_censored.json")
     return 0
 
 

@@ -30,10 +30,13 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
+from scipy.stats import kendalltau
 
 from analyse_beta_sweep import (PRIMARY_TIER, RELATIVE_EPS, r_star_noise, r_star_relative,
                                 sha256, tau_table, write_atomic)
+from influence.experiment import locality_horizon
 from probe_threshold_arm import OUT, network_done, passing_plan
 
 PRIMARY_EPS = 0.05
@@ -82,6 +85,116 @@ def aggregate(outcomes: list[str], side: str) -> str:
     if hits == 0:
         return "NOT SUPPORTED"
     return "MIXED"
+
+
+# ---------------------------------------------------------------------------
+# Somers' D sensitivity, registered 2026-11-02 17:15 part B
+# ---------------------------------------------------------------------------
+
+# Stored predictions must reproduce the recorded tau to this bound, or they
+# are not the predictions that were scored. Both come from the same float64
+# vectors through the same scipy call, so anything above float noise is a
+# real mismatch, not rounding.
+SOMERS_TAU_ATOL = 1e-9
+
+
+def tied_pairs(v: np.ndarray) -> int:
+    counts = np.unique(v, return_counts=True)[1]
+    return int((counts * (counts - 1) // 2).sum())
+
+
+def somers_d(target: np.ndarray, pred: np.ndarray) -> tuple[float, float]:
+    """(Somers' D with the target as the reference, tau-b), both from one tau-b call.
+
+    tau-b = S / sqrt((n0 - n1)(n0 - n2)) with S = concordant - discordant,
+    n1 / n2 the pairs tied in prediction / target. Somers' D divides the same
+    S by (n0 - n2) only: pairs the target ties are excluded, so a prediction
+    that orders them loses nothing, while a prediction that ties what the
+    target separates still loses (those pairs stay in the denominator).
+    Recovering S from tau-b keeps this O(n log n); a pairwise count would be
+    O(n^2), about 37 million pairs on ca-HepTh per cell.
+    """
+    n = len(target)
+    n0 = n * (n - 1) // 2
+    n1, n2 = tied_pairs(pred), tied_pairs(target)
+    tb = float(kendalltau(target, pred).statistic)
+    if np.isnan(tb) or n0 == n2:
+        return float("nan"), tb
+    s = tb * np.sqrt(float(n0 - n1) * float(n0 - n2))
+    return s / (n0 - n2), tb
+
+
+def somers_table(sweep: pd.DataFrame, oof_path: Path, y: np.ndarray, target: str) -> pd.DataFrame:
+    """Somers' D for every (radius, seed) cell of one target on the scored rung."""
+    sub = sweep[(sweep.target == target) & (sweep.richness == PRIMARY_TIER)]
+    rows = []
+    with np.load(oof_path) as store:
+        for r in sub.itertuples():
+            key = f"{target}|{int(r.radius)}|{PRIMARY_TIER}|{int(r.seed)}"
+            d, tb = somers_d(y, store[key])
+            if not abs(tb - r.kendall_tau) <= SOMERS_TAU_ATOL:
+                raise SystemExit(f"{oof_path.name} {key}: recomputed tau {tb!r} vs recorded "
+                                 f"{r.kendall_tau!r}; the stored predictions are not the "
+                                 "scored ones, refusing (17:15 part B)")
+            rows.append({"target": target, "radius": int(r.radius), "seed": int(r.seed),
+                         "richness": PRIMARY_TIER, "kendall_tau": tb, "somers_d": d})
+    return pd.DataFrame(rows)
+
+
+def r_star_metric(tab: pd.DataFrame, metric: str, eps: float) -> dict:
+    """analyse_beta_sweep.r_star_relative's rule (per-seed locality_horizon,
+    modal across seeds, ties to the smaller r) on any metric column. That
+    function hard-wires kendall_tau, so the rule is restated here, not edited
+    there, keeping the L1 analyser's hash unchanged."""
+    vals = []
+    for seed in sorted(tab["seed"].unique()):
+        h = locality_horizon(tab[tab.seed == seed], epsilon=eps, richness=PRIMARY_TIER,
+                             metric=metric)
+        if h.get("r_star") is not None:
+            vals.append(h["r_star"])
+    if not vals:
+        return {"r_star": None, "agree": 0, "n": 0}
+    counts = pd.Series(vals).value_counts()
+    top = counts.max()
+    return {"r_star": int(min(v for v, c in counts.items() if c == top)),
+            "agree": int(top), "n": len(vals)}
+
+
+def somers_sensitivity(plan: dict[str, list[str]]) -> tuple[dict, list[dict]]:
+    rows, pairs = [], {}
+    for tag, thetas in plan.items():
+        root_y = pd.read_csv(f"cache_targets_{tag}.csv")["spread_mean"].to_numpy(np.float64)
+        root_tab = somers_table(pd.read_csv(f"sweep_{tag}.csv"), Path(f"cache_oof_{tag}.npz"),
+                                root_y, "spread_mean")
+        r_mean = r_star_metric(root_tab, "somers_d", PRIMARY_EPS)
+        ys = pd.read_csv(OUT / f"cache_targets_{tag}.csv")
+        sweep = pd.read_csv(OUT / f"sweep_{tag}.csv")
+        for theta in thetas:
+            for kind in ("spread", "ignites"):
+                target = f"{kind}_theta{theta}"
+                tab = somers_table(sweep, OUT / f"cache_oof_{tag}.npz",
+                                   ys[target].to_numpy(np.float64), target)
+                ceiling = tab.groupby("radius").somers_d.mean().max()
+                row = {"network": tag, "target": target, "ceiling_somers": float(ceiling),
+                       "r_mean_somers": r_mean["r_star"],
+                       "agree_mean": f"{r_mean['agree']}/{r_mean['n']}"}
+                if ceiling <= 0:
+                    row.update({"r_star_somers": None, "outcome": "unscored"})
+                else:
+                    rs = r_star_metric(tab, "somers_d", PRIMARY_EPS)
+                    row.update({"r_star_somers": rs["r_star"],
+                                "agree": f"{rs['agree']}/{rs['n']}",
+                                "outcome": outcome(rs["r_star"], r_mean["r_star"])})
+                rows.append(row)
+                pairs.setdefault(kind, []).append(row["outcome"])
+    spread = [o for o in pairs.get("spread", []) if o != "unscored"]
+    summary = {"registered_in": "prereg 2026-11-02 17:15 part B (sensitivity, not the verdict)",
+               "lane_prediction": aggregate(spread, "prediction"),
+               "lane_counter": aggregate(spread, "counter"),
+               "spread_outcomes": pairs.get("spread", []),
+               "ignites_outcomes_secondary": pairs.get("ignites", []),
+               "pairs": rows}
+    return summary, rows
 
 
 def main() -> int:
@@ -135,11 +248,18 @@ def main() -> int:
         "sources": {p: sha256(Path(p)) for p in
                     ("analyse_threshold_arm.py", "analyse_beta_sweep.py", "probe_threshold_arm.py")},
     }
+    somers, somers_rows = somers_sensitivity(plan)
+    verdict["somers_sensitivity"] = somers
+    pd.DataFrame(somers_rows).to_csv(OUT / "somers.csv", index=False, lineterminator="\n")
     pd.DataFrame(rows).to_csv(OUT / "rstar.csv", index=False, lineterminator="\n")
     pd.DataFrame(curves).to_csv(OUT / "curves.csv", index=False, lineterminator="\n")
     write_atomic(OUT / "verdict.json", json.dumps(verdict, indent=2, default=str) + "\n")
     print(pd.DataFrame(rows).drop(columns=["theta"]).to_string(index=False))
     print(f"\nlane: prediction {verdict['lane_prediction']}, counter {verdict['lane_counter']}")
+    print("\nSomers' D sensitivity (17:15 part B, not the verdict):")
+    print(pd.DataFrame(somers_rows).to_string(index=False))
+    print(f"lane under Somers' D: prediction {somers['lane_prediction']}, "
+          f"counter {somers['lane_counter']}")
     return 0
 
 

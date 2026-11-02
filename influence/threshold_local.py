@@ -23,12 +23,22 @@ import scipy.sparse as sp
 from influence.threshold_dynamics import exact_theta
 
 
-def truncated_threshold_sizes(net, theta, radii, batch_size: int = 256) -> dict[int, np.ndarray]:
+def truncated_threshold_sizes(net, theta, radii, batch_size: int = 256,
+                              with_contained: bool = False):
     """{r: int64 [n]} of ball-truncated cascade sizes, seeding N[i].
 
     All radii are computed in one pass per batch. The balls are grown
     incrementally (B_{r+1} = B_r plus its neighbours), so asking for r = 1..5
     costs one ball expansion per extra radius rather than a fresh BFS each.
+
+    with_contained=True also returns {r: bool [n]}: True where no node at
+    distance exactly r is active at the fixed point (registered 2026-11-02
+    17:15, part A). Such a cascade is provably complete: every node outside
+    the ball has neighbours only at distance >= r, none of them active, so
+    nothing outside can ever activate and trunc_r(i) equals the full cascade.
+    The observer can test this from the ball alone, which is what lets radius
+    r PROVE a fizzle without the ball holding 5% of n. Returned as a pair
+    (sizes, contained) so the default call keeps its 16:59 return type.
     """
     frac = exact_theta(theta)
     radii = sorted({int(r) for r in radii})
@@ -47,6 +57,7 @@ def truncated_threshold_sizes(net, theta, radii, batch_size: int = 256) -> dict[
     den = frac.denominator
 
     out = {r: np.empty(n, dtype=np.int64) for r in radii}
+    contained = {r: np.empty(n, dtype=bool) for r in radii}
     for start in range(0, n, batch_size):
         stop = min(n, start + batch_size)
         cols = np.arange(start, stop)
@@ -56,10 +67,17 @@ def truncated_threshold_sizes(net, theta, radii, batch_size: int = 256) -> dict[
         ball = np.zeros_like(seed)
         ball[diag] = True                              # B_0 = {i}
         reached = 0
+        prev_ball = ball.copy()                        # B_{r-1}, for the distance-r shell
         for r in radii:
-            # Grow the ball from radius `reached` to radius r.
-            for _ in range(r - reached):
+            # Grow the ball from radius `reached` to radius r, keeping the
+            # radius r - 1 ball: the shell at distance exactly r is the
+            # difference. At r = 0 the "shell" is {i} itself.
+            for step in range(r - reached):
+                if step == r - reached - 1:
+                    prev_ball = ball.copy()
                 ball = ball | ((a @ ball.astype(np.int64)) > 0)
+            if r == 0:
+                prev_ball = np.zeros_like(ball)
             reached = r
             # The cascade restarts from the seed at every radius rather than
             # continuing from the previous radius's fixed point. Continuing
@@ -74,4 +92,6 @@ def truncated_threshold_sizes(net, theta, radii, batch_size: int = 256) -> dict[
                     break
                 s = new
             out[r][start:stop] = s.sum(axis=0)
-    return out
+            shell = ball & ~prev_ball
+            contained[r][start:stop] = ~(s & shell).any(axis=0)
+    return (out, contained) if with_contained else out

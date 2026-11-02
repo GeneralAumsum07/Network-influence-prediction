@@ -30,6 +30,10 @@ def bfs_ball(net, i, r):
 
 
 def reference_size(net, i, theta, r):
+    return len(active_set(net, i, theta, r))
+
+
+def active_set(net, i, theta, r):
     """Sequential cascade from N[i], activation allowed only inside the BFS ball."""
     theta = Fraction(str(theta))
     ball = bfs_ball(net, i, r)
@@ -44,7 +48,7 @@ def reference_size(net, i, theta, r):
             if Fraction(sum(v in active for v in net.nbrs[j].tolist()), k) >= theta:
                 active.add(j)
                 queue.append(j)
-    return len(active)
+    return active
 
 
 class TruncatedCascadeTests(unittest.TestCase):
@@ -88,6 +92,32 @@ class TruncatedCascadeTests(unittest.TestCase):
             other = truncated_threshold_sizes(net, 0.2, (3, 2, 1, 2), batch_size=b)
             for r in (1, 2, 3):
                 np.testing.assert_array_equal(other[r], base[r])
+
+    def test_containment_matches_reference_and_is_exact(self):
+        # Containment (registered 17:15, part A): no active node at distance
+        # exactly r. Checked two ways: against BFS distances computed here
+        # independently, and against the claim it exists for, that a
+        # contained cascade has already reached its full size.
+        rng = np.random.default_rng(13)
+        for trial in range(20):
+            net = random_graph(rng, int(rng.integers(5, 35)), float(rng.uniform(.05, .3)))
+            full = threshold_cascade_sizes(net, 0.2)
+            sizes, cont = truncated_threshold_sizes(net, 0.2, (0, 1, 2, 3, 4),
+                                                    batch_size=5, with_contained=True)
+            plain = truncated_threshold_sizes(net, 0.2, (0, 1, 2, 3, 4), batch_size=5)
+            for r in (0, 1, 2, 3, 4):
+                np.testing.assert_array_equal(sizes[r], plain[r])   # flag changes nothing else
+                for i in range(net.adj.shape[0]):
+                    ball, inner = bfs_ball(net, i, r), (bfs_ball(net, i, r - 1) if r else set())
+                    active = active_set(net, i, 0.2, r)
+                    want = not (active & (ball - inner))
+                    self.assertEqual(bool(cont[r][i]), want, f"trial {trial} r {r} node {i}")
+                    if r >= 1 and cont[r][i]:
+                        self.assertEqual(sizes[r][i], full[i], f"trial {trial} r {r} node {i}")
+            # r = 1: every distance-1 node is a seed, so only isolated nodes
+            # could be contained, and random_graph may make some.
+            deg = np.asarray(net.adj.sum(1)).ravel()
+            np.testing.assert_array_equal(cont[1], deg == 0)
 
     def test_input_validation(self):
         net = fixture(3, [(0, 1), (1, 2)])
