@@ -1520,3 +1520,159 @@ disagreement is the main qualification on this lane:
 - No change to any registered rule.
 - No new probe.
 - L6 is the next lane.
+
+## L6 execution definitions — 2026-11-02 19:53 IST — before any L6 graph is generated
+
+Written by Claude Opus 5.5.
+- **Decided by Rachit:**
+  - 19:49: start L6, after L5.
+  - Earlier: the multiple is 1.5×, by L1's stop rule (L1 scored addendum, "Lane status").
+- **Agent definitions, open to Rachit's veto before the first stage-2 fit:**
+  - the trend rule in part C;
+  - the betweenness arm in part B;
+  - the seed count;
+  - everything marked "agent".
+
+**State at writing.**
+- No synthetic graph has been generated: `data/synthetic/` does not exist.
+- `nb_spectral_gap` does not exist.
+- No L6 cascade, feature or fit exists.
+- The lane text (§2 "L6") stands. This addendum names the rules that text leaves open.
+- **Discharges Phase 7's D3 prerequisite** (ROADMAP Phase 7 row). It is logged as
+  "Phase 6.5 L6".
+
+### A. Corpus
+
+**Generation.** `python stage0_generate.py --n 5000 --families gamma,controls --seed 0
+--bootstrap 200`, unmodified. It produces 11 graphs:
+- **Chung-Lu, ⟨k⟩ = 6:** γ_target ∈ {2.1, 2.3, 2.5, 2.8, 3.0, 3.3, 3.6, 4.0}. This is the
+  **γ family**.
+- **Controls:** ER (⟨k⟩ = 6), BA (m = 3) and WS (k = 6, p = 0.1).
+
+**Verification before use.** `verify_generators.py` must be green.
+
+**Recorded once, in `results/phase7_certificate/corpus.json`:**
+- the sha256 of each edge list;
+- stage 0's manifest: γ fit with its bootstrap sd, duel ratio, clustering and
+  assortativity.
+
+`data/synthetic/` is git-ignored, so the hashes plus the seed are the record.
+
+**Known confound, to be measured and disclosed (inference until then).**
+- stage 1 restricts each graph to its largest component.
+- The weight rescale that fixes ⟨k⟩ = 6 pushes many low-γ weights below 1.
+- So n and ⟨k⟩ after the LCC step will vary along the γ family.
+- These per-graph values are reported beside every result. The trend in part C is not
+  adjusted for them: 8 points cannot carry an adjustment.
+
+### B. Pipeline (reduced protocol, as the lane text says)
+
+**Layout.** Unmodified `stage1_prepare.py` and `stage2_sweep.py`, run with
+`cwd=results/phase7_certificate/`, so no cache is written to the repo root.
+- stage 1 is given the edge list by a path relative to that cwd. stage 2's source
+  guard then rehashes it.
+
+**stage 1.** `<edgelist> 4000 1.5 uniform`, the root's settings:
+- 4000 cascades;
+- 1.5× the NB β_c;
+- the uniform convention;
+- MAX_HOP = 3.
+
+**stage 2, primary target.** `spread_mean` with the default `rf` estimator.
+- radii 0–3, all four TIER_LADDER rungs, **5 seeds** (the lane text's reduced protocol).
+- 80 cells per graph.
+- The `dynamic` rung is legitimate here: it is IC-specific and the target is IC.
+- The primary tier is `node+edge+subgraph`, as in L1 and L5, so that L6 is comparable
+  to them.
+
+**stage 2, betweenness (agent).** `betweenness` with `rf_log1p`, the project's
+reported betweenness arm.
+- Under plain `rf` the squared-error objective handicaps the poorer tiers, and so
+  distorts the hop curve (vault memory 2026-09-03).
+- 5 seeds, 80 cells per graph, written to `estimators/` as stage 2 does.
+- A structural control, reported only.
+
+**Totals.** 160 cells per graph, 1,760 cells overall.
+
+**Controller.** `probe_certificate.py`, with subcommands `generate`, `prepare` and
+`fit`. It reuses L1's lock, stage runner and refit reconciliation, as L5 did.
+- It pins `stage2_sweep.py` and its imports, `stage1_prepare.py` and its imports, and
+  every edge list.
+- It checks those pins before every graph.
+- It writes only under `results/phase7_certificate/` and `data/synthetic/`.
+- Graphs run in γ order, then the controls.
+
+### C. Primary statistic and trend rule (agent rule)
+
+**Statistic.** ρ_g = τ₁/τ₃ for `spread_mean`, tier `node+edge+subgraph`.
+- It is formed per seed, which is paired: the same seed gives the same folds at
+  r = 1 and r = 3.
+- Then ρ̄_g (seed mean) and sd_g (seed sd, ddof = 1) are taken.
+- A graph whose seed-mean τ₃ is ≤ 0 is unscored.
+
+**Trend statistic.** T = Kendall τ-b between γ_target and ρ̄_g over the scored γ-family
+graphs.
+- The γ_targets are fixed by construction and have no measurement error.
+- The fitted γ is reported, not used (stage 0's docstring).
+
+**Magnitude condition.** |ρ̄(2.1) − ρ̄(4.0)| > 2·sd_pool, where sd_pool =
+√(mean over the scored γ graphs of sd_g²).
+- This is the lane text's "outside seed sd".
+- It is applied end to end because the lane predicts a direction, not a shape.
+
+**Outcomes.**
+- **PREDICTION SUPPORTED:** T ≤ −0.571 and the magnitude condition holds.
+  - −0.571 is C − D ≤ −16 of 28 pairs: the exact one-sided null p = 0.031 at n = 8
+    with no ties (computed 19:50).
+- **COUNTER SUPPORTED:** T ≥ +0.571 and the magnitude condition holds.
+- **FLAT:** anything else.
+- **UNDECIDED:** fewer than 6 γ graphs are scored. The threshold then stays at the
+  one-sided p ≤ 0.05 point for that n, which is recomputed and stated.
+
+**Stop rule (lane text).** The full 31-graph corpus is fitted only if the outcome is
+PREDICTION or COUNTER SUPPORTED. FLAT or UNDECIDED ends L6 at the MVP.
+
+### D. Reported beside the primary (not scored)
+
+- **r\* per graph:** relative ε = 0.05, the modal value across seeds
+  (`analyse_beta_sweep.r_star_relative`), with seed agreement shown.
+- **Hop-gain area:** the sum over r = 1–3 of (τ_r − τ₀)/(τ₃ − τ₀).
+- **The same ρ̄ and T for betweenness** (`rf_log1p`).
+- **ρ̄ for the three controls:**
+  - ER, as a no-tail reference beside γ = 4.0;
+  - BA, as a γ ≈ 3 point by a different mechanism;
+  - WS, as a clustered, tail-free point.
+- **Structure per graph:**
+  - n and ⟨k⟩ after the LCC step;
+  - the fitted γ with its bootstrap sd and reliability flag;
+  - the duel ratio;
+  - `nb_spectral_gap`;
+  - average clustering;
+  - assortativity.
+- **NB gap versus the duel ratio.**
+  - The lane predicts that the NB gap adds nothing once the duel ratio is controlled.
+    With 8 collinear points that is **not testable**, as the lane text warns.
+  - Reported only: Kendall τ of the NB gap and of the duel ratio with γ_target, and
+    with each other.
+  - No partial or conditional test is computed.
+
+### E. `nb_spectral_gap` (agent definition)
+
+**Definition.**
+- λ₁ = the spectral radius of the Ihara–Bass matrix M = [[A, I − D], [I, 0]] of the
+  LCC, as stage 1 loads it.
+- λ₂ = the second-largest modulus in M's spectrum.
+- gap = 1 − |λ₂|/λ₁.
+- M's spectrum is B's spectrum without the (m − n)-fold ±1 roots. When |λ₂| < 1 that
+  difference matters, and the code records which case held.
+
+**Computation.**
+- `scipy.sparse.linalg.eigs` on M.
+- In a new module, `influence/nb_spectrum.py`. `influence/criticality.py` is imported,
+  not edited.
+
+**Verification before use.**
+- On 20 random small graphs, the result against `numpy.linalg.eigvals` of the dense M,
+  within 1e-8 relative.
+- On one L6 graph, against the dense spectrum, which is affordable at 2n = 10⁴.
+- λ₁ must equal 1/β_c from `epidemic_threshold` within 1e-8 relative.
