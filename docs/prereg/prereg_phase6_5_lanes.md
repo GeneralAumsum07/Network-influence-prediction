@@ -1764,3 +1764,71 @@ gap adds nothing once the duel ratio is controlled cannot be tested here.
 - No test of the U-shape.
 - No regression of ρ̄ on the NB gap across all 11 graphs. Each would need its own
   registration.
+
+## L6 realisation-noise calibration — execution definitions — 2026-11-02 23:34 IST — before any replicate graph is generated
+
+### A. Why, and what this cannot do
+
+- **The gap it closes.** The L6 scored addendum found that sd_g measures fitting
+  noise on one graph per γ, not graph-realisation noise.
+- **Who chose it.** Rachit, 23:29: a small calibration run, not a test of the U-shape.
+- **What it is.** A **calibration**. It has no verdict and scores nothing.
+- **What it cannot change.** L6 stays FLAT by its registered stop rule, whatever
+  this run shows.
+- **What it is for.** The realisation sd it measures is an input to Rachit's
+  decision on how later synthetic trend tests set their noise yardstick.
+
+### B. Corpus
+
+- **Command.** For k ∈ {1, 2, 3}:
+  `python stage0_generate.py --n 5000 --families gamma --seed k --bootstrap 200 --out data/synthetic/s<k>`.
+- **What is fitted.** Stage 0 cannot select γ, so all 8 Chung-Lu graphs are
+  generated. Only γ_target ∈ {2.1, 3.0, 4.0} are fitted, which is 9 graphs. The
+  other 15 are not fitted or inspected.
+- **Realisations per γ.** With L6's seed-0 graph, there are 4 realisations of each
+  of the three γ. `data/synthetic/` is git-ignored, so the record is the seeds plus
+  the sha256 of each list, kept in `results/phase7_certificate/realisations/corpus.json`.
+- **Disclosure.** Within one generator seed, `chung_lu` uses the same seed for every
+  γ. Realisations are therefore independent across k, not across γ within a k.
+
+### C. Pipeline
+
+The pipeline is identical to L6's primary arm:
+- stage 1: `<edgelist> 4000 1.5 uniform`, with MAX_HOP 3;
+- stage 2: `spread_mean 3 5 rf`, giving radii 0–3, all four rungs and 5 fitting seeds.
+
+The working directory is `results/phase7_certificate/realisations/s<k>/`, one per k.
+The tags match L6's, and each k has its own directory, so nothing collides with
+L6's caches. The controller is `probe_realisation.py`, which uses the same lock,
+stage runner, refit reconciliation and source pinning as `probe_certificate.py`.
+
+### D. Computed (all reported, none scored)
+
+Notation:
+- ρ̄_{γ,k} is the seed-mean of τ₁/τ₃, defined exactly as in L6 part C, on tier
+  node+edge+subgraph, for realisation k = 0..3 (k = 0 is L6's graph).
+- m_γ is the mean of ρ̄_{γ,k} over k.
+
+1. **Realisation sd.**
+   - Per γ: s_γ = sd over k = 0..3 of ρ̄_{γ,k}, with ddof = 1.
+   - Pooled: sd_real = √(mean_γ s_γ²).
+   - Reported next to sd_fit, the pooled fitting-seed sd over the same 12 graphs,
+     and next to L6's sd_pool. The headline is the ratio sd_real / sd_fit.
+2. **L6's end-to-end gap re-expressed.** Δ̄ = m(2.1) − m(4.0), compared with
+   2·sd_real. It is also reported with seed 0 excluded.
+3. **The dip, on seeds 1–3 only.** Seed 0 is excluded because it is where the shape
+   was first seen.
+   - D = mean_k ρ̄(3.0, k) − ½[mean_k ρ̄(2.1, k) + mean_k ρ̄(4.0, k)], with k = 1..3.
+   - SE = √(s₃²/3 + (s₂.₁² + s₄.₀²)/12), with each s taken over k = 1..3.
+   - Reported as D and D/SE.
+   - With 3 realisations per point, this describes the dip. It is not a test, and
+     no threshold is attached.
+4. **Structure per realisation:** LCC n, ⟨k⟩ and nb_spectral_gap. The question is
+   whether the part A drift (n up and ⟨k⟩ down along γ) replicates, and how large
+   its realisation sd is.
+
+### E. Stop and cost
+
+- The run is one pass of 9 graphs. There is no follow-on rule.
+- **Projected time (inference):** about 4 min of stage 2 per graph, from L6's
+  measured 214–249 s, plus under 40 s of stage 1, giving ≈ 40 min.
