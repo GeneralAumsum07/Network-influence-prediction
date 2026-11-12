@@ -1,0 +1,17 @@
+{
+  "network": "email-Eu-core",
+  "m": 1.25,
+  "beta_c_rel_diff": 1.6726705053997546e-14,
+  "p_rel_diff": 1.6597040673734e-14,
+  "beta_c_matches_locator": true,
+  "p_matches_locator": true,
+  "first_500_columns_identical": true,
+  "chi_fresh_500": 15.22669286944031,
+  "chi_recorded_locator": 15.22669286944031,
+  "chi_matches_locator": true,
+  "chi_cache_4000": 15.889977681540957,
+  "bootstrap_se_500": 0.731509655944914,
+  "abs_diff_in_se": 0.9067341855438139,
+  "within_3_se": true,
+  "pass": true
+}

@@ -1,0 +1,16 @@
+C4 INTERNAL CODE-CORRECTNESS CHECK, NOT PILOT EVIDENCE
+Retrospective code-correctness check only: predicted_zero = (cached score == 0); no calibration or auxiliary mask
+Target: cached exact unnormalised betweenness; simple unweighted undirected LCC, endpoints excluded.
+Each row is one full 5-fold OOF vector: target|radius|richness|seed, not a fold.
+Medians below pool all 160 radius/richness/seed configurations per graph; no uncertainty claim.
+                   rows  finite_accuracy  finite_positive_tau  accuracy_min  accuracy_median  accuracy_max  tau_positive_min  tau_positive_median  tau_positive_max
+network                                                                                                                                                            
+ca-GrQc             160              160                  160      0.612073         0.991101      1.000000          0.420490             0.723900          0.756640
+ca-HepTh            160              160                  160      0.683955         0.995948      0.998611          0.533895             0.714781          0.767158
+email-Eu-core       160              160                  160      0.945233         0.965517      0.977688          0.660815             0.876114          0.891027
+facebook_combined   160              160                  160      0.937361         0.963605      0.973013          0.269244             0.645960          0.879082
+p2p-Gnutella08      160              160                  160      0.996825         0.998412      0.998889          0.795366             0.872212          0.890002
+Mixture regimes:
+mixture_regime
+general_pair_accounting    800
+Max absolute cached all-node tau minus sweep tau: 2.220e-16

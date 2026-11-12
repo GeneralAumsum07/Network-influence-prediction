@@ -1,0 +1,91 @@
+==========================================================================
+1. STRUCTURAL MEASURES vs networkx
+==========================================================================
+
+BA  (n=1200, m=3591)
+  PASS  assortativity                      ours=-0.065355  ref=-0.065355  diff=4.16e-17
+  PASS  transitivity                       ours= 0.015624  ref= 0.015624  diff=0.00e+00
+  PASS  average_clustering                 ours= 0.026145  ref= 0.026145  diff=0.00e+00
+  PASS  triangle count                     ours= 238.000000  ref= 238.000000  diff=0.00e+00
+
+HK  (n=1200, m=3588)
+  PASS  assortativity                      ours=-0.074373  ref=-0.074373  diff=1.25e-16
+  PASS  transitivity                       ours= 0.081478  ref= 0.081478  diff=0.00e+00
+  PASS  average_clustering                 ours= 0.285425  ref= 0.285425  diff=5.55e-17
+  PASS  triangle count                     ours= 1438.000000  ref= 1438.000000  diff=0.00e+00
+
+WS  (n=1200, m=3600)
+  PASS  assortativity                      ours=-0.008086  ref=-0.008086  diff=1.24e-14
+  PASS  transitivity                       ours= 0.436524  ref= 0.436524  diff=0.00e+00
+  PASS  average_clustering                 ours= 0.452597  ref= 0.452597  diff=1.11e-16
+  PASS  triangle count                     ours= 2674.000000  ref= 2674.000000  diff=0.00e+00
+
+ER  (n=1195, m=3578)
+  PASS  assortativity                      ours= 0.006380  ref= 0.006380  diff=1.40e-15
+  PASS  transitivity                       ours= 0.006671  ref= 0.006671  diff=0.00e+00
+  PASS  average_clustering                 ours= 0.005745  ref= 0.005745  diff=0.00e+00
+  PASS  triangle count                     ours= 47.000000  ref= 47.000000  diff=0.00e+00
+
+==========================================================================
+2. POWER-LAW FIT vs SYNTHETIC DATA WITH KNOWN EXPONENT
+==========================================================================
+  Two separate questions, tested separately:
+    (a) is the MLE correct when xmin is known?
+    (b) how much does KS-based xmin selection cost us in accuracy?
+
+  (a) MLE at a KNOWN xmin - isolates the estimator itself
+      PASS  true=2.00  fitted=2.0035  err=0.0035
+      PASS  true=2.50  fitted=2.4950  err=0.0050
+      PASS  true=3.00  fitted=2.9940  err=0.0060
+      PASS  true=3.50  fitted=3.4915  err=0.0085
+
+  (b) full procedure incl. KS xmin selection, N=200,000
+      PASS  true=2.00  fitted=2.008  xmin=29  n_tail=31859  err=0.008  reliable=True
+      PASS  true=2.50  fitted=2.508  xmin=29  n_tail=12632  err=0.008  reliable=True
+      PASS  true=3.00  fitted=2.985  xmin=30  n_tail= 4636  err=0.015  reliable=True
+      PASS  true=3.50  fitted=3.559  xmin=28  n_tail= 2230  err=0.059  reliable=True
+
+  (c) the failure mode the reliability flag must catch:
+      steep tail + small n -> KS falls back to a low xmin and fits the BULK
+      PASS  n=1000 target gamma=3.4 -> fitted=1.806, n_tail=954/993 (96% of data), flagged unreliable=True
+
+==========================================================================
+3. CHUNG-LU LANDS NEAR ITS TARGET GAMMA
+==========================================================================
+  Sweeping the knob the whole structural arm depends on.
+    target gamma=2.1  ->  fitted=2.110  (xmin=20, n=5168, <k>=6.93, k_max=219)
+    target gamma=2.5  ->  fitted=2.434  (xmin=25, n=5724, <k>=6.28, k_max=380)
+    target gamma=3.0  ->  fitted=2.959  (xmin=25, n=5878, <k>=6.08, k_max=373)
+    target gamma=3.5  ->  fitted=3.428  (xmin=24, n=5938, <k>=6.04, k_max=176)
+    target gamma=4.0  ->  fitted=4.124  (xmin=20, n=5946, <k>=6.07, k_max=112)
+  PASS  fitted gamma increases monotonically with target
+
+==========================================================================
+4. HOLME-KIM p_triad ACTUALLY RAISES CLUSTERING (at fixed tail)
+==========================================================================
+    p_triad=0.00  ->  avg_clustering=0.0164  transitivity=0.0075  gamma=2.611
+    p_triad=0.25  ->  avg_clustering=0.1368  transitivity=0.0377  gamma=2.926
+    p_triad=0.50  ->  avg_clustering=0.2743  transitivity=0.0592  gamma=2.880
+    p_triad=0.75  ->  avg_clustering=0.4195  transitivity=0.0852  gamma=2.766
+    p_triad=1.00  ->  avg_clustering=0.5914  transitivity=0.1208  gamma=2.793
+  PASS  clustering increases monotonically with p_triad
+
+==========================================================================
+5. DOUBLE-EDGE-SWAP PRESERVES THE DEGREE SEQUENCE EXACTLY
+==========================================================================
+  PASS  degree sequences identical after rewiring
+      assortativity  before=-0.0554  after=-0.0238
+      clustering     before=0.0163  after=0.0153
+      (rewiring should destroy clustering while leaving degrees alone)
+
+==========================================================================
+6. ASSORTATIVITY REWIRING MOVES TOWARD THE TARGET
+==========================================================================
+    source assortativity: -0.0645
+    target=-0.30  ->  achieved=-0.2649  moved_correct_direction=True  degrees_preserved=True
+    target=+0.30  ->  achieved=+0.3009  moved_correct_direction=True  degrees_preserved=True
+  PASS  rewiring moves assortativity and preserves degrees
+
+==========================================================================
+RESULT: ALL CHECKS PASSED
+==========================================================================

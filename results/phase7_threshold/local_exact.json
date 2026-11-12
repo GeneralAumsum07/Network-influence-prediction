@@ -1,0 +1,220 @@
+{
+  "registered_in": "prereg addendum 2026-11-02 16:59 IST, complex-contagion exact r-local probe",
+  "rule": {
+    "tau_bar": 0.95,
+    "coverage_flag": 0.5,
+    "scored_radii": [
+      1,
+      2,
+      3
+    ],
+    "radii": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "sources": {
+    "probes/probe_threshold_local.py": "59a817a892d177e09bca11cf6c403585ef653c029978231c4eba5494046ea8d7",
+    "influence/threshold_local.py": "5d875bb66e9591624cfe9b032dbdf3c1c29d2ff1c4cd1bdf2641e5ccfb2cef91",
+    "influence/threshold_dynamics.py": "910d846acd47a494c047293ea4301ea14a05eb4a0f3fcf356665ff4ef0996000",
+    "probes/probe_threshold_arm.py": "37fa90c35dbbbc3fb6b16e635c447ed4d4a9c3f000556a8753a57812367fd8ed",
+    "analysis/analyse_beta_sweep.py": "104392338a2d82bd8e5a619ed5f7ef01c4f4ac97d1e467f3f7321c90752f968c"
+  },
+  "networks": {
+    "email-Eu-core@0.2": {
+      "theta": 0.2,
+      "n": 986,
+      "edge_list_sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+      "seconds": 2.8,
+      "ceiling_ign": 0.8180294224685606,
+      "per_radius": {
+        "1": {
+          "tau": 0.6935923158095547,
+          "tau_ign": 0.642363585462866,
+          "certified": 0.3328290468986384,
+          "exact_fraction": 0.028397565922920892,
+          "coverage_mean": 0.03406103296043184,
+          "coverage_median": 0.02332657200811359,
+          "scored": true
+        },
+        "2": {
+          "tau": 0.8018157086868223,
+          "tau_ign": 0.6653062546823341,
+          "certified": 0.983358547655068,
+          "exact_fraction": 0.19776876267748478,
+          "coverage_mean": 0.46113746610765727,
+          "coverage_median": 0.494421906693712,
+          "scored": true
+        },
+        "3": {
+          "tau": 0.81786746586656,
+          "tau_ign": 0.670111567133473,
+          "certified": 0.9984871406959153,
+          "exact_fraction": 0.40162271805273836,
+          "coverage_mean": 0.9241510971038762,
+          "coverage_median": 0.9726166328600405,
+          "scored": true
+        },
+        "4": {
+          "tau": 0.8790656929026304,
+          "tau_ign": 0.7191441631321286,
+          "certified": 1.0,
+          "exact_fraction": 0.6987829614604463,
+          "coverage_mean": 0.9955153076128682,
+          "coverage_median": 0.9989858012170385,
+          "scored": false
+        },
+        "5": {
+          "tau": 0.9982322838008696,
+          "tau_ign": 0.8165833786070977,
+          "certified": 1.0,
+          "exact_fraction": 0.9979716024340771,
+          "coverage_mean": 0.9998127949508125,
+          "coverage_median": 1.0,
+          "scored": false
+        }
+      },
+      "spread": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "ignites": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      }
+    },
+    "ca-GrQc@0.2": {
+      "theta": 0.2,
+      "n": 4158,
+      "edge_list_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+      "seconds": 43.6,
+      "ceiling_ign": 0.8461204392729881,
+      "per_radius": {
+        "1": {
+          "tau": 0.31379194592121024,
+          "tau_ign": 0.2437981953858981,
+          "certified": 0.0,
+          "exact_fraction": 0.04112554112554113,
+          "coverage_mean": 0.0017931670168322405,
+          "coverage_median": 0.000962000962000962,
+          "scored": true
+        },
+        "2": {
+          "tau": 0.5331748037214405,
+          "tau_ign": 0.474365856598741,
+          "certified": 0.020121488230827638,
+          "exact_fraction": 0.13011063011063012,
+          "coverage_mean": 0.009114369143229174,
+          "coverage_median": 0.005531505531505531,
+          "scored": true
+        },
+        "3": {
+          "tau": 0.6224734060255803,
+          "tau_ign": 0.5767687028213916,
+          "certified": 0.1571753986332574,
+          "exact_fraction": 0.19985569985569984,
+          "coverage_mean": 0.040914192429343944,
+          "coverage_median": 0.025493025493025494,
+          "scored": true
+        },
+        "4": {
+          "tau": 0.6721669309818344,
+          "tau_ign": 0.6256437216638299,
+          "certified": 0.46810933940774485,
+          "exact_fraction": 0.24843674843674843,
+          "coverage_mean": 0.14554683554202555,
+          "coverage_median": 0.11207311207311207,
+          "scored": false
+        },
+        "5": {
+          "tau": 0.7048521398200344,
+          "tau_ign": 0.6565983111398808,
+          "certified": 0.762338648443432,
+          "exact_fraction": 0.28234728234728235,
+          "coverage_mean": 0.3669980456897244,
+          "coverage_median": 0.35473785473785474,
+          "scored": false
+        }
+      },
+      "spread": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "ignites": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      }
+    },
+    "ca-HepTh@0.2": {
+      "theta": 0.2,
+      "n": 8638,
+      "edge_list_sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+      "seconds": 247.44,
+      "ceiling_ign": 0.853088894388507,
+      "per_radius": {
+        "1": {
+          "tau": 0.4255431652182437,
+          "tau_ign": 0.41010380948511316,
+          "certified": 0.0,
+          "exact_fraction": 0.03727714748784441,
+          "coverage_mean": 0.0007806736668278316,
+          "coverage_median": 0.00046307015512850195,
+          "scored": true
+        },
+        "2": {
+          "tau": 0.6131918474456666,
+          "tau_ign": 0.5513232802467566,
+          "certified": 0.0023818975784041284,
+          "exact_fraction": 0.11495716601065062,
+          "coverage_mean": 0.005577829586215884,
+          "coverage_median": 0.003009956008335263,
+          "scored": true
+        },
+        "3": {
+          "tau": 0.6955889543173748,
+          "tau_ign": 0.6152099931212249,
+          "certified": 0.14192139737991266,
+          "exact_fraction": 0.19275295207223894,
+          "coverage_mean": 0.03510989017174606,
+          "coverage_median": 0.018638573743922204,
+          "scored": true
+        },
+        "4": {
+          "tau": 0.746542450270601,
+          "tau_ign": 0.6531233678019298,
+          "certified": 0.463676061929337,
+          "exact_fraction": 0.2567724010187543,
+          "coverage_mean": 0.15172457715095633,
+          "coverage_median": 0.1092266728409354,
+          "scored": false
+        },
+        "5": {
+          "tau": 0.7744818156537651,
+          "tau_ign": 0.6774954026064997,
+          "certified": 0.7757046447002779,
+          "exact_fraction": 0.30354248668673306,
+          "coverage_mean": 0.39865118889429324,
+          "coverage_median": 0.4062861773558694,
+          "scored": false
+        }
+      },
+      "spread": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "ignites": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      }
+    }
+  }
+}

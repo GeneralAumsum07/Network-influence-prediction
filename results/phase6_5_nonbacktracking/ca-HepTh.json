@@ -1,0 +1,92 @@
+{
+  "status": "complete",
+  "pilot": false,
+  "started_utc": "2026-09-14T06:42:59.352351+00:00",
+  "identity": {
+    "tag": "ca-HepTh",
+    "configuration": {
+      "target": "spread_mean",
+      "draws": 4000,
+      "simulation_seed": 0,
+      "convention": "uniform",
+      "threads": 1,
+      "lengths": [
+        1,
+        2,
+        3
+      ],
+      "h_index_order": 3,
+      "rf_tier": "node",
+      "rf_radius": 2
+    },
+    "inputs": {
+      "meta": {
+        "path": "data/cache/cache_meta_ca-HepTh.json",
+        "sha256": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388"
+      },
+      "features": {
+        "path": "data/cache/cache_features_ca-HepTh.csv",
+        "sha256": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d"
+      },
+      "targets": {
+        "path": "data/cache/cache_targets_ca-HepTh.csv",
+        "sha256": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe"
+      },
+      "registry": {
+        "path": "data/cache/cache_registry_ca-HepTh.csv",
+        "sha256": "90fba85430a8b783cdb14d3190fefd6c48a5ffa6909322d435307532ee22f29f"
+      },
+      "edgelist": {
+        "path": "data/ca-HepTh.txt",
+        "sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90"
+      },
+      "nonbacktracking_local": {
+        "path": "influence/nonbacktracking_local.py",
+        "sha256": "bfb9e15bfeb18e9133a865c37c073fc0693a0e48a1889b1854e8c19e21808522"
+      },
+      "preprocessing": {
+        "path": "influence/preprocessing.py",
+        "sha256": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e"
+      },
+      "sweep_inputs": {
+        "path": "influence/sweep_inputs.py",
+        "sha256": "57906bb270b8244a1c6787e64258e16f39a20af323b14ece381fb0c316afce08"
+      },
+      "probe_nonbacktracking_local": {
+        "path": "probes/probe_nonbacktracking_local.py",
+        "sha256": "ff63e7925377cd413dcb1ba91dd80167a0980f6f7309f2e30b8d1efa8213cd01"
+      },
+      "rf_helpers": {
+        "path": "analysis/analyse_local_predictors.py",
+        "sha256": "59052b1376e3d53217b9beaf4a85aa4518f43b53a801cd13e4497faba1f64443"
+      },
+      "analyse": {
+        "path": "analysis/analyse.py",
+        "sha256": "0d9203945b6a02033164e7656462782095ff3d037e8d8e13231ffb9c175ae3db"
+      },
+      "sweep": {
+        "path": "data/cache/sweep_ca-HepTh.csv",
+        "sha256": "768e668102e97fa7c72e9615f931d6859671ba70a76a9547efcc030b737e7465"
+      },
+      "provenance_audit": {
+        "path": "data/cache/cache_provenance_audit_20260911.json",
+        "sha256": "1a4fc616d7f7f835a28f7a93c9e774cd34e5e1196be2d16db862f51944df19e9"
+      }
+    },
+    "imported_helpers": [
+      "analyse_local_predictors.load_rf_reference",
+      "analyse_local_predictors.rf_cell_tau"
+    ]
+  },
+  "completed_utc": "2026-09-14T06:42:59.836446+00:00",
+  "output_sha256": "f1849ee458e9dcbb0344500c65caf347135912d1baae4a4d93510791e8300617",
+  "scores": {
+    "NB1": 0.76121509977956,
+    "NB2": 0.8542925918108192,
+    "NB3": 0.8206227609041852,
+    "Hindex3": 0.7602806216244727,
+    "RFnode_r2_mean10": 0.9456879816535249
+  },
+  "radius_note": "NB3 has information radius 2; cached H-index order 3 has radius 3.",
+  "scoring_status": "ready_for_scoring"
+}

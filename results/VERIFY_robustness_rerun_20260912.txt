@@ -1,0 +1,86 @@
+==============================================================================
+CHECK 1  raw arm re-run (2026-09-12) vs archived 2026-08-27 file
+  results/robustness.csv: 640 rows   results/c8_historical_pre_20260912/robustness.csv: 640 rows
+==============================================================================
+  tau          max |delta| = 1.201e-02   (MISS, bar 1e-06)
+   worst row: network=facebook_combined, target=betweenness, rho=0.5, damage_seed=0, method=local, tau_a=-0.1033999879907071, tau_b=-0.1154136209353974
+  tau_nonzero  max |delta| = 1.096e-02   (MISS, bar 1e-06)
+   worst row: network=facebook_combined, target=betweenness, rho=0.5, damage_seed=0, method=local, tau_nonzero_a=-0.0433093045851081, tau_nonzero_b=-0.054272238122366
+  p_at_5pct    max |delta| = 4.082e-02   (MISS, bar 1e-06)
+   worst row: network=email-Eu-core, target=betweenness, rho=0.5, damage_seed=0, method=local, p_at_5pct_a=0.7551020408163265, p_at_5pct_b=0.7142857142857143
+  verdict: raw arm DIFFERS from the archive
+
+==============================================================================
+CHECK 2  reported (log1p) arm vs raw arm, betweenness
+==============================================================================
+  invariant rows (recompute, degree) tau          max |delta| = 0.000e+00  (ok)
+  invariant rows (recompute, degree) tau_nonzero  max |delta| = 0.000e+00  (ok)
+  invariant rows (recompute, degree) p_at_5pct    max |delta| = 0.000e+00  (ok)
+
+  log1p minus raw, mean over damage draws (positive = log1p arm ranks the CLEAN truth better on the damaged graph)
+
+  method = local
+
+    delta tau
+     network  ca-GrQc  ca-HepTh  email-Eu-core  facebook_combined  p2p-Gnutella08
+     rho                                                                         
+     0.00      0.0055    0.0032         0.0097             0.0772          0.0022
+     0.05      0.0206    0.0249         0.0243             0.3205          0.0447
+     0.10      0.0355    0.0508         0.0362             0.3606          0.0902
+     0.20      0.0711    0.1049         0.0658             0.4285          0.1740
+     0.30      0.1151    0.1659         0.1037             0.5037          0.2572
+     0.50      0.2020    0.2985         0.1862             0.5763          0.4231
+
+    delta tau_nonzero
+     network  ca-GrQc  ca-HepTh  email-Eu-core  facebook_combined  p2p-Gnutella08
+     rho                                                                         
+     0.00      0.0221    0.0103        -0.0006             0.0416          0.0034
+     0.05      0.0242    0.0077         0.0015             0.2601          0.0032
+     0.10      0.0236    0.0074         0.0040             0.2835          0.0077
+     0.20      0.0281    0.0118         0.0048             0.3391          0.0220
+     0.30      0.0391    0.0210         0.0066             0.3915          0.0552
+     0.50      0.0529    0.0695         0.0280             0.4426          0.1770
+
+    delta p_at_5pct
+     network  ca-GrQc  ca-HepTh  email-Eu-core  facebook_combined  p2p-Gnutella08
+     rho                                                                         
+     0.00     -0.0048    0.0046         0.0000             0.1542          0.0064
+     0.05     -0.0145    0.0688         0.0136             0.2421          0.1423
+     0.10     -0.0048    0.1841         0.0000             0.2653          0.3769
+     0.20     -0.0016    0.3511        -0.0068             0.1973          0.4841
+     0.30      0.0048    0.5522         0.0068             0.1741          0.4904
+     0.50      0.0145    0.6187        -0.0068             0.1658          0.4883
+
+  method = local_trained_damaged
+
+    delta tau
+     network  ca-GrQc  ca-HepTh  email-Eu-core  facebook_combined  p2p-Gnutella08
+     rho                                                                         
+     0.00      0.0055    0.0032         0.0097             0.0772          0.0022
+     0.05      0.0125    0.0051         0.0214             0.3286          0.0027
+     0.10      0.0155    0.0081         0.0280             0.2888          0.0039
+     0.20      0.0167    0.0104         0.0270             0.3162          0.0045
+     0.30      0.0175    0.0117         0.0231             0.2994          0.0050
+     0.50      0.0178    0.0155         0.0291             0.3139          0.0043
+
+    delta tau_nonzero
+     network  ca-GrQc  ca-HepTh  email-Eu-core  facebook_combined  p2p-Gnutella08
+     rho                                                                         
+     0.00      0.0221    0.0103        -0.0006             0.0416          0.0034
+     0.05      0.0070   -0.0019         0.0076             0.2701          0.0040
+     0.10     -0.0030   -0.0057         0.0108             0.2330          0.0044
+     0.20     -0.0086   -0.0090         0.0146             0.2637          0.0029
+     0.30     -0.0088   -0.0072         0.0099             0.2555          0.0021
+     0.50     -0.0009   -0.0045         0.0243             0.2622          0.0028
+
+    delta p_at_5pct
+     network  ca-GrQc  ca-HepTh  email-Eu-core  facebook_combined  p2p-Gnutella08
+     rho                                                                         
+     0.00     -0.0048    0.0046         0.0000             0.1542          0.0064
+     0.05      0.0000    0.0046         0.0068             0.5655          0.0032
+     0.10      0.0161    0.0015        -0.0068             0.3566          0.0106
+     0.20      0.0064   -0.0015         0.0000             0.3018          0.0053
+     0.30      0.0064    0.0054        -0.0068             0.1841          0.0074
+     0.50      0.0113    0.0015         0.0068             0.2985         -0.0053
+
+CHECKS FAILED

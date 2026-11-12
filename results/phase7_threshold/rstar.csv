@@ -1,0 +1,7 @@
+network,theta,target,role,ceiling_tau,scored,r_star_rule2,r_mean_rel005,r_mean_rule2,r_star_rel0.1,agree_rel0.1,r_star_rel0.05,agree_rel0.05,r_star_rel0.02,agree_rel0.02,outcome
+email-Eu-core,0.2,spread_theta0.2,primary,0.7642986302261868,True,2,1,3,0,5/10,1,10/10,1,10/10,counter
+email-Eu-core,0.2,ignites_theta0.2,secondary (post-gate),0.7560246345115743,True,2,1,3,0,10/10,0,10/10,1,10/10,counter
+ca-GrQc,0.2,spread_theta0.2,primary,0.5946027187912306,True,3,1,3,2,10/10,2,10/10,2,8/10,both
+ca-GrQc,0.2,ignites_theta0.2,secondary (post-gate),0.6288928026027404,True,3,1,3,2,10/10,2,10/10,3,7/10,both
+ca-HepTh,0.2,spread_theta0.2,primary,0.6200614409014218,True,3,2,3,2,10/10,2,10/10,2,10/10,counter
+ca-HepTh,0.2,ignites_theta0.2,secondary (post-gate),0.6209805201473418,True,3,2,3,2,10/10,2,10/10,2,9/10,counter

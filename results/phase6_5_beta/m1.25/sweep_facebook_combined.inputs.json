@@ -1,0 +1,14 @@
+{
+  "tag": "facebook_combined",
+  "sweep": "sweep_facebook_combined.csv",
+  "inputs": {
+    "cache_features_facebook_combined.csv": "00d864fae23dad2a79578b52bfe94ae9cdb730461fb2d5a027c17dd232122101",
+    "cache_registry_facebook_combined.csv": "954a84ce1ea37557a7da5fc7bdd47184ff66ed94538deba3915884c90df61b81",
+    "cache_targets_facebook_combined.csv": "8e0cf7556937c532d20da94a290a5b65c395b944f84fe97a596c26afde7a8b10",
+    "cache_meta_facebook_combined.json": "f9a45501d831d3a6085a0798407ec73149e96d43dd006749e6e1e3ae7d442890"
+  },
+  "recorded": "2026-10-15T21:44:42+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (P2-04)"
+}

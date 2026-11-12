@@ -1,0 +1,14 @@
+{
+  "tag": "ca-GrQc",
+  "sweep": "sweep_ca-GrQc.csv",
+  "inputs": {
+    "cache_features_ca-GrQc.csv": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+    "cache_registry_ca-GrQc.csv": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742",
+    "cache_targets_ca-GrQc.csv": "0d36030f8579125c448a5977ce35a5c35e9847d4568ffe9c59afffd81fc5c3a2",
+    "cache_meta_ca-GrQc.json": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b"
+  },
+  "recorded": "2026-11-02T10:46:28+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (P2-04)"
+}

@@ -1,0 +1,14 @@
+{
+  "tag": "ca-HepTh",
+  "sweep": "sweep_ca-HepTh.csv",
+  "inputs": {
+    "cache_features_ca-HepTh.csv": "f10cb94d476026ad8ce1223d8ee3830241035420603a7c265ac423ed4071c32f",
+    "cache_registry_ca-HepTh.csv": "4bbe9627b9c58f48a658e46b18bd942d112d09e0bbffc7e6aaaee2ed06597549",
+    "cache_targets_ca-HepTh.csv": "3ce8a4f9c6c0720f1eaaaece3857e9615319630fcf2fbd2826c7bbcd97848bc1",
+    "cache_meta_ca-HepTh.json": "e59313521f2efbaa929e46aa3f8c5729f84ec3b98044da5999ac49f231a769fb"
+  },
+  "recorded": "2026-10-15T02:07:34+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (P2-04)"
+}

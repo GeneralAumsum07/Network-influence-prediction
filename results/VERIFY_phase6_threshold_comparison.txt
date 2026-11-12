@@ -1,0 +1,10 @@
+2026-09-08: existing influence environment; no training or cache changes.
+ca-HepTh: adjacency threshold agrees with independent symmetric eigsh(which='LA')
+within rtol=1e-9; mean-field agrees with sum(k)/sum(k*(k-1)).
+facebook_combined: both independent comparisons pass under the same checks.
+Values: results/phase6_threshold_comparison.json.
+SHA256 8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90 data/ca-HepTh.txt
+SHA256 f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296 data/facebook_combined.txt
+SHA256 7780d6f73059349f189fc2de6782741e760a8ae0f5980f3bbdf95a368687d05b influence/criticality.py
+SHA256 64b87d351700ad0b465dbe04bcd916dbdbe0ac2052e992c49ba98aa930a0bee9 influence/preprocessing.py
+ALL CHECKS PASSED

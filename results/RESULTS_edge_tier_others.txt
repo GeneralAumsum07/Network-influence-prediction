@@ -1,0 +1,59 @@
+##############################################################################
+# SUPERSEDED 2026-08-31 - DO NOT CITE THE NUMBERS BELOW.
+#
+# This file was produced BEFORE the tier correction. It reports
+# `ball2_density` and `local_conductance_2` inside the EDGE tier, where they
+# were mis-tagged; they belong to `subgraph`. Every 'full edge gain' and every
+# `shells_ci_hop_2` row below therefore credits the wrong rung of the ladder.
+#
+# Kept as the record of what was measured and reported, because Finding 10
+# (study doc 26a) was written off it and a retracted number should stay
+# readable rather than vanish.
+#
+# Current results:  results/RESULTS_edge_tier.txt      (--tier edge)
+#                   results/RESULTS_edge_tier_subgraph.txt  (--tier subgraph)
+# Both now cover all five networks, so this file's 'others' split is obsolete.
+##############################################################################
+
+==============================================================================
+EDGE TIER ABLATION   target=betweenness  radius=2  seeds=10
+  paired within seed; * = |gain| > 2 x sd of the paired difference
+==============================================================================
+
+ca-GrQc   (n=4158)
+  node only            f= 35  tau=0.9119 +/- 0.0008
+  node + FULL edge     f= 82  tau=0.9201   gain +0.0082 +/- 0.0014*
+  ------------------------------------------------------------------
+  added group                   f      tau    gain vs node
+  edge_orbits                  33  0.9207  +0.0088 +/- 0.0009*
+  hop1_ego                     12  0.9165  +0.0046 +/- 0.0004*
+  shells_ci_hop_2               2  0.9128  +0.0009 +/- 0.0005 
+
+email-Eu-core   (n=986)
+  node only            f= 35  tau=0.8980 +/- 0.0012
+  node + FULL edge     f= 82  tau=0.9010   gain +0.0030 +/- 0.0026 
+  ------------------------------------------------------------------
+  added group                   f      tau    gain vs node
+  edge_orbits                  33  0.9002  +0.0021 +/- 0.0022 
+  hop1_ego                     12  0.8986  +0.0006 +/- 0.0011 
+  shells_ci_hop_2               2  0.8980  -0.0000 +/- 0.0006 
+
+p2p-Gnutella08   (n=6299)
+  node only            f= 35  tau=0.9314 +/- 0.0004
+  node + FULL edge     f= 82  tau=0.9335   gain +0.0020 +/- 0.0004*
+  ------------------------------------------------------------------
+  added group                   f      tau    gain vs node
+  shells_ci_hop_2               2  0.9330  +0.0015 +/- 0.0004*
+  edge_orbits                  33  0.9329  +0.0014 +/- 0.0003*
+  hop1_ego                     12  0.9309  -0.0006 +/- 0.0002*
+
+ca-HepTh   (n=8638)
+  node only            f= 35  tau=0.8998 +/- 0.0004
+  node + FULL edge     f= 82  tau=0.9108   gain +0.0110 +/- 0.0008*
+  ------------------------------------------------------------------
+  added group                   f      tau    gain vs node
+  edge_orbits                  33  0.9093  +0.0096 +/- 0.0007*
+  hop1_ego                     12  0.9027  +0.0030 +/- 0.0005*
+  shells_ci_hop_2               2  0.9006  +0.0008 +/- 0.0004*
+
+EXIT=0

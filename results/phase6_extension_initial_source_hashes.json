@@ -1,0 +1,257 @@
+{
+  "note": "Initial source inventory for 2026-09-08 extension; existing workspace is not a Git checkout. Captured before shared-source implementation edits. New task files may already be under construction.",
+  "files": [
+    {
+      "path": "environment.yml",
+      "sha256": "9EDF67947A6E9D76D1705DFAEFF9FD69123CD9D9B5D271FE9451A6D8CC508ECF"
+    },
+    {
+      "path": "probes/probe_objective_horizon.py",
+      "sha256": "66B5A018977CE7549A2DE66458B290D4D13CFCFF84AD93554D3AA7EAF1D94EB8"
+    },
+    {
+      "path": "analysis/analyse_objective_resweep.py",
+      "sha256": "9D04448FDC21B444190524C97118303365A8F0EFEAB06CE4B028B5069855ED8E"
+    },
+    {
+      "path": "probes/probe_moran_zeroset.py",
+      "sha256": "2A4099849A8D75DEB1D581FE26516F76D42D6988F229BC90F91329D06D6EC824"
+    },
+    {
+      "path": "analysis/analyse_objective_horizon.py",
+      "sha256": "92B8757E19E24378751F1D1A0F8C349B5B40C394F065D5CC65D025A477BD87DC"
+    },
+    {
+      "path": "probes/probe_betweenness_k_dip.py",
+      "sha256": "101DCD756DDA3628B4C22BCFD584CEB4EE5632E05E9816DC13C71DF862F44C31"
+    },
+    {
+      "path": "analysis/analyse_multiplicity.py",
+      "sha256": "39EB1C40075566EF45472EE2E1129DA889E40772347710B41B4615E48C9CEA8A"
+    },
+    {
+      "path": "figures/make_fig6.py",
+      "sha256": "08B1B44D93AB89710803906E1241DEC1A907704AE0409BD7598A768104000D5E"
+    },
+    {
+      "path": "figures/make_fig5.py",
+      "sha256": "02F19C80BD38E63F02B0B3BF8CC794C825EB8F8D99B755EE0C4F9D41EEEEBD22"
+    },
+    {
+      "path": "analysis/analyse_moran_correlogram.py",
+      "sha256": "44795A92F7CDCB1E93970F6922420C27E382ACD5E27D407CDD580DF6C0C6D53A"
+    },
+    {
+      "path": "analysis/analyse_features.py",
+      "sha256": "3F16A242AFEBE2AA7E4797C0FB1F9A35B5651F78BDAEE94CB0EA0C5D98FB691E"
+    },
+    {
+      "path": "figures/make_fig3.py",
+      "sha256": "5C20AB9197C519EB62619C7BD13E3CF1E9C52310EDDCABCE7DBB955B20AE2C1D"
+    },
+    {
+      "path": "analysis/analyse_failures.py",
+      "sha256": "9DCFCDD82A1AB43206FB3DE12990EABD1B0E71F804504A56462C746BBA524B4E"
+    },
+    {
+      "path": "figures/make_fig2.py",
+      "sha256": "2758128A3D9213DEEE31E0713E0FDC8CA143E08B115D0C3B6C774425C12CE304"
+    },
+    {
+      "path": "analysis/analyse_estimators.py",
+      "sha256": "CD70403BEAEBE6C53E66E715113A4CFB0AF47F9B9B1A765997169E67A79E1B2D"
+    },
+    {
+      "path": "figures/make_fig1.py",
+      "sha256": "DA1B1452619370425F95214D09742738EC4E966465155F4DC14A126238A418AA"
+    },
+    {
+      "path": "analysis/analyse_edge_tier.py",
+      "sha256": "4689F8BABB141B01574F712363A52B6600FE179F86FE533F2822F3F2BFD5CB68"
+    },
+    {
+      "path": "analysis/analyse_edge5.py",
+      "sha256": "03B3842137C28524CB722EE22B8F7EB66A3B456189DD919D45C946E93A33D580"
+    },
+    {
+      "path": "analysis/analyse_coverage.py",
+      "sha256": "B434C72F4EC786EDD4C74023120AD69689C677B8D03588D191D7EE269A630605"
+    },
+    {
+      "path": "analysis/analyse_c3_benchmarks.py",
+      "sha256": "7978BC76AF7DD8583870FBB7D7A50034810BFD8613424B7FCDCFC75C25C9FC43"
+    },
+    {
+      "path": "analysis/analyse_betweenness_k.py",
+      "sha256": "D8E0AAD43DF46CD415BAE29654F801A897BA35BDD24D66F32A1FEED477CF9218"
+    },
+    {
+      "path": "analysis/analyse_betweenness.py",
+      "sha256": "FB85E30DA90587D9DCBF203455AE9BDAEC69671B1894F7F8F131CFF7D3104731"
+    },
+    {
+      "path": "analysis/analyse.py",
+      "sha256": "2DC07DFF79F1A0B0F8E1305206DF7CCB0415C6F98C17804409CAA08CEE1F9FF3"
+    },
+    {
+      "path": "analysis/audit_c4_support.py",
+      "sha256": "3650AAD7AD09A706A272F717B974E4F93E9066CF29D4CD900D960323ACC1D357"
+    },
+    {
+      "path": "analysis/analyse_topk.py",
+      "sha256": "F054E3023D8CBB8640ED37505696A9668B4573AC83EC71CA26942C69A9B0E330"
+    },
+    {
+      "path": "analysis/analyse_sample_efficiency.py",
+      "sha256": "0056D2FAECDA233818183CB1760FF36CE4A70F9F4F3EAE41A460012CDAF5EDC6"
+    },
+    {
+      "path": "analysis/analyse_robustness.py",
+      "sha256": "07036AB5D448F3C7A78A8A1D21AD60D52E1758C19F1ADC3350AFC999D73307EE"
+    },
+    {
+      "path": "analysis/analyse_paired_target_noise.py",
+      "sha256": "E955DC5F5902A5FECDFC207AC32D490170B532621A8BADDF0B2C71FCA3FE2EA2"
+    },
+    {
+      "path": "analysis/_calib_edge.py",
+      "sha256": "21B5209AEB9D5F1D11AB998F8DAFAD9FDF5F1C40A8BD6A04B21A7DC21D69D5FD"
+    },
+    {
+      "path": "analysis/_calib.py",
+      "sha256": "9A1875C8B8C68717476C6947918F3ED5B79E52F70B7DF4A11D1FABFFF3A9C2EC"
+    },
+    {
+      "path": "checks/verify_pipeline.py",
+      "sha256": "429DEC33C24A28052452F30D0DED30E55791147F91AAE6A6C14053162C8CA74D"
+    },
+    {
+      "path": "checks/verify_paired_target_noise.py",
+      "sha256": "47E03B34C05026A2D15A1E9E0F04FADDEAAC0CD7612423B7705A08B0F40416A6"
+    },
+    {
+      "path": "checks/verify_generators.py",
+      "sha256": "C4D41ACF332754B32D792785883B10E7E624932EB0E632E2BD6889055C21D632"
+    },
+    {
+      "path": "checks/verify_docs.py",
+      "sha256": "227FEC34F44ADEA7551428888DF25173F6BB8CEF18CACA7DDEE93C50AD56F4FF"
+    },
+    {
+      "path": "checks/verify_c3_scoring.py",
+      "sha256": "CF626124C4463A2E1505E9A46BD8CE085B5C4923D29BC2078673A6ACCFEEAC30"
+    },
+    {
+      "path": "checks/verify_c3_fallback.py",
+      "sha256": "198CD90638A8C15701F5EE8639C5A82C54B447195D39685C0E3F43AE3D5FB59F"
+    },
+    {
+      "path": "pipeline/stage2_sweep.py",
+      "sha256": "F428CBEAF1FCD9D39933F549C62262058B4104076EFD90FBAFEC586EED4E7234"
+    },
+    {
+      "path": "pipeline/stage1_prepare.py",
+      "sha256": "2F89076F23376A935DDA92182833D4D4251D62FAAEE266F0D5D8670150F4121D"
+    },
+    {
+      "path": "pipeline/stage0_generate.py",
+      "sha256": "955C0E30A25BE25131B38E763CEEC37AE9D433AB624EEE6C6D04901BE02D0AEB"
+    },
+    {
+      "path": "analysis/score_c3_results.py",
+      "sha256": "7E8D5D6007E8451A2057937E15E4BFBF80EDB673ECFA134283B5A037D8C1CADF"
+    },
+    {
+      "path": "analysis/score_a7_arm2.py",
+      "sha256": "25B37EF85038AB627EB394983CE76AB638F324E1B3BE55F8F1451EF6593EBB9B"
+    },
+    {
+      "path": "pipeline/run_experiment.py",
+      "sha256": "C046D9681C7AA6E85C6F36484CC426BC759552E10DEE30E41641D59F2DCE1DED"
+    },
+    {
+      "path": "influence\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "influence\\targets.py",
+      "sha256": "2CD86B3986208EB0EA01E2F19F09CABE5E1357D4AC95550EE4A1AA4348276B0C"
+    },
+    {
+      "path": "influence\\structure.py",
+      "sha256": "FD3AC33707472906E8106259820A4D4EA2D903D01A677BA28F16E635418FF655"
+    },
+    {
+      "path": "influence\\robustness.py",
+      "sha256": "06AEABE9465E183111C99A32E8F5557F1FCDFF1A705D76DB32E99FE868054D78"
+    },
+    {
+      "path": "influence\\preprocessing.py",
+      "sha256": "64B87D351700AD0B465DBE04BCD916DBDBE0AC2052E992C49BA98AA930A0BEE9"
+    },
+    {
+      "path": "influence\\graphlets.py",
+      "sha256": "F2D3E6583624A30788CAE40078C915B97E9D4D4D8CD252B9F972A449FC9CB5E4"
+    },
+    {
+      "path": "influence\\generators.py",
+      "sha256": "AD085C4E9BA42CB7D37DC4C2173A1326B3306075599C967DB4E3C707EB72F5A8"
+    },
+    {
+      "path": "influence\\features.py",
+      "sha256": "307E3242C3609612E9E324A6F5D80A1DFF5DA91470A9B64AB7FD924B00DA5D12"
+    },
+    {
+      "path": "influence\\experiment.py",
+      "sha256": "9868A57D9D264225A79B053CF934F84E930212A8ECE796B4DC293DC72116288E"
+    },
+    {
+      "path": "influence\\estimators.py",
+      "sha256": "57EFF36A95443FAD8D4447D6DB9774E8505086AED2BC2642E083D3B4CC7A6209"
+    },
+    {
+      "path": "influence\\dynamics.py",
+      "sha256": "0C109EEA018A607061645BF29BFE311317F8353F403B6B96930CF4815FD98A02"
+    },
+    {
+      "path": "influence\\criticality.py",
+      "sha256": "7780D6F73059349F189FC2DE6782741E760A8AE0F5980F3BBDF95A368687D05B"
+    },
+    {
+      "path": "analysis/gamma_uncertainty.py",
+      "sha256": "40FF08B94B0C68E621F81EE2C2614DDAAA3B0E9FCABEB37CB3B7830DA37EE34A"
+    },
+    {
+      "path": "pipeline/fetch_data.py",
+      "sha256": "FF39B4BC01DFD3A199FCAB8254ECBB104FD5907CB0563432BEC33B67D665323D"
+    },
+    {
+      "path": "probes/probe_target_noise.py",
+      "sha256": "634247F79207C36186259C9E77AEC0E2F7C99DED66C3F69A8CF1B52AB7C63033"
+    },
+    {
+      "path": "probes/probe_structural_target_noise_refit.py",
+      "sha256": "86CEA90604B431644E5350BE045E4F905EDF019E0FF56ED4EB8E37B8602F337F"
+    },
+    {
+      "path": "probes/probe_sample_efficiency.py",
+      "sha256": "1FA38CC3705B05E30A87C23FB4058976CF14A8DFF5740F6C8DAA6F9BFA3759B7"
+    },
+    {
+      "path": "probes/probe_target_noise_refit.py",
+      "sha256": "8FCE04FBA76F6E1FF9192F138DDF93FA0ABA7D93988C88AF8DBF695EF78FE652"
+    },
+    {
+      "path": "pipeline/repair_column_order.py",
+      "sha256": "12490261864CA3098B8C70970497516812625CAC8320A359FFF34A4298F59DF5"
+    },
+    {
+      "path": "analysis/c4_two_numbers.py",
+      "sha256": "4DB9FE2B9109C6430579D7E64479702CA2B99BC238A57EB53D04A6EDF87B8206"
+    },
+    {
+      "path": "docs\\build_study.py",
+      "sha256": "BE5F8C47F8E8AD8ACD42F46D635D26C45DD75BC1A18EF75FAE819EAB97911BCF"
+    }
+  ]
+}

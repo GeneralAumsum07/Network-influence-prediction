@@ -1,0 +1,238 @@
+{
+  "registered_in": "prereg addendum 2026-11-02 17:15 IST, complex-contagion post-hoc measures, part A",
+  "rule": {
+    "tau_bar": 0.95,
+    "coverage_flag": 0.5,
+    "scored_radii": [
+      1,
+      2,
+      3
+    ],
+    "radii": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "sources": {
+    "probes/probe_threshold_local.py": "3b9a58d6767fc904c3703729d44827798002ff0d7dff510d18804b0b6d57cc50",
+    "influence/threshold_local.py": "9957e31bd9c4a847d0cc67fbc3daf348d3c9eb73aaae3c1c6c1fd0a18b786bc2",
+    "influence/threshold_dynamics.py": "910d846acd47a494c047293ea4301ea14a05eb4a0f3fcf356665ff4ef0996000",
+    "probes/probe_threshold_arm.py": "37fa90c35dbbbc3fb6b16e635c447ed4d4a9c3f000556a8753a57812367fd8ed",
+    "analysis/analyse_beta_sweep.py": "104392338a2d82bd8e5a619ed5f7ef01c4f4ac97d1e467f3f7321c90752f968c"
+  },
+  "networks": {
+    "email-Eu-core@0.2": {
+      "theta": 0.2,
+      "n": 986,
+      "edge_list_sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+      "seconds": 3.27,
+      "ceiling_ign": 0.8180294224685606,
+      "per_radius": {
+        "1": {
+          "tau_cens": null,
+          "tau_cens_ign": null,
+          "contained_fizzlers": 0.0,
+          "contained_igniters": 0.0,
+          "p_escaped": 1.0,
+          "p_ignites_given_escaped": 0.6703853955375254,
+          "coverage_mean": 0.03406103296043184,
+          "scored": true
+        },
+        "2": {
+          "tau_cens": 0.2887214960496937,
+          "tau_cens_ign": 0.24347199431533909,
+          "contained_fizzlers": 0.08615384615384615,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.9716024340770791,
+          "p_ignites_given_escaped": 0.6899791231732777,
+          "coverage_mean": 0.46113746610765727,
+          "scored": true
+        },
+        "3": {
+          "tau_cens": 0.7096404885921526,
+          "tau_cens_ign": 0.662494913084527,
+          "contained_fizzlers": 0.5938461538461538,
+          "contained_igniters": 0.0030257186081694403,
+          "p_escaped": 0.8022312373225152,
+          "p_ignites_given_escaped": 0.8331226295828066,
+          "coverage_mean": 0.9241510971038762,
+          "scored": true
+        },
+        "4": {
+          "tau_cens": 0.9690525786857308,
+          "tau_cens_ign": 0.7919140341934386,
+          "contained_fizzlers": 0.9569230769230769,
+          "contained_igniters": 0.12859304084720122,
+          "p_escaped": 0.5983772819472617,
+          "p_ignites_given_escaped": 0.976271186440678,
+          "coverage_mean": 0.9955153076128682,
+          "scored": false
+        },
+        "5": {
+          "tau_cens": 0.884532734130236,
+          "tau_cens_ign": 0.7208952867155213,
+          "contained_fizzlers": 0.9907692307692307,
+          "contained_igniters": 0.5552193645990923,
+          "p_escaped": 0.3012170385395537,
+          "p_ignites_given_escaped": 0.98989898989899,
+          "coverage_mean": 0.9998127949508125,
+          "scored": false
+        }
+      },
+      "spread": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "ignites": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "descriptive_p_ignites_given_escaped_r2": 0.6899791231732777
+    },
+    "ca-GrQc@0.2": {
+      "theta": 0.2,
+      "n": 4158,
+      "edge_list_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+      "seconds": 50.26,
+      "ceiling_ign": 0.8461204392729881,
+      "per_radius": {
+        "1": {
+          "tau_cens": null,
+          "tau_cens_ign": null,
+          "contained_fizzlers": 0.0,
+          "contained_igniters": 0.0,
+          "p_escaped": 1.0,
+          "p_ignites_given_escaped": 0.6334776334776335,
+          "coverage_mean": 0.0017931670168322405,
+          "scored": true
+        },
+        "2": {
+          "tau_cens": 0.3236813570766508,
+          "tau_cens_ign": 0.27003213028086526,
+          "contained_fizzlers": 0.11220472440944881,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.9588744588744589,
+          "p_ignites_given_escaped": 0.6606471030850264,
+          "coverage_mean": 0.009114369143229174,
+          "scored": true
+        },
+        "3": {
+          "tau_cens": 0.5704275072310283,
+          "tau_cens_ign": 0.4920746287969433,
+          "contained_fizzlers": 0.35498687664041995,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.8698893698893699,
+          "p_ignites_given_escaped": 0.728227813104783,
+          "coverage_mean": 0.040914192429343944,
+          "scored": true
+        },
+        "4": {
+          "tau_cens": 0.7177991323334758,
+          "tau_cens_ign": 0.6218537822221966,
+          "contained_fizzlers": 0.5452755905511811,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.8001443001443002,
+          "p_ignites_given_escaped": 0.7917042380522994,
+          "coverage_mean": 0.14554683554202555,
+          "scored": false
+        },
+        "5": {
+          "tau_cens": 0.8033302878171127,
+          "tau_cens_ign": 0.7029498901217033,
+          "contained_fizzlers": 0.6778215223097113,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.7515632515632515,
+          "p_ignites_given_escaped": 0.84288,
+          "coverage_mean": 0.3669980456897244,
+          "scored": false
+        }
+      },
+      "spread": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "ignites": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "descriptive_p_ignites_given_escaped_r2": 0.6606471030850264
+    },
+    "ca-HepTh@0.2": {
+      "theta": 0.2,
+      "n": 8638,
+      "edge_list_sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+      "seconds": 253.46,
+      "ceiling_ign": 0.853088894388507,
+      "per_radius": {
+        "1": {
+          "tau_cens": null,
+          "tau_cens_ign": null,
+          "contained_fizzlers": 0.0,
+          "contained_igniters": 0.0,
+          "p_escaped": 1.0,
+          "p_ignites_given_escaped": 0.5832368603843482,
+          "coverage_mean": 0.0007806736668278316,
+          "scored": true
+        },
+        "2": {
+          "tau_cens": 0.3124274474882283,
+          "tau_cens_ign": 0.23128218683954818,
+          "contained_fizzlers": 0.08944444444444444,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.9627228525121556,
+          "p_ignites_given_escaped": 0.6058201058201058,
+          "coverage_mean": 0.005577829586215884,
+          "scored": true
+        },
+        "3": {
+          "tau_cens": 0.5504574121906556,
+          "tau_cens_ign": 0.41490162642836154,
+          "contained_fizzlers": 0.2758333333333333,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.8850428339893494,
+          "p_ignites_given_escaped": 0.6589928057553956,
+          "coverage_mean": 0.03510989017174606,
+          "scored": true
+        },
+        "4": {
+          "tau_cens": 0.7022224952722043,
+          "tau_cens_ign": 0.5487569191419995,
+          "contained_fizzlers": 0.4625,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.807247047927761,
+          "p_ignites_given_escaped": 0.7225010755772264,
+          "coverage_mean": 0.15172457715095633,
+          "scored": false
+        },
+        "5": {
+          "tau_cens": 0.8006633644953149,
+          "tau_cens_ign": 0.6448057716098714,
+          "contained_fizzlers": 0.6161111111111112,
+          "contained_igniters": 0.0,
+          "p_escaped": 0.7432275989812457,
+          "p_ignites_given_escaped": 0.7847352024922118,
+          "coverage_mean": 0.39865118889429324,
+          "scored": false
+        }
+      },
+      "spread": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "ignites": {
+        "r_star": "> 3",
+        "counter": "not supported",
+        "ball_near_global": null
+      },
+      "descriptive_p_ignites_given_escaped_r2": 0.6058201058201058
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "tag": "CL_n5000_g2.8_k6",
+  "sweep": "sweep_CL_n5000_g2.8_k6.csv",
+  "inputs": {
+    "cache_features_CL_n5000_g2.8_k6.csv": "54a899cb58f7b479717c0753e87f2ad314f125ffc40c29f107c4155df47b8dcb",
+    "cache_registry_CL_n5000_g2.8_k6.csv": "19f684a268f4070df240ec115564ba46bdf6968ff54c86fd82ed538859a90f72",
+    "cache_targets_CL_n5000_g2.8_k6.csv": "e42bbfc7cbf9f2786b18f2837af18a9661d289efff2fb2d31804435de792c284",
+    "cache_meta_CL_n5000_g2.8_k6.json": "46118042cd47143ff1c652d05f43be5fa0d4b4c3a50b83b448b4fd907fac84d6"
+  },
+  "recorded": "2026-11-02T14:52:55+00:00",
+  "bound_from": "first_write",
+  "note": "every row in this sweep was fitted on these inputs",
+  "recorded_by": "influence/sweep_inputs.py (P2-04)"
+}

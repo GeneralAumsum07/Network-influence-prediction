@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-08",
+  "method": "influence.criticality.epidemic_threshold on load_edgelist(data/<network>.txt), existing LCC/simple-undirected preprocessing; no fitting. The initial mean_field spelling was rejected; successful method key is meanfield.",
+  "values": [
+    {
+      "network": "ca-HepTh",
+      "adjacency": 0.03222184580188499,
+      "meanfield": 0.08341039082438625
+    },
+    {
+      "network": "facebook_combined",
+      "adjacency": 0.00615862364130406,
+      "meanfield": 0.009472402612216258
+    }
+  ]
+}

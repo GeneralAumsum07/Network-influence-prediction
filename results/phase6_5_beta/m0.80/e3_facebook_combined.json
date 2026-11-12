@@ -1,0 +1,18 @@
+{
+  "network": "facebook_combined",
+  "m": 0.8,
+  "beta_c_rel_diff": 5.875407055964558e-15,
+  "p_rel_diff": 5.7704890728223335e-15,
+  "beta_c_rtol": 1e-08,
+  "beta_c_matches_locator": true,
+  "p_matches_locator": true,
+  "first_500_columns_identical": true,
+  "chi_fresh_500": 4.464630633021693,
+  "chi_recorded_locator": 4.464630633021693,
+  "chi_matches_locator": true,
+  "chi_cache_4000": 4.053100691859066,
+  "bootstrap_se_500": 0.41698205169505925,
+  "abs_diff_in_se": 0.986924831631797,
+  "within_3_se": true,
+  "pass": true
+}

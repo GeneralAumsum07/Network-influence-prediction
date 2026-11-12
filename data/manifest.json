@@ -1,0 +1,47 @@
+[
+  {
+    "name": "ca-GrQc",
+    "url": "https://snap.stanford.edu/data/ca-GrQc.txt.gz",
+    "path": "data\\ca-GrQc.txt",
+    "sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+    "bytes": 351704,
+    "directed_in_source": false,
+    "note": "collaboration, GR-QC arXiv"
+  },
+  {
+    "name": "ca-HepTh",
+    "url": "https://snap.stanford.edu/data/ca-HepTh.txt.gz",
+    "path": "data\\ca-HepTh.txt",
+    "sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+    "bytes": 658826,
+    "directed_in_source": false,
+    "note": "collaboration, HEP-TH arXiv"
+  },
+  {
+    "name": "email-Eu-core",
+    "url": "https://snap.stanford.edu/data/email-Eu-core.txt.gz",
+    "path": "data\\email-Eu-core.txt",
+    "sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+    "bytes": 192698,
+    "directed_in_source": true,
+    "note": "email, EU research institution"
+  },
+  {
+    "name": "p2p-Gnutella08",
+    "url": "https://snap.stanford.edu/data/p2p-Gnutella08.txt.gz",
+    "path": "data\\p2p-Gnutella08.txt",
+    "sha256": "fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499",
+    "bytes": 215359,
+    "directed_in_source": true,
+    "note": "peer-to-peer file sharing"
+  },
+  {
+    "name": "facebook_combined",
+    "url": "https://snap.stanford.edu/data/facebook_combined.txt.gz",
+    "path": "data\\facebook_combined.txt",
+    "sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296",
+    "bytes": 854362,
+    "directed_in_source": false,
+    "note": "ego-Facebook, combined ego networks"
+  }
+]

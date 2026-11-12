@@ -1,0 +1,30 @@
+{
+  "data/cache/cache_features_ca-GrQc.csv": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+  "data/cache/cache_features_ca-HepTh.csv": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d",
+  "data/cache/cache_features_email-Eu-core.csv": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477",
+  "data/cache/cache_meta_ca-GrQc.json": "877f6e685b92873271ac6c0631f8ce283a490c607cd486cfc40061e2cd68171b",
+  "data/cache/cache_meta_ca-HepTh.json": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388",
+  "data/cache/cache_meta_email-Eu-core.json": "155de0bd18b22570b711439e40b35af5bd0b85b4979a5509c94659d1d7b1101a",
+  "data/cache/cache_provenance_audit_20260911.json": "1a4fc616d7f7f835a28f7a93c9e774cd34e5e1196be2d16db862f51944df19e9",
+  "data/cache/cache_registry_ca-GrQc.csv": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742",
+  "data/cache/cache_registry_ca-HepTh.csv": "90fba85430a8b783cdb14d3190fefd6c48a5ffa6909322d435307532ee22f29f",
+  "data/cache/cache_registry_email-Eu-core.csv": "ab437192b824d7a08571ff41cdddd57544e51c23ee6eb4ef38ecb141d3f24457",
+  "data/ca-GrQc.txt": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+  "data/ca-HepTh.txt": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+  "data/email-Eu-core.txt": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+  "influence/dynamics.py": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02",
+  "influence/estimators.py": "65c95f0bc74c4d9aa5a159c04832322f3aadff8f25005c9b400dc8419556e3a5",
+  "influence/experiment.py": "9868a57d9d264225a79b053cf934f84e930212a8ece796b4dc293dc72116288e",
+  "influence/features.py": "c69c2b5960d2092d59dc5d914dd78019251d6d6d4bdec2d805aab11ecf6295ec",
+  "influence/graphlets.py": "e5cdb2cdd290248c6e230dd4f8fd209e3c55c1e28a142948d92cd6a39b890cf6",
+  "influence/preprocessing.py": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e",
+  "influence/sweep_inputs.py": "57906bb270b8244a1c6787e64258e16f39a20af323b14ece381fb0c316afce08",
+  "influence/targets.py": "2cd86b3986208eb0ea01e2f19f09cabe5e1357d4ac95550ee4a1aa4348276b0c",
+  "influence/threshold_dynamics.py": "910d846acd47a494c047293ea4301ea14a05eb4a0f3fcf356665ff4ef0996000",
+  "pipeline/stage2_sweep.py": "2c1f800182907bac7870699e756d871eea6af79210d0512b4864cdedf0f6db10",
+  "cache_targets": {
+    "email-Eu-core": "c44015c37e4341da6a061a738d5a448a02db661be18a8c573e6e9dadbc569b71",
+    "ca-GrQc": "0d36030f8579125c448a5977ce35a5c35e9847d4568ffe9c59afffd81fc5c3a2",
+    "ca-HepTh": "d457b81cad6fb12497a1f733ce6be4ff9e2e0e0f087af1cd3a43a72cdb1d6d00"
+  }
+}

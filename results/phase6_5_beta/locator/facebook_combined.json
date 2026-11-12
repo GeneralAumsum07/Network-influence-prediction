@@ -1,0 +1,43 @@
+{
+  "network": "facebook_combined",
+  "registered_in": "prereg addendum 2026-10-12 12:15 IST, part B",
+  "grid": [
+    0.5,
+    3.0,
+    0.05
+  ],
+  "n_draws": 500,
+  "seed": 0,
+  "beta_c": 0.006200284107725097,
+  "m_star_chi": 3.0,
+  "determined": false,
+  "m_loc": null,
+  "secondary": {
+    "m_star_s2": 3.0,
+    "m_star_cv": 1.55
+  },
+  "bootstrap": {
+    "reps": 200,
+    "seed": 0,
+    "q025": 3.0,
+    "median": 3.0,
+    "q975": 3.0,
+    "share_at_point_estimate": 1.0
+  },
+  "coupled_s1_nondecreasing": true,
+  "e3_root_identity": {
+    "first_500_columns_identical": true,
+    "chi_root_4000": 8.140870872721466,
+    "chi_fresh_500": 8.377726682129987,
+    "bootstrap_se_500": 0.7458931210830784,
+    "abs_diff_in_se": 0.31754657968234523,
+    "within_3_se": true,
+    "pass": true
+  },
+  "inputs": {
+    "edge_list": "data/facebook_combined.txt",
+    "edge_list_sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296",
+    "analyser_sha256": "438559810dab30e989806b363aff88a31b2b45f38ed127b0e8a2635be517f876"
+  },
+  "seconds": 12.9
+}

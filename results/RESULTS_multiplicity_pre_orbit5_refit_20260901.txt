@@ -1,0 +1,110 @@
+==============================================================================
+A4 - MULTIPLICITY CONTROL
+==============================================================================
+networks: ca-GrQc, ca-HepTh, email-Eu-core, facebook_combined, p2p-Gnutella08
+no fits - every p-value below is computed from cached per-seed tau
+
+The existing star rule is |mean| > 2*sd of the paired per-seed difference.
+On 10 seeds the paired t-statistic is sqrt(10)*(mean/sd), so that rule is
+about 3x STRICTER than a t-test at the same nominal alpha. This is why most
+stars survive below - the bar was higher than it was ever described as.
+
+==============================================================================
+FAMILY: hop_gain   (60 comparisons)
+==============================================================================
+  starred by the 2-sd rule      : 53
+  expected under a global null  : 2.8
+  survive BH at q < 0.05        : 57    (BY, any dependence: 57)
+  survive BH at q < 0.01        : 57    (BY, any dependence: 57)
+
+  starred but q >= 0.05 (would be withdrawn): 0
+  unstarred but q < 0.05 (currently under-claimed): 4
+    ca-HepTh             betweenness   r2->r3   +0.0009 +/- 0.0005   q=0.0005
+    email-Eu-core        spread_resid  r0->r1   +0.0347 +/- 0.0229   q=0.0010
+    email-Eu-core        spread_resid  r2->r3   -0.0178 +/- 0.0110   q=0.0007
+    facebook_combined    spread_resid  r2->r3   +0.0015 +/- 0.0008   q=0.0003
+
+  starred AND |gain| < 0.001 (significant but below 3-dp reporting): 0
+
+==============================================================================
+FAMILY: edge_tier   (60 comparisons)
+==============================================================================
+  starred by the 2-sd rule      : 28
+  expected under a global null  : 2.8
+  survive BH at q < 0.05        : 43    (BY, any dependence: 38)
+  survive BH at q < 0.01        : 38    (BY, any dependence: 34)
+
+  starred but q >= 0.05 (would be withdrawn): 0
+  unstarred but q < 0.05 (currently under-claimed): 15
+    ca-GrQc              spread_mean   r=2      -0.0003 +/- 0.0001   q=0.0004
+    ca-GrQc              spread_cv     r=2      +0.0008 +/- 0.0007   q=0.0097
+    ca-GrQc              spread_resid  r=1      +0.0021 +/- 0.0022   q=0.0192
+    ca-GrQc              spread_resid  r=3      -0.0011 +/- 0.0010   q=0.0097
+    ca-HepTh             spread_cv     r=2      +0.0006 +/- 0.0006   q=0.0188
+    ca-HepTh             spread_resid  r=1      +0.0016 +/- 0.0009   q=0.0007
+    email-Eu-core        betweenness   r=2      +0.0023 +/- 0.0023   q=0.0192
+    email-Eu-core        spread_mean   r=1      +0.0004 +/- 0.0003   q=0.0020
+    ... and 7 more
+
+  starred AND |gain| < 0.001 (significant but below 3-dp reporting): 5
+    ca-HepTh             spread_mean   r=2      +0.00020   q=0.0001
+    email-Eu-core        spread_mean   r=3      +0.00060   q=0.0001
+    p2p-Gnutella08       betweenness   r=1      -0.00035   q=0.0000
+    p2p-Gnutella08       betweenness   r=2      +0.00094   q=0.0000
+    p2p-Gnutella08       spread_mean   r=3      +0.00088   q=0.0000
+
+==============================================================================
+FAMILY: subgraph_tier   (60 comparisons)
+==============================================================================
+  starred by the 2-sd rule      : 42
+  expected under a global null  : 2.8
+  survive BH at q < 0.05        : 55    (BY, any dependence: 50)
+  survive BH at q < 0.01        : 49    (BY, any dependence: 46)
+
+  starred but q >= 0.05 (would be withdrawn): 0
+  unstarred but q < 0.05 (currently under-claimed): 13
+    ca-GrQc              betweenness   r=1      +0.0006 +/- 0.0007   q=0.0298
+    ca-GrQc              betweenness   r=2      +0.0015 +/- 0.0016   q=0.0199
+    ca-GrQc              betweenness   r=3      +0.0036 +/- 0.0022   q=0.0007
+    ca-GrQc              spread_mean   r=2      -0.0003 +/- 0.0001   q=0.0002
+    ca-GrQc              spread_cv     r=2      +0.0009 +/- 0.0010   q=0.0237
+    ca-GrQc              spread_resid  r=2      +0.0015 +/- 0.0008   q=0.0002
+    ca-GrQc              spread_resid  r=3      +0.0014 +/- 0.0010   q=0.0028
+    ca-HepTh             spread_resid  r=3      -0.0003 +/- 0.0004   q=0.0199
+    ... and 5 more
+
+  starred AND |gain| < 0.001 (significant but below 3-dp reporting): 4
+    ca-GrQc              spread_mean   r=3      +0.00055   q=0.0000
+    ca-HepTh             spread_mean   r=2      +0.00018   q=0.0000
+    ca-HepTh             spread_mean   r=3      +0.00084   q=0.0000
+    p2p-Gnutella08       betweenness   r=1      +0.00050   q=0.0000
+
+==============================================================================
+FAMILY: dynamic_tier   (60 comparisons)
+==============================================================================
+  starred by the 2-sd rule      : 4
+  expected under a global null  : 2.8
+  survive BH at q < 0.05        : 6    (BY, any dependence: 4)
+  survive BH at q < 0.01        : 4    (BY, any dependence: 4)
+
+  starred but q >= 0.05 (would be withdrawn): 0
+  unstarred but q < 0.05 (currently under-claimed): 2
+    facebook_combined    spread_mean   r=2      +0.0001 +/- 0.0001   q=0.0162
+    facebook_combined    spread_mean   r=3      +0.0001 +/- 0.0001   q=0.0112
+
+  starred AND |gain| < 0.001 (significant but below 3-dp reporting): 4
+    ca-GrQc              spread_mean   r=2      +0.00061   q=0.0001
+    ca-GrQc              spread_mean   r=3      +0.00083   q=0.0000
+    ca-HepTh             spread_mean   r=2      +0.00010   q=0.0001
+    ca-HepTh             spread_mean   r=3      +0.00030   q=0.0000
+
+==============================================================================
+SUMMARY
+==============================================================================
+       family  n  stars  expected_null  bh_05  by_05  withdrawn  tiny
+     hop_gain 60     53            2.8     57     57          0     0
+    edge_tier 60     28            2.8     43     38          0     5
+subgraph_tier 60     42            2.8     55     50          0     4
+ dynamic_tier 60      4            2.8      6      4          0     4
+
+wrote results/multiplicity.csv

@@ -1,0 +1,76 @@
+{
+  "identity": {
+    "tag": "facebook_combined",
+    "k": 50,
+    "pilot_draws": 20,
+    "split": {
+      "train": [
+        0,
+        10
+      ],
+      "evaluation": [
+        10,
+        20
+      ]
+    },
+    "threads": 1,
+    "inputs": {
+      "meta": {
+        "path": "data/cache/cache_meta_facebook_combined.json",
+        "sha256": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c"
+      },
+      "features": {
+        "path": "data/cache/cache_features_facebook_combined.csv",
+        "sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382"
+      },
+      "targets": {
+        "path": "data/cache/cache_targets_facebook_combined.csv",
+        "sha256": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9"
+      },
+      "cascades": {
+        "path": "data/cache/cache_cascades_facebook_combined.npy",
+        "sha256": "9e3a8ba521ad6671d99e28080c243b48e9d4ec675cfbfe8fb16285fdfb8ca292"
+      },
+      "oof": {
+        "path": "data/cache/cache_oof_facebook_combined.npz",
+        "sha256": "76744a93740294f5f83c7937a07e9f9dabce9dfc2452177e8729bed3fb09bbeb"
+      },
+      "edgelist": {
+        "path": "data/facebook_combined.txt",
+        "sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296"
+      },
+      "influence/seed_sets.py": {
+        "path": "influence/seed_sets.py",
+        "sha256": "b3423d3f96f6d61553a8a7cc396267de1f5bfc3470cd03772b99e72deafb4525"
+      },
+      "influence/local_dynamics.py": {
+        "path": "influence/local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "influence/dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "influence/preprocessing.py",
+        "sha256": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e"
+      },
+      "probes/probe_seed_sets.py": {
+        "path": "probes/probe_seed_sets.py",
+        "sha256": "b9cdea95ffe7cb007e113a5e7f74ab09b532f7f10f71f0094add86b8241daaf6"
+      },
+      "analysis/analyse_local_predictors.py": {
+        "path": "analysis/analyse_local_predictors.py",
+        "sha256": "59052b1376e3d53217b9beaf4a85aa4518f43b53a801cd13e4497faba1f64443"
+      }
+    }
+  },
+  "status": "complete",
+  "started_utc": "2026-09-13T12:36:50.852029+00:00",
+  "pilot": true,
+  "completed_utc": "2026-09-13T12:36:51.447472+00:00",
+  "seconds": 0.5945479000074556,
+  "verified_draws": 20,
+  "output_sha256": "736f662ed7a8e41e8fc7b324968c1ce94bd6ed568a1cc8d6dd6904ef34d5e5a9",
+  "caveat": "RF cached training targets use both draw halves; oracle-top-sigma uses training-half Monte Carlo means; greedy is not an exact optimum. Pilot omits E and cannot score claims."
+}

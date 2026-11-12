@@ -1,0 +1,43 @@
+{
+  "network": "ca-GrQc",
+  "registered_in": "prereg addendum 2026-10-12 12:15 IST, part B",
+  "grid": [
+    0.5,
+    3.0,
+    0.05
+  ],
+  "n_draws": 500,
+  "seed": 0,
+  "beta_c": 0.02250307170411322,
+  "m_star_chi": 3.0,
+  "determined": false,
+  "m_loc": null,
+  "secondary": {
+    "m_star_s2": 3.0,
+    "m_star_cv": 2.65
+  },
+  "bootstrap": {
+    "reps": 200,
+    "seed": 0,
+    "q025": 1.25,
+    "median": 3.0,
+    "q975": 3.0,
+    "share_at_point_estimate": 0.575
+  },
+  "coupled_s1_nondecreasing": true,
+  "e3_root_identity": {
+    "first_500_columns_identical": true,
+    "chi_root_4000": 3.336185039058478,
+    "chi_fresh_500": 3.3438287074483206,
+    "bootstrap_se_500": 0.20164053143296098,
+    "abs_diff_in_se": 0.037907400538585184,
+    "within_3_se": true,
+    "pass": true
+  },
+  "inputs": {
+    "edge_list": "data/ca-GrQc.txt",
+    "edge_list_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+    "analyser_sha256": "438559810dab30e989806b363aff88a31b2b45f38ed127b0e8a2635be517f876"
+  },
+  "seconds": 6.1
+}

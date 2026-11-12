@@ -1,0 +1,31 @@
+{
+  "registered_in": "prereg 2026-11-02 19:53 certificate parts C, D",
+  "primary": {
+    "outcome": "FLAT",
+    "n_scored": 8,
+    "T": -0.42857142857142855,
+    "t_crit": 0.5714285714285714,
+    "delta_2.1_minus_4.0": 0.017609082930553854,
+    "sd_pool": 0.0004806965738802278,
+    "magnitude_ok": true
+  },
+  "betweenness_reported": {
+    "outcome": "COUNTER SUPPORTED",
+    "n_scored": 8,
+    "T": 0.5714285714285714,
+    "t_crit": 0.5714285714285714,
+    "delta_2.1_minus_4.0": -0.013974087346951158,
+    "sd_pool": 0.0008869934784755772,
+    "magnitude_ok": true
+  },
+  "structure_reported": {
+    "kendall_nb_spectral_gap_vs_gamma_target": -0.9285714285714285,
+    "kendall_duel_ratio_vs_gamma_target": 0.9285714285714285,
+    "kendall_nb_spectral_gap_vs_duel_ratio": -0.8571428571428571
+  },
+  "sources": {
+    "analysis/analyse_certificate.py": "4022059c5fbdb20261c52336d21cc13a9f351e8c66deb6a8a365d9c42d001226",
+    "probes/probe_certificate.py": "a1cc4eb6561081cb343389239cacbb01befe71058b66e5095f9e38509afa28c9",
+    "analysis/analyse_beta_sweep.py": "104392338a2d82bd8e5a619ed5f7ef01c4f4ac97d1e467f3f7321c90752f968c"
+  }
+}

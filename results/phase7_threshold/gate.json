@@ -1,0 +1,210 @@
+{
+  "registered_in": "prereg addendum 2026-11-02 10:55 IST, part C",
+  "ignition": "size > 0.05 * n",
+  "band": [
+    0.1,
+    0.9
+  ],
+  "thetas": [
+    0.1,
+    0.2
+  ],
+  "sources": {
+    "probes/probe_threshold_arm.py": "ecb656380be27d9edcc440d9eaccbe1a1d2f6b60f4e9e022c71944763164c2c8",
+    "influence/threshold_dynamics.py": "910d846acd47a494c047293ea4301ea14a05eb4a0f3fcf356665ff4ef0996000",
+    "analysis/analyse_beta_sweep.py": "104392338a2d82bd8e5a619ed5f7ef01c4f4ac97d1e467f3f7321c90752f968c"
+  },
+  "networks": {
+    "ca-GrQc": {
+      "n": 4158,
+      "m": 13422,
+      "edge_list_sha256": "f8ce6e931e068b878044b783da99ef603f566c87bcbce7991cd53720879f1660",
+      "theta0.1": {
+        "ignition_fraction": 0.94997594997595,
+        "passes": false,
+        "n_ignite": 3950,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 4078.0,
+          "q25": 4078.0,
+          "median": 4078.0,
+          "q75": 4078.0,
+          "q90": 4078.0,
+          "max": 4118.0
+        },
+        "n_distinct_sizes": 17,
+        "seconds": 3.15
+      },
+      "theta0.2": {
+        "ignition_fraction": 0.6334776334776335,
+        "passes": true,
+        "n_ignite": 2634,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 7.0,
+          "q25": 25.0,
+          "median": 3821.0,
+          "q75": 3821.0,
+          "q90": 3821.0,
+          "max": 3891.0
+        },
+        "n_distinct_sizes": 81,
+        "seconds": 6.35
+      }
+    },
+    "ca-HepTh": {
+      "n": 8638,
+      "m": 24806,
+      "edge_list_sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+      "theta0.1": {
+        "ignition_fraction": 0.955661032646446,
+        "passes": false,
+        "n_ignite": 8255,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 8614.0,
+          "q25": 8614.0,
+          "median": 8614.0,
+          "q75": 8614.0,
+          "q90": 8614.0,
+          "max": 8638.0
+        },
+        "n_distinct_sizes": 17,
+        "seconds": 15.37
+      },
+      "theta0.2": {
+        "ignition_fraction": 0.5832368603843482,
+        "passes": true,
+        "n_ignite": 5038,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 6.0,
+          "q25": 20.0,
+          "median": 8412.0,
+          "q75": 8412.0,
+          "q90": 8412.0,
+          "max": 8445.0
+        },
+        "n_distinct_sizes": 137,
+        "seconds": 40.13
+      }
+    },
+    "email-Eu-core": {
+      "n": 986,
+      "m": 16064,
+      "edge_list_sha256": "23e0ca0bce21a053025e78f7e9691ac9210ae806a0689bd5edff3c3bac572d4c",
+      "theta0.1": {
+        "ignition_fraction": 0.9066937119675457,
+        "passes": false,
+        "n_ignite": 894,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 986.0,
+          "q25": 986.0,
+          "median": 986.0,
+          "q75": 986.0,
+          "q90": 986.0,
+          "max": 986.0
+        },
+        "n_distinct_sizes": 23,
+        "seconds": 0.2
+      },
+      "theta0.2": {
+        "ignition_fraction": 0.6703853955375254,
+        "passes": true,
+        "n_ignite": 661,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 7.0,
+          "q25": 27.25,
+          "median": 986.0,
+          "q75": 986.0,
+          "q90": 986.0,
+          "max": 986.0
+        },
+        "n_distinct_sizes": 97,
+        "seconds": 0.28
+      }
+    },
+    "facebook_combined": {
+      "n": 4039,
+      "m": 88234,
+      "edge_list_sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296",
+      "theta0.1": {
+        "ignition_fraction": 0.9853924238672939,
+        "passes": false,
+        "n_ignite": 3980,
+        "size_quantiles": {
+          "min": 61.0,
+          "q10": 3290.0,
+          "q25": 3290.0,
+          "median": 3290.0,
+          "q75": 3290.0,
+          "q90": 4039.0,
+          "max": 4039.0
+        },
+        "n_distinct_sizes": 4,
+        "seconds": 8.38
+      },
+      "theta0.2": {
+        "ignition_fraction": 0.9460262441198316,
+        "passes": false,
+        "n_ignite": 3821,
+        "size_quantiles": {
+          "min": 30.0,
+          "q10": 235.0,
+          "q25": 534.0,
+          "median": 756.0,
+          "q75": 1163.0,
+          "q90": 1230.0000000000573,
+          "max": 2513.0
+        },
+        "n_distinct_sizes": 95,
+        "seconds": 10.98
+      }
+    },
+    "p2p-Gnutella08": {
+      "n": 6299,
+      "m": 20776,
+      "edge_list_sha256": "fecc14ef3c36ac13210bf9618cec773d7354ec9b033fe716a3af3fb815049499",
+      "theta0.1": {
+        "ignition_fraction": 0.9355453246547071,
+        "passes": false,
+        "n_ignite": 5893,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 6288.0,
+          "q25": 6288.0,
+          "median": 6288.0,
+          "q75": 6288.0,
+          "q90": 6288.0,
+          "max": 6299.0
+        },
+        "n_distinct_sizes": 27,
+        "seconds": 8.75
+      },
+      "theta0.2": {
+        "ignition_fraction": 0.057151928877599616,
+        "passes": false,
+        "n_ignite": 360,
+        "size_quantiles": {
+          "min": 2.0,
+          "q10": 6.0,
+          "q25": 8.0,
+          "median": 19.0,
+          "q75": 39.0,
+          "q90": 69.0,
+          "max": 6288.0
+        },
+        "n_distinct_sizes": 139,
+        "seconds": 5.68
+      }
+    }
+  },
+  "passing": [
+    "ca-GrQc@0.2",
+    "ca-HepTh@0.2",
+    "email-Eu-core@0.2"
+  ],
+  "verdict": "gate passes on some pairs: fits run on those only"
+}

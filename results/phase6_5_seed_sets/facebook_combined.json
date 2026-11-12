@@ -1,0 +1,119 @@
+{
+  "identity": {
+    "tag": "facebook_combined",
+    "k": 50,
+    "pilot_draws": 0,
+    "split": {
+      "train": [
+        0,
+        2000
+      ],
+      "evaluation": [
+        2000,
+        4000
+      ]
+    },
+    "threads": 1,
+    "inputs": {
+      "meta": {
+        "path": "data/cache/cache_meta_facebook_combined.json",
+        "sha256": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c"
+      },
+      "features": {
+        "path": "data/cache/cache_features_facebook_combined.csv",
+        "sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382"
+      },
+      "targets": {
+        "path": "data/cache/cache_targets_facebook_combined.csv",
+        "sha256": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9"
+      },
+      "cascades": {
+        "path": "data/cache/cache_cascades_facebook_combined.npy",
+        "sha256": "9e3a8ba521ad6671d99e28080c243b48e9d4ec675cfbfe8fb16285fdfb8ca292"
+      },
+      "oof": {
+        "path": "data/cache/cache_oof_facebook_combined.npz",
+        "sha256": "76744a93740294f5f83c7937a07e9f9dabce9dfc2452177e8729bed3fb09bbeb"
+      },
+      "edgelist": {
+        "path": "data/facebook_combined.txt",
+        "sha256": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296"
+      },
+      "influence/seed_sets.py": {
+        "path": "influence/seed_sets.py",
+        "sha256": "b3423d3f96f6d61553a8a7cc396267de1f5bfc3470cd03772b99e72deafb4525"
+      },
+      "influence/local_dynamics.py": {
+        "path": "influence/local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "influence/dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "influence/preprocessing.py",
+        "sha256": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e"
+      },
+      "probes/probe_seed_sets.py": {
+        "path": "probes/probe_seed_sets.py",
+        "sha256": "b9cdea95ffe7cb007e113a5e7f74ab09b532f7f10f71f0094add86b8241daaf6"
+      },
+      "analysis/analyse_local_predictors.py": {
+        "path": "analysis/analyse_local_predictors.py",
+        "sha256": "59052b1376e3d53217b9beaf4a85aa4518f43b53a801cd13e4497faba1f64443"
+      },
+      "L3_json": {
+        "path": "results/phase6_5_local/facebook_combined.json",
+        "sha256": "c4e8c926a5cafb29bab401c8eb0985a7006267dea7919766db8559713b00b076"
+      },
+      "L3_npz": {
+        "path": "results/phase6_5_local/facebook_combined.npz",
+        "sha256": "b8586cfc58b6724f8692fb2050f4553c28930c1d5d4c94f0eb2c6c2bd3c8abc4"
+      }
+    }
+  },
+  "status": "complete",
+  "started_utc": "2026-09-13T12:43:14.534417+00:00",
+  "pilot": false,
+  "L3_historical_identity": {
+    "tag": "facebook_combined",
+    "radii": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "simulation_seed": 0,
+    "p": 0.009300426161587647,
+    "convention": "uniform",
+    "pilot_draws": 0,
+    "split": {
+      "predictor": [
+        0,
+        2000
+      ],
+      "target": [
+        2000,
+        4000
+      ]
+    },
+    "threads": 1
+  },
+  "L3_historical_input_hashes": {
+    "meta": "43ec907cd6443e98a0a29395147fd1bb4e1376a106d1105c79654f0c5bf15d1c",
+    "features": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382",
+    "targets": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9",
+    "cascades": "9e3a8ba521ad6671d99e28080c243b48e9d4ec675cfbfe8fb16285fdfb8ca292",
+    "edgelist": "f41c026ed8af3cc3359f1ca5573d0605fb09ae0eefa34544b820fd8c6e2ef296",
+    "influence/local_dynamics.py": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47",
+    "influence/dynamics.py": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02",
+    "influence/preprocessing.py": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e",
+    "probes/probe_local_predictors.py": "b038b80e7ff1b105f4b6a676b04a8d28078578a674ee4e298f4da833b6df1410"
+  },
+  "completed_utc": "2026-09-13T12:43:31.989425+00:00",
+  "seconds": 17.453751000008197,
+  "verified_draws": 4000,
+  "output_sha256": "0e4ba9d975063d9803fea3821e4efdbc0ce25e36b70d40ebd85b7ace1eb364dc",
+  "caveat": "RF cached training targets use both draw halves; oracle-top-sigma uses training-half Monte Carlo means; greedy is not an exact optimum. Pilot omits E and cannot score claims."
+}

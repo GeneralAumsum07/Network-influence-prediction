@@ -1,0 +1,1235 @@
+{
+ "date": "2026-11-05",
+ "status": "partial_phase6_not_closed",
+ "scope": "Closure sidecar to the 2026-09-11 ledger, which is left unchanged. Protocol: docs/reference/phase6_final_audit_protocol.md.",
+ "base_ledger": {
+  "path": "results/phase6_task6_coverage_ledger_20260911.json",
+  "sha256": "6e10226eeb18fa313486d1a30b75093948a0f2e5a25c95538ab3ae05b23ca20a"
+ },
+ "gates_run_2026_11_05": {
+  "commands": 24,
+  "exit_0": 23,
+  "exit_1": [
+   "checks/verify_robustness_rerun.py"
+  ],
+  "exit_1_reason": "Expected: CHECK 1 misses its 1e-6 bar, traced to registry column order (LOG 2026-10-12 11:19); CHECK 2 passes."
+ },
+ "findings_open_at_ledger": {
+  "P1-01": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "calibrate takes a seen-only maximum over families; derive_node_radius gives the exact reference; verify_calibration passes.",
+   "retained_limitation": null
+  },
+  "P1-02": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "load_edgelist records source_sha256; stage2_sweep calls check_source_identity; fetch_data has EXPECTED_SHA256; run_experiment inherits by shelling out.",
+   "retained_limitation": null
+  },
+  "P1-03": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Same-orientation duplicates and reciprocated pairs counted separately.",
+   "retained_limitation": "cache_meta files built earlier keep the old sum under the old key; the audit block carries the split."
+  },
+  "P1-04": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "rows_unparsed counted, recorded and warned.",
+   "retained_limitation": null
+  },
+  "P1-05": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Dense fallback under DENSE_FALLBACK_MAX_DIM; theta fixtures in verify_criticality.",
+   "retained_limitation": null
+  },
+  "P1-06": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "verify_generators exits non-zero on failure.",
+   "retained_limitation": null
+  },
+  "P1-07": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "graphlets.py treats a zero-byte output or stderr as failure.",
+   "retained_limitation": "The optional orca.cpp exit-code patch was not applied, as of the earlier read in this review."
+  },
+  "P2-01": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "discover() excludes OBJECTIVE_ARMS; both CSVs carry no rf_log1p row.",
+   "retained_limitation": null
+  },
+  "P2-02": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Readers normalise keys through normalise_source_keys.",
+   "retained_limitation": "Recorded artefacts keep their absolute-path keys on purpose: identity hashes fold them in, and recorded hashes are not rewritten."
+  },
+  "P2-03": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "influence/oof_arms.py selects the arm; RESULTS_failures and RESULTS_betweenness print it.",
+   "retained_limitation": null
+  },
+  "P2-04": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "bind_inputs writes and checks <sweep>.inputs.json.",
+   "retained_limitation": "Rows older than a sidecar flagged bound_from=resume are bound only by the column fingerprint and the reproduction checks."
+  },
+  "P2-05": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "stage2_sweep refuses rf_log1p on other targets; the splice refuses extra targets.",
+   "retained_limitation": null
+  },
+  "P2-06": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Splice uses key-set equality; section 4 reads paired_sd.",
+   "retained_limitation": null
+  },
+  "P2-07": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "assert_no_leakage(cols) present; recorded as a post-run source change.",
+   "retained_limitation": null
+  },
+  "P2-08": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Docstring now describes both arms.",
+   "retained_limitation": null
+  },
+  "P2-10": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "is_alias column; r1 analysis reads manifest.json; main() wrapper; controller comment.",
+   "retained_limitation": null
+  },
+  "P2-11": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Labelled in headers and prose; --objective exists in analyse_edge5 and analyse_edge_tier.",
+   "retained_limitation": null
+  },
+  "P3-01": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Docstrings, printed line and study §19b state |t| > 6.32, alpha 1.4e-4.",
+   "retained_limitation": null
+  },
+  "P3-02": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "shares() uses the exact floor. Stored results/results_c3_scored_cells.csv equals it to 8.3e-17; 171 hits both ways, 0 flips; nearest cell 1.7e-4 from the boundary (computed 2026-11-05).",
+   "retained_limitation": null
+  },
+  "P3-03": {
+   "disposition": "code_inspected_limitation_retained",
+   "evidence": "Paths resolve from __file__.",
+   "retained_limitation": "docs/study_document.pdf is still the 2026-08-18 build; it is known to be stale. Rebuilding needs weasyprint outside the influence env."
+  },
+  "P3-04": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Staging files promoted by os.replace on gate pass; verify_c3_scoring tests a failed gate.",
+   "retained_limitation": null
+  },
+  "P3-05": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Tautology replaced by a direct dense-path check; ORBIT5_RADIUS gated.",
+   "retained_limitation": "verify_c3_scoring still uses bare asserts; an AssertionError exits non-zero, so it can fail."
+  },
+  "P3-07": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "verify_docs.check_multiplicity pins §19b to results/multiplicity.csv and passes.",
+   "retained_limitation": null
+  },
+  "P3-08": {
+   "disposition": "code_inspected_fix_present",
+   "evidence": "Figure headers carry objective_label; RESULTS_edge5 header names the arm; alias duplication stated in §26k.2.",
+   "retained_limitation": null
+  }
+ },
+ "new_findings": {
+  "D-01": {
+   "severity": "MINOR",
+   "category": "gate side effect",
+   "title": "Two gates rewrite tracked results files on every run",
+   "evidence": "checks/verify_brava_corpus_identity.py writes results/phase6_brava_corpus_identity_20260910.json and checks/verify_c3_fallback.py writes results/RESULTS_c3_fallback.txt. The first docstring says it 'modifies no historical artifact' while overwriting a dated record's generated stamp and comparison statuses.",
+   "not_a_data_change": "0 sha256, bytes or nonblank_rows lines differ. Statuses moved to match because the preflight gained all five graphs and its 61-character hash was corrected on 2026-09-10; that is a recorded amendment.",
+   "status": "fixed_2026_11_05",
+   "resolution": "Read-only by default was chosen. A plain run of either gate writes nothing, tested by hashing the files before and after. checks/verify_c3_fallback.py writes only with --record, and its routing has a self-test. checks/verify_brava_corpus_identity.py --record writes a new file named for the day and refuses an existing one. The 2026-09-10 record was restored to its committed content; RESULTS_c3_fallback.txt was re-recorded once at current source hashes."
+  },
+  "D-02": {
+   "severity": "INFORMATIONAL",
+   "category": "wording",
+   "title": "analyse_sample_efficiency 'one swapped pair' is the untied bound",
+   "evidence": "tolerance() uses 2/C(n,2). tau-b divides by a smaller number when the target has ties, so one real swap moves tau by more than that (inferred from the tau-b formula, not measured).",
+   "consequence": "The gate is stricter than its comment says, so it cannot pass something the comment would reject.",
+   "status": "open_no_action_needed"
+  },
+  "D-03": {
+   "severity_reviewer": "MAJOR",
+   "severity_after_verification": "MINOR",
+   "category": "reporting",
+   "title": "analysis/analyse_betweenness.py prints the boundary share under the label 'tau floor'",
+   "evidence": "analysis/analyse_betweenness.py:336 prints w_exact; lines 153-188 of the same file say this conflation was the 2026-09-05 error. results/RESULTS_betweenness.txt shows 0.7100, 0.6535, 0.2628, 0.1562, 0.4353 against the corrected 0.593, 0.571, 0.260, 0.156, 0.418 pinned in checks/verify_pipeline.py.",
+   "consequence": "A tracked result file carries the retracted statistic and a false sentence. Downgraded because no consumer was found: tracked code does not read the file, the study cites it only for mismatch counts, and the floors the study and verifier use come from boundary_share()['tau_floor'].",
+   "binding": "No live hash check covers this file. The Moran provenance binds analysis/analyse_betweenness_k.py, and the importers take only boundary_share.",
+   "proposed_fix": "Print B['tau_floor'] and regenerate results/RESULTS_betweenness.txt.",
+   "status": "fixed_2026_11_09",
+   "fix": {
+    "approved_by": "the author, 2026-11-09",
+    "what": "Prints B['tau_floor'] instead of w_exact under the 'tau floor' label. Regenerated output differs from the recorded one in exactly the five floor lines: 0.7100/0.6535/0.2628/0.1562/0.4353 became 0.5929/0.5714/0.2598/0.1556/0.4181, the floors checks/verify_pipeline.py pins.",
+    "sha256_after": {
+     "analysis/analyse_betweenness.py": "ce385268836e6b46a34182e78166f4fc53f58b7126f70401545bc005e6a39dbd",
+     "results/RESULTS_betweenness.txt": "e927e5cd4d221e996f8aefe3904313741915962927527fd0fd53e2e2fd71c21a"
+    },
+    "checks": "checks/verify_buffered_cv.py, checks/verify_docs.py and checks/verify_pipeline.py all exit 0 after the change."
+   }
+  },
+  "D-04": {
+   "severity": "MINOR",
+   "category": "accounting",
+   "title": "154 finished buffered CV cells carry the status 'incomplete'",
+   "evidence": "Measured against results/phase6_buffered_cv_folds.csv: all 154 are mixes of complete folds with infeasible_lt30 (77) or source_infeasible (77) folds, and the fold file has no ready rows.",
+   "consequence": "The label reads as an unfinished run, and analysis/analyse_buffered_cv.py:127 merges these with fully infeasible cells.",
+   "rejected_part": "The review's 'fitted folds are discarded silently' is not accepted: probes/probe_buffered_cv.py:963-964 documents the exclusion as deliberate and keeps partial predictions in the checkpoint. Its proposed relabel is also not adopted as stated, because it would change row_sha256 values in a recorded file.",
+   "status": "fixed_2026_11_09",
+   "fix": {
+    "approved_by": "the author, 2026-11-09",
+    "what": "Unscored contrasts now say why: unscored_unresolved_buffer 84, unscored_infeasible 39, unscored_partially_infeasible 21, unscored_infeasible+partially_infeasible 12 (was one label on 156 rows). Every other column is identical; the random-reference CSV is byte-identical; the cells CSV is not touched. results/recovery_20260914/sources.json pins the old analysis/analyse_buffered_cv.py hash; that controller was superseded by recovery_20261007 (which does not pin it) and nothing queued checks the pin, which is left as recorded.",
+    "sha256_after": {
+     "analysis/analyse_buffered_cv.py": "372ad65f3645362467142a91aadfd6087ad7f62ec1ffd90a8a444535e3cd6e19",
+     "results/phase6_buffered_cv_analysis.csv": "8d43514a47d65a7efb702ebf9b24103fdc6f06ceb9cfbe0f457b43865fd583dc"
+    },
+    "checks": "checks/verify_buffered_cv.py, checks/verify_docs.py and checks/verify_pipeline.py all exit 0 after the change."
+   }
+  },
+  "D-05": {
+   "severity": "MINOR",
+   "category": "reporting",
+   "title": "analysis/analyse_estimators.py does not state its objective arm",
+   "evidence": "The docstring at line 96 promises every number carries 'under a squared-error objective'; no print does, and estimator_horizons.csv and estimator_shape.csv have no arm column.",
+   "status": "fixed_2026_11_09",
+   "fix": {
+    "approved_by": "the author, 2026-11-09",
+    "what": "Prints the objective and adds an objective column (squared_error_raw). Both CSVs are byte-identical to the recorded ones apart from the appended column.",
+    "sha256_after": {
+     "analysis/analyse_estimators.py": "6882a8c8da131258a4b87fdea71d581436cb09fa9d653022f1f2b025a7aa1cbe",
+     "results/estimator_horizons.csv": "5d6dacafbb5ad4dd7ad861f5ff37a5c3dcbcc63850b2dfa0a849e7528fc053c9",
+     "results/estimator_shape.csv": "5dc34d2f78efecf88ffb21d7f182803f58ec7a50b7e7902ee7d5a10a50158296"
+    },
+    "checks": "checks/verify_buffered_cv.py, checks/verify_docs.py and checks/verify_pipeline.py all exit 0 after the change."
+   }
+  },
+  "D-06": {
+   "severity": "INFORMATIONAL",
+   "category": "latent",
+   "title": "Modal r* tie-break differs between analysis/analyse.py and two other scripts",
+   "evidence": "analysis/analyse.py:239 sorts before idxmax; analysis/analyse_estimators.py:114 and analysis/analyse_objective_horizon.py:106 do not. Measured by running both scripts: 1 tie in 240 calls, and the tie-break changes no mode.",
+   "consequence": "None on current numbers; it would matter only on new data.",
+   "status": "open_latent"
+  },
+  "D-07": {
+   "severity": "MINOR",
+   "category": "reporting",
+   "title": "figures/make_fig1.py caption mixes computed numbers with fixed conclusions",
+   "evidence": "figures/make_fig1.py:183-191 uses the unpaired across-seed sd, hard-codes 'done at r=1' and 'still climbing at r=3', leaves min(g_vol)/g_bet unguarded, and names no arm.",
+   "status": "fixed_2026_11_09",
+   "fix": {
+    "approved_by": "the author, 2026-11-09",
+    "what": "Caption numbers now come from paired per-seed differences, and each verdict from its own rule. Measured on ca-GrQc: the betweenness r1->r3 gain is +0.008 against 2 paired sd = 0.002, so it is ABOVE seed noise, while its eps=0.05 r* is 1. The old caption's 'done at r=1' rested on the unpaired sd and was true only in the eps sense; the new caption states both. Likewise the volatility targets have r*=2 by eps while their r2->r3 hop is still above seed noise. Footer now names the objective arm and that the circles are the mean-curve r*.",
+    "sha256_after": {
+     "figures/make_fig1.py": "4242281e68bee5bad1b2ee2d2ee9799f6eaeef15f0255f51aabe095c56dd3285",
+     "results/fig1_locality_budget.png": "21e65beb332e0f9c7ed82f43ad508cb4b10d504989fe7950666c84ce12a6e533"
+    },
+    "checks": "checks/verify_buffered_cv.py, checks/verify_docs.py and checks/verify_pipeline.py all exit 0 after the change."
+   }
+  },
+  "D-08": {
+   "severity": "MINOR",
+   "category": "latent",
+   "title": "probes/probe_structural_target_noise_refit.py can stop a resume",
+   "evidence": "load_resume writes provenance when no CSV exists; a crash before the first row leaves provenance alone, and the next run raises 'resume requires both'. It fails closed. Read, not triggered.",
+   "status": "open_latent"
+  },
+  "D-09": {
+   "severity": "MINOR",
+   "category": "latent",
+   "title": "--tags in analysis/analyse_structural_moran_correlogram.py can replace the five-network evidence",
+   "evidence": "--tags keeps the default --out and --provenance paths, with no subset guard, and writes are not atomic. A misspelt tag is dropped silently. Read, not triggered.",
+   "status": "open_latent"
+  },
+  "D-10": {
+   "severity": "INFORMATIONAL",
+   "category": "wording",
+   "title": "Three comments state something false",
+   "evidence": "phase6_buffered_controller.ps1:4 says --rf-jobs 8 is hard-coded but lines 53-60 use the pilot value. analysis/analyse_multiplicity.py paired() says None if a cell is missing at any seed but accepts 3 or more common seeds. figures/make_fig6.py says q cannot be 0 but score() can return p=0; the minimum q in results/multiplicity.csv is 1.2e-22, so this is latent.",
+   "status": "open_no_action_needed"
+  },
+  "D-11": {
+   "severity_reviewer": "MAJOR",
+   "severity_after_verification": "MINOR",
+   "category": "verifier_gap",
+   "title": "checks/verify_generators.py sections 3-4 cannot fail on a generator that ignores its parameter",
+   "evidence": "checks/verify_generators.py:110-136 asserts only tolerant monotonicity (alpha < prev - 0.05, clustering < prev - 1e-3); a constant series passes, and 'lands near its target' is printed, not asserted.",
+   "measured": "Run 2026-11-09: fitted gamma 2.110/2.434/2.959/3.428/4.124 for targets 2.1-4.0; Holme-Kim clustering 0.016 -> 0.591 over p_triad 0-1. The current generators do move their knobs.",
+   "consequence": "Downgraded because no current defect exists; it matters for the synthetic-graph work, which relies on these generators.",
+   "status": "open_awaiting_decision"
+  },
+  "D-12": {
+   "severity": "MINOR",
+   "category": "silent_failure",
+   "title": "features.py drops graphlet and edge-orbit columns silently when counting fails",
+   "evidence": "influence/features.py:1121-1124 and 1163-1166 catch Exception and print only if verbose; with verbose=False the subgraph/edge columns are simply absent.",
+   "consequence": "Latent: a failed ORCA call would yield a feature table without those tiers and no error. Not triggered on the recorded caches (checks/verify_pipeline.py checks the ORCA columns).",
+   "status": "open_awaiting_decision"
+  },
+  "D-13": {
+   "severity": "MINOR",
+   "category": "verifier_gap",
+   "title": "checks/verify_nonbacktracking_local.py's direct-B oracle pairs arcs by position, not identity",
+   "evidence": "Its arc list is node-major; build_nonbacktracking_direct (criticality.py:74-79) orders upper triangle then reversals. Measured 2026-11-09: agrees on all four of its fixtures, disagrees on triangle+pendant (L=2: [3,2,3,2] vs true [3,3,2,2]) and on a 5-path.",
+   "consequence": "The oracle cannot catch an error on the shapes it is given. Production nb_walk_counts agrees with explicit enumeration on all of these graphs, so no result is affected.",
+   "status": "open_awaiting_decision"
+  },
+  "D-14": {
+   "severity": "MINOR",
+   "category": "repository_rule",
+   "title": "Twelve tracked results files carry absolute local paths",
+   "evidence": "results/phase6_5_local/*.json and pilot_2/*.json (10 files; probes/probe_local_predictors.py:72 stores str(p.resolve())), results/phase6_task6_coverage_ledger_20260911.json, and two provenance files under results/phase6_buffered_pre_orbit5_retag_20260910/.",
+   "consequence": "Breaks the no-local-absolute-paths rule and exposes a local user path on the remote. The paths sit inside recorded resume identities, so rewriting them changes recorded records.",
+   "status": "open_awaiting_decision"
+  },
+  "D-15": {
+   "severity": "MINOR",
+   "category": "silent_failure",
+   "title": "pipeline/fetch_data.py swallows a pin mismatch and rewrites data/manifest.json without that network",
+   "evidence": "pipeline/fetch_data.py:140-150: verify_pinned raises inside fetch(); the loop's except Exception prints [FAIL] and continues; the manifest is then written from the successes only.",
+   "consequence": "Latent until someone re-runs pipeline/fetch_data.py; a changed upstream file would leave a truncated tracked manifest and exit 0.",
+   "status": "open_awaiting_decision"
+  },
+  "D-16": {
+   "severity": "MINOR",
+   "category": "verifier_gap",
+   "title": "checks/verify_robustness_rerun.py passes when it compares nothing",
+   "evidence": "aligned() (lines 50-55) returns only rows on both sides and warns on the rest; an empty overlap gives worst=NaN, and 'NaN > TOL' is False (line 73), so check 1 stays ok; check 2 labels NaN ok at line 93.",
+   "consequence": "A truncated rerun file could pass. The current run fails check 1 for its known reason, so no recorded verdict depends on this.",
+   "status": "open_awaiting_decision"
+  },
+  "D-17": {
+   "severity": "MINOR",
+   "category": "error_message",
+   "title": "vendor/orca.cpp names the wrong file when opening input or output fails",
+   "evidence": "vendor/orca.cpp:1362-1370 prints argv[2] for the input file (argv[3]) and argv[3] for the output file (argv[4]).",
+   "consequence": "Misleading diagnostic only; graphlets.py already checks return code, stderr and output.",
+   "status": "open_awaiting_decision"
+  }
+ },
+ "files": [
+  {
+   "path": "analysis/_calib.py",
+   "class": "changed",
+   "ledger_sha256": "9a1875c8b8c68717476c6947918f3ed5b79e52f70b7df4a11d1fabfff3a9c2ec",
+   "sha256": "cf35fb1103a66b9e3ac63c9eec210f4d39e9e4aa2400be4c8920c39bef3f806f",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read"
+  },
+  {
+   "path": "analysis/_calib_edge.py",
+   "class": "changed",
+   "ledger_sha256": "21b5209aeb9d5f1d11ab998f8dafad9fdf5f1c40a8bd6a04b21a7dc21d69d5fd",
+   "sha256": "6bb1d244c5bd4fb783d247042edffc37dfa17512dead6d737fec81fbc9c920bd",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read"
+  },
+  {
+   "path": "analysis/analyse.py",
+   "class": "changed",
+   "ledger_sha256": "2dc07dff79f1a0b0f8e1305206df7ccb0415c6f98c17804409caa08cee1f9ff3",
+   "sha256": "0d9203945b6a02033164e7656462782095ff3d037e8d8e13231ffb9c175ae3db",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_betweenness.py",
+   "class": "changed",
+   "ledger_sha256": "fb85e30da90587d9dcbf203455ae9bdaec69671b1894f7f8f131cff7d3104731",
+   "sha256": "c39c6ac13c8373870a9941adfac8d09cc99ae143b4fd43388d11ab9ceee3662d",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_betweenness_k.py",
+   "class": "unchanged",
+   "sha256": "d8e0aad43df46cd415bae29654f801a897ba35bdd24d66f32a1feed477cf9218"
+  },
+  {
+   "path": "analysis/analyse_buffered_cv.py",
+   "class": "changed",
+   "ledger_sha256": "755d8f1538b320f2c82b1ee58572b42696faa63eb600c3963c3770154049f147",
+   "sha256": "95add78ee00fad7a878109a567149243ffbed6677ebfb7e84a8316de0420c061",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_c3_benchmarks.py",
+   "class": "changed",
+   "ledger_sha256": "ca81acb52631d61e5d7d1e47ad4633dfe8847761d2d65da74ea488c6e5d81b15",
+   "sha256": "ff66006d8af3f3c3b9d46da1a2cee8fc0717b8c66438e02f9b4f7554e7f84707",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_coverage.py",
+   "class": "changed",
+   "ledger_sha256": "b434c72f4ec786edd4c74023120ad69689c677b8d03588d191d7ee269a630605",
+   "sha256": "5ef3f461e3ed61d0d6cabaa70d3a50806efb8424e90ce42c8d99f3a45ac69bdb",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "analysis/analyse_edge5.py",
+   "class": "changed",
+   "ledger_sha256": "03b3842137c28524cb722ee22b8f7eb66a3b456189dd919d45c946e93a33d580",
+   "sha256": "4682ad9e0372e2e1d6f353d9515acd142407135597d2191a3a758af86ad037e4",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_edge_tier.py",
+   "class": "changed",
+   "ledger_sha256": "4689f8babb141b01574f712363a52b6600fe179f86fe533f2822f3f2bfd5cb68",
+   "sha256": "1422f3676213ffd441b5e6439ec84c4f90677e12994a606337b65c54a2d8553c",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_estimators.py",
+   "class": "changed",
+   "ledger_sha256": "cd70403beaebe6c53e66e715113a4cfb0af47f9b9b1a765997169e67a79e1b2d",
+   "sha256": "8b181646ac126a72a00a72dcf9e44d25658473551470282da9c6ce38db3e29c2",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_failures.py",
+   "class": "changed",
+   "ledger_sha256": "9dcfcdd82a1ab43206fb3de12990eabd1b0e71f804504a56462c746bba524b4e",
+   "sha256": "492c48c0dd149c29582917ad3aeb7e15a0e1c4a3875051d428b5d35aef7a93fd",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_features.py",
+   "class": "unchanged",
+   "sha256": "3f16a242afebe2aa7e4797c0fb1f9a35b5651f78bdaee94cb0ea0c5d98fb691e"
+  },
+  {
+   "path": "analysis/analyse_moran_correlogram.py",
+   "class": "unchanged",
+   "sha256": "44795a92f7cdcb1e93970f6922420c27e382acd5e27d407cdd580df6c0c6d53a"
+  },
+  {
+   "path": "analysis/analyse_multiplicity.py",
+   "class": "changed",
+   "ledger_sha256": "39eb1c40075566ef45472ee2e1129da889e40772347710b41b4615e48c9cea8a",
+   "sha256": "8d34c022f2e109d2119f9e8027fbfc742a58d3ba85c9f43eb7a965e22a4ac735",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_objective_horizon.py",
+   "class": "changed",
+   "ledger_sha256": "92b8757e19e24378751f1d1a0f8c349b5b40c394f065d5cc65d025a477bd87dc",
+   "sha256": "ea55ee93ded6c4209ff3ef808149cfc215d21f95c63e2aec6fb495562d78de34",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_objective_resweep.py",
+   "class": "changed",
+   "ledger_sha256": "9d04448fdc21b444190524c97118303365a8f0efeab06ce4b028b5069855ed8e",
+   "sha256": "95dc3293af5aa2bd027a4dd342e10b41f074c300b8813fdc1218bc4249365aec",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "analysis/analyse_paired_target_noise.py",
+   "class": "unchanged",
+   "sha256": "e955dc5f5902a5fecdfc207ac32d490170b532621a8baddf0b2c71fca3fe2ea2"
+  },
+  {
+   "path": "analysis/analyse_r1_ablation.py",
+   "class": "changed",
+   "ledger_sha256": "985f11bdd7ff1a87a52fa2f49bb7aafc165bf206c93ce1b334ad94b0c681eb94",
+   "sha256": "5428e14f916d5213b8dd10430c3efc85d302d4d3ec8aff8c89f9368106ad9d48",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_robustness.py",
+   "class": "changed",
+   "ledger_sha256": "07036ab5d448f3c7a78a8a1d21ad60d52e1758c19f1adc3350afc999d73307ee",
+   "sha256": "eff34e46c8bff35bb79a6368297a7e101e2b53c8d0affdee689a8bf680c1987b",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_sample_efficiency.py",
+   "class": "changed",
+   "ledger_sha256": "0056d2faecda233818183cb1760ff36ce4a70f9f4f3eae41a460012cdaf5edc6",
+   "sha256": "19d23d19c221c1d8e0d7547d0262519d927d4c1ae7a81fe89ba49871108a3115",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "analysis/analyse_structural_moran_correlogram.py",
+   "class": "changed",
+   "ledger_sha256": "8f8d0b7afb252fcfdbaae2bb93ed2efbb7e713e32a72d1bacabdf1d64fc5066e",
+   "sha256": "7ec4ad65e784151a21b1fca817d314b256f12abc8d79c4ddbc8500bce5400ef7",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_structural_target_noise.py",
+   "class": "unchanged",
+   "sha256": "2e296421da34385a908049fe7ea9e1401c15b43c1d52d6bd52c9f4db5676e94d"
+  },
+  {
+   "path": "analysis/analyse_topk.py",
+   "class": "unchanged",
+   "sha256": "f054e3023d8cbb8640ed37505696a9668b4573ac83ec71ca26942c69a9b0e330"
+  },
+  {
+   "path": "analysis/audit_c4_support.py",
+   "class": "unchanged",
+   "sha256": "3650aad7ad09a706a272f717b974e4f93e9066cf29d4cd900d960323acc1d357"
+  },
+  {
+   "path": "analysis/c4_two_numbers.py",
+   "class": "unchanged",
+   "sha256": "4db9fe2b9109c6430579d7e64479702ca2b99bc238a57eb53d04a6edf87b8206"
+  },
+  {
+   "path": "docs/build_study.py",
+   "class": "changed",
+   "ledger_sha256": "be5f8c47f8e8ad8acd42f46d635d26c45dd75bc1a18ef75fae819eab97911bcf",
+   "sha256": "22eb6d6a809800d28adeb6252f053d2fa06d3a95236a14300815953f9406b248",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "pipeline/fetch_data.py",
+   "class": "changed",
+   "ledger_sha256": "ff39b4bc01dfd3a199fcab8254ecbb104fd5907cb0563432bec33b67d665323d",
+   "sha256": "abecb490e318b57e7a222f5e073d62e6a1f369d64754b73d3b26ab2a41d3de2b",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "analysis/gamma_uncertainty.py",
+   "class": "unchanged",
+   "sha256": "40ff08b94b0c68e621f81ee2c2614ddaaa3b0e9fcabeb37cb3b7830da37ee34a"
+  },
+  {
+   "path": "influence/__init__.py",
+   "class": "unchanged",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "path": "influence/criticality.py",
+   "class": "changed",
+   "ledger_sha256": "457973de8c7f2e140b10066c6244e02f59a185dc0df4749c4ad4b17bb76bed9b",
+   "sha256": "6b7df21492552da468ca40989b05b9cff626cac531cf228b6701e16b47a2cdf0",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "influence/dynamics.py",
+   "class": "unchanged",
+   "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+  },
+  {
+   "path": "influence/estimators.py",
+   "class": "changed",
+   "ledger_sha256": "57eff36a95443fad8d4447d6db9774e8505086aed2bc2642e083d3b4cc7a6209",
+   "sha256": "65c95f0bc74c4d9aa5a159c04832322f3aadff8f25005c9b400dc8419556e3a5",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "influence/experiment.py",
+   "class": "unchanged",
+   "sha256": "9868a57d9d264225a79b053cf934f84e930212a8ece796b4dc293dc72116288e"
+  },
+  {
+   "path": "influence/features.py",
+   "class": "changed",
+   "ledger_sha256": "307e3242c3609612e9e324a6f5d80a1dff5da91470a9b64ab7fd924b00da5d12",
+   "sha256": "c69c2b5960d2092d59dc5d914dd78019251d6d6d4bdec2d805aab11ecf6295ec",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/generators.py",
+   "class": "unchanged",
+   "sha256": "ad085c4e9ba42cb7d37dc4c2173a1326b3306075599c967db4e3c707eb72f5a8"
+  },
+  {
+   "path": "influence/graphlets.py",
+   "class": "changed",
+   "ledger_sha256": "f2d3e6583624a30788cae40078c915b97e9d4d4d8cd252b9f972a449fc9cb5e4",
+   "sha256": "e5cdb2cdd290248c6e230dd4f8fd209e3c55c1e28a142948d92cd6a39b890cf6",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "influence/preprocessing.py",
+   "class": "changed",
+   "ledger_sha256": "64b87d351700ad0b465dbe04bcd916dbdbe0ac2052e992c49ba98aa930a0bee9",
+   "sha256": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "influence/r1_ablation.py",
+   "class": "changed",
+   "ledger_sha256": "e8e7b797355a81df0edb215110fbe4af574068d5732f026b9c8612b098c242c1",
+   "sha256": "b85a0cef508fee866e41fe8d51cb483921f9e24ae1412de8bf98f7799080d26f",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "influence/robustness.py",
+   "class": "unchanged",
+   "sha256": "06aeabe9465e183111c99a32e8f5557f1fcdff1a705d76db32e99fe868054d78"
+  },
+  {
+   "path": "influence/structure.py",
+   "class": "unchanged",
+   "sha256": "fd3ac33707472906e8106259820a4d4ea2d903d01a677ba28f16e635418ff655"
+  },
+  {
+   "path": "influence/targets.py",
+   "class": "unchanged",
+   "sha256": "2cd86b3986208eb0ea01e2f19f09cabe5e1357d4ac95550ee4a1aa4348276b0c"
+  },
+  {
+   "path": "figures/make_fig1.py",
+   "class": "changed",
+   "ledger_sha256": "da1b1452619370425f95214d09742738ec4e966465155f4dc14a126238a418aa",
+   "sha256": "cadbe29ff15b8592ce7857df1efee5de32b03cda7c6233a02d8f532bc7b5e293",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "figures/make_fig2.py",
+   "class": "changed",
+   "ledger_sha256": "2758128a3d9213deee31e0713e0fdc8ca143e08b115d0c3b6c774425c12ce304",
+   "sha256": "cff2377b23ab28253d92fc8ee12a5c2633f5559a5fe544a60f8a2c4b1d8e3d4f",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "figures/make_fig3.py",
+   "class": "changed",
+   "ledger_sha256": "5c20ab9197c519eb62619c7bd13e3cf1e9c52310eddcabce7dbb955b20ae2c1d",
+   "sha256": "48a3034b69a12d87879b919388cbcc6ec6a3fea8fb8bc44221ceb25b18cd7c0f",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "figures/make_fig5.py",
+   "class": "unchanged",
+   "sha256": "02f19c80bd38e63f02b0b3bf8cc794c825eb8f8d99b755ee0c4f9d41eeeebd22"
+  },
+  {
+   "path": "figures/make_fig6.py",
+   "class": "changed",
+   "ledger_sha256": "08b1b44d93ab89710803906e1241dec1a907704ae0409bd7598a768104000d5e",
+   "sha256": "37d1dc7486bf0caf4b363f2bb251cca01493fa5373c6221caccaa77efce296b7",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/precision_witness.py",
+   "class": "unchanged",
+   "sha256": "e4f373de663fb21e536604f46017b945a83ecd56f3b92b28b1499ee37c0fc6af"
+  },
+  {
+   "path": "probes/probe_betweenness_k_dip.py",
+   "class": "unchanged",
+   "sha256": "101dcd756dda3628b4c22bcfd584ceb4ee5632e05e9816dc13c71df862f44c31"
+  },
+  {
+   "path": "probes/probe_buffered_cv.py",
+   "class": "changed",
+   "ledger_sha256": "b32aa481bc1d2f350c2403c39b2e4ee47ce5345f9babcaa7c602cadae628cc1a",
+   "sha256": "6c92782bd20b3a891bd9b1c0631019a3f42ad95fc395c8cd52127a0dc6299b61",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_c3_precision_witness.py",
+   "class": "unchanged",
+   "sha256": "b6f3482eb25544cd390d6c040df7d86f0be1589f18165d1463e0b6e1f66e12fc"
+  },
+  {
+   "path": "probes/probe_moran_zeroset.py",
+   "class": "unchanged",
+   "sha256": "2a4099849a8d75deb1d581fe26516f76d42d6988f229bc90f91329d06d6ec824"
+  },
+  {
+   "path": "probes/probe_objective_horizon.py",
+   "class": "changed",
+   "ledger_sha256": "66b5a018977ce7549a2de66458b290d4d13cfcff84ad93554d3aa7eaf1d94eb8",
+   "sha256": "6f85559cfe02f8e375a93f2ff66cbb02a49a2a93d13d2351d8545340bcf4225e",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "probes/probe_r1_ablation.py",
+   "class": "changed",
+   "ledger_sha256": "174a8ac33150bc60f07de88e3cad834da4929057f261851a233f669a42e2edf7",
+   "sha256": "0eb623cd06e80118d492efd591485c51eef966c81fbcb5410d165a667660b1b3",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "probes/probe_sample_efficiency.py",
+   "class": "changed",
+   "ledger_sha256": "1fa38cc3705b05e30a87c23fb4058976cf14a8dff5740f6c8daa6f9bfa3759b7",
+   "sha256": "ece24e8d6fdad618649a3254fbb0c3683a4bc887091ee8e3911c081afc285a92",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "probes/probe_structural_target_noise_refit.py",
+   "class": "changed",
+   "ledger_sha256": "eb12c1de3953c45693755f447234d1421c4cb4f48d07c23db5345b41f8d5bad6",
+   "sha256": "0d1562d2f254f00f5338d9b3e2858d73bcc599d187dfd925ce25e6caedaf9e51",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_target_noise.py",
+   "class": "unchanged",
+   "sha256": "634247f79207c36186259c9e77aec0e2f7c99ded66c3f69a8cf1b52ab7c63033"
+  },
+  {
+   "path": "probes/probe_target_noise_refit.py",
+   "class": "unchanged",
+   "sha256": "8fce04fba76f6e1ff9192f138ddf93fa0aba7d93988c88af8dbf695ef78fe652"
+  },
+  {
+   "path": "pipeline/repair_column_order.py",
+   "class": "unchanged",
+   "sha256": "12490261864ca3098b8c70970497516812625cac8320a359fff34a4298f59df5"
+  },
+  {
+   "path": "results/phase6_sources/brava_betweenness.py",
+   "class": "unchanged",
+   "sha256": "c7bb0f44abe1175bd0b23fb70c4d7f3ae703f13fd030aec0bfab14b51211994d"
+  },
+  {
+   "path": "results/phase6_sources/brava_results.py",
+   "class": "unchanged",
+   "sha256": "3389b7023b49ea7189fd6199999bdb446e0477b41a8b1c3ce16d8369555644f2"
+  },
+  {
+   "path": "results/phase6_sources/brava_utils.py",
+   "class": "unchanged",
+   "sha256": "c1b040c50842cc4e718580e5afcf01203aaf7ae197a21ce0a1a9d63ae7acaca5"
+  },
+  {
+   "path": "pipeline/run_experiment.py",
+   "class": "changed",
+   "ledger_sha256": "c046d9681c7aa6e85c6f36484cc426bc759552e10dee30e41641d59f2dce1ded",
+   "sha256": "edc0583b09899fbea07256fee20b4427055afa4521acfbd2020554db3e767239",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "analysis/score_a7_arm2.py",
+   "class": "changed",
+   "ledger_sha256": "25b37ef85038ab627eb394983ce76ab638f324e1b3be55f8f1451ef6593ebb9b",
+   "sha256": "046b9514a0b159accc32365698febbcee643559f64889721973d9e5a558685ec",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "analysis/score_c3_results.py",
+   "class": "changed",
+   "ledger_sha256": "7e8d5d6007e8451a2057937e15e4bfbf80edb673ecfa134283b5a037d8c1cadf",
+   "sha256": "205f7d327617efea1fda7da115c4f2391da883298a66e4c4d0fa0fce28d36e88",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "pipeline/stage0_generate.py",
+   "class": "unchanged",
+   "sha256": "955c0e30a25be25131b38e763ceec37ae9d433ab624eee6c6d04901be02d0aeb"
+  },
+  {
+   "path": "pipeline/stage1_prepare.py",
+   "class": "unchanged",
+   "sha256": "4da8beb83786a2da7a37ebfb6bbd8ca0b6490700897ee44adbc23777ad6456aa"
+  },
+  {
+   "path": "pipeline/stage2_sweep.py",
+   "class": "changed",
+   "ledger_sha256": "f428cbeaf1fcd9d39933f549c62262058b4104076efd90fbafec586eed4e7234",
+   "sha256": "2c1f800182907bac7870699e756d871eea6af79210d0512b4864cdedf0f6db10",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "checks/verify_brava_corpus_identity.py",
+   "class": "changed",
+   "ledger_sha256": "7320d763cc4fb0d69ca0196d93a9fcbccf6dd7bcab1bbc590911e7c2fe902e14",
+   "sha256": "6e2a1c9d32c20c04fa0689cc61b06ed8bbf4abef3e299595b26e675a124c1ee2",
+   "ledger_pre_image_in_git": true,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "checks/verify_buffered_cv.py",
+   "class": "changed",
+   "ledger_sha256": "73d74db28b8a641020597fb3040408f03d566b4166cf773ef81ff4e271b2a422",
+   "sha256": "8e174b6a2f2454f6477225e162d2829cb51e2069d6e164300aa1ac315544de13",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_c3_fallback.py",
+   "class": "changed",
+   "sha256": "1c65453c399dd8b6a2f4e802c93307cb3a9d1a617a8e2998d212d1191d0b6030",
+   "changed_for": "D-01"
+  },
+  {
+   "path": "checks/verify_c3_precision_witness.py",
+   "class": "changed",
+   "ledger_sha256": "39bfea82e8ddc57c8e0dee60e7581ffe19401977516ab45e123430526a79879f",
+   "sha256": "8e94aaffe05352163103de44fb755964a8a81c8132e98426b46ca68d29edbf23",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_c3_scoring.py",
+   "class": "changed",
+   "ledger_sha256": "cf626124c4463a2e1505e9a46bd8ce085b5c4923d29bc2078673a6accfeeac30",
+   "sha256": "4445a6582b4d2504e47f4643d9372f8ddfc38d3efb1a6585014f99bf702d1997",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "checks/verify_criticality.py",
+   "class": "changed",
+   "ledger_sha256": "05f89bd398fd9784c69b1b2ecbd8640c897d18025d4a484381c542a9f57f90fa",
+   "sha256": "c035a376c94082e55b35f253af02730a10377f01cf8a9a62d9c48399fb5aa54e",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "checks/verify_docs.py",
+   "class": "changed",
+   "ledger_sha256": "227fec34f44adea7551428888df25173f6bb8cef18caca7ddee93c50ad56f4ff",
+   "sha256": "1b59bb1a23799626b10533983f42c66d9e865c7fc2e6f53c9b2c168696c78382",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "git_diff_read"
+  },
+  {
+   "path": "checks/verify_generators.py",
+   "class": "changed",
+   "ledger_sha256": "c4d41acf332754b32d792785883b10e7e624932eb0e632e2bd6889055c21d632",
+   "sha256": "18d1544ee889841e7b617f6ed985bc6e8b1a237adfd7de81ac4962a224851974",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "checks/verify_paired_target_noise.py",
+   "class": "unchanged",
+   "sha256": "47e03b34c05026a2d15a1e9e0f04faddeaac0cd7612423b7705a08b0f40416a6"
+  },
+  {
+   "path": "checks/verify_pipeline.py",
+   "class": "changed",
+   "ledger_sha256": "429dec33c24a28052452f30d0ded30e55791147f91aae6a6c14053162c8ca74d",
+   "sha256": "1ff60e4fadceb61009c27050c629c7218a98df953d121b9c53954f3a53f4dede",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "finding_lines_read"
+  },
+  {
+   "path": "checks/verify_r1_ablation.py",
+   "class": "changed",
+   "ledger_sha256": "6c9ddd37a8d10f5a7d6f610dcd7069829e39c147c4d3a487b6414f4540428b16",
+   "sha256": "c0be8393792c0ed54df1f6f02168862772a977d28f3109c0017a0d8e7ab848d7",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_structural_target_noise.py",
+   "class": "unchanged",
+   "sha256": "c4070f4b956249da6c9e4bdf20251aa955db29cbf6f4917d476e68c923931a57"
+  },
+  {
+   "path": "checks/verify_structural_target_noise_analysis.py",
+   "class": "unchanged",
+   "sha256": "5a9d67fcf8aa47dd6d7c48cb00565b468ad5b779e972ebc0ddc9522b5f644ab9"
+  },
+  {
+   "path": "data/manifest.json",
+   "class": "unchanged",
+   "sha256": "dce9d434409d254eb1894faddaad30001ebd8a07e4d35972a59287af092d8b68"
+  },
+  {
+   "path": "environment.lock.yml",
+   "class": "unchanged",
+   "sha256": "468a7d1be34f67a04492b3aa159b2df17d53944cbbbc91792d59bb774edc781c"
+  },
+  {
+   "path": "environment.yml",
+   "class": "changed",
+   "ledger_sha256": "9edf67947a6e9d76d1705dfaeff9fd69123cd9d9b5d271fe9451a6d8cc508ecf",
+   "sha256": "ae8fc87d0dd1596b77d904c7eedff2e6a2cdfcf18635f4ebce9f723dcffbdb15",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/phase6_buffered_controller.ps1",
+   "class": "changed",
+   "ledger_sha256": "0a1aa93fd83888e7462b52a667490a07431d97771b637654e6f8a24e38773bc5",
+   "sha256": "eb16f1857c9f542ec0168156a828c69c2458b4d0beb211fc4f21203b39d91489",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/phase6_structural_controller.ps1",
+   "class": "changed",
+   "ledger_sha256": "07ffbe52429e13e8b65dfed3c63854c72b003c6f8240a2179d0f65d434a64f90",
+   "sha256": "41a71d86538080df26aa30ccd05b5b2c0b55dd3c2dcadd0e0ba6355f0f8d3c1a",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "vendor/orca.cpp",
+   "class": "changed",
+   "ledger_sha256": "01c580febfd3653a632a04d6b466f7c6f2bf2f9baf3a75a2e553be30ac7ee778",
+   "sha256": "b998afda3e3ee5ca1e57029720c427f07ee2d4ff07abacc929fa6b1efdb1188e",
+   "ledger_pre_image_in_git": false,
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_beta_sweep.py",
+   "class": "new_since_ledger",
+   "sha256": "104392338a2d82bd8e5a619ed5f7ef01c4f4ac97d1e467f3f7321c90752f968c",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_branch_anisotropy_gate.py",
+   "class": "new_since_ledger",
+   "sha256": "ca5c71c6909455aec90f061ae55343d853ed2735c4413529ed3aeb92e72323a3",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_certificate.py",
+   "class": "new_since_ledger",
+   "sha256": "4022059c5fbdb20261c52336d21cc13a9f351e8c66deb6a8a365d9c42d001226",
+   "review_depth": "full_file_read"
+  },
+  {
+   "path": "analysis/analyse_local_predictors.py",
+   "class": "new_since_ledger",
+   "sha256": "59052b1376e3d53217b9beaf4a85aa4518f43b53a801cd13e4497faba1f64443",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_seed_sets.py",
+   "class": "new_since_ledger",
+   "sha256": "1f327083e6bfd773c571cefe572c6e31f996af46e121c32795c2356c373b1e04",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/analyse_threshold_arm.py",
+   "class": "new_since_ledger",
+   "sha256": "4f8886a502b11bd7f8321c90091835975c73f302cb9ce805f2a420af5c538b2e",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/branch_anisotropy.py",
+   "class": "new_since_ledger",
+   "sha256": "82a471cb467d59def967441ff22efa82ebd2263e8b681d3337648fd2c4b57aef",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/checkpoint.py",
+   "class": "new_since_ledger",
+   "sha256": "482e6736b52e89c0d13d2ae98a889825ff374c663efe823a0757b68f556f9b09",
+   "review_depth": "full_file_read"
+  },
+  {
+   "path": "influence/local_dynamics.py",
+   "class": "new_since_ledger",
+   "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/nb_spectrum.py",
+   "class": "new_since_ledger",
+   "sha256": "844c9134f1cec0429fcbed1b971eb0b6deca17184421f5658a0c5ed81ef2d169",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/nonbacktracking_local.py",
+   "class": "new_since_ledger",
+   "sha256": "bfb9e15bfeb18e9133a865c37c073fc0693a0e48a1889b1854e8c19e21808522",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/oof_arms.py",
+   "class": "new_since_ledger",
+   "sha256": "d73d1981f9a2f4e9299a5b0bbd1e358b92b5823d4593b5e002208bb6e10ce0f9",
+   "review_depth": "full_file_read"
+  },
+  {
+   "path": "influence/seed_sets.py",
+   "class": "new_since_ledger",
+   "sha256": "b3423d3f96f6d61553a8a7cc396267de1f5bfc3470cd03772b99e72deafb4525",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/sweep_inputs.py",
+   "class": "new_since_ledger",
+   "sha256": "57906bb270b8244a1c6787e64258e16f39a20af323b14ece381fb0c316afce08",
+   "review_depth": "full_file_read"
+  },
+  {
+   "path": "influence/threshold_dynamics.py",
+   "class": "new_since_ledger",
+   "sha256": "910d846acd47a494c047293ea4301ea14a05eb4a0f3fcf356665ff4ef0996000",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "influence/threshold_local.py",
+   "class": "new_since_ledger",
+   "sha256": "9957e31bd9c4a847d0cc67fbc3daf348d3c9eb73aaae3c1c6c1fd0a18b786bc2",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_beta_sweep.py",
+   "class": "new_since_ledger",
+   "sha256": "d455d5dfc8bc00654c95512b9b6f786108bbca00c26dd99c8e81eb57832ab947",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_branch_anisotropy.py",
+   "class": "new_since_ledger",
+   "sha256": "fb28410fe81598a90f4ee5b327163d0548ade26fc3714947f02674914a820a9a",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_certificate.py",
+   "class": "new_since_ledger",
+   "sha256": "a1cc4eb6561081cb343389239cacbb01befe71058b66e5095f9e38509afa28c9",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_local_predictors.py",
+   "class": "new_since_ledger",
+   "sha256": "b038b80e7ff1b105f4b6a676b04a8d28078578a674ee4e298f4da833b6df1410",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_nonbacktracking_local.py",
+   "class": "new_since_ledger",
+   "sha256": "ff63e7925377cd413dcb1ba91dd80167a0980f6f7309f2e30b8d1efa8213cd01",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_realisation.py",
+   "class": "new_since_ledger",
+   "sha256": "87f9a86866ce47fd52dbd8604b2b663df0a540f8d05a8d95c2510a0f09cc71ae",
+   "review_depth": "written_this_session_no_second_reader"
+  },
+  {
+   "path": "probes/probe_seed_sets.py",
+   "class": "new_since_ledger",
+   "sha256": "b9cdea95ffe7cb007e113a5e7f74ab09b532f7f10f71f0094add86b8241daaf6",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_threshold_arm.py",
+   "class": "new_since_ledger",
+   "sha256": "37fa90c35dbbbc3fb6b16e635c447ed4d4a9c3f000556a8753a57812367fd8ed",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "probes/probe_threshold_local.py",
+   "class": "new_since_ledger",
+   "sha256": "3b9a58d6767fc904c3703729d44827798002ff0d7dff510d18804b0b6d57cc50",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "pipeline/record_cache_provenance_audit.py",
+   "class": "new_since_ledger",
+   "sha256": "213f41c75a4af29a99a41f3b4b841df90d1dafbc4d86e18f75c7787c7c4e3713",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "pipeline/record_sweep_inputs.py",
+   "class": "new_since_ledger",
+   "sha256": "925408a00433a9328db84bc0b87439a56c8a92a42a2b82b497017bc447551fd3",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "pipeline/repair_orbit5_radius.py",
+   "class": "new_since_ledger",
+   "sha256": "d6d42ad23290e46f8d379ea074c32fa116fe7f6c013268ee367f54061b8cf349",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "analysis/report_orbit5_refit.py",
+   "class": "new_since_ledger",
+   "sha256": "d1652e079d22c47c1d7a502948d88d60359e897534f88e3e780849a850afe89f",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/recovery_20260914/run.py",
+   "class": "new_since_ledger",
+   "sha256": "42a18c1a9c78fa302a8536e8aaf5ec38c8aaeef1ba0c4824553604fd677c0355",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/recovery_20261007/check_a7_resume.py",
+   "class": "new_since_ledger",
+   "sha256": "3a9e7d703fa3d9a38a19c3a4aa7732849db5d10446d1f163bba0ed565f37d0d4",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/recovery_20261007/check_b1_resume.py",
+   "class": "new_since_ledger",
+   "sha256": "665abba545b05e6a73d40a8a5778b00736a0d79e706c953902a7a856abaf5b6c",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/recovery_20261007/check_objective_horizon_resume.py",
+   "class": "new_since_ledger",
+   "sha256": "9b5ba534ce27d5ff82c65ee1829e8c52fcea5115fdd4344ce35da759e413c817",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/recovery_20261007/run.py",
+   "class": "new_since_ledger",
+   "sha256": "4820cb88816ddc59883d3e24d298a9de6f96b7185483d0496b3d025d02b2c236",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "results/recovery_20261007/verify_check_a7_resume.py",
+   "class": "new_since_ledger",
+   "sha256": "72166962483394d78a7ee140275dc1993c064869e591bef334b2ead06b751d3c",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_beta_sweep.py",
+   "class": "new_since_ledger",
+   "sha256": "afdb6849f420a383dffefbcbde6a5fac2f15238586640ecca38adfb206ba25aa",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_branch_anisotropy.py",
+   "class": "new_since_ledger",
+   "sha256": "c8e0de6f192ce498fee1b8669488074922569a6d1a71b12cb9013474dc17792c",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_calibration.py",
+   "class": "new_since_ledger",
+   "sha256": "5d4e7c9274c2992cefb759d1dc82c557886cfea9d545c50f138f629200413435",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_local_dynamics.py",
+   "class": "new_since_ledger",
+   "sha256": "af07230809f0a9711d45c56c85368aec445ef27c697acea1d4b727d35f09f5dd",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_nb_spectrum.py",
+   "class": "new_since_ledger",
+   "sha256": "e7bebec600fc9f994ed5ac33cf14c3e58b290a08b9daa3e6cab4edc8063277ef",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_nonbacktracking_local.py",
+   "class": "new_since_ledger",
+   "sha256": "ab641213be3d28366ef642602a6d7d8645463ddf6536a5896560d593a1460792",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_robustness_rerun.py",
+   "class": "new_since_ledger",
+   "sha256": "0b8103352cc4fa2ee7728799db43f805b231fc88e464b1b2620aeb6d8df4d624",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_seed_sets.py",
+   "class": "new_since_ledger",
+   "sha256": "2bbf680282151a013b7988e3c15f3a5a4d5a832a73a8724d7dcb47873034242b",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_threshold_dynamics.py",
+   "class": "new_since_ledger",
+   "sha256": "01bebba646ed93ef29c64d954e352abe907bfa16da44c6fdd33d613f900483fe",
+   "review_depth": "full_file_read_by_reviewer"
+  },
+  {
+   "path": "checks/verify_threshold_local.py",
+   "class": "new_since_ledger",
+   "sha256": "74cbb11efa278c6136e0ca4f90080fddb6f1ab5267974ca2aa5be261eecf8f96",
+   "review_depth": "full_file_read_by_reviewer"
+  }
+ ],
+ "not_done": [
+  "Whole-file re-read of the changed files, whose 2026-09-11 pre-images are not in git: a git diff shows only the change since 2026-10-06.",
+  "Review of the files marked not_reviewed, including most lane modules added after the ledger.",
+  "An independent reader: every fix and this review are by the same author.",
+  "Stage-1 TBD: whether anything ran beside B1's 1,540 cells of 09-14.",
+  "Plan-of-record Sequencing row: no source file found for it.",
+  "No independent second review was run."
+ ],
+ "review_update_2026_11_05": {
+  "completed": [
+   "Analyses and reporting: 23 files, read in full by a separate reviewer, no code run by it"
+  ],
+  "stalled_no_report": [
+   "production core: 17 files",
+   "Zero-fit lanes: 29 files",
+   "verifiers and recovery: 13 files"
+  ],
+  "verification": "Each reported finding was checked against the code or data by the author before being recorded here. The reviewer's 'checked, no defect found' list was not re-derived.",
+  "independence": "Separate reviewer, same author, so this is not an independent review."
+ },
+ "reported_not_verified_2026_11_09": [
+  "orca.cpp: weak hash functions (performance only; reviewer's own inference)",
+  "pipeline/record_cache_provenance_audit.py overwrites its dated sidecar on rerun",
+  "analysis/report_orbit5_refit.py overwrites dated outputs and exits 0 on an incomplete refit",
+  "a 'byte-stable' label that is checked with allclose (sweep/recorders reviewer F3)",
+  "stage2_sweep resume can append a duplicate row (analyse dedups it)",
+  "pipeline/repair_orbit5_radius.py --apply rerun evicts the refit",
+  "features.py stale docstrings, an O(n) bincount, the boundary_porosity label",
+  "recovery check_* gates: B1 and objective-horizon lack the pre-retag byte-identical guard; B1 has no NaN check",
+  "recovery fixtures assert exit codes only; possible orphan grandchildren on Windows (inferred); no stage skip",
+  "checks/verify_docs.py: 248-249 '2' in '62' cannot fail; 381-389 dead 'pre-ORCA' marker; 306-308 label vs assertion; silent skips",
+  "checks/verify_r1_ablation.py 495-505 test never reaches the reader; rung pairing; skips",
+  "checks/verify_c3_scoring.py P4 test fails for other reasons too; --record header text static on failure; stale comment in precision witness",
+  "probes/probe_realisation.py/probe_certificate.py prepare re-pins sources.json unconditionally; seed-0 sweep unvalidated in run_analyse",
+  "checks/verify_criticality.py comments claim C4 tests eigensolver sign handling (it hits the closed form)",
+  "checks/verify_pipeline.py 464-478 identity check asserts the opposite of its comment; section 8 reads the cached registry; ORCA-absent and other silent skips",
+  "checks/verify_calibration.py 'reproduces the hand table' passes vacuously for unseen orbits",
+  "checks/verify_generators.py compares sorted degrees; no assertion that rewiring changed anything",
+  "analyse_local_predictors.load_rf_reference hashes ROOT/ but loads cwd-relative",
+  "analysis/analyse_branch_anisotropy_gate.py formats a None R2 after writing gate.json",
+  "checks/verify_branch_anisotropy.py order-invariance compares a graph with itself; false fixture comment",
+  "checks/verify_nb_spectrum.py one-graph check is dense-vs-dense below 2000 arcs",
+  "probes/probe_threshold_arm.py fit --only always fails the sources check (fails closed); gate rerun overwrites sizes/gate files non-atomically",
+  "probes/probe_threshold_local.py formats a None tau before writing; does not compare sizes_*.npz original_id or the gate's edge-list hash",
+  "analysis/analyse_beta_sweep.py scores partial units without saying so; probes/probe_beta_sweep.py stale-lock handling weaker than documented"
+ ],
+ "review_update_2026_11_09": {
+  "approved": "the author, 2026-11-09 16:09: restart the stalled partitions as smaller batches, production core also to an independent reviewer",
+  "batches": 13,
+  "completed": 13,
+  "files_credited": 46,
+  "verification": "D-11 to D-17 checked by the author against code, and by measurement where stated. The entries in reported_not_verified_2026_11_09 are the reviewers' claims only.",
+  "independent_review": "Not run.",
+  "independence": "Separate reviewer, same author; not an independent review."
+ }
+}

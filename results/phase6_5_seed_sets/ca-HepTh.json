@@ -1,0 +1,119 @@
+{
+  "identity": {
+    "tag": "ca-HepTh",
+    "k": 50,
+    "pilot_draws": 0,
+    "split": {
+      "train": [
+        0,
+        2000
+      ],
+      "evaluation": [
+        2000,
+        4000
+      ]
+    },
+    "threads": 1,
+    "inputs": {
+      "meta": {
+        "path": "data/cache/cache_meta_ca-HepTh.json",
+        "sha256": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388"
+      },
+      "features": {
+        "path": "data/cache/cache_features_ca-HepTh.csv",
+        "sha256": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d"
+      },
+      "targets": {
+        "path": "data/cache/cache_targets_ca-HepTh.csv",
+        "sha256": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe"
+      },
+      "cascades": {
+        "path": "data/cache/cache_cascades_ca-HepTh.npy",
+        "sha256": "d3c06e5ed16e15dafaa40e92c11f848a57ed1ba8b1d028a26383d1c15d8d2d6f"
+      },
+      "oof": {
+        "path": "data/cache/cache_oof_ca-HepTh.npz",
+        "sha256": "4b4b9f9ef28ec876ee91031b5794b230674a2f8143f8e8ff1a941b5097167527"
+      },
+      "edgelist": {
+        "path": "data/ca-HepTh.txt",
+        "sha256": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90"
+      },
+      "influence/seed_sets.py": {
+        "path": "influence/seed_sets.py",
+        "sha256": "b3423d3f96f6d61553a8a7cc396267de1f5bfc3470cd03772b99e72deafb4525"
+      },
+      "influence/local_dynamics.py": {
+        "path": "influence/local_dynamics.py",
+        "sha256": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47"
+      },
+      "influence/dynamics.py": {
+        "path": "influence/dynamics.py",
+        "sha256": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02"
+      },
+      "influence/preprocessing.py": {
+        "path": "influence/preprocessing.py",
+        "sha256": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e"
+      },
+      "probes/probe_seed_sets.py": {
+        "path": "probes/probe_seed_sets.py",
+        "sha256": "b9cdea95ffe7cb007e113a5e7f74ab09b532f7f10f71f0094add86b8241daaf6"
+      },
+      "analysis/analyse_local_predictors.py": {
+        "path": "analysis/analyse_local_predictors.py",
+        "sha256": "59052b1376e3d53217b9beaf4a85aa4518f43b53a801cd13e4497faba1f64443"
+      },
+      "L3_json": {
+        "path": "results/phase6_5_local/ca-HepTh.json",
+        "sha256": "940672a3154364cc86dc35fef53c9241267784eded38466f68bf557a803f204b"
+      },
+      "L3_npz": {
+        "path": "results/phase6_5_local/ca-HepTh.npz",
+        "sha256": "b827f8bfdfe34f4165a88f6026d13c3b245ccffd9087769e785d91cb73e98dd3"
+      }
+    }
+  },
+  "status": "complete",
+  "started_utc": "2026-09-13T12:42:15.005676+00:00",
+  "pilot": false,
+  "L3_historical_identity": {
+    "tag": "ca-HepTh",
+    "radii": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "simulation_seed": 0,
+    "p": 0.04998913394032056,
+    "convention": "uniform",
+    "pilot_draws": 0,
+    "split": {
+      "predictor": [
+        0,
+        2000
+      ],
+      "target": [
+        2000,
+        4000
+      ]
+    },
+    "threads": 1
+  },
+  "L3_historical_input_hashes": {
+    "meta": "eaa13eccfe9017ec9033ce11f8770b8e104dab09adeb21bc12e11cbf91a03388",
+    "features": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d",
+    "targets": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe",
+    "cascades": "d3c06e5ed16e15dafaa40e92c11f848a57ed1ba8b1d028a26383d1c15d8d2d6f",
+    "edgelist": "8ce8a9aa75f0617d574a8109a6f8b189a9e38d214a6698ceaf25b2eecc873e90",
+    "influence/local_dynamics.py": "da2896eac53c3c173d35fa6e7eacedf8b3c0ad496a41106d311cb529c2c73c47",
+    "influence/dynamics.py": "0c109eea018a607061645bf29bfe311317f8353f403b6b96930cf4815fd98a02",
+    "influence/preprocessing.py": "458b358b24d1da1ae6bceb00f01aeda027696b8dbd2e5e284aabb493f5bbfb0e",
+    "probes/probe_local_predictors.py": "b038b80e7ff1b105f4b6a676b04a8d28078578a674ee4e298f4da833b6df1410"
+  },
+  "completed_utc": "2026-09-13T12:42:43.250697+00:00",
+  "seconds": 28.24375979999604,
+  "verified_draws": 4000,
+  "output_sha256": "a0001c1090dfdaa30a2875b469e80bba16215c5b5c1e507749696152b7fa6efa",
+  "caveat": "RF cached training targets use both draw halves; oracle-top-sigma uses training-half Monte Carlo means; greedy is not an exact optimum. Pilot omits E and cannot score claims."
+}

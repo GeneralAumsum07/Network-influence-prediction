@@ -1,0 +1,532 @@
+
+==============================================================================
+ca-GrQc   n=4,158   features=171
+==============================================================================
+
+0. EXACT CLOSED-FORM IDENTITIES (checked to machine precision)
+   EXACT    triangle_count       = clustering x k(k-1)/2                      max|err|=2.3e-13
+   EXACT    ego_net_edges        = triangle_count + k                         max|err|=2.3e-13
+   EXACT    edges_leaving_ego    = nbr_degree_sum - 2*triangle_count - k      max|err|=4.5e-13
+   EXACT    ego_net_density      = ego_net_edges / [(k+1)k/2]                 max|err|=3.3e-16
+   EXACT    ego_net_size         = degree + 1                                 max|err|=0.0e+00
+   -> these columns carry a transform, not information. Any tier
+      comparison that relies on them is not varying what it claims.
+
+1. RANK-IDENTICAL GROUPS (Spearman |rho| = 1: pure duplicates)
+   degree == degree_normalized == ego_net_size
+   edge_embeddedness_max == eorbit_01_max
+   edge_embeddedness_mean == eorbit_01_mean
+   edges_leaving_ego == orbit_01_P3_end
+
+   features with |rho| > 0.95 to some other feature: 105/171
+
+2. EFFECTIVE DIMENSIONALITY (PCA on rank-standardised columns)
+   components for 90% of rank variance:  12  of 171
+   components for 95% of rank variance:  25  of 171
+   components for 99% of rank variance:  59  of 171
+
+3. DERIVED COLUMNS (held-out R^2 predicting each from all others)
+   listed when R^2 > 0.999: carries a transform, not information
+   R^2=0.99967  edge_embeddedness_mean
+   R^2=0.99965  eorbit_01_mean
+   R^2=0.99959  orbit_57_g5
+   R^2=0.99947  clustering_coefficient
+   R^2=0.99946  orbit_10_paw_triangle
+   R^2=0.99943  local_entropy
+   R^2=0.99939  orbit_14_K4
+   R^2=0.99924  orbit_72_g5
+   R^2=0.99913  ego_net_density
+   R^2=0.99908  ego_net_edges
+   R^2=0.99907  edges_leaving_ego
+   R^2=0.99907  orbit_01_P3_end
+   R^2=0.99901  edge_embeddedness_max
+   R^2=0.99901  eorbit_01_max
+   (14/171 derived)
+
+4. TIER TEST - does each rung of the richness ladder add anything?
+   For every feature, R^2 predicting it from ALL LOWER-TIER features
+   at the same radius or below. High R^2 = that rung is decorative.
+
+   tier 'edge' vs ['node']
+      DERIVED   R^2=0.99960  ego_net_density
+      new info  R^2=0.49556  eorbit_05_mean
+      new info  R^2=0.58501  eorbit_05_std
+      new info  R^2=0.61549  eorbit_05_max
+      new info  R^2=0.75154  eorbit_10_max
+      new info  R^2=0.82115  eorbit_10_std
+      new info  R^2=0.83306  eorbit_10_mean
+      new info  R^2=0.89171  eorbit_03_max
+      new info  R^2=0.89622  eorbit_07_std
+      new info  R^2=0.92355  eorbit_09_mean
+      new info  R^2=0.93088  eorbit_03_std
+      new info  R^2=0.93587  eorbit_09_max
+      new info  R^2=0.93616  eorbit_02_std
+      new info  R^2=0.93623  eorbit_08_max
+      new info  R^2=0.94183  eorbit_08_mean
+      new info  R^2=0.94569  edge_overlap_std
+      new info  R^2=0.94849  eorbit_09_std
+      new info  R^2=0.94905  eorbit_07_max
+      new info  R^2=0.95122  eorbit_08_std
+      new info  R^2=0.95626  eorbit_04_mean
+      new info  R^2=0.96177  edge_overlap_max
+      new info  R^2=0.96391  eorbit_02_max
+      new info  R^2=0.96736  eorbit_04_max
+      new info  R^2=0.96909  edge_embeddedness_std
+      new info  R^2=0.96909  eorbit_01_std
+      new info  R^2=0.96917  eorbit_04_std
+      new info  R^2=0.96930  edge_overlap_min
+      new info  R^2=0.97113  eorbit_02_mean
+      new info  R^2=0.97240  eorbit_06_mean
+      new info  R^2=0.97543  eorbit_03_mean
+      new info  R^2=0.97947  local_conductance_2
+      new info  R^2=0.97954  eorbit_07_mean
+      new info  R^2=0.98143  eorbit_11_std
+      new info  R^2=0.98250  edges_leaving_ego
+      new info  R^2=0.98365  eorbit_00_max
+      new info  R^2=0.98606  eorbit_00_std
+      new info  R^2=0.98827  edge_embeddedness_max
+      new info  R^2=0.98827  eorbit_01_max
+      new info  R^2=0.98936  boundary_porosity
+      new info  R^2=0.98995  eorbit_00_mean
+      new info  R^2=0.99087  ball2_density
+      new info  R^2=0.99244  edge_overlap_mean
+      new info  R^2=0.99344  eorbit_06_max
+      new info  R^2=0.99354  edge_embeddedness_min
+      new info  R^2=0.99559  eorbit_06_std
+      new info  R^2=0.99732  eorbit_11_max
+      new info  R^2=0.99770  ego_net_edges
+      new info  R^2=0.99797  eorbit_11_mean
+      new info  R^2=0.99850  edge_embeddedness_mean
+      new info  R^2=0.99850  eorbit_01_mean
+      -> 1/50 of this tier is recoverable from the tiers below it
+
+   tier 'subgraph' vs ['node', 'edge']
+      DERIVED   R^2=0.99979  orbit_72_g5
+      DERIVED   R^2=0.99943  orbit_14_K4
+      DERIVED   R^2=0.99910  orbit_10_paw_triangle
+      new info  R^2=0.12842  orbit_50_g5
+      new info  R^2=0.13219  orbit_47_g5
+      new info  R^2=0.50718  orbit_54_g5
+      new info  R^2=0.53597  orbit_33_g5
+      new info  R^2=0.61680  orbit_23_g5
+      new info  R^2=0.67265  orbit_62_g5
+      new info  R^2=0.67778  orbit_36_g5
+      new info  R^2=0.71623  orbit_63_g5
+      new info  R^2=0.71719  orbit_30_g5
+      new info  R^2=0.72981  orbit_53_g5
+      new info  R^2=0.73257  orbit_68_g5
+      new info  R^2=0.74307  orbit_69_g5
+      new info  R^2=0.74721  orbit_49_g5
+      new info  R^2=0.76763  orbit_70_g5
+      new info  R^2=0.77508  orbit_64_g5
+      new info  R^2=0.77521  orbit_46_g5
+      new info  R^2=0.78394  orbit_45_g5
+      new info  R^2=0.79405  orbit_07_claw_centre
+      new info  R^2=0.79686  orbit_26_g5
+      new info  R^2=0.80272  orbit_51_g5
+      new info  R^2=0.80404  orbit_38_g5
+      new info  R^2=0.80839  orbit_60_g5
+      new info  R^2=0.82412  orbit_12_diamond_deg2
+      new info  R^2=0.83504  orbit_40_g5
+      new info  R^2=0.85956  orbit_65_g5
+      new info  R^2=0.86562  orbit_44_g5
+      new info  R^2=0.86645  orbit_27_g5
+      new info  R^2=0.87004  orbit_48_g5
+      new info  R^2=0.87195  orbit_41_g5
+      new info  R^2=0.87384  orbit_34_g5
+      new info  R^2=0.87604  orbit_42_g5
+      new info  R^2=0.87695  orbit_08_C4
+      new info  R^2=0.87858  orbit_58_g5
+      new info  R^2=0.88012  orbit_37_g5
+      new info  R^2=0.89529  orbit_21_g5
+      new info  R^2=0.89638  orbit_59_g5
+      new info  R^2=0.89994  orbit_67_g5
+      new info  R^2=0.90312  orbit_11_paw_hub
+      new info  R^2=0.91690  ego_betweenness
+      new info  R^2=0.91774  orbit_35_g5
+      new info  R^2=0.92677  orbit_56_g5
+      new info  R^2=0.92747  orbit_28_g5
+      new info  R^2=0.92941  orbit_55_g5
+      new info  R^2=0.93527  orbit_05_P4_middle
+      new info  R^2=0.93672  orbit_39_g5
+      new info  R^2=0.93823  orbit_61_g5
+      new info  R^2=0.94091  orbit_02_P3_centre
+      new info  R^2=0.94843  orbit_17_g5
+      new info  R^2=0.95293  orbit_13_diamond_deg3
+      new info  R^2=0.95463  orbit_20_g5
+      new info  R^2=0.95566  orbit_16_g5
+      new info  R^2=0.95990  orbit_18_g5
+      new info  R^2=0.96391  orbit_52_g5
+      new info  R^2=0.97274  orbit_04_P4_end
+      new info  R^2=0.97783  orbit_24_g5
+      new info  R^2=0.97856  orbit_22_g5
+      new info  R^2=0.97898  orbit_15_g5
+      new info  R^2=0.97930  orbit_31_g5
+      new info  R^2=0.97946  orbit_09_paw_tail
+      new info  R^2=0.97948  orbit_43_g5
+      new info  R^2=0.98057  orbit_19_g5
+      new info  R^2=0.98655  orbit_06_claw_leaf
+      new info  R^2=0.98838  orbit_66_g5
+      new info  R^2=0.99144  orbit_71_g5
+      new info  R^2=0.99387  orbit_25_g5
+      new info  R^2=0.99391  orbit_29_g5
+      new info  R^2=0.99624  ball2_edges
+      new info  R^2=0.99680  orbit_32_g5
+      new info  R^2=0.99849  orbit_01_P3_end
+      new info  R^2=0.99882  triangle_count
+      new info  R^2=0.99897  orbit_57_g5
+      -> 3/74 of this tier is recoverable from the tiers below it
+
+   tier 'dynamic' vs ['node', 'edge', 'subgraph']
+      new info  R^2=0.99618  perc_reach_2
+      new info  R^2=0.99679  perc_reach_3
+
+==============================================================================
+email-Eu-core   n=986   features=171
+==============================================================================
+
+0. EXACT CLOSED-FORM IDENTITIES (checked to machine precision)
+   EXACT    triangle_count       = clustering x k(k-1)/2                      max|err|=5.5e-12
+   EXACT    ego_net_edges        = triangle_count + k                         max|err|=5.5e-12
+   EXACT    edges_leaving_ego    = nbr_degree_sum - 2*triangle_count - k      max|err|=1.1e-11
+   EXACT    ego_net_density      = ego_net_edges / [(k+1)k/2]                 max|err|=3.3e-16
+   EXACT    ego_net_size         = degree + 1                                 max|err|=0.0e+00
+   -> these columns carry a transform, not information. Any tier
+      comparison that relies on them is not varying what it claims.
+
+1. RANK-IDENTICAL GROUPS (Spearman |rho| = 1: pure duplicates)
+   degree == degree_normalized == ego_net_size
+   edge_embeddedness_max == eorbit_01_max
+   edge_embeddedness_mean == eorbit_01_mean
+   edge_embeddedness_std == eorbit_01_std
+   edges_leaving_ego == orbit_01_P3_end
+
+   features with |rho| > 0.95 to some other feature: 147/171
+
+2. EFFECTIVE DIMENSIONALITY (PCA on rank-standardised columns)
+   components for 90% of rank variance:   3  of 171
+   components for 95% of rank variance:   6  of 171
+   components for 99% of rank variance:  21  of 171
+
+3. DERIVED COLUMNS (held-out R^2 predicting each from all others)
+   listed when R^2 > 0.999: carries a transform, not information
+   R^2=0.99973  ball2_edges
+   R^2=0.99970  reach_within_2
+   R^2=0.99953  orbit_01_P3_end
+   R^2=0.99953  edges_leaving_ego
+   R^2=0.99949  shell_2_count
+   (5/171 derived)
+
+4. TIER TEST - does each rung of the richness ladder add anything?
+   For every feature, R^2 predicting it from ALL LOWER-TIER features
+   at the same radius or below. High R^2 = that rung is decorative.
+
+   tier 'edge' vs ['node']
+      new info  R^2=0.38929  edge_overlap_min
+      new info  R^2=0.45549  edge_embeddedness_min
+      new info  R^2=0.81344  edge_overlap_std
+      new info  R^2=0.86678  edge_overlap_max
+      new info  R^2=0.89367  eorbit_04_mean
+      new info  R^2=0.91092  eorbit_10_max
+      new info  R^2=0.92723  eorbit_05_std
+      new info  R^2=0.93309  eorbit_02_std
+      new info  R^2=0.94131  eorbit_05_max
+      new info  R^2=0.95113  ball2_density
+      new info  R^2=0.95124  eorbit_10_std
+      new info  R^2=0.95417  eorbit_03_max
+      new info  R^2=0.95448  eorbit_05_mean
+      new info  R^2=0.96017  eorbit_03_std
+      new info  R^2=0.96303  eorbit_08_max
+      new info  R^2=0.96574  eorbit_11_max
+      new info  R^2=0.96589  edge_overlap_mean
+      new info  R^2=0.96689  eorbit_02_mean
+      new info  R^2=0.96751  eorbit_11_std
+      new info  R^2=0.96862  eorbit_02_max
+      new info  R^2=0.96874  eorbit_04_std
+      new info  R^2=0.96928  eorbit_06_mean
+      new info  R^2=0.96956  eorbit_11_mean
+      new info  R^2=0.97231  eorbit_10_mean
+      new info  R^2=0.97245  eorbit_07_std
+      new info  R^2=0.97462  eorbit_07_max
+      new info  R^2=0.97580  edge_embeddedness_std
+      new info  R^2=0.97580  eorbit_01_std
+      new info  R^2=0.97628  edge_embeddedness_max
+      new info  R^2=0.97628  eorbit_01_max
+      new info  R^2=0.97699  eorbit_08_std
+      new info  R^2=0.97840  boundary_porosity
+      new info  R^2=0.97842  ego_net_edges
+      new info  R^2=0.97857  eorbit_00_mean
+      new info  R^2=0.98363  eorbit_06_std
+      new info  R^2=0.98386  eorbit_00_std
+      new info  R^2=0.98502  eorbit_08_mean
+      new info  R^2=0.98516  eorbit_09_mean
+      new info  R^2=0.98527  eorbit_07_mean
+      new info  R^2=0.98595  eorbit_09_std
+      new info  R^2=0.98752  eorbit_06_max
+      new info  R^2=0.98998  edge_embeddedness_mean
+      new info  R^2=0.98998  eorbit_01_mean
+      new info  R^2=0.99000  eorbit_09_max
+      new info  R^2=0.99349  eorbit_03_mean
+      new info  R^2=0.99507  eorbit_00_max
+      new info  R^2=0.99549  local_conductance_2
+      new info  R^2=0.99676  eorbit_04_max
+      new info  R^2=0.99724  edges_leaving_ego
+      new info  R^2=0.99822  ego_net_density
+
+   tier 'subgraph' vs ['node', 'edge']
+      DERIVED   R^2=0.99951  ball2_edges
+      DERIVED   R^2=0.99927  orbit_01_P3_end
+      new info  R^2=-3.93888  orbit_23_g5
+      new info  R^2=-0.68117  orbit_33_g5
+      new info  R^2=-0.00079  orbit_07_claw_centre
+      new info  R^2=0.46267  orbit_44_g5
+      new info  R^2=0.58217  ego_betweenness
+      new info  R^2=0.61632  orbit_42_g5
+      new info  R^2=0.77376  orbit_50_g5
+      new info  R^2=0.80824  orbit_11_paw_hub
+      new info  R^2=0.81276  orbit_58_g5
+      new info  R^2=0.84193  orbit_55_g5
+      new info  R^2=0.85894  orbit_63_g5
+      new info  R^2=0.85958  orbit_02_P3_centre
+      new info  R^2=0.86322  orbit_61_g5
+      new info  R^2=0.87908  orbit_69_g5
+      new info  R^2=0.88026  orbit_21_g5
+      new info  R^2=0.89190  orbit_38_g5
+      new info  R^2=0.90967  orbit_36_g5
+      new info  R^2=0.91253  orbit_67_g5
+      new info  R^2=0.93311  orbit_71_g5
+      new info  R^2=0.93482  orbit_30_g5
+      new info  R^2=0.93920  orbit_26_g5
+      new info  R^2=0.94899  orbit_13_diamond_deg3
+      new info  R^2=0.95487  orbit_47_g5
+      new info  R^2=0.95577  orbit_53_g5
+      new info  R^2=0.95894  orbit_72_g5
+      new info  R^2=0.96267  orbit_56_g5
+      new info  R^2=0.96372  orbit_68_g5
+      new info  R^2=0.96466  orbit_48_g5
+      new info  R^2=0.96565  orbit_08_C4
+      new info  R^2=0.96759  orbit_41_g5
+      new info  R^2=0.97055  orbit_62_g5
+      new info  R^2=0.97158  orbit_65_g5
+      new info  R^2=0.97416  orbit_14_K4
+      new info  R^2=0.97433  orbit_46_g5
+      new info  R^2=0.97524  orbit_18_g5
+      new info  R^2=0.97716  orbit_05_P4_middle
+      new info  R^2=0.97751  orbit_51_g5
+      new info  R^2=0.97958  orbit_57_g5
+      new info  R^2=0.97980  orbit_27_g5
+      new info  R^2=0.98007  orbit_70_g5
+      new info  R^2=0.98069  orbit_64_g5
+      new info  R^2=0.98295  orbit_45_g5
+      new info  R^2=0.98348  orbit_66_g5
+      new info  R^2=0.98385  orbit_16_g5
+      new info  R^2=0.98391  orbit_49_g5
+      new info  R^2=0.98470  orbit_54_g5
+      new info  R^2=0.98493  triangle_count
+      new info  R^2=0.98527  orbit_32_g5
+      new info  R^2=0.98540  orbit_39_g5
+      new info  R^2=0.98680  orbit_34_g5
+      new info  R^2=0.98717  orbit_15_g5
+      new info  R^2=0.98782  orbit_60_g5
+      new info  R^2=0.98805  orbit_31_g5
+      new info  R^2=0.98823  orbit_17_g5
+      new info  R^2=0.98873  orbit_37_g5
+      new info  R^2=0.98886  orbit_24_g5
+      new info  R^2=0.98982  orbit_28_g5
+      new info  R^2=0.99008  orbit_06_claw_leaf
+      new info  R^2=0.99021  orbit_22_g5
+      new info  R^2=0.99105  orbit_35_g5
+      new info  R^2=0.99197  orbit_59_g5
+      new info  R^2=0.99217  orbit_43_g5
+      new info  R^2=0.99292  orbit_19_g5
+      new info  R^2=0.99329  orbit_40_g5
+      new info  R^2=0.99337  orbit_52_g5
+      new info  R^2=0.99353  orbit_04_P4_end
+      new info  R^2=0.99412  orbit_09_paw_tail
+      new info  R^2=0.99465  orbit_20_g5
+      new info  R^2=0.99471  orbit_10_paw_triangle
+      new info  R^2=0.99488  orbit_25_g5
+      new info  R^2=0.99582  orbit_12_diamond_deg2
+      new info  R^2=0.99629  orbit_29_g5
+      -> 2/74 of this tier is recoverable from the tiers below it
+
+   tier 'dynamic' vs ['node', 'edge', 'subgraph']
+      new info  R^2=0.99746  perc_reach_3
+      new info  R^2=0.99796  perc_reach_2
+
+==============================================================================
+p2p-Gnutella08   n=6,299   features=171
+==============================================================================
+
+0. EXACT CLOSED-FORM IDENTITIES (checked to machine precision)
+   EXACT    triangle_count       = clustering x k(k-1)/2                      max|err|=4.0e-13
+   EXACT    ego_net_edges        = triangle_count + k                         max|err|=4.0e-13
+   EXACT    edges_leaving_ego    = nbr_degree_sum - 2*triangle_count - k      max|err|=9.1e-13
+   EXACT    ego_net_density      = ego_net_edges / [(k+1)k/2]                 max|err|=1.1e-16
+   EXACT    ego_net_size         = degree + 1                                 max|err|=0.0e+00
+   -> these columns carry a transform, not information. Any tier
+      comparison that relies on them is not varying what it claims.
+
+1. RANK-IDENTICAL GROUPS (Spearman |rho| = 1: pure duplicates)
+   degree == degree_normalized == ego_net_size
+   edge_embeddedness_max == eorbit_01_max
+   edge_embeddedness_mean == eorbit_01_mean
+   edge_embeddedness_min == edge_overlap_min
+   edges_leaving_ego == orbit_01_P3_end
+
+   features with |rho| > 0.95 to some other feature: 133/171
+
+2. EFFECTIVE DIMENSIONALITY (PCA on rank-standardised columns)
+   components for 90% of rank variance:   9  of 171
+   components for 95% of rank variance:  15  of 171
+   components for 99% of rank variance:  38  of 171
+
+3. DERIVED COLUMNS (held-out R^2 predicting each from all others)
+   listed when R^2 > 0.999: carries a transform, not information
+   R^2=0.99986  ego_net_density
+   R^2=0.99959  local_entropy
+   R^2=0.99957  reach_within_3
+   R^2=0.99946  shell_3_count
+   R^2=0.99943  local_entropy_norm
+   R^2=0.99937  eorbit_00_std
+   R^2=0.99934  nbr_degree_max
+   R^2=0.99917  reach_within_2
+   R^2=0.99911  eorbit_00_max
+   (9/171 derived)
+
+4. TIER TEST - does each rung of the richness ladder add anything?
+   For every feature, R^2 predicting it from ALL LOWER-TIER features
+   at the same radius or below. High R^2 = that rung is decorative.
+
+   tier 'edge' vs ['node']
+      DERIVED   R^2=0.99986  ego_net_density
+      DERIVED   R^2=0.99909  eorbit_00_std
+      new info  R^2=0.34527  eorbit_11_mean
+      new info  R^2=0.41636  edge_embeddedness_min
+      new info  R^2=0.45918  eorbit_11_std
+      new info  R^2=0.57036  eorbit_11_max
+      new info  R^2=0.71204  eorbit_10_max
+      new info  R^2=0.72803  edge_overlap_min
+      new info  R^2=0.73696  eorbit_10_std
+      new info  R^2=0.84039  eorbit_10_mean
+      new info  R^2=0.85589  edge_overlap_max
+      new info  R^2=0.88932  edge_overlap_mean
+      new info  R^2=0.90327  eorbit_09_max
+      new info  R^2=0.90950  edge_overlap_std
+      new info  R^2=0.91675  eorbit_08_max
+      new info  R^2=0.92289  edge_embeddedness_max
+      new info  R^2=0.92289  eorbit_01_max
+      new info  R^2=0.92463  eorbit_09_mean
+      new info  R^2=0.92485  eorbit_09_std
+      new info  R^2=0.92787  eorbit_08_std
+      new info  R^2=0.93262  eorbit_07_max
+      new info  R^2=0.95090  eorbit_08_mean
+      new info  R^2=0.95807  eorbit_07_std
+      new info  R^2=0.96197  edge_embeddedness_std
+      new info  R^2=0.96197  eorbit_01_std
+      new info  R^2=0.96282  eorbit_07_mean
+      new info  R^2=0.97641  ego_net_edges
+      new info  R^2=0.97806  eorbit_05_max
+      new info  R^2=0.97825  eorbit_02_std
+      new info  R^2=0.98003  eorbit_05_std
+      new info  R^2=0.98155  edge_embeddedness_mean
+      new info  R^2=0.98155  eorbit_01_mean
+      new info  R^2=0.98279  eorbit_06_mean
+      new info  R^2=0.98313  boundary_porosity
+      new info  R^2=0.98427  eorbit_03_std
+      new info  R^2=0.98436  ball2_density
+      new info  R^2=0.98469  eorbit_05_mean
+      new info  R^2=0.98702  eorbit_03_max
+      new info  R^2=0.98859  local_conductance_2
+      new info  R^2=0.99090  eorbit_02_max
+      new info  R^2=0.99172  eorbit_06_std
+      new info  R^2=0.99221  eorbit_06_max
+      new info  R^2=0.99354  eorbit_04_mean
+      new info  R^2=0.99633  eorbit_04_std
+      new info  R^2=0.99653  eorbit_02_mean
+      new info  R^2=0.99692  eorbit_03_mean
+      new info  R^2=0.99768  eorbit_00_mean
+      new info  R^2=0.99802  edges_leaving_ego
+      new info  R^2=0.99846  eorbit_04_max
+      new info  R^2=0.99887  eorbit_00_max
+      -> 2/50 of this tier is recoverable from the tiers below it
+
+   tier 'subgraph' vs ['node', 'edge']
+      new info  R^2=0.06519  orbit_72_g5
+      new info  R^2=0.52415  orbit_71_g5
+      new info  R^2=0.56791  orbit_70_g5
+      new info  R^2=0.62561  orbit_67_g5
+      new info  R^2=0.73216  orbit_65_g5
+      new info  R^2=0.75599  orbit_14_K4
+      new info  R^2=0.77180  orbit_58_g5
+      new info  R^2=0.78206  orbit_57_g5
+      new info  R^2=0.83429  orbit_56_g5
+      new info  R^2=0.83725  orbit_55_g5
+      new info  R^2=0.84598  orbit_60_g5
+      new info  R^2=0.85012  orbit_68_g5
+      new info  R^2=0.87236  orbit_66_g5
+      new info  R^2=0.87423  orbit_69_g5
+      new info  R^2=0.89488  orbit_63_g5
+      new info  R^2=0.89648  orbit_48_g5
+      new info  R^2=0.90620  orbit_47_g5
+      new info  R^2=0.91043  orbit_44_g5
+      new info  R^2=0.91185  orbit_41_g5
+      new info  R^2=0.91539  orbit_61_g5
+      new info  R^2=0.91879  orbit_13_diamond_deg3
+      new info  R^2=0.92308  orbit_64_g5
+      new info  R^2=0.92444  orbit_42_g5
+      new info  R^2=0.93345  orbit_30_g5
+      new info  R^2=0.93818  orbit_59_g5
+      new info  R^2=0.93854  orbit_53_g5
+      new info  R^2=0.93897  orbit_23_g5
+      new info  R^2=0.94264  orbit_62_g5
+      new info  R^2=0.95468  orbit_26_g5
+      new info  R^2=0.95617  orbit_33_g5
+      new info  R^2=0.95971  orbit_11_paw_hub
+      new info  R^2=0.96070  orbit_21_g5
+      new info  R^2=0.96148  orbit_43_g5
+      new info  R^2=0.96415  orbit_10_paw_triangle
+      new info  R^2=0.96448  orbit_38_g5
+      new info  R^2=0.96550  orbit_32_g5
+      new info  R^2=0.96560  orbit_29_g5
+      new info  R^2=0.96703  triangle_count
+      new info  R^2=0.96721  orbit_50_g5
+      new info  R^2=0.96740  orbit_46_g5
+      new info  R^2=0.96963  orbit_54_g5
+      new info  R^2=0.97126  orbit_07_claw_centre
+      new info  R^2=0.97151  orbit_51_g5
+      new info  R^2=0.97310  orbit_20_g5
+      new info  R^2=0.97555  orbit_27_g5
+      new info  R^2=0.97687  orbit_34_g5
+      new info  R^2=0.97839  orbit_52_g5
+      new info  R^2=0.97849  orbit_28_g5
+      new info  R^2=0.98135  orbit_25_g5
+      new info  R^2=0.98240  orbit_18_g5
+      new info  R^2=0.98397  orbit_12_diamond_deg2
+      new info  R^2=0.98461  orbit_17_g5
+      new info  R^2=0.98567  orbit_45_g5
+      new info  R^2=0.98677  orbit_05_P4_middle
+      new info  R^2=0.98697  orbit_39_g5
+      new info  R^2=0.98705  orbit_49_g5
+      new info  R^2=0.98773  orbit_36_g5
+      new info  R^2=0.98822  orbit_40_g5
+      new info  R^2=0.98919  orbit_08_C4
+      new info  R^2=0.98987  orbit_16_g5
+      new info  R^2=0.98995  orbit_37_g5
+      new info  R^2=0.99129  ego_betweenness
+      new info  R^2=0.99158  orbit_02_P3_centre
+      new info  R^2=0.99299  orbit_31_g5
+      new info  R^2=0.99471  orbit_24_g5
+      new info  R^2=0.99492  orbit_09_paw_tail
+      new info  R^2=0.99515  orbit_22_g5
+      new info  R^2=0.99596  orbit_06_claw_leaf
+      new info  R^2=0.99656  orbit_04_P4_end
+      new info  R^2=0.99696  orbit_35_g5
+      new info  R^2=0.99727  ball2_edges
+      new info  R^2=0.99750  orbit_19_g5
+      new info  R^2=0.99798  orbit_15_g5
+      new info  R^2=0.99823  orbit_01_P3_end
+
+   tier 'dynamic' vs ['node', 'edge', 'subgraph']
+      new info  R^2=0.99820  perc_reach_2
+      new info  R^2=0.99842  perc_reach_3

@@ -1,0 +1,96 @@
+=== p2p-Gnutella08: r=1 subgraph decomposition (10 seeds) ===
+    node+edge 38 feats | pre-ORCA subgraph +2 | 4-node orbits +5 | extra 5-node orbits +17
+
+  spread_cv
+    node+edge                  0.5848 +/- 0.0017
+    + pre-ORCA subgraph        0.5849 +/- 0.0017
+    + 4-node hop-1 orbits      0.5848 +/- 0.0017
+    + 5-node hop-1 orbits      0.5923 +/- 0.0018
+    paired increments:
+      + pre-ORCA subgraph        +0.0000 +/- 0.0001 
+      + 4-node hop-1 orbits      -0.0000 +/- 0.0001 
+      + 5-node hop-1 orbits      +0.0074 +/- 0.0004*
+
+  spread_mean
+    node+edge                  0.7928 +/- 0.0009
+    + pre-ORCA subgraph        0.7928 +/- 0.0009
+    + 4-node hop-1 orbits      0.7927 +/- 0.0009
+    + 5-node hop-1 orbits      0.8021 +/- 0.0010
+    paired increments:
+      + pre-ORCA subgraph        -0.0000 +/- 0.0001 
+      + 4-node hop-1 orbits      -0.0001 +/- 0.0001 
+      + 5-node hop-1 orbits      +0.0094 +/- 0.0004*
+
+  spread_resid
+    node+edge                  0.2503 +/- 0.0041
+    + pre-ORCA subgraph        0.2501 +/- 0.0039
+    + 4-node hop-1 orbits      0.2498 +/- 0.0040
+    + 5-node hop-1 orbits      0.2558 +/- 0.0040
+    paired increments:
+      + pre-ORCA subgraph        -0.0002 +/- 0.0004 
+      + 4-node hop-1 orbits      -0.0003 +/- 0.0004 
+      + 5-node hop-1 orbits      +0.0060 +/- 0.0009*
+=== email-Eu-core: r=1 subgraph decomposition (10 seeds) ===
+    node+edge 38 feats | pre-ORCA subgraph +2 | 4-node orbits +5 | extra 5-node orbits +17
+
+  spread_cv
+    node+edge                  0.9493 +/- 0.0007
+    + pre-ORCA subgraph        0.9492 +/- 0.0007
+    + 4-node hop-1 orbits      0.9493 +/- 0.0008
+    + 5-node hop-1 orbits      0.9537 +/- 0.0010
+    paired increments:
+      + pre-ORCA subgraph        -0.0001 +/- 0.0001 
+      + 4-node hop-1 orbits      +0.0001 +/- 0.0002 
+      + 5-node hop-1 orbits      +0.0044 +/- 0.0006*
+
+  spread_mean
+    node+edge                  0.9569 +/- 0.0002
+    + pre-ORCA subgraph        0.9568 +/- 0.0002
+    + 4-node hop-1 orbits      0.9568 +/- 0.0003
+    + 5-node hop-1 orbits      0.9595 +/- 0.0003
+    paired increments:
+      + pre-ORCA subgraph        -0.0001 +/- 0.0001 
+      + 4-node hop-1 orbits      +0.0000 +/- 0.0001 
+      + 5-node hop-1 orbits      +0.0026 +/- 0.0003*
+
+  spread_resid
+    node+edge                  0.0561 +/- 0.0154
+    + pre-ORCA subgraph        0.0569 +/- 0.0182
+    + 4-node hop-1 orbits      0.0544 +/- 0.0131
+    + 5-node hop-1 orbits      0.0659 +/- 0.0134
+    paired increments:
+      + pre-ORCA subgraph        +0.0008 +/- 0.0054 
+      + 4-node hop-1 orbits      -0.0025 +/- 0.0061 
+      + 5-node hop-1 orbits      +0.0115 +/- 0.0065 
+=== ca-GrQc: r=1 subgraph decomposition (10 seeds) ===
+    node+edge 38 feats | pre-ORCA subgraph +2 | 4-node orbits +5 | extra 5-node orbits +17
+
+  spread_cv
+    node+edge                  0.6719 +/- 0.0021
+    + pre-ORCA subgraph        0.6719 +/- 0.0020
+    + 4-node hop-1 orbits      0.6720 +/- 0.0020
+    + 5-node hop-1 orbits      0.7074 +/- 0.0023
+    paired increments:
+      + pre-ORCA subgraph        -0.0000 +/- 0.0003 
+      + 4-node hop-1 orbits      +0.0001 +/- 0.0003 
+      + 5-node hop-1 orbits      +0.0353 +/- 0.0014*
+
+  spread_mean
+    node+edge                  0.9073 +/- 0.0006
+    + pre-ORCA subgraph        0.9073 +/- 0.0007
+    + 4-node hop-1 orbits      0.9073 +/- 0.0007
+    + 5-node hop-1 orbits      0.9207 +/- 0.0007
+    paired increments:
+      + pre-ORCA subgraph        +0.0000 +/- 0.0001 
+      + 4-node hop-1 orbits      +0.0000 +/- 0.0001 
+      + 5-node hop-1 orbits      +0.0134 +/- 0.0005*
+
+  spread_resid
+    node+edge                  0.4984 +/- 0.0031
+    + pre-ORCA subgraph        0.4986 +/- 0.0028
+    + 4-node hop-1 orbits      0.4982 +/- 0.0028
+    + 5-node hop-1 orbits      0.5300 +/- 0.0025
+    paired increments:
+      + pre-ORCA subgraph        +0.0002 +/- 0.0005 
+      + 4-node hop-1 orbits      -0.0004 +/- 0.0008 
+      + 5-node hop-1 orbits      +0.0317 +/- 0.0036*

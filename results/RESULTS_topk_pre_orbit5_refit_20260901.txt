@@ -1,0 +1,230 @@
+==============================================================================
+A3 - TOP-K ARM: r*(eps) under precision@k instead of Kendall tau
+==============================================================================
+networks: ca-GrQc, ca-HepTh, email-Eu-core, facebook_combined, p2p-Gnutella08
+no fits - precision_at_{1,5}pct are existing sweep columns
+
+==============================================================================
+1. METRIC NOISE - seed sd as a fraction of the metric's own r=0..3 range
+==============================================================================
+
+A ratio near or above ~0.2 means the seed spread is comparable to the
+signal the threshold rule is trying to resolve, and r* under that metric
+is close to a coin flip regardless of tolerance.
+
+  network              target               tau      p@5%      p@1%
+  ------------------------------------------------------------------
+  ca-GrQc              betweenness        0.003     0.041     0.048
+  ca-GrQc              spread_mean        0.005     0.015     0.077
+  ca-GrQc              spread_cv          0.005     0.009     0.028
+  ca-GrQc              spread_resid       0.005     0.018     0.035
+  ca-HepTh             betweenness        0.002     0.028     0.047
+  ca-HepTh             spread_mean        0.002     0.017     0.057
+  ca-HepTh             spread_cv          0.001     0.007     0.030
+  ca-HepTh             spread_resid       0.002     0.028     0.106
+  email-Eu-core        betweenness        0.016     0.109     0.444
+  email-Eu-core        spread_mean        0.006     0.082     0.165
+  email-Eu-core        spread_cv          0.008     0.080     0.291
+  email-Eu-core        spread_resid       0.189     0.130     0.290
+  facebook_combined    betweenness        0.008     0.028     0.052
+  facebook_combined    spread_mean        0.002     0.011     0.046
+  facebook_combined    spread_cv          0.003     0.005     0.041
+  facebook_combined    spread_resid       0.005     0.026     0.110
+  p2p-Gnutella08       betweenness        0.007     0.096     0.129
+  p2p-Gnutella08       spread_mean        0.003     0.008     0.045
+  p2p-Gnutella08       spread_cv          0.005     0.022     0.071
+  p2p-Gnutella08       spread_resid       0.011     0.036     0.154
+
+  corpus mean:                            0.014     0.040     0.113
+
+==============================================================================
+2. r*(eps) UNDER EACH METRIC   (modal across seeds, agreement in brackets)
+==============================================================================
+
+ca-GrQc
+  target           eps           tau        p@5%        p@1%
+  --------------------------------------------------------
+  betweenness     0.20     1 (10/10)   1 (10/10)   1 (10/10)
+  betweenness     0.10     1 (10/10)   1 (10/10)    2 (6/10)
+  betweenness     0.05     1 (10/10)    1 (6/10)    2 (9/10)
+  betweenness     0.02     1 (10/10)   2 (10/10)    2 (9/10)
+  betweenness     0.01     1 (10/10)    2 (8/10)    2 (9/10)
+  spread_mean     0.20     0 (10/10)   1 (10/10)   0 (10/10)
+  spread_mean     0.10     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.05     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.02     2 (10/10)   1 (10/10)    1 (8/10)
+  spread_mean     0.01     2 (10/10)    1 (9/10)    1 (8/10)
+  spread_cv       0.20     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_cv       0.10     2 (10/10)    1 (9/10)   1 (10/10)
+  spread_cv       0.05     2 (10/10)   2 (10/10)    1 (8/10)
+  spread_cv       0.02      2 (7/10)    2 (9/10)    3 (4/10)
+  spread_cv       0.01     3 (10/10)    3 (7/10)    3 (4/10)
+  spread_resid    0.20     2 (10/10)   2 (10/10)   2 (10/10)
+  spread_resid    0.10     2 (10/10)   2 (10/10)   2 (10/10)
+  spread_resid    0.05     2 (10/10)   2 (10/10)   2 (10/10)
+  spread_resid    0.02     3 (10/10)    3 (6/10)   2 (10/10)
+  spread_resid    0.01     3 (10/10)    3 (6/10)   2 (10/10)
+
+ca-HepTh
+  target           eps           tau        p@5%        p@1%
+  --------------------------------------------------------
+  betweenness     0.20     1 (10/10)   1 (10/10)   1 (10/10)
+  betweenness     0.10     1 (10/10)   1 (10/10)    2 (7/10)
+  betweenness     0.05     1 (10/10)    2 (9/10)   2 (10/10)
+  betweenness     0.02     1 (10/10)   2 (10/10)   2 (10/10)
+  betweenness     0.01     2 (10/10)   2 (10/10)    2 (6/10)
+  spread_mean     0.20     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.10     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.05     2 (10/10)    2 (8/10)   1 (10/10)
+  spread_mean     0.02     2 (10/10)   2 (10/10)    2 (7/10)
+  spread_mean     0.01     2 (10/10)    3 (6/10)    2 (8/10)
+  spread_cv       0.20     1 (10/10)   2 (10/10)   2 (10/10)
+  spread_cv       0.10     2 (10/10)   2 (10/10)   2 (10/10)
+  spread_cv       0.05     2 (10/10)    2 (6/10)    2 (9/10)
+  spread_cv       0.02     3 (10/10)   3 (10/10)    2 (8/10)
+  spread_cv       0.01     3 (10/10)   3 (10/10)    2 (8/10)
+  spread_resid    0.20     2 (10/10)   2 (10/10)    2 (7/10)
+  spread_resid    0.10     2 (10/10)   2 (10/10)    3 (7/10)
+  spread_resid    0.05     2 (10/10)    2 (9/10)   3 (10/10)
+  spread_resid    0.02     3 (10/10)    3 (5/10)   3 (10/10)
+  spread_resid    0.01     3 (10/10)    3 (9/10)   3 (10/10)
+
+email-Eu-core
+  target           eps           tau        p@5%        p@1%
+  --------------------------------------------------------
+  betweenness     0.20     0 (10/10)    0 (9/10)    1 (7/10)
+  betweenness     0.10     1 (10/10)   1 (10/10)    2 (5/10)
+  betweenness     0.05     1 (10/10)   1 (10/10)    2 (5/10)
+  betweenness     0.02     1 (10/10)    1 (7/10)    2 (5/10)
+  betweenness     0.01     1 (10/10)    1 (7/10)    2 (5/10)
+  spread_mean     0.20     0 (10/10)   0 (10/10)   1 (10/10)
+  spread_mean     0.10     1 (10/10)   1 (10/10)    1 (9/10)
+  spread_mean     0.05     1 (10/10)   1 (10/10)    1 (9/10)
+  spread_mean     0.02     1 (10/10)    1 (9/10)    1 (9/10)
+  spread_mean     0.01     1 (10/10)    1 (9/10)    1 (9/10)
+  spread_cv       0.20     0 (10/10)   1 (10/10)    1 (7/10)
+  spread_cv       0.10     1 (10/10)   1 (10/10)    1 (7/10)
+  spread_cv       0.05     1 (10/10)    1 (6/10)    1 (7/10)
+  spread_cv       0.02     1 (10/10)    3 (7/10)    1 (7/10)
+  spread_cv       0.01      1 (7/10)    3 (7/10)    1 (7/10)
+  spread_resid    0.20      2 (9/10)    1 (6/10)    1 (6/10)
+  spread_resid    0.10     2 (10/10)    2 (4/10)    1 (6/10)
+  spread_resid    0.05     2 (10/10)    3 (4/10)    1 (6/10)
+  spread_resid    0.02     2 (10/10)    3 (4/10)    1 (6/10)
+  spread_resid    0.01     2 (10/10)    3 (4/10)    1 (6/10)
+
+facebook_combined
+  target           eps           tau        p@5%        p@1%
+  --------------------------------------------------------
+  betweenness     0.20     2 (10/10)   2 (10/10)    1 (7/10)
+  betweenness     0.10     2 (10/10)   2 (10/10)   2 (10/10)
+  betweenness     0.05     2 (10/10)    2 (7/10)   2 (10/10)
+  betweenness     0.02     3 (10/10)   3 (10/10)    2 (6/10)
+  betweenness     0.01     3 (10/10)   3 (10/10)    2 (6/10)
+  spread_mean     0.20     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.10     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.05     1 (10/10)   1 (10/10)    1 (9/10)
+  spread_mean     0.02     1 (10/10)   1 (10/10)    1 (7/10)
+  spread_mean     0.01     1 (10/10)    1 (9/10)    1 (7/10)
+  spread_cv       0.20     1 (10/10)   1 (10/10)   1 (10/10)
+  spread_cv       0.10     1 (10/10)   1 (10/10)    1 (9/10)
+  spread_cv       0.05     1 (10/10)   1 (10/10)    1 (6/10)
+  spread_cv       0.02     1 (10/10)   1 (10/10)    3 (4/10)
+  spread_cv       0.01     1 (10/10)    2 (5/10)    3 (4/10)
+  spread_resid    0.20     1 (10/10)   1 (10/10)    1 (9/10)
+  spread_resid    0.10     1 (10/10)   1 (10/10)    1 (7/10)
+  spread_resid    0.05     1 (10/10)   1 (10/10)    2 (5/10)
+  spread_resid    0.02     1 (10/10)    2 (7/10)    2 (5/10)
+  spread_resid    0.01      2 (5/10)    2 (6/10)    2 (5/10)
+
+p2p-Gnutella08
+  target           eps           tau        p@5%        p@1%
+  --------------------------------------------------------
+  betweenness     0.20     0 (10/10)   0 (10/10)   0 (10/10)
+  betweenness     0.10     0 (10/10)   0 (10/10)   1 (10/10)
+  betweenness     0.05     1 (10/10)   1 (10/10)    1 (5/10)
+  betweenness     0.02     1 (10/10)    1 (7/10)    2 (8/10)
+  betweenness     0.01     2 (10/10)    2 (7/10)    2 (8/10)
+  spread_mean     0.20     1 (10/10)   1 (10/10)   0 (10/10)
+  spread_mean     0.10     2 (10/10)   1 (10/10)    1 (5/10)
+  spread_mean     0.05     2 (10/10)   1 (10/10)   1 (10/10)
+  spread_mean     0.02     3 (10/10)   1 (10/10)    2 (9/10)
+  spread_mean     0.01     3 (10/10)    2 (5/10)    2 (9/10)
+  spread_cv       0.20     2 (10/10)    3 (5/10)    2 (9/10)
+  spread_cv       0.10     2 (10/10)   3 (10/10)    2 (8/10)
+  spread_cv       0.05     3 (10/10)   3 (10/10)    2 (8/10)
+  spread_cv       0.02     3 (10/10)   3 (10/10)    2 (8/10)
+  spread_cv       0.01     3 (10/10)   3 (10/10)    2 (8/10)
+  spread_resid    0.20     2 (10/10)   1 (10/10)    2 (7/10)
+  spread_resid    0.10     3 (10/10)    3 (6/10)    2 (7/10)
+  spread_resid    0.05     3 (10/10)    3 (9/10)    2 (6/10)
+  spread_resid    0.02     3 (10/10)   3 (10/10)    2 (6/10)
+  spread_resid    0.01     3 (10/10)   3 (10/10)    2 (6/10)
+
+==============================================================================
+3. DOES THE HORIZON MOVE?   r*(p@5%) - r*(tau), over all cells
+==============================================================================
+
+  100 (network, target, eps) cells
+
+   -2 hops :   1 ( 1.0%)                                           top-k needs FEWER hops
+   -1 hops :   8 ( 8.0%)  ###                                      top-k needs FEWER hops
+   +0 hops :  74 (74.0%)  #############################            identical
+   +1 hops :  15 (15.0%)  ######                                   top-k needs MORE hops
+   +2 hops :   2 ( 2.0%)                                           top-k needs MORE hops
+
+  agreement rate (shift = 0): 74.0%
+  mean shift: +0.090 hops
+
+  by target:
+    betweenness    agree 84.0%   mean shift +0.16
+    spread_cv      agree 68.0%   mean shift +0.32
+    spread_mean    agree 68.0%   mean shift -0.20
+    spread_resid   agree 76.0%   mean shift +0.08
+
+  by network:
+    ca-GrQc              agree 70.0%   mean shift +0.00
+    ca-HepTh             agree 80.0%   mean shift +0.20
+    email-Eu-core        agree 65.0%   mean shift +0.35
+    facebook_combined    agree 90.0%   mean shift +0.10
+    p2p-Gnutella08       agree 65.0%   mean shift -0.20
+
+==============================================================================
+4. IS p@1% A DIFFERENT HORIZON, OR JUST A NOISIER RULER?
+==============================================================================
+
+  No (network, target) pair exceeds a p@5% noise ratio of 0.20 -
+  the worst is email-Eu-core / spread_resid at 0.130.
+  So a low-noise restriction on p@5% drops nothing, and is reported
+  as vacuous rather than tuned until it excluded something.
+
+  How big is the top 1%, in nodes?
+    ca-GrQc              n =  4,158   top 1% =   42 nodes   top 5% =  208 nodes
+    ca-HepTh             n =  8,638   top 1% =   86 nodes   top 5% =  432 nodes
+    email-Eu-core        n =    986   top 1% =   10 nodes   top 5% =   49 nodes
+    facebook_combined    n =  4,039   top 1% =   40 nodes   top 5% =  202 nodes
+    p2p-Gnutella08       n =  6,299   top 1% =   63 nodes   top 5% =  315 nodes
+
+  p@5% vs tau:  agree 74.0%   moves down 9, up 17   mean +0.090
+    sign test on the 26 disagreeing cells: p = 0.169  ->  SYMMETRIC - consistent with noise, not a horizon shift
+
+  p@1% vs tau:  agree 47.0%   moves down 29, up 24   mean -0.030
+    sign test on the 53 disagreeing cells: p = 0.583  ->  SYMMETRIC - consistent with noise, not a horizon shift
+
+  p@1% vs p@5%: agree 54.0%
+  p@1% agrees with neither, which is what a blunt ruler looks like.
+
+==============================================================================
+5. AGREEMENT BY TOLERANCE
+==============================================================================
+
+  eps   agree(p@5% vs tau)   mean shift
+  ----------------------------------------
+  0.01         65.0%          +0.20
+  0.02         65.0%          +0.15
+  0.05         85.0%          +0.05
+  0.10         85.0%          -0.05
+  0.20         70.0%          +0.10
+
+
+wrote results/topk_rstar.csv

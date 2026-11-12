@@ -1,0 +1,18 @@
+{
+  "network": "ca-HepTh",
+  "m": 0.8,
+  "beta_c_rel_diff": 1.1602825590580373e-11,
+  "p_rel_diff": 1.1602747511055616e-11,
+  "beta_c_rtol": 1e-08,
+  "beta_c_matches_locator": true,
+  "p_matches_locator": true,
+  "first_500_columns_identical": true,
+  "chi_fresh_500": 0.9686490689352474,
+  "chi_recorded_locator": 0.9686490689352474,
+  "chi_matches_locator": true,
+  "chi_cache_4000": 1.012065320814041,
+  "bootstrap_se_500": 0.07443908737866062,
+  "abs_diff_in_se": 0.583245354123455,
+  "within_3_se": true,
+  "pass": true
+}

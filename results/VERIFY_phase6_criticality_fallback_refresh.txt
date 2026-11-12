@@ -1,0 +1,7 @@
+ca-GrQc: PASS n=4158 structural_zeros=2288 cached_zeros=2288 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.710007757952
+ca-HepTh: PASS n=8638 structural_zeros=4192 cached_zeros=4192 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.653519370177
+p2p-Gnutella08: PASS n=6299 structural_zeros=1752 cached_zeros=1752 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.435279503106
+email-Eu-core: PASS n=986 structural_zeros=149 cached_zeros=149 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.262786596120
+facebook_combined: PASS n=4039 structural_zeros=342 cached_zeros=342 rule_zero_cached_positive=0 rule_positive_cached_zero=0 w_exact=0.156164383562
+Required networks checked: 5/5; nodes checked: 24120
+ALL CHECKS PASSED
