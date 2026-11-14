@@ -810,28 +810,28 @@ Definitions are as registered on 2026-09-12, 2026-09-14 and 2026-10-12 (12:15, 1
 All three changes are in the unpinned controller `probes/probe_beta_sweep.py`. Each one
 stopped the run, and each loosening was the author's decision.
 
-1. **β_c identity tolerance (d63b870, 2026-10-15).**
+1. **β_c identity tolerance (2026-10-15).**
    - E3 compared stage 1's recomputed β_c with the root cache's to a hand-set relative
      1e-12. That value was chosen from a single 1.7e-14 observation.
    - ca-GrQc@1.25 came in at 1.37e-12 and the sweep stopped. Its draws were
      bit-identical and χ was 0.008 SE away.
    - The bound is now the eigensolve's own tol, 1e-8. Draw bit-identity and the
      registered 3-SE test are unchanged.
-2. **Refit duplicates (85067cd, 2026-10-13).**
+2. **Refit duplicates (2026-10-13).**
    - A host reset inside a stage 2 grid row leaves cells with a CSV row but no stored
      prediction. On resume they are refitted, which appends a second row.
    - The controller now drops the stale copy, provided the duplicate qualifies under
      item 3, and records the dropped copy in `refit_duplicates_<tag>.csv`.
    - This happened in three units: facebook_combined@1.25, p2p-Gnutella08@2.0 and
      ca-HepTh@3.0.
-3. **Refit score tolerance (e5a1c11, a0c69ac, 2026-11-01).**
+3. **Refit score tolerance (2026-11-01).**
    - Identity and input columns are compared byte for byte.
    - The five score columns are compared within an absolute 1e-6, because the n_jobs=-1
      forest is reproducible only to its last bits (about 5e-8 in τ, documented in
      `influence/experiment.py`).
    - The largest accepted difference was 1.1e-16 (facebook_combined@1.25, rmse).
-   - e5a1c11 shipped with three faults that the verifier caught, and a0c69ac fixed
-     them. They affected no scored number.
+   - The first version shipped with three faults that the verifier caught, and a
+     follow-up change fixed them. They affected no scored number.
 
 **Locator (recorded before the sweep).**
 
