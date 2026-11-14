@@ -1,0 +1,173 @@
+==============================================================================
+CLOSED-FORM LOCAL RULES AT MATCHED RADIUS vs THE LEARNED P(r)
+rf = random forest, richest structural tier, mean +/- sd over seeds
+     (betweenness from the reported log1p arm)
+best rule = best closed-form rule available at that radius (in-sample choice);
+            for spread_cv / spread_resid scored as |tau|, '(-)' = ranked ascending
+            [d] = dynamic tier (perc_reach_r): uses p, which the forest does not see;
+            'struct' = the best rule without the dynamic tier
+==============================================================================
+
+ca-GrQc / betweenness
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.5560 +/-0.0009                     degree  0.5516   +0.0044  0.5516       0.5516
+   1    0.9197 +/-0.0010            ego_betweenness  0.9027   +0.0170  0.9027       0.4165
+   2    0.9288 +/-0.0012            ego_betweenness  0.9027   +0.0261  0.9027       0.3784
+   3    0.9283 +/-0.0014            ego_betweenness  0.9027   +0.0256  0.9027       0.3640
+
+ca-GrQc / spread_cv
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.4598 +/-0.0019                     degree  0.4901   -0.0303  0.4901       0.4901
+   1    0.6720 +/-0.0021                      nbw_2  0.6701   +0.0019  0.6701       0.5107
+   2    0.8045 +/-0.0018            local_gravity_2  0.6823   +0.1223  0.6823       0.5093
+   3    0.8205 +/-0.0017            local_gravity_3  0.7027   +0.1178  0.7027       0.5072
+
+ca-GrQc / spread_mean
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.7807 +/-0.0019                     degree  0.8236   -0.0429  0.8236       0.8236
+   1    0.9073 +/-0.0006            local_gravity_1  0.8828   +0.0245  0.8828       0.7936
+   2    0.9416 +/-0.0004            local_gravity_1  0.8828   +0.0588  0.8828       0.7773
+   3    0.9441 +/-0.0004           perc_reach_3 [d]  0.8902   +0.0539  0.8828       0.7708
+
+ca-GrQc / spread_resid
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.2240 +/-0.0028                 degree (-)  0.2067   +0.0173  0.2067       0.2067
+   1    0.4985 +/-0.0025                 degree (-)  0.2067   +0.2919  0.2067       0.1591
+   2    0.6522 +/-0.0015                 degree (-)  0.2067   +0.4455  0.2067       0.1472
+   3    0.6716 +/-0.0019             reach_within_3  0.2417   +0.4300  0.2417       0.1441
+
+ca-HepTh / betweenness
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.6611 +/-0.0006                     degree  0.6860   -0.0249  0.6860       0.6860
+   1    0.9024 +/-0.0003            ego_betweenness  0.8887   +0.0137  0.8887       0.5699
+   2    0.9193 +/-0.0004            ego_betweenness  0.8887   +0.0306  0.8887       0.5371
+   3    0.9199 +/-0.0003            ego_betweenness  0.8887   +0.0313  0.8887       0.5257
+
+ca-HepTh / spread_cv
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.3282 +/-0.0008                     degree  0.3380   -0.0098  0.3380       0.3380
+   1    0.6566 +/-0.0012                      nbw_2  0.5547   +0.1019  0.5547       0.3751
+   2    0.8000 +/-0.0007             reach_within_2  0.5996   +0.2005  0.5996       0.3815
+   3    0.8219 +/-0.0004             reach_within_3  0.6926   +0.1293  0.6926       0.3839
+
+ca-HepTh / spread_mean
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.7228 +/-0.0007                     degree  0.7612   -0.0385  0.7612       0.7612
+   1    0.8966 +/-0.0004            local_gravity_1  0.8692   +0.0274  0.8692       0.7715
+   2    0.9461 +/-0.0002            local_gravity_2  0.9069   +0.0392  0.9069       0.7640
+   3    0.9508 +/-0.0002            local_gravity_2  0.9069   +0.0439  0.9069       0.7603
+
+ca-HepTh / spread_resid
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.2870 +/-0.0005                 degree (-)  0.2974   -0.0104  0.2974       0.2974
+   1    0.5341 +/-0.0011                 degree (-)  0.2974   +0.2367  0.2974       0.2532
+   2    0.6930 +/-0.0013                 degree (-)  0.2974   +0.3956  0.2974       0.2430
+   3    0.7191 +/-0.0005                 degree (-)  0.2974   +0.4217  0.2974       0.2394
+
+email-Eu-core / betweenness
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.7831 +/-0.0020                     degree  0.8057   -0.0226  0.8057       0.8057
+   1    0.9078 +/-0.0017            ego_betweenness  0.8564   +0.0514  0.8564       0.7701
+   2    0.9131 +/-0.0017            ego_betweenness  0.8564   +0.0567  0.8564       0.7594
+   3    0.9134 +/-0.0016            ego_betweenness  0.8564   +0.0569  0.8564       0.7527
+
+email-Eu-core / spread_cv
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.8563 +/-0.0012                 degree (-)  0.8760   -0.0197  0.8760       0.8760
+   1    0.9495 +/-0.0008                  nbw_2 (-)  0.9331   +0.0164  0.9331       0.8974
+   2    0.9574 +/-0.0009                  nbw_2 (-)  0.9331   +0.0243  0.9331       0.8983
+   3    0.9629 +/-0.0006       perc_reach_3 [d] (-)  0.9377   +0.0253  0.9331       0.8967
+
+email-Eu-core / spread_mean
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.8619 +/-0.0012                     degree  0.8814   -0.0195  0.8814       0.8814
+   1    0.9570 +/-0.0003                      nbw_2  0.9471   +0.0099  0.9471       0.9031
+   2    0.9637 +/-0.0005                      nbw_2  0.9471   +0.0166  0.9471       0.9041
+   3    0.9687 +/-0.0003           perc_reach_3 [d]  0.9493   +0.0193  0.9471       0.9025
+
+email-Eu-core / spread_resid
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.0312 +/-0.0120                 degree (-)  0.0154   +0.0158  0.0154       0.0154
+   1    0.0553 +/-0.0164        ego_betweenness (-)  0.0171   +0.0382  0.0171       0.0152
+   2    0.0972 +/-0.0135        ego_betweenness (-)  0.0171   +0.0801  0.0171       0.0145
+   3    0.0799 +/-0.0120        ego_betweenness (-)  0.0171   +0.0628  0.0171       0.0138
+
+facebook_combined / betweenness
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.5944 +/-0.0010                     degree  0.6083   -0.0139  0.6083       0.6083
+   1    0.8095 +/-0.0015            ego_betweenness  0.7977   +0.0119  0.7977       0.5579
+   2    0.9233 +/-0.0009            ego_betweenness  0.7977   +0.1256  0.7977       0.5410
+   3    0.9303 +/-0.0008            ego_betweenness  0.7977   +0.1326  0.7977       0.5336
+
+facebook_combined / spread_cv
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.1438 +/-0.0045                     degree  0.0967   +0.0470  0.0967       0.0967
+   1    0.8273 +/-0.0014                      nbw_2  0.2354   +0.5918  0.2354       0.1096
+   2    0.8364 +/-0.0015             reach_within_2  0.5112   +0.3252  0.5112       0.1158
+   3    0.8360 +/-0.0011             reach_within_2  0.5112   +0.3248  0.5112       0.1190
+
+facebook_combined / spread_mean
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.6705 +/-0.0013                     degree  0.6935   -0.0230  0.6935       0.6935
+   1    0.9453 +/-0.0005                      nbw_2  0.8121   +0.1332  0.8121       0.7224
+   2    0.9574 +/-0.0004            local_gravity_2  0.8429   +0.1145  0.8429       0.7259
+   3    0.9586 +/-0.0004            local_gravity_2  0.8429   +0.1158  0.8429       0.7267
+
+facebook_combined / spread_resid
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.3000 +/-0.0026                 degree (-)  0.2745   +0.0256  0.2745       0.2745
+   1    0.7177 +/-0.0028        ego_betweenness (-)  0.2886   +0.4291  0.2886       0.2522
+   2    0.7364 +/-0.0020        ego_betweenness (-)  0.2886   +0.4477  0.2886       0.2436
+   3    0.7376 +/-0.0017        ego_betweenness (-)  0.2886   +0.4490  0.2886       0.2392
+
+p2p-Gnutella08 / betweenness
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.8848 +/-0.0004                     degree  0.9075   -0.0227  0.9075       0.9075
+   1    0.9235 +/-0.0004            ego_betweenness  0.9105   +0.0130  0.9105       0.8317
+   2    0.9357 +/-0.0004            ego_betweenness  0.9105   +0.0252  0.9105       0.8219
+   3    0.9387 +/-0.0004            ego_betweenness  0.9105   +0.0282  0.9105       0.8197
+
+p2p-Gnutella08 / spread_cv
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.4560 +/-0.0011                 degree (-)  0.4615   -0.0055  0.4615       0.4615
+   1    0.5849 +/-0.0017 collective_influence_1 (-)  0.5108   +0.0740  0.5108       0.4853
+   2    0.7182 +/-0.0023 collective_influence_2 (-)  0.5304   +0.1878  0.5304       0.4924
+   3    0.7793 +/-0.0010 collective_influence_2 (-)  0.5304   +0.2489  0.5304       0.4915
+
+p2p-Gnutella08 / spread_mean
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.6705 +/-0.0012                     degree  0.7168   -0.0462  0.7168       0.7168
+   1    0.7928 +/-0.0009                      nbw_2  0.7938   -0.0010  0.7938       0.7522
+   2    0.8867 +/-0.0007            local_gravity_2  0.8169   +0.0699  0.8169       0.7618
+   3    0.9160 +/-0.0003       semilocal_centrality  0.8477   +0.0683  0.8477       0.7630
+
+p2p-Gnutella08 / spread_resid
+   r           rf tau                  best rule     tau rf - rule  struct  h-index tau
+   0    0.1393 +/-0.0030                 degree (-)  0.1745   -0.0352  0.1745       0.1745
+   1    0.2498 +/-0.0040        ego_betweenness (-)  0.1753   +0.0745  0.1753       0.1491
+   2    0.3729 +/-0.0024        ego_betweenness (-)  0.1753   +0.1976  0.1753       0.1464
+   3    0.4372 +/-0.0030        ego_betweenness (-)  0.1753   +0.2619  0.1753       0.1467
+
+==============================================================================
+THE r=0 TIE ARTEFACT: forest P(0) vs the degree ranking it can at best reproduce
+==============================================================================
+  network            target         tau_b(y,degree)  random ties   rf P(0)      gap  gap / rf sd
+  ca-GrQc            betweenness             0.5516       0.5201    0.5560  +0.0044          4.7
+  ca-HepTh           betweenness             0.6860       0.6466    0.6611  -0.0249        -39.3
+  email-Eu-core      betweenness             0.8057       0.7970    0.7831  -0.0226        -11.5
+  facebook_combined  betweenness             0.6083       0.6042    0.5944  -0.0139        -13.8
+  p2p-Gnutella08     betweenness             0.9075       0.8486    0.8848  -0.0227        -63.0
+  ca-GrQc            spread_mean             0.8236       0.7762    0.7807  -0.0429        -22.9
+  ca-HepTh           spread_mean             0.7612       0.7165    0.7228  -0.0385        -54.9
+  email-Eu-core      spread_mean             0.8814       0.8717    0.8619  -0.0195        -16.6
+  facebook_combined  spread_mean             0.6935       0.6891    0.6705  -0.0230        -18.0
+  p2p-Gnutella08     spread_mean             0.7168       0.6707    0.6705  -0.0462        -37.7
+  random ties = tau of degree with its ties broken uniformly at random. Where the
+  forest matches it, the gap is the tie artefact alone; where the forest is lower,
+  its fold models are also non-monotone in degree.
+
+==============================================================================
+WHERE THE FOREST DOES NOT BEAT ONE CLOSED-FORM RULE (rf - best rule <= 2 x rf sd)
+==============================================================================
+  ca-GrQc            spread_cv     r=1  rf 0.6720 vs nbw_2 0.6701
+  p2p-Gnutella08     spread_mean   r=1  rf 0.7928 vs nbw_2 0.7938

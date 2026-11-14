@@ -1,0 +1,38 @@
+{
+  "config": {
+    "per_network": 2000,
+    "tiers": [
+      "node",
+      "edge",
+      "subgraph"
+    ],
+    "target_encoding": "within-network percentile rank",
+    "model": "make_rf",
+    "networks": [
+      "ca-GrQc",
+      "ca-HepTh",
+      "email-Eu-core",
+      "facebook_combined",
+      "p2p-Gnutella08"
+    ]
+  },
+  "inputs": {
+    "data/cache/cache_features_ca-GrQc.csv": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+    "data/cache/cache_targets_ca-GrQc.csv": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62",
+    "data/cache/cache_registry_ca-GrQc.csv": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742",
+    "data/cache/cache_features_ca-HepTh.csv": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d",
+    "data/cache/cache_targets_ca-HepTh.csv": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe",
+    "data/cache/cache_registry_ca-HepTh.csv": "90fba85430a8b783cdb14d3190fefd6c48a5ffa6909322d435307532ee22f29f",
+    "data/cache/cache_features_email-Eu-core.csv": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477",
+    "data/cache/cache_targets_email-Eu-core.csv": "1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a",
+    "data/cache/cache_registry_email-Eu-core.csv": "ab437192b824d7a08571ff41cdddd57544e51c23ee6eb4ef38ecb141d3f24457",
+    "data/cache/cache_features_facebook_combined.csv": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382",
+    "data/cache/cache_targets_facebook_combined.csv": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9",
+    "data/cache/cache_registry_facebook_combined.csv": "a6754f61ad2402e7cf7b224c1b9b99c57e9c57be993da77ce6289048197f9e7a",
+    "data/cache/cache_features_p2p-Gnutella08.csv": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4",
+    "data/cache/cache_targets_p2p-Gnutella08.csv": "1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6",
+    "data/cache/cache_registry_p2p-Gnutella08.csv": "f50359068263c3c9b9050d643c10e016c6b908d340dd37950d2f277881ae6be8"
+  },
+  "created_utc": "2026-11-14T02:26:36+00:00",
+  "probe_sha256": "d3890692961e209272b08d5246457a174d1ffb74286002c03c1ec81869ddf190"
+}

@@ -1,0 +1,156 @@
+==============================================================================
+LEAVE-ONE-GRAPH-OUT TRANSFER (pre-registered: docs/prereg/prereg_transfer.md)
+transfer = train on the other four networks, rank every node of this one
+within   = the project's within-graph out-of-fold P(r), same tier
+gap      = within - transfer (positive = transfer is worse)
+rule     = best closed-form rule at that radius, in-sample (analyse_closed_form)
+no-size  = POST-HOC arm 1, without degree_normalized; not scored
+pct-feat = POST-HOC arm 2, per-graph percentile features; not scored and
+           not strictly local (reads each column's distribution over the graph)
+==============================================================================
+
+ca-GrQc / spread_mean   tau_b(y, degree) = 0.8236
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.6398 +/-0.0969   0.7807  +0.1409   0.8236  0.528  0.609   0.7923   0.8187
+   1   0.7044 +/-0.0149   0.9073  +0.2029   0.8828  0.000  0.208   0.7427   0.8529
+   2   0.6997 +/-0.0108   0.9416  +0.2419   0.8828  0.000  0.024   0.7049   0.8759
+   3   0.8636 +/-0.0059   0.9441  +0.0805   0.8902  0.000  0.419   0.8636   0.8678
+
+ca-HepTh / spread_mean   tau_b(y, degree) = 0.7612
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.7601 +/-0.0017   0.7228  -0.0374   0.7612  0.593  0.712   0.7242   0.7535
+   1   0.8606 +/-0.0014   0.8966  +0.0360   0.8692  0.860  0.848   0.8227   0.8839
+   2   0.9086 +/-0.0036   0.9461  +0.0374   0.9069  0.891  0.905   0.8961   0.9195
+   3   0.9262 +/-0.0039   0.9508  +0.0246   0.9069  0.922  0.930   0.9176   0.9272
+
+email-Eu-core / spread_mean   tau_b(y, degree) = 0.8814
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.8719 +/-0.0048   0.8619  -0.0100   0.8814  0.481  0.871   0.6199   0.8627
+   1   0.4935 +/-0.0287   0.9570  +0.4635   0.9471  0.000  0.007   0.4004   0.9127
+   2   0.7485 +/-0.0402   0.9637  +0.2153   0.9471  0.185  0.531   0.7468   0.9252
+   3   0.3230 +/-0.0210   0.9687  +0.6456   0.9493  0.000  0.000   0.3148   0.9271
+
+facebook_combined / spread_mean   tau_b(y, degree) = 0.6935
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.4994 +/-0.0680   0.6705  +0.1711   0.6935  0.000  0.023   0.5662   0.6886
+   1   0.2604 +/-0.0809   0.9453  +0.6849   0.8121  0.108  0.471   0.6904   0.7901
+   2  -0.1843 +/-0.0073   0.9574  +1.1416   0.8429  0.000  0.000  -0.1832   0.8653
+   3  -0.1837 +/-0.0035   0.9586  +1.1423   0.8429  0.000  0.000  -0.1835   0.8577
+
+p2p-Gnutella08 / spread_mean   tau_b(y, degree) = 0.7168
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.7008 +/-0.0096   0.6705  -0.0303   0.7168  0.414  0.227   0.6693   0.7115
+   1   0.5351 +/-0.0330   0.7928  +0.2577   0.7938  0.054  0.018   0.5481   0.7908
+   2   0.6110 +/-0.0140   0.8867  +0.2757   0.8169  0.032  0.013   0.6185   0.8309
+   3   0.1988 +/-0.0939   0.9160  +0.7172   0.8477  0.935  0.482   0.2086   0.8367
+
+ca-GrQc / betweenness   tau_b(y, degree) = 0.5516
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.3289 +/-0.1688   0.5560  +0.2270   0.5516  0.187  0.266   0.5521   0.5363
+   1   0.7574 +/-0.0116   0.9197  +0.1623   0.9027  0.659  0.715   0.7706   0.7593
+   2   0.7750 +/-0.0073   0.9288  +0.1538   0.9027  0.715  0.705   0.7847   0.7614
+   3   0.7710 +/-0.0161   0.9283  +0.1573   0.9027  0.659  0.736   0.7758   0.7595
+
+ca-HepTh / betweenness   tau_b(y, degree) = 0.6860
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.6854 +/-0.0004   0.6611  -0.0243   0.6860  0.233  0.599   0.6471   0.6473
+   1   0.7675 +/-0.0080   0.9024  +0.1348   0.8887  0.620  0.702   0.7866   0.7816
+   2   0.7797 +/-0.0056   0.9193  +0.1396   0.8887  0.663  0.694   0.8085   0.7843
+   3   0.7923 +/-0.0080   0.9199  +0.1276   0.8887  0.647  0.698   0.8253   0.7854
+
+email-Eu-core / betweenness   tau_b(y, degree) = 0.8057
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.7938 +/-0.0047   0.7831  -0.0107   0.8057  0.667  0.585   0.5720   0.7382
+   1   0.7971 +/-0.0021   0.9078  +0.1107   0.8564  0.444  0.741   0.8043   0.8299
+   2   0.7717 +/-0.0054   0.9131  +0.1414   0.8564  0.074  0.388   0.7734   0.8474
+   3   0.8271 +/-0.0063   0.9134  +0.0863   0.8564  0.296  0.741   0.8266   0.8111
+
+facebook_combined / betweenness   tau_b(y, degree) = 0.6083
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.4112 +/-0.0061   0.5944  +0.1832   0.6083  0.067  0.118   0.4298   0.5904
+   1   0.6181 +/-0.0018   0.8095  +0.1914   0.7977  0.458  0.393   0.6704   0.7527
+   2   0.5862 +/-0.0073   0.9233  +0.3371   0.7977  0.333  0.289   0.5925   0.7628
+   3   0.5920 +/-0.0100   0.9303  +0.3382   0.7977  0.408  0.300   0.6002   0.7623
+
+p2p-Gnutella08 / betweenness   tau_b(y, degree) = 0.9075
+   r          transfer   within      gap     rule   P@1%   P@5%  no-size pct-feat
+   0   0.7300 +/-0.0751   0.8848  +0.1548   0.9075  0.419  0.282   0.8037   0.8488
+   1   0.7831 +/-0.0180   0.9235  +0.1404   0.9105  0.667  0.592   0.7433   0.8643
+   2   0.8344 +/-0.0063   0.9357  +0.1013   0.9105  0.774  0.613   0.8074   0.8450
+   3   0.8376 +/-0.0197   0.9387  +0.1011   0.9105  0.753  0.643   0.8242   0.8544
+
+==============================================================================
+PREDICTIONS
+==============================================================================
+
+P1  spread_mean r=3, gap > 0 on all and mean gap >= 0.02: SUPPORTED
+      ca-GrQc            gap +0.0805
+      ca-HepTh           gap +0.0246
+      email-Eu-core      gap +0.6456
+      facebook_combined  gap +1.1423
+      p2p-Gnutella08     gap +0.7172
+      mean gap +0.5220
+
+P2  transfer(r=3) - transfer(r=0) > 2 x paired seed sd on >= 4 of 5
+      spread_mean  ca-GrQc            gain +0.2238  sd 0.0929  *
+      spread_mean  ca-HepTh           gain +0.1660  sd 0.0022  *
+      spread_mean  email-Eu-core      gain -0.5489  sd 0.0162   
+      spread_mean  facebook_combined  gain -0.6831  sd 0.0655   
+      spread_mean  p2p-Gnutella08     gain -0.5020  sd 0.0879   
+    spread_mean: 2/5 -> NOT SUPPORTED
+      betweenness  ca-GrQc            gain +0.4421  sd 0.1528  *
+      betweenness  ca-HepTh           gain +0.1069  sd 0.0083  *
+      betweenness  email-Eu-core      gain +0.0333  sd 0.0110  *
+      betweenness  facebook_combined  gain +0.1808  sd 0.0137  *
+      betweenness  p2p-Gnutella08     gain +0.1076  sd 0.0819   
+    betweenness: 4/5 -> SUPPORTED
+
+P3  betweenness r=3, gap >= 0.05 on email-Eu-core or facebook_combined: SUPPORTED
+      ca-GrQc            gap +0.1573
+      ca-HepTh           gap +0.1276
+      email-Eu-core      gap +0.0863   (dense)
+      facebook_combined  gap +0.3382   (dense)
+      p2p-Gnutella08     gap +0.1011
+
+P4  spread_mean r=3, transfer beats the best closed-form rule on >= 3 of 5: NOT SUPPORTED  (1/5)
+    Counter (rule matches or beats transfer on >= 3 of 5): SUPPORTED
+      ca-GrQc            transfer 0.8636  perc_reach_3           0.8902  margin -0.0266
+      ca-HepTh           transfer 0.9262  local_gravity_2        0.9069  margin +0.0193
+      email-Eu-core      transfer 0.3230  perc_reach_3           0.9493  margin -0.6263
+      facebook_combined  transfer -0.1837  local_gravity_2        0.8429  margin -1.0265
+      p2p-Gnutella08     transfer 0.1988  semilocal_centrality   0.8477  margin -0.6488
+    Not pre-registered: perc_reach_r is in the dynamic tier (it uses p, which
+    the transferred forest does not see). Against the best STRUCTURAL rule:
+      ca-GrQc            transfer 0.8636  local_gravity_1        0.8828  margin -0.0193
+      ca-HepTh           transfer 0.9262  local_gravity_2        0.9069  margin +0.0193
+      email-Eu-core      transfer 0.3230  nbw_2                  0.9471  margin -0.6241
+      facebook_combined  transfer -0.1837  local_gravity_2        0.8429  margin -1.0265
+      p2p-Gnutella08     transfer 0.1988  semilocal_centrality   0.8477  margin -0.6488
+
+==============================================================================
+POST-HOC ARMS AT r=3 (not scored): mean tau over networks, and wins over
+the best structural rule
+==============================================================================
+  spread_mean  registered mean tau 0.4256   beats rule on 1/5   mean gap to within-graph +0.5220
+  spread_mean  no-size    mean tau 0.4242   beats rule on 1/5   mean gap to within-graph +0.5234
+  spread_mean  pct-feat   mean tau 0.8833   beats rule on 2/5   mean gap to within-graph +0.0643
+  betweenness  registered mean tau 0.7640   beats rule on 0/5   mean gap to within-graph +0.1621
+  betweenness  no-size    mean tau 0.7704   beats rule on 0/5   mean gap to within-graph +0.1557
+  betweenness  pct-feat   mean tau 0.7945   beats rule on 0/5   mean gap to within-graph +0.1316
+
+==============================================================================
+NOT PRE-REGISTERED: transfer at r=0 against the degree ranking
+==============================================================================
+At r=0 the only inputs are degree and degree_normalized = k/(n-1). The best
+possible ranking is degree itself; anything below tau_b(y, degree) is lost in
+the forest, not in the information.
+  betweenness  ca-GrQc            tau_b(y,deg) 0.5516  transfer 0.3289 +/-0.1688  no-size 0.5521 +/-0.0025
+  betweenness  ca-HepTh           tau_b(y,deg) 0.6860  transfer 0.6854 +/-0.0004  no-size 0.6471 +/-0.0098
+  betweenness  email-Eu-core      tau_b(y,deg) 0.8057  transfer 0.7938 +/-0.0047  no-size 0.5720 +/-0.0108
+  betweenness  facebook_combined  tau_b(y,deg) 0.6083  transfer 0.4112 +/-0.0061  no-size 0.4298 +/-0.0013
+  betweenness  p2p-Gnutella08     tau_b(y,deg) 0.9075  transfer 0.7300 +/-0.0751  no-size 0.8037 +/-0.0196
+  spread_mean  ca-GrQc            tau_b(y,deg) 0.8236  transfer 0.6398 +/-0.0969  no-size 0.7923 +/-0.0033
+  spread_mean  ca-HepTh           tau_b(y,deg) 0.7612  transfer 0.7601 +/-0.0017  no-size 0.7242 +/-0.0095
+  spread_mean  email-Eu-core      tau_b(y,deg) 0.8814  transfer 0.8719 +/-0.0048  no-size 0.6199 +/-0.0080
+  spread_mean  facebook_combined  tau_b(y,deg) 0.6935  transfer 0.4994 +/-0.0680  no-size 0.5662 +/-0.0030
+  spread_mean  p2p-Gnutella08     tau_b(y,deg) 0.7168  transfer 0.7008 +/-0.0096  no-size 0.6693 +/-0.0080

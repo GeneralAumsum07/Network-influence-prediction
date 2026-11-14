@@ -507,11 +507,15 @@ node within its graphlet. Measured - not derived by hand - by `analysis/_calib.p
 
 | | hop 1 | hop 2 | hop 3 | hop 4 | total |
 |---|---|---|---|---|---|
-| **node orbits** (5-node ORCA) | 22 | 37 | 11 | 1 | **71** |
+| **node orbits** (5-node ORCA) | 16 | 43 | 11 | 1 | **71** |
 | **edge orbit columns** (12 orbits x 3 statistics) | 9 | 24 | 3 | - | **36** |
 
 Graphlets are mostly a radius-1 and radius-2 enrichment, not an expensive block
 attached to the deepest radius.
+
+*(The node-orbit row read 22 / 37 until 2026-11-14. The 2026-09-11 retag above moved
+six orbits from hop 1 to hop 2, and this row was not updated with it. The registry
+counts are 16 / 43 / 11 / 1.)*
 
 **Why 71 node orbits and not 73.** ORCA emits 73 orbits for graphlets on up to
 5 nodes (0-72). Two are dropped because they are *exactly* columns the table

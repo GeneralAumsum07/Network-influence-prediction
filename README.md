@@ -23,10 +23,14 @@ peers, privacy-limited platforms, sampled subgraphs), not compute cost.
   runs. Using the same multiple everywhere is what makes networks comparable.
 - **Features.** 171 registered features in four tiers: node, edge, subgraph (graphlet
   orbits from ORCA) and dynamic. Each feature is tagged with the radius at which it
-  becomes observable, and a leakage guard rejects anything that needs more of the
-  graph than its radius allows.
+  becomes observable. `checks/verify_locality.py` tests those tags: it recomputes every
+  feature on the radius-r view of sampled nodes and requires it to equal the
+  whole-graph value. A separate leakage guard in `influence/targets.py` blocks targets
+  and global centralities from the inputs by name.
 - **Scoring.** Kendall τ and precision@k on held-out nodes, over a radius × feature
-  richness grid with 10 seeds per cell.
+  richness grid with 10 seeds per cell. Two references sit beside the learned curve:
+  the best closed-form local rule at the same radius, and a model trained on the
+  other networks only (leave-one-graph-out transfer).
 
 The findings, with their evidence and every revision, are in
 [`docs/study_doc_v2.md`](docs/study_doc_v2.md).
@@ -119,6 +123,41 @@ Things to keep in mind:
 - A hash mismatch on resume means an input changed and needs investigating. Never
   edit a recorded hash to force a resume.
 
+### Baselines and transfer
+
+```bash
+python analysis/analyse_closed_form.py   # closed-form local rules at matched radius vs P(r)
+python probes/probe_transfer.py          # leave-one-graph-out transfer, about 25 min on 2 cores
+python analysis/analyse_transfer.py      # scores it against docs/prereg/prereg_transfer.md
+```
+
+`analyse_closed_form.py` fits nothing: it scores the classical local centralities
+already in the cache (h-index, collective influence, local gravity, truncated
+percolation reach and others), each at the radius it needs. It also measures the gap
+between the forest's P(0) and τ_b(y, degree), which is a tie artefact of
+out-of-fold scoring and not information.
+
+`probe_transfer.py` was pre-registered in
+[`docs/prereg/prereg_transfer.md`](docs/prereg/prereg_transfer.md) before its first
+cell. It resumes, and it refuses to resume if the caches or the configuration
+changed. The two post-hoc arms in the addenda are run with `--drop degree_normalized
+--out results/transfer_nosize` and `--feature-encoding rank --out
+results/transfer_featrank`.
+
+What they found (`results/RESULTS_closed_form.txt`, `results/RESULTS_transfer.txt`):
+
+- Within a graph, the forest beats the best single closed-form rule at every radius
+  >= 1 by more than 2 seed sd, in all but two (network, target) cells.
+- The registered transfer protocol (raw features, percentile-ranked target) fails on
+  email-Eu-core, facebook_combined and p2p-Gnutella08: at r=3, spread_mean tau is
+  0.32, -0.18 and 0.20. P1 and P3 held, with gaps far larger than predicted; P2
+  failed for spread_mean, and P4 failed.
+- Encoding every feature as its within-graph percentile (post-hoc arm 2) recovers
+  transfer to a mean tau of 0.88 at r=3, 0.06 below within-graph. Even then one
+  closed-form rule matches or beats the transferred forest on 3 of 5 networks for
+  spread_mean and on all 5 for betweenness. Arm 2 reads each feature's distribution
+  over the whole graph, so it is not a strictly local predictor.
+
 ### Zero-fit analyses
 
 These read the prepared caches, check their identity hashes, and write under
@@ -142,7 +181,14 @@ exits non-zero. Run these three before trusting any result:
 python checks/verify_pipeline.py data/email-Eu-core.txt   # features, cost model, dynamics, leakage guard
 python checks/verify_generators.py                        # synthetic generators and structural measurements
 python checks/verify_docs.py                              # document claims against artefacts; paths and links
+python checks/verify_locality.py                          # every hop-h feature is computable from the h-ball
 ```
+
+`verify_locality.py` builds the observer's view of a node as a real graph: the
+induced r-ball plus one pendant stub per outside neighbour of each boundary node, so
+boundary degrees are true. It extracts the feature table on that view and compares
+it, at the node, with the whole-graph table. It needs `vendor/orca` (or
+`vendor/orca.exe`) for the orbit columns.
 
 One gate fails at present: `checks/verify_robustness_rerun.py` reports that the raw
 robustness re-run differs from the archived file. The difference is explained in

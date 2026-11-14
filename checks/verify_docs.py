@@ -29,7 +29,8 @@ WHAT IT CHECKS
   2.  Feature totals and the tier split (45/50/74/2 = 171) match the registry.
   3.  Cumulative-by-radius counts (2/62/145/170, +1 at hop 4) match the registry.
   4.  Orbit accounting: 71 node orbits, 73 from ORCA, and the two exclusions
-      are actually documented rather than left as an unexplained gap.
+      are actually documented rather than left as an unexplained gap. The
+      per-hop orbit table rows match the registry (added 2026-11-14).
   5.  Every beta_c quoted in the prose matches that network's cache metadata.
   6.  The dynamical regime (multiple / n_sims / convention) is identical across
       every network, and the prose says "five" rather than "three".
@@ -149,6 +150,7 @@ def registry_facts(reg: pd.DataFrame) -> dict:
         "n_node_orbits": len(node_orbits),
         "n_edge_orbit_cols": len(edge_orbits),
         "node_orbit_by_hop": node_orbits["hop"].value_counts().sort_index().to_dict(),
+        "edge_orbit_by_hop": edge_orbits["hop"].value_counts().sort_index().to_dict(),
     }
 
 
@@ -307,6 +309,22 @@ def check_orbit_accounting(truth: dict, docs: dict[str, str]) -> None:
     check("the all-zero orbit skip fires on no network",
           set(zero_skipped.values()) == {0},
           f"per-network orbits dropped as constant: {zero_skipped}")
+
+    # The per-hop orbit table. `node_orbit_by_hop` was computed here from the start
+    # but never compared with the prose, and the running guide's row kept the
+    # pre-retag 22 / 37 for two months after the 2026-09-11 retag made it 16 / 43.
+    for name, text in docs.items():
+        for label, key in (("**node orbits**", "node_orbit_by_hop"),
+                           ("**edge orbit columns**", "edge_orbit_by_hop")):
+            row = next((l for l in text.splitlines() if l.startswith(f"| {label}")), None)
+            if row is None:
+                continue
+            cells = [c.strip().strip("*") for c in row.strip().strip("|").split("|")][1:5]
+            claimed = [int(c) if c.isdigit() else 0 for c in cells]
+            by_hop = facts[next(iter(facts))][key]
+            actual = [int(by_hop.get(h, 0)) for h in (1, 2, 3, 4)]
+            check(f"{name}: {label.strip('*')} by hop 1-4 is {actual}", claimed == actual,
+                  f"document says {claimed}")
 
     # Orbit 15 (induced-P5 endpoint) has eccentricity 4, so it is registered but
     # unreachable at MAX_HOP=3. That is the 171-vs-170 gap and the 71-vs-70 gap,
