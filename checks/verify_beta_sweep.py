@@ -308,7 +308,21 @@ def end_to_end() -> None:
                             oof[f"{t}|{r}|{tier}|0"] = tg[t].to_numpy() + rng.normal(scale=1 + 3 - r, size=n)
                 pd.DataFrame(rows).to_csv(md / f"sweep_{tag}.csv", index=False)
                 np.savez(md / f"cache_oof_{tag}.npz", **oof)
+            # First with the controller's real completeness rule. This tree holds
+            # 2 tiers x 4 radii x 10 seeds per target, far short of a registered
+            # unit, so run_score must refuse every multiple and write nothing.
+            # That refusal is the 2026-11-15 fix (partial units used to be scored
+            # silently); before it, this same tree was scored.
             ab.run_score()
+            check("e2e incomplete units are refused, nothing written",
+                  not (Path(d) / "verdict.json").exists() and not (Path(d) / "rstar.csv").exists())
+            # Then the wiring checks this block exists for. Stub the completeness
+            # rule rather than build a full 16,800-cell unit: completeness itself
+            # is covered by the controller() checks on unit_done.
+            import probe_beta_sweep as pb
+            from unittest.mock import patch
+            with patch.object(pb, "unit_done", return_value=(True, "")):
+                ab.run_score()
             v = json.loads((Path(d) / "verdict.json").read_text())["networks"][tag]
             rs = pd.read_csv(Path(d) / "rstar.csv")
             check("e2e verdict scored, peak at the constructed multiple",

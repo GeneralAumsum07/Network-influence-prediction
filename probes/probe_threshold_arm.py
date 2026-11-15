@@ -124,7 +124,13 @@ def run_gate() -> int:
             print(f"{tag:18s} theta={theta}: ignition {g['ignition_fraction']:.3f} "
                   f"({'PASS' if g['passes'] else 'fail'}), median size "
                   f"{g['size_quantiles']['median']:.0f} of n={net.n}, {secs:.1f} s", flush=True)
-        np.savez(OUT / f"sizes_{tag}.npz", **arrays)
+        # Write-then-rename, as gate.json does: a reset mid-write must not
+        # leave a truncated sizes file beside a gate.json that describes it.
+        # Through a handle, because np.savez appends ".npz" to a bare name.
+        tmp = OUT / f"sizes_{tag}.npz.tmp"
+        with open(tmp, "wb") as fh:
+            np.savez(fh, **arrays)
+        tmp.replace(OUT / f"sizes_{tag}.npz")
         result["networks"][tag] = per
     passing = [(t, th) for t in NETWORKS for th in THETAS
                if result["networks"][t][f"theta{th}"]["passes"]]
@@ -277,6 +283,11 @@ def network_done(tag: str, thetas: list[str]) -> tuple[bool, str]:
 
 def run_fit(only: list[str] | None) -> int:
     plan = passing_plan()
+    # sources.json pins the FULL prepared plan. Checking it against the --only
+    # subset made every strict subset fail (the other networks' target hashes
+    # read as "changed"). Always check the full plan: a subset run still must
+    # not proceed if any pinned input moved. (Fixed 2026-11-15.)
+    full_plan = dict(plan)
     if only:
         unknown = set(only) - set(plan)
         if unknown:
@@ -288,7 +299,7 @@ def run_fit(only: list[str] | None) -> int:
         for tag, thetas in plan.items():
             # Checked before every network, not once: a file edited mid-run
             # must stop the next network, not be fitted into it.
-            check_sources(plan)
+            check_sources(full_plan)
             done, why = network_done(tag, thetas)
             if done:
                 log(f"SKIP {tag} already complete ({why})")

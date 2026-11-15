@@ -150,6 +150,12 @@ def run_prepare() -> int:
                   f"gap={c['nb_spectral_gap']:.4f}", flush=True)
     write_atomic(OUT / "corpus.json", json.dumps(corpus, indent=2, default=str) + "\n")
 
+    # Same rule as probe_certificate.run_prepare: never re-pin over reused
+    # stage-1 caches whose pinned inputs have changed since the last prepare.
+    reused = [(k, g) for k, g in units() if stage1_done(k, g)]
+    if reused and (OUT / "sources.json").is_file():
+        check_sources()
+
     for k, g in units():
         run_dir(k).mkdir(parents=True, exist_ok=True)
         if stage1_done(k, g):
@@ -207,9 +213,32 @@ def rho_per_seed(sweep: Path) -> pd.Series:
     return tau[1] / tau[3]
 
 
+def l6_spread_complete(g: float) -> tuple[bool, str]:
+    """The seed-0 (certificate lane) sweep, read in place, must hold every spread cell.
+
+    fit_done covers only GEN_SEEDS; the seed-0 sweep entered the calibration
+    unchecked. Only spread_mean rows are tested because that lane's sweep also
+    carries its betweenness control.
+    """
+    sweep = L6_OUT / f"sweep_{tag(g)}.csv"
+    if not sweep.exists():
+        return False, "no seed-0 sweep"
+    df = pd.read_csv(sweep)
+    df = df[df.target == "spread_mean"]
+    keys = [(r.target, int(r.radius), r.richness, int(r.seed)) for r in df.itertuples()]
+    want = {("spread_mean", r, rung, s) for r in range(MAX_HOP + 1)
+            for rung in TIER_LADDER for s in range(N_SEEDS)}
+    if len(keys) != len(set(keys)) or set(keys) != want:
+        return False, f"{len(want - set(keys))} missing, {len(keys) - len(set(keys))} duplicate"
+    return True, f"{len(want)} cells"
+
+
 def run_analyse() -> int:
     if not all(fit_done(k, g)[0] for k, g in units()):
         raise SystemExit("refusing: a fit is incomplete")
+    bad = {g: why for g in GAMMAS for ok, why in [l6_spread_complete(g)] if not ok}
+    if bad:
+        raise SystemExit(f"refusing: the seed-0 certificate sweep is incomplete: {bad}")
     l6 = json.loads((L6_OUT / "corpus.json").read_text(encoding="utf-8"))["graphs"]
     rep = json.loads((OUT / "corpus.json").read_text(encoding="utf-8"))["graphs"]
     rows = []

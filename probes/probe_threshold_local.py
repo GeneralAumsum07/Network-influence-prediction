@@ -73,13 +73,31 @@ def first_reaching(values: dict[int, float | None], bar: float):
     return min(hits) if hits else "> 3"
 
 
-def probe_one(tag: str, theta: str) -> dict:
-    net, _, path = load_network(tag)
+def gate_spread(tag: str, theta: str, net, path: Path) -> np.ndarray:
+    """The gate's per-node cascade sizes, refused unless they belong to `net`.
+
+    Same node order as the gate's arrays, or the comparison is meaningless. Until
+    2026-11-15 only `node == arange(n)` was checked (in two copies of this
+    block), which any graph with n nodes passes. Now also: the saved external
+    IDs equal the loader's, and gate.json's edge-list hash for this network is
+    the hash of the edge list loaded here, so sizes from another graph of the
+    same size, or from an edited edge list, cannot be scored as this one.
+    """
     with np.load(OUT / f"sizes_{tag}.npz") as z:
-        node, spread = z["node"], z[f"theta{theta}"]
-    # Same node order as the gate's arrays, or the comparison is meaningless.
+        node, original_id, spread = z["node"], z["original_id"], z[f"theta{theta}"]
     if not np.array_equal(node, np.arange(net.n)):
         raise SystemExit(f"{tag}: sizes_{tag}.npz is not in loader order")
+    if not np.array_equal(original_id, np.asarray(net.original_ids)):
+        raise SystemExit(f"{tag}: sizes_{tag}.npz original_id differs from the loaded network")
+    gate = json.loads((OUT / "gate.json").read_text(encoding="utf-8"))
+    if gate["networks"][tag]["edge_list_sha256"] != sha256(path):
+        raise SystemExit(f"{tag}: edge list changed since the gate computed its sizes")
+    return spread
+
+
+def probe_one(tag: str, theta: str) -> dict:
+    net, _, path = load_network(tag)
+    spread = gate_spread(tag, theta, net, path)
     n = net.n
     ignites = (spread > IGNITION_FRAC * n).astype(np.int64)
 
@@ -134,10 +152,7 @@ def probe_censored(tag: str, theta: str) -> dict:
     fizzle is proven by containment, not by the ball holding 5% of n (flaw 2).
     """
     net, _, path = load_network(tag)
-    with np.load(OUT / f"sizes_{tag}.npz") as z:
-        node, spread = z["node"], z[f"theta{theta}"]
-    if not np.array_equal(node, np.arange(net.n)):
-        raise SystemExit(f"{tag}: sizes_{tag}.npz is not in loader order")
+    spread = gate_spread(tag, theta, net, path)
     n = net.n
     ignites = spread > IGNITION_FRAC * n
 
@@ -202,7 +217,10 @@ def main() -> int:
         for theta in thetas:
             res = probe_one(tag, theta)
             result["networks"][f"{tag}@{theta}"] = res
-            taus = "  ".join(f"r{r} {res['per_radius'][str(r)]['tau']:.3f}" for r in RADII)
+            # tau_b returns None for a constant input; ":.3f" on None raised
+            # BEFORE the write below, losing the whole run (fixed 2026-11-15).
+            taus = "  ".join(f"r{r} " + ("n/a" if (t := res['per_radius'][str(r)]['tau']) is None
+                                         else f"{t:.3f}") for r in RADII)
             print(f"{tag}@{theta}: {taus}  -> r*={res['spread']['r_star']} "
                   f"({res['spread']['counter']}), {res['seconds']:.0f} s", flush=True)
     write_atomic(OUT / "local_exact.json", json.dumps(result, indent=2) + "\n")

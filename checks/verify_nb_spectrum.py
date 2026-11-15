@@ -75,12 +75,25 @@ def check_edgelist(path: str) -> None:
     M = build_ihara_bass(net)
     res = nb_spectral_gap(net)
     dense = np.sort(np.abs(np.linalg.eigvals(M.toarray())))[::-1]
-    ok = (abs(res["nb_lambda1"] / dense[0] - 1) <= REL
+    # The production call takes the DENSE branch whenever the 2n x 2n
+    # Ihara-Bass dimension is <= DENSE_MAX_DIM (n <= 1000), and then this was
+    # dense against dense. Force the Arnoldi branch as well (as
+    # test_arnoldi_matches_dense does), so "Arnoldi vs dense" is tested on
+    # this real graph whatever its size. Added 2026-11-15.
+    old = nb_spectrum.DENSE_MAX_DIM
+    nb_spectrum.DENSE_MAX_DIM = 10
+    try:
+        a1, a2, a_method = top_two_moduli(M)
+    finally:
+        nb_spectrum.DENSE_MAX_DIM = old
+    ok = (a_method == "arnoldi"
+          and abs(a1 / dense[0] - 1) <= REL and abs(a2 / dense[1] - 1) <= REL
+          and abs(res["nb_lambda1"] / dense[0] - 1) <= REL
           and abs(res["nb_lambda2_abs"] / dense[1] - 1) <= REL
           and abs(res["nb_lambda1"] * epidemic_threshold(net) - 1) <= REL)
-    print(f"{net.name}: n={net.n} dim={M.shape[0]} {res['nb_method']} "
-          f"l1={res['nb_lambda1']:.10f} (dense {dense[0]:.10f}) "
-          f"l2={res['nb_lambda2_abs']:.10f} (dense {dense[1]:.10f}) "
+    print(f"{net.name}: n={net.n} dim={M.shape[0]} production={res['nb_method']} "
+          f"l1={res['nb_lambda1']:.10f} (arnoldi {a1:.10f}, dense {dense[0]:.10f}) "
+          f"l2={res['nb_lambda2_abs']:.10f} (arnoldi {a2:.10f}, dense {dense[1]:.10f}) "
           f"gap={res['nb_spectral_gap']:.6f} -> {'OK' if ok else 'FAIL'}")
     if not ok:
         raise SystemExit(1)

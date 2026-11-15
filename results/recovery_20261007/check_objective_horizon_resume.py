@@ -30,6 +30,7 @@ from sources.json.
 
 Read-only. Exit 0 = resume (or a fresh start) is safe; exit 1 = stop.
 """
+import hashlib
 import sys
 from pathlib import Path
 
@@ -47,6 +48,14 @@ def main() -> int:
         # Nothing to resume: the probe starts fresh. Safe by construction.
         print("no partial file - objective-horizon probe starts from cell 1")
         return 0
+    # 0. whole-file identity (added 2026-11-15, as check_a7_resume.py has it).
+    # A copy of the complete archived pre-refit file passes checks 1-5, and the
+    # probe would skip every cell; check 6 only reports, so nothing would stop it.
+    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    if sha(PARTIAL) == sha(ARCHIVED):
+        print(f"FAIL: {PARTIAL.name} is byte-identical to the archived pre-refit copy; "
+              f"resuming would reuse every pre-retag fit")
+        return 1
     cur = pd.read_csv(PARTIAL, float_precision="round_trip")
     old = pd.read_csv(ARCHIVED, float_precision="round_trip")
     failures = []

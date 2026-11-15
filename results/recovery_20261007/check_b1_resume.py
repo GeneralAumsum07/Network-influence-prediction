@@ -28,6 +28,7 @@ run.py hash-pins the caches and sweep CSVs at launch and before every stage, and
 
 Read-only. Exit 0 = resume is safe; exit 1 = stop.
 """
+import hashlib
 import sys
 from pathlib import Path
 
@@ -45,6 +46,15 @@ def main() -> int:
         # Nothing to resume: the probe starts fresh. That is safe by construction.
         print("no partial file - B1 starts from cell 1")
         return 0
+    # 0. whole-file identity (added 2026-11-15, as check_a7_resume.py has it).
+    # The archived pre-refit file is a COMPLETE run of this grid, so a copy of
+    # it passes checks 1-4 trivially, and the probe would then skip every cell
+    # and keep every pre-retag fit. Check 5 only reports, so it would not stop it.
+    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    if sha(PARTIAL) == sha(ARCHIVED):
+        print(f"FAIL: {PARTIAL.name} is byte-identical to the archived pre-refit copy; "
+              f"resuming would reuse every pre-retag fit")
+        return 1
     cur = pd.read_csv(PARTIAL)
     old = pd.read_csv(ARCHIVED)
     failures = []
@@ -52,6 +62,11 @@ def main() -> int:
     # 1. schema
     if list(cur.columns) != list(old.columns):
         failures.append(f"columns differ: {list(cur.columns)} vs archived {list(old.columns)}")
+        # The remaining checks index by column name; stop before they raise
+        # (the objective-horizon gate already did this; B1 did not).
+        for f in failures:
+            print("FAIL:", f)
+        return 1
 
     # 2. key uniqueness
     dup = int(cur.duplicated(KEY).sum())

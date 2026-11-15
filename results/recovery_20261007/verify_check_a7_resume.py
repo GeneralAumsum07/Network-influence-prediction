@@ -7,7 +7,9 @@ file. Every scenario below is a state an interrupted Stage 2 can actually leave.
 
 Exit 0 = every scenario gave the expected verdict.
 """
+import contextlib
 import importlib.util
+import io
 import shutil
 import sys
 import tempfile
@@ -38,9 +40,14 @@ def make_repo(tmp: Path) -> Path:
     arch = tmp / gate.ARCHIVE_DIR
     arch.mkdir(parents=True)
     (tmp / "results").mkdir(exist_ok=True)
-    pd.DataFrame(refit_rows(range(REPS)), columns=COLS).to_csv(arch / gate.REFIT, index=False)
+    # gate.archived() is the ONLY place the gate looks: a flat archive keyed by
+    # leaf name. Until 2026-11-15 this wrote to arch / gate.REFIT, a nested
+    # results/ path that does not exist, so the fixture crashed before its
+    # first scenario and the gate was never exercised.
+    pd.DataFrame(refit_rows(range(REPS)), columns=COLS).to_csv(
+        gate.archived(tmp, gate.REFIT), index=False)
     for rel in gate.OVERWRITTEN:
-        (arch / Path(rel).name).write_text("archived pre-refit bytes\n")
+        gate.archived(tmp, rel).write_text("archived pre-refit bytes\n")
     return tmp
 
 
@@ -48,14 +55,25 @@ def write_refit(root: Path, rows):
     pd.DataFrame(rows, columns=COLS).to_csv(root / gate.REFIT, index=False)
 
 
-def scenario(name, expect, mutate):
+def scenario(name, expect, mutate, reason=None):
+    """expect: exit code. reason: text that must appear on a FAIL line.
+
+    The exit code alone cannot tell "rejected for the reason this scenario
+    builds" from "rejected by some other check": a torn file that also tripped
+    the duplicate check would pass on exit 1 while the torn-row check was dead.
+    """
     tmp = Path(tempfile.mkdtemp(prefix=f"a7gate_{name}_"))
     try:
         root = make_repo(tmp)
         mutate(root)
-        got = gate.main(["--root", str(root)])
-        ok = got == expect
-        print(f"{'ok ' if ok else 'BAD'} {name}: exit {got}, expected {expect}")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            got = gate.main(["--root", str(root)])
+        fails = [line for line in out.getvalue().splitlines() if line.startswith("FAIL:")]
+        ok = got == expect and (reason is None or any(reason in f for f in fails))
+        print(f"{'ok ' if ok else 'BAD'} {name}: exit {got}, expected {expect}"
+              + (f"; wanted FAIL containing {reason!r}" if reason else "")
+              + ("" if ok else f"; got {fails}"))
         return ok
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -68,7 +86,7 @@ def m_frozen_is_archive(root):
     shutil.copy(root / gate.ARCHIVE_DIR / Path(gate.OVERWRITTEN[0]).name, root / gate.OVERWRITTEN[0])
 def m_partial(root): write_refit(root, refit_rows([0], 0.1) + refit_rows([1], 0.1)[:2])
 def m_refit_is_archive(root):
-    shutil.copy(root / gate.ARCHIVE_DIR / gate.REFIT, root / gate.REFIT)
+    shutil.copy(gate.archived(root, gate.REFIT), root / gate.REFIT)
 def m_torn(root):
     m_partial(root)
     with open(root / gate.REFIT, "ab") as f:
@@ -86,15 +104,22 @@ def m_columns(root):
     pd.DataFrame(refit_rows([0], 0.1), columns=COLS[::-1]).to_csv(root / gate.REFIT, index=False)
 
 
-CASES = [("nothing_on_disk", 0, m_nothing), ("fresh_frozen", 0, m_fresh_frozen),
-         ("frozen_is_archive", 1, m_frozen_is_archive), ("partial_refit", 0, m_partial),
-         ("refit_is_archive", 1, m_refit_is_archive), ("torn", 1, m_torn),
-         ("duplicate_key", 1, m_dup), ("rep_gap", 1, m_rep_gap),
-         ("hole_below_last_rep", 1, m_hole), ("nan", 1, m_nan),
-         ("key_outside_grid", 1, m_outside), ("n_features_varies", 1, m_nfeat),
-         ("column_order", 1, m_columns)]
+# (name, expected exit, mutation, text the rejecting FAIL line must contain).
+# The reason strings are fragments of check_a7_resume.py's own messages.
+CASES = [("nothing_on_disk", 0, m_nothing, None), ("fresh_frozen", 0, m_fresh_frozen, None),
+         ("frozen_is_archive", 1, m_frozen_is_archive, "byte-identical to its archived"),
+         ("partial_refit", 0, m_partial, None),
+         ("refit_is_archive", 1, m_refit_is_archive, "byte-identical to the archived"),
+         ("torn", 1, m_torn, "torn row"),
+         ("duplicate_key", 1, m_dup, "duplicate resume keys"),
+         ("rep_gap", 1, m_rep_gap, "replicates are not 0..k"),
+         ("hole_below_last_rep", 1, m_hole, "replicates below the last are incomplete"),
+         ("nan", 1, m_nan, "contain NaN"),
+         ("key_outside_grid", 1, m_outside, "keys outside the archived grid"),
+         ("n_features_varies", 1, m_nfeat, "n_features varies"),
+         ("column_order", 1, m_columns, "columns differ")]
 
 if __name__ == "__main__":
-    results = [scenario(n, e, m) for n, e, m in CASES]
+    results = [scenario(*case) for case in CASES]
     print(f"{sum(results)}/{len(results)} scenarios as expected")
     sys.exit(0 if all(results) else 1)

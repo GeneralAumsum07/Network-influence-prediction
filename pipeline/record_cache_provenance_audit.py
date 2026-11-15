@@ -133,6 +133,13 @@ def main() -> None:
         out["networks"][tag] = block
     if a.dry_run:
         return
+    # The sidecar is a DATED record ("recorded_on" above is fixed, not today).
+    # Re-running must not silently replace the 2026-09-11 audit with a new one
+    # that still claims that date, and other records pin its hash. Refuse; a
+    # deliberate re-audit removes or renames the old file by hand first.
+    if (ROOT / SIDECAR).exists():
+        raise SystemExit(f"{SIDECAR} already exists; refusing to overwrite a dated record "
+                         f"(use --dry-run to re-check without writing)")
     with open(ROOT / SIDECAR, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2)
     print(f"wrote {SIDECAR} ({len(out['networks'])} networks)")

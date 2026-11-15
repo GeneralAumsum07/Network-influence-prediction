@@ -313,14 +313,25 @@ class PairedArithmeticTests(unittest.TestCase):
     produce.
     """
 
+    # Per-rung tau level, in SET_IDS order. The top rung sits on the level of
+    # the rung below it (plus the gain under test), so the three contrasts read
+    # 0.1, 0.2 and the gain vector; any other rung pairing reads something else.
+    RUNG_LEVEL = (0.0, 0.1, 0.3, 0.3)
+
     @staticmethod
     def _frame(gains_by_key: dict[tuple[str, str], list[float]]) -> pd.DataFrame:
         """One full 800-key-shaped frame is unnecessary; build only what is read.
 
         `paired_contrasts` iterates the declared grid, so every (network,
-        target) must be present. Baselines are zero and the upper set carries
-        the requested gain, which makes `gain = tau_high - tau_low` exactly the
-        vector handed in.
+        target) must be present. The upper set carries the requested gain on
+        top of the rung below it, which makes `gain = tau_high - tau_low` the
+        vector handed in (exactly for a zero gain, to ~1e-16 otherwise).
+
+        The three lower rungs are NOT flat (changed 2026-11-15). Each sits at
+        its own level (RUNG_LEVEL) plus a per-seed offset. With flat zeros a
+        contrast that paired the wrong rung, or seed i with seed j, read the
+        same numbers and passed; now the wrong rung shifts the mean and a seed
+        mispairing leaves a nonzero paired sd (test_lower_contrasts_...).
         """
         from influence.r1_ablation import NETWORKS, SEEDS, SET_IDS, TARGETS
         rows = []
@@ -329,9 +340,12 @@ class PairedArithmeticTests(unittest.TestCase):
                 gains = gains_by_key.get((network, target), [0.0] * len(SEEDS))
                 for set_id in SET_IDS:
                     for index, seed in enumerate(SEEDS):
-                        # Only the last contrast's upper endpoint carries the
-                        # gain; the three lower rungs stay flat at zero.
-                        tau = gains[index] if set_id == "full_r1_structural" else 0.0
+                        # level + offset is evaluated the same way for the top
+                        # rung and the one below it, so a zero gain subtracts
+                        # to exactly 0.0 (the flat-vector test needs that).
+                        tau = PairedArithmeticTests.RUNG_LEVEL[SET_IDS.index(set_id)] + 0.003 * seed
+                        if set_id == "full_r1_structural":
+                            tau += gains[index]
                         rows.append({
                             "network": network, "target": target, "set_id": set_id,
                             "seed": seed, "kendall_tau": float(tau),
@@ -409,6 +423,22 @@ class PairedArithmeticTests(unittest.TestCase):
         pairs = paired_contrasts(self._frame({}))
         self.assertEqual(len(pairs), len(NETWORKS) * len(TARGETS) * len(CONTRASTS))
         self.assertFalse(pairs.duplicated(["network", "target", "contrast"]).any())
+
+    def test_lower_contrasts_pair_adjacent_rungs_on_the_same_seed(self):
+        from analyse_r1_ablation import paired_contrasts
+        from influence.r1_ablation import NETWORKS, TARGETS
+
+        # Added 2026-11-15. Adjacent rungs differ by 0.1 then 0.2 at every
+        # seed. Pairing a non-adjacent rung moves the mean (0.3); pairing seed
+        # i with seed j adds 0.003*(i-j) per pair, so the paired sd leaves ~0.
+        pairs = paired_contrasts(self._frame({}))
+        for contrast, step in (("add_nonorbit_subgraph", 0.1), ("add_orbit_lt15", 0.2)):
+            rows = pairs[pairs.contrast == contrast]
+            self.assertEqual(len(rows), len(NETWORKS) * len(TARGETS))
+            for row in rows.itertuples():
+                self.assertAlmostEqual(row.mean_gain, step, places=12)
+                self.assertLess(row.paired_sd, 1e-12)
+                self.assertEqual(row.positive_count, 10)
 
 
 class CellRecordIntegrityTests(unittest.TestCase):
@@ -504,6 +534,18 @@ class CellRecordIntegrityTests(unittest.TestCase):
             # canonical JSON forbids NaN outright, which is the first line of
             # defence; the reader is the second.
             record["content_sha256"] = record_checksum(record)
+
+        # The reader itself (added 2026-11-15: until then this test stopped at
+        # the serializer and never called read_verified_cell). A NaN can still
+        # reach disk through any writer that is not write_atomic_json, so the
+        # file is written with plain json.dumps, whose default allows NaN. The
+        # reader must refuse it: today the checksum step raises first (it
+        # re-serializes canonically), and require_finite stands behind that.
+        path = self.root / "ca-GrQc__spread_mean__node_edge__s0.json"
+        path.write_text(json.dumps(record), encoding="utf-8")
+        self.assertIn("NaN", path.read_text(encoding="utf-8"))
+        with self.assertRaises(Exception):
+            read_verified_cell(path, "a" * 64)
 
     def test_atomic_write_leaves_no_deterministic_temp(self):
         from probe_r1_ablation import write_atomic_json

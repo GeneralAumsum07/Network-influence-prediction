@@ -101,7 +101,8 @@ class PrecisionWitnessTests(unittest.TestCase):
     def test_selector_and_diamond_witness_keep_sorted_score_identity(self):
         # Sorted IDs are [10, 20, 30, 40, 50]; 20 is v.  Its three mutually
         # nonadjacent neighbours share exactly v and 40, so every usable pair
-        # has c=2 while v still meets the protocol's degree floor of three.
+        # has c=2 while v (degree three) clears the protocol's degree floor,
+        # MIN_TARGET_DEGREE = 2 (asserted below; the floor is two, not three).
         spec = self.write_fixture(
             "diamond",
             "20 10\n30 20\n20 50\n10 40\n40 30\n40 50\n",

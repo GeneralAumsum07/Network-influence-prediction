@@ -462,9 +462,14 @@ def main() -> None:
     print("\n6c. THE TIER LADDER MUST ACTUALLY VARY INFORMATION")
     # Five of the six original edge/subgraph features were exact algebraic
     # functions of node-tier columns, so the richness axis of the
-    # depth-vs-richness experiment was barely varying at all. These identities
-    # are checked here as a standing guard: if a future edit reintroduces a
-    # derived column, it fails loudly rather than inflating the feature count.
+    # depth-vs-richness experiment was barely varying at all. Two halves:
+    #   (a) this loop asserts the four KNOWN derived columns still satisfy
+    #       their identities. It passes when they are derived; it documents
+    #       the redundancy and fails if their definitions drift.
+    #   (b) the block after it is the standing guard: the features added to
+    #       give the tiers content must NOT be recoverable in closed form.
+    # (Comment corrected 2026-11-15: it used to describe (b) above (a), as if
+    # this loop rejected derived columns. It requires them.)
     gv = {c: X[c].to_numpy(dtype=np.float64) for c in X.columns
           if c not in ("node", "original_id")}
     kk = gv["degree"]

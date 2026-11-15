@@ -138,6 +138,14 @@ def run_prepare() -> int:
               f"gap={g['nb_spectral_gap']:.4f} ({g['nb_method']})", flush=True)
     write_atomic(OUT / "corpus.json", json.dumps(corpus, indent=2, default=str) + "\n")
 
+    # Re-pinning at the end of prepare must not bless caches built from other
+    # inputs. If an earlier prepare left sources.json AND any stage-1 cache is
+    # about to be reused, the pinned inputs must still match; otherwise refuse
+    # instead of writing new hashes over a mixed old-cache/new-code state.
+    reused = [t for t in PLAN if stage1_done(t)]
+    if reused and (OUT / "sources.json").is_file():
+        check_sources()
+
     for tag in PLAN:
         if stage1_done(tag):
             print(f"stage1 {tag} cached", flush=True)

@@ -75,8 +75,14 @@ def pair(sweep_path: str, oof_path: str, label: str, lines: list[str]) -> pd.Dat
         keys = set(z.files)
     ok_oof = all(f"{r.target}|{r.radius}|{r.richness}|{r.seed}" in keys for r in n.itertuples())
     unchanged = pd.merge(old[~stale(old)], new[~stale(new)], on=KEY, suffixes=("_o", "_n"))
+    # Exact equality, because the report line calls these rows "byte-stable".
+    # Until 2026-11-15 this was np.allclose, which would have passed a drift
+    # of ~1e-8 under that label. Checked then: every non-r1 tau in all 25 files
+    # is exactly equal, so the recorded report is unchanged by the stricter
+    # test. equal_nan: a tied-prediction cell has NaN tau in both stores.
     ok_rest = (len(unchanged) == (~stale(old)).sum()
-               and np.allclose(unchanged.kendall_tau_o, unchanged.kendall_tau_n))
+               and np.array_equal(unchanged.kendall_tau_o.to_numpy(),
+                                  unchanged.kendall_tau_n.to_numpy(), equal_nan=True))
     m = pd.merge(o, n, on=KEY, suffixes=("_old", "_new"))
     ok_feat = bool(((m.n_features_old - m.n_features_new) == 6).all())
     lines.append(f"{label}: refitted rows {len(n)}/{len(o)}  keys match={ok_keys}  "
@@ -84,13 +90,21 @@ def pair(sweep_path: str, oof_path: str, label: str, lines: list[str]) -> pd.Dat
                  f"non-r1 rows byte-stable={ok_rest}  n_features -6 everywhere={ok_feat}")
     if not (ok_rows and ok_keys and ok_oof and ok_rest and ok_feat):
         lines.append("  *** INCOMPLETE OR INCONSISTENT REFIT - do not fingerprint ***")
+        # Recorded on the frame so main() can turn it into a failing exit code;
+        # a banner in a text file is easy to miss in a controller log.
+        m.attrs["refit_ok"] = False
 
     m["d_tau"] = m.kendall_tau_new - m.kendall_tau_old
     m["file"] = label
     return m
 
 
-def main() -> None:
+def main() -> int:
+    # Both outputs are dated 2026-09-11 records that other files cite. A rerun
+    # writes nothing over them; to re-derive, move them aside first.
+    existing = [p for p in (OUT_TXT, OUT_CSV) if os.path.exists(p)]
+    if existing:
+        raise SystemExit(f"refusing to overwrite dated record(s) {existing}")
     lines = ["RESULTS: r=1 subgraph-tier refit after the 5-node orbit radius retag",
              "Written 2026-09-11 by analysis/report_orbit5_refit.py; see the module docstring.",
              "Old = .preorbit5 backup (six orbits 56,57,65,66,68,70 at hop 1); new = refit with them at hop 2.",
@@ -103,6 +117,8 @@ def main() -> None:
             est = re.match(r".*__(.+)\.csv$", os.path.basename(est_csv)).group(1)
             oof = os.path.join("estimators", f"cache_oof_{tag}__{est}.npz")
             frames.append(pair(est_csv, oof, f"{tag} {est}", lines))
+    # Read before concat: pd.concat does not carry per-frame attrs through.
+    refit_ok = all(f.attrs.get("refit_ok", True) for f in frames)
     m = pd.concat(frames, ignore_index=True)
     m.to_csv(OUT_CSV, index=False)
 
@@ -130,7 +146,10 @@ def main() -> None:
         fh.write(txt)
     print(txt)
     print("wrote", OUT_TXT, "and", OUT_CSV)
+    # The report is still written on failure (it is the diagnosis), but the
+    # exit code says the refit must not be fingerprinted.
+    return 0 if refit_ok else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

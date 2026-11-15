@@ -104,7 +104,12 @@ def load_rf_reference(tag):
             raise ValueError(f'{tag}: nonfinite RF numeric {column}')
         if column in ('kendall_tau','spearman') and (np.abs(values[np.isfinite(values)]) > 1).any():
             raise ValueError(f'{tag}: invalid RF correlation {column}')
-    rf = analyse.load(tag)
+    # Load the SAME file that was hashed and validated above. analyse.load(tag)
+    # alone resolves 'data/cache/...' against the working directory, so from any
+    # other directory it read a different file (or none) while this function
+    # recorded the ROOT file's hash. An explicit path also skips the log1p
+    # betweenness splice, which cannot matter here: only spread_mean is kept.
+    rf = analyse.load(tag, path=str(path))
     # The digest brackets BOTH reads so a concurrent replacement cannot attach
     # one file's provenance to another file's scores.
     if sha(path) != before:

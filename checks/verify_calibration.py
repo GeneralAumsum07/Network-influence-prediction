@@ -117,7 +117,12 @@ def check_measurement(derived: dict[str, dict[int, int]], full: bool) -> None:
         if gs == 4:
             hand = {k: h for k, (_, h) in ORBIT_SPEC.items()}
             bad = [(k, int(fwd[k]), hand[k]) for k in range(15) if seen_f[k] and fwd[k] != hand[k]]
-            check("node gs=4: measurement reproduces the hand table", not bad, str(bad))
+            # "Reproduces" requires every orbit to have been MEASURED. Until
+            # 2026-11-15 unseen orbits were skipped, so families realising none
+            # of them passed vacuously.
+            unseen = [k for k in range(15) if not seen_f[k]]
+            check("node gs=4: measurement reproduces the hand table", not bad and not unseen,
+                  f"mismatch {bad}; unseen {unseen}")
         else:
             # The six orbits at the centre of P1-01 must now measure at 2 on the
             # families that first exposed them; if this ever prints 1 again the
@@ -134,7 +139,9 @@ def check_measurement(derived: dict[str, dict[int, int]], full: bool) -> None:
     over = [(k, int(fwd[k]), derived["e4"][k]) for k in range(12) if seen_f[k] and fwd[k] > derived["e4"][k]]
     check("edge gs=4: measured <= derived", not over, str(over))
     bad = [(k, int(fwd[k]), EDGE_ORBIT4_RADIUS[k]) for k in range(12) if seen_f[k] and fwd[k] != EDGE_ORBIT4_RADIUS[k]]
-    check("edge gs=4: measurement reproduces the hand table", not bad, str(bad))
+    unseen = [k for k in range(12) if not seen_f[k]]   # same vacuity fix as node gs=4
+    check("edge gs=4: measurement reproduces the hand table", not bad and not unseen,
+          f"mismatch {bad}; unseen {unseen}")
     print(f"      edge gs=4 measurement took {time.time() - t0:.0f}s")
 
 

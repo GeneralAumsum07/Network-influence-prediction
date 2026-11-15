@@ -1231,5 +1231,235 @@
   "verification": "D-11 to D-17 checked by the author against code, and by measurement where stated. The entries in reported_not_verified_2026_11_09 are the reviewers' claims only.",
   "independent_review": "Not run.",
   "independence": "Separate reviewer, same author; not an independent review."
+ },
+ "rereview_2026_11_15": {
+  "reviewer": "Second read-only reviewer over the 24 entries in reported_not_verified_2026_11_09, run 2026-11-14",
+  "verification": "Each fix was run against the recorded data before being recorded here; every new guard accepts all recorded data. Hashes in files[] are the reviewed versions and are left unchanged; files_after_fix gives the post-fix sha256.",
+  "independence": "Separate reviewer, same author; not an independent review.",
+  "summary": {
+   "fixed": 22,
+   "no_change_needed": 1,
+   "held_awaiting_decision": 0,
+   "accepted_no_change": 1
+  },
+  "items": [
+   {
+    "claim": "orca.cpp: weak hash functions (performance only; reviewer's own inference)",
+    "reviewer_verdict": "UNCLEAR",
+    "status": "accepted_no_change",
+    "note": "Performance only and unmeasured; no correctness consequence claimed. Not changed.",
+    "files_after_fix": {}
+   },
+   {
+    "claim": "pipeline/record_cache_provenance_audit.py overwrites its dated sidecar on rerun",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Refuses to run when the dated sidecar exists.",
+    "files_after_fix": {
+     "pipeline/record_cache_provenance_audit.py": "9141312d022066e10fc9c4e0b62ad774ea8a48584990dd119c2288f8b5560be7"
+    }
+   },
+   {
+    "claim": "analysis/report_orbit5_refit.py overwrites dated outputs and exits 0 on an incomplete refit",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Refuses to overwrite either dated output; exits 1 when any refit pair failed.",
+    "files_after_fix": {
+     "analysis/report_orbit5_refit.py": "78e81befc0b6fc6aa785319915519f526376398cc199826c895d97e8accaa99d"
+    }
+   },
+   {
+    "claim": "a 'byte-stable' label that is checked with allclose (sweep/recorders reviewer F3)",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Check is now np.array_equal(equal_nan=True). Measured on all 25 recorded files: max |diff| = 0, so the recorded 'byte-stable' label was true.",
+    "files_after_fix": {
+     "analysis/report_orbit5_refit.py": "78e81befc0b6fc6aa785319915519f526376398cc199826c895d97e8accaa99d"
+    }
+   },
+   {
+    "claim": "stage2_sweep resume can append a duplicate row (analyse dedups it)",
+    "reviewer_verdict": "CONFIRMED_AS_DESIGNED",
+    "status": "no_change_needed",
+    "note": "The duplicate refit row is intended: probe_beta_sweep.reconcile_refits checks it against the first row (REFIT_METRIC_ATOL 1e-6) and analyse._read_dedup keeps the last.",
+    "files_after_fix": {}
+   },
+   {
+    "claim": "pipeline/repair_orbit5_radius.py --apply rerun evicts the refit",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Evicts only when retag_registry retagged something. Dry run on the current data: 0 cells to evict (1,700 before the fix).",
+    "files_after_fix": {
+     "pipeline/repair_orbit5_radius.py": "ff65dd684272ab823a0a3d988c2a95786a0d5a26801220100c1234e8003d3696"
+    }
+   },
+   {
+    "claim": "features.py stale docstrings, an O(n) bincount, the boundary_porosity label",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Comments and docstring only; the module's AST with docstrings stripped is identical to the reviewed version, so no feature value can change. The ego-betweenness docstring now says the dense path is for high degree, as the code does. The porosity comment now says fraction of edges, not of endpoints. The registry description string still says 'endpoints' on purpose: it is written into every cache_registry_*.csv, which are hash-pinned sweep inputs. The O(n) bincount (performance) is not changed. Re-pin accepted by the author 2026-11-16 00:10: the 13 records that bind the reviewed hash (controller sources.json files, the r1 manifest, the hash inventory, this file's files[]) are left as recorded, so a resume of any of those controllers would now refuse until re-recorded.",
+    "files_after_fix": {
+     "influence/features.py": "4f47039174cdf6e1f5acf4eebd1950b1bedec7e18862b971766477ca0609644a"
+    }
+   },
+   {
+    "claim": "recovery check_* gates: B1 and objective-horizon lack the pre-retag byte-identical guard; B1 has no NaN check",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Both fail when the partial is byte-identical to the archive; B1 also stops on a column mismatch. Both still PASS on the recorded files.",
+    "files_after_fix": {
+     "results/recovery_20261007/check_b1_resume.py": "774b9f713fea20aa148b32db7d181948ddd815c3e367ce38fd878115dc4bea54",
+     "results/recovery_20261007/check_objective_horizon_resume.py": "14f654d91701fa98735c05bce433387b0045a64a7736497549e074fc85ef6f11"
+    }
+   },
+   {
+    "claim": "recovery fixtures assert exit codes only; possible orphan grandchildren on Windows (inferred); no stage skip",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "The fixture crashed before any scenario ran (nested archive path), so its earlier pass record covered no case. It now uses gate.archived() and asserts each failure's reason text: 13/13 as expected.",
+    "files_after_fix": {
+     "results/recovery_20261007/verify_check_a7_resume.py": "d809875a60b57f9267c181b14772e33f0c951a4a131458989449167002f069ae"
+    }
+   },
+   {
+    "claim": "checks/verify_docs.py: 248-249 '2' in '62' cannot fail; 381-389 dead 'pre-ORCA' marker; 306-308 label vs assertion; silent skips",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Ladder counts parsed per radius instead of a substring test; case-insensitive correction markers; orbit count computed from node_orbit_by_hop. Passes.",
+    "files_after_fix": {
+     "checks/verify_docs.py": "78d2b25582e5c9eea916b450984a0ef41d0c9615f53e35f36aae6d1090ed7b59"
+    }
+   },
+   {
+    "claim": "checks/verify_r1_ablation.py 495-505 test never reaches the reader; rung pairing; skips",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "NaN test now reaches read_verified_cell; new test pairs adjacent rungs on the same seed. 27 tests OK.",
+    "files_after_fix": {
+     "checks/verify_r1_ablation.py": "2d95b6d4c962bdf6133c9ed8f9cbb3cc6e61fea9516339f433a19c9fdd4489c6"
+    }
+   },
+   {
+    "claim": "checks/verify_c3_scoring.py P4 test fails for other reasons too; --record header text static on failure; stale comment in precision witness",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "P4 test isolates the forced failure and requires it in the sidecar; witness comment names MIN_TARGET_DEGREE = 2.",
+    "files_after_fix": {
+     "checks/verify_c3_scoring.py": "bb95e5c3b326f060d780bb84c13c8862bd37f603ab892a915d428616aad2d296",
+     "checks/verify_c3_precision_witness.py": "c14a5fff1fa5f8e9022f570b210886a814587103fa181a1e1298a6cac9b2ac27"
+    }
+   },
+   {
+    "claim": "probes/probe_realisation.py/probe_certificate.py prepare re-pins sources.json unconditionally; seed-0 sweep unvalidated in run_analyse",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Existing sources.json is checked before stage-1 caches are reused; run_analyse refuses incomplete gammas. Recorded gammas 2.1, 3.0, 4.0 pass.",
+    "files_after_fix": {
+     "probes/probe_certificate.py": "2c21f961653f25e8117a673348a97238dd991244b0151820568b66cde37b42e7",
+     "probes/probe_realisation.py": "e8ff9760714b26dff22f5531ab4404ddc2d3e0f66758d61cc9a05000d890bbb6"
+    }
+   },
+   {
+    "claim": "checks/verify_criticality.py comments claim C4 tests eigensolver sign handling (it hits the closed form)",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Comment corrected: C4 is unicyclic and returns 1.0 before any eigensolve; K_{3,3} is the sign-ambiguity fixture.",
+    "files_after_fix": {
+     "checks/verify_criticality.py": "302361c7a9179bf09fb00b28ad0645b108d22c53b2f180a3410c1048d06d8c05"
+    }
+   },
+   {
+    "claim": "checks/verify_pipeline.py 464-478 identity check asserts the opposite of its comment; section 8 reads the cached registry; ORCA-absent and other silent skips",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "6c comment rewritten to match the assertions.",
+    "files_after_fix": {
+     "checks/verify_pipeline.py": "6c94883f8fcc715d5bae2ae9a978c1c06ca73776121a7b777306e8296dd9b761"
+    }
+   },
+   {
+    "claim": "checks/verify_calibration.py 'reproduces the hand table' passes vacuously for unseen orbits",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Both hand-table checks now require no unseen orbits (unseen = [] on current data).",
+    "files_after_fix": {
+     "checks/verify_calibration.py": "8a973a5740dc05ab1753bb0c6dca84e13ffa797ca102d4d0fc27eadc81e3126d"
+    }
+   },
+   {
+    "claim": "checks/verify_generators.py compares sorted degrees; no assertion that rewiring changed anything",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Node-wise degree comparison and a check that rewiring changed the graph. Passes.",
+    "files_after_fix": {
+     "checks/verify_generators.py": "9a5e1c0f2895987b4c0db7f0ae43c52248a3068c2230142f52a5931b8b06bcf0"
+    }
+   },
+   {
+    "claim": "analyse_local_predictors.load_rf_reference hashes ROOT/ but loads cwd-relative",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Loads the reference from the same ROOT-anchored path it hashes. Its gate fixture mocked analyse.load with a one-argument stand-in and failed on the new path= keyword; the stand-in now accepts it. Gate passes.",
+    "files_after_fix": {
+     "analysis/analyse_local_predictors.py": "ce53632ed14d77d25b87a4cd8ab692968ad92fff12ec32652262819888ada5de",
+     "checks/verify_local_dynamics.py": "50d404bca14ced91e970d4cd2ca02c45e9333249e704c4f585e1a6acd27f88bc"
+    }
+   },
+   {
+    "claim": "analysis/analyse_branch_anisotropy_gate.py formats a None R2 after writing gate.json",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "None-safe formatting.",
+    "files_after_fix": {
+     "analysis/analyse_branch_anisotropy_gate.py": "2ea1ab86822f71bd06cf489da47abf5c64541330acff68db14ff5ea2cc94cfeb"
+    }
+   },
+   {
+    "claim": "checks/verify_branch_anisotropy.py order-invariance compares a graph with itself; false fixture comment",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "Second graph now has reversed neighbour order, with a guard that the orders differ; fixture comment corrected. Passes.",
+    "files_after_fix": {
+     "checks/verify_branch_anisotropy.py": "98cb1d8ddebe16e5ebb88715b186c195a2381aefd08830025b154ef85eec216a"
+    }
+   },
+   {
+    "claim": "checks/verify_nb_spectrum.py one-graph check is dense-vs-dense below 2000 arcs",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "One-graph check forces the Arnoldi branch and compares it with dense, whatever the graph size.",
+    "files_after_fix": {
+     "checks/verify_nb_spectrum.py": "69edc0379228f3e0f1764835b550e8f84aff46320e1bf6675796ab4e72dd2dd7"
+    }
+   },
+   {
+    "claim": "probes/probe_threshold_arm.py fit --only always fails the sources check (fails closed); gate rerun overwrites sizes/gate files non-atomically",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "sizes_*.npz written via a temp file then replace; fit --only checks sources against the full plan.",
+    "files_after_fix": {
+     "probes/probe_threshold_arm.py": "039c309ccf31b0961a1b34198e11781ac70a2424eb9f794c99f1a304614d924b"
+    }
+   },
+   {
+    "claim": "probes/probe_threshold_local.py formats a None tau before writing; does not compare sizes_*.npz original_id or the gate's edge-list hash",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "New gate_spread checks node order, original_id and the gate's edge-list hash; None-safe tau. All recorded pairs pass.",
+    "files_after_fix": {
+     "probes/probe_threshold_local.py": "a40ebc46eddb4d6dcf43b298f1afa132147580a70ab81d417348ee3ec87b8712"
+    }
+   },
+   {
+    "claim": "analysis/analyse_beta_sweep.py scores partial units without saying so; probes/probe_beta_sweep.py stale-lock handling weaker than documented",
+    "reviewer_verdict": "CONFIRMED",
+    "status": "fixed",
+    "note": "run_score skips units that fail unit_done and says so. All 25 recorded units pass. The stale-lock half is not changed. The gate's synthetic end-to-end tree is not a complete unit, so the fix refused it and the gate failed; the gate now asserts that refusal, then stubs unit_done for its wiring checks. Gate passes.",
+    "files_after_fix": {
+     "analysis/analyse_beta_sweep.py": "b1dc0a9a5eb21b79c6a48cfad336be3ae619f8c708f7a3be127f1c3a83684f79",
+     "checks/verify_beta_sweep.py": "c9b2b97a8f7e2fb80cd3e985220dabff2766625bd2f23747e9560e11331e55c0"
+    }
+   }
+  ]
  }
 }

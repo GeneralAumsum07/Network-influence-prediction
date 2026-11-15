@@ -123,10 +123,14 @@ def main() -> int:
     tmp = OUT / "gate.json.tmp"
     tmp.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")
     os.replace(tmp, OUT / "gate.json")
+    # r2 is None for an "unscored" candidate (gate() maps a nonfinite R2 to
+    # None). Formatting None with :.3f raised TypeError AFTER gate.json was
+    # written, so a valid unscored result exited non-zero (fixed 2026-11-15).
+    fmt = lambda v: "  n/a" if v is None else f"{v:.3f}"
     for tag, r in results.items():
         g = r["gate"]
-        print(f"{tag:18s} R2 max_share={g['max_branch_share']['r2']:.3f} "
-              f"({g['max_branch_share']['verdict']})  entropy={g['branch_entropy_nats']['r2']:.3f} "
+        print(f"{tag:18s} R2 max_share={fmt(g['max_branch_share']['r2'])} "
+              f"({g['max_branch_share']['verdict']})  entropy={fmt(g['branch_entropy_nats']['r2'])} "
               f"({g['branch_entropy_nats']['verdict']})  ties={r['boundary_ties']['primary_reported_betweenness']}")
     return 0
 

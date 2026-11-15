@@ -74,7 +74,9 @@ class ExactLocalTests(unittest.TestCase):
             path = Path(tmp)/'data/cache/sweep_ca-GrQc.csv'
             path.parent.mkdir(parents=True)
             frame.to_csv(path,index=False)
-            def mutate(_tag):
+            # **_kw: load_rf_reference now passes the ROOT-anchored path it
+            # hashed (path=...), so the stand-in must accept it (2026-11-15).
+            def mutate(_tag, **_kw):
                 with path.open('a') as f:
                     f.write('\n')
                 return frame

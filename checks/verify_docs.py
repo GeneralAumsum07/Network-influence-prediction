@@ -27,7 +27,7 @@ WHAT IT CHECKS
 --------------
   1.  Corpus size agrees across the manifest, the caches and the prose.
   2.  Feature totals and the tier split (45/50/74/2 = 171) match the registry.
-  3.  Cumulative-by-radius counts (2/62/145/170, +1 at hop 4) match the registry.
+  3.  Cumulative-by-radius counts (2/56/145/170, +1 at hop 4) match the registry.
   4.  Orbit accounting: 71 node orbits, 73 from ORCA, and the two exclusions
       are actually documented rather than left as an unexplained gap. The
       per-hop orbit table rows match the registry (added 2026-11-14).
@@ -254,9 +254,17 @@ def check_radius_ladder(truth: dict, docs: dict[str, str]) -> None:
     for name, text in docs.items():
         if "Cumulative by radius" not in text:
             continue
-        line = next(l for l in text.splitlines() if "Cumulative by radius" in l)
+        # Parse "<N> at r=<R>" pairs and compare per radius. Until 2026-11-15
+        # this was `str(n) in line`, which could not fail for r=0: "2" is a
+        # substring of "r=2", "145" and the old "62". The paragraph (not the
+        # first line) is read because the prose wraps mid-pair ("**170** at" /
+        # "r=3"), so a one-line parse would silently miss the r=3 claim.
+        start = text.index("Cumulative by radius")
+        para = " ".join(text[start:].split("\n\n", 1)[0].split())
+        claimed = {int(r): int(n) for n, r in re.findall(r"(\d+)\**\s+at\s+r=(\d)", para)}
         for r, n in enumerate(ladder):
-            check(f"{name}: ladder r={r} is {n}", str(n) in line, line[:44])
+            check(f"{name}: ladder r={r} is {n}", claimed.get(r) == n,
+                  f"document says {claimed.get(r)}")
 
 
 def check_orbit_accounting(truth: dict, docs: dict[str, str]) -> None:
@@ -330,8 +338,14 @@ def check_orbit_accounting(truth: dict, docs: dict[str, str]) -> None:
     # unreachable at MAX_HOP=3. That is the 171-vs-170 gap and the 71-vs-70 gap,
     # and it is the step an external review pulled on.
     ref = next(iter(facts.values()))
-    check("exactly one orbit sits above MAX_HOP (71 registered, 70 selectable)",
-          ref["above_max_hop"] == 1, f"{ref['above_max_hop']}")
+    # Counted over NODE ORBITS, not every feature: `above_max_hop` (all
+    # features) is already checked in the ladder section, and on its own it
+    # could not tell the hop-4 orbit from, say, a non-orbit feature retagged to
+    # hop 4 while orbit 15 slid down to 3. Until 2026-11-15 this line re-asserted
+    # `above_max_hop` under an orbit label.
+    orbits_above = sum(n for h, n in ref["node_orbit_by_hop"].items() if int(h) > 3)
+    check("exactly one node orbit sits above MAX_HOP (71 registered, 70 selectable)",
+          orbits_above == 1, f"{orbits_above}")
 
 
 def check_no_duplicate_cells(truth: dict) -> None:
@@ -504,7 +518,10 @@ def check_blocklist(docs: dict[str, str]) -> None:
                 offending = [
                     ln for ln in text.splitlines()
                     if needle in ln
-                    and not any(mk in ln.lower() for mk in CORRECTION_MARKERS)
+                    # Both sides lower-cased: the line was, the markers were
+                    # not, so the mixed-case "pre-ORCA" never matched anything
+                    # (dead until 2026-11-15).
+                    and not any(mk.lower() in ln.lower() for mk in CORRECTION_MARKERS)
                 ]
             check(f"{name}: no '{needle[:30]}'", not offending,
                   f"{why} (line: {offending[0][:38]!r})" if offending else "")

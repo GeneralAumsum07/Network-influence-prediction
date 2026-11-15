@@ -519,6 +519,12 @@ def targets_for(m: float, present) -> list[str]:
 
 
 def run_score() -> int:
+    # The controller's completeness rule (every registered cell, each with its
+    # OOF prediction) is the definition of a finished unit. tau_table alone keeps
+    # any 2+ seeds present at every radius, so a half-fitted unit used to be
+    # scored as if complete. Imported here, not at module level: the controller
+    # imports this module, so a top-level import would be circular.
+    from probe_beta_sweep import unit_done
     rows, verdicts = [], {}
     for tag in NETWORKS:
         loc_path = LOCATOR_DIR / f"{tag}.json"
@@ -530,6 +536,12 @@ def run_score() -> int:
         for m in SWEEP_MULTIPLES:
             path = mult_dir(m) / f"sweep_{tag}.csv"
             if not path.exists():
+                continue
+            done, why = unit_done(mult_dir(m), tag, m)
+            if not done:
+                # Treated like a missing multiple: verdict() then reports the
+                # network as incomplete instead of scoring part of a unit.
+                print(f"{tag}@{m}: unit incomplete ({why}); not scored")
                 continue
             sweep = pd.read_csv(path)
             scored = targets_for(m, set(sweep.target))

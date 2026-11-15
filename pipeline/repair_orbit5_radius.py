@@ -162,7 +162,13 @@ def main() -> None:
     total = 0
     for tag in tags():
         print(f"\n{tag}")
-        retag_registry(tag, apply)
+        # 0 means the registry was ALREADY at hop 2, i.e. an earlier --apply
+        # ran, and the r=1 subgraph rows now on disk are the refit with the
+        # corrected columns. Evicting them again would throw away good fits
+        # (and a dry run would misreport them as stale), so skip the tag.
+        if retag_registry(tag, apply) == 0:
+            print(f"  {tag}: registry already retagged; r=1 rows are the refit - not evicting")
+            continue
         n = evict(f"data/cache/sweep_{tag}.csv", f"data/cache/cache_oof_{tag}.npz", apply)
         print(f"  sweep_{tag}.csv: {'evicted' if apply else 'would evict'} {n} rows")
         total += n

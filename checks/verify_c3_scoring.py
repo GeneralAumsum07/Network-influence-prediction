@@ -74,15 +74,25 @@ def main():
                     root / c3.CELLS_CSV.name: 'previous cells'}
         for path, text in previous.items():
             path.write_text(text, encoding='utf-8')
+        # The three OTHER gates are pinned to pass (2026-11-15). The temp root
+        # has no ABCDE corpus, so unpinned, gate_undirected_abcde failed too and
+        # main() returned 1 even if the forced directed failure were ignored:
+        # the test could not tell "a failed gate stops the run" from "an empty
+        # corpus stops the run". Now the directed gate is the only failure.
+        abcde_ok = (True, 'pinned pass', {name: {} for name in ABCDE_GRAPHS})
         with patch.object(c3, 'gate_directed_rule', return_value=(False, 'forced failure')), \
+                patch.object(c3, 'check_tie_denominator', return_value=(True, 'pinned pass')), \
+                patch.object(c3, 'gate_project_table', return_value=(True, 'pinned pass')), \
+                patch.object(c3, 'gate_undirected_abcde', return_value=abcde_ok), \
                 patch('builtins.print'):
             rc = c3.main(argv=[str(root)], out_root=root)
         assert rc == 1, 'a failed gate must return 1'
         for path, text in previous.items():
             assert path.read_text(encoding='utf-8') == text, f'{path.name} was overwritten on GATE FAILED'
         failed = root / 'results' / c3.GATE_FAILED_TXT.name
-        assert failed.is_file() and 'GATE FAILED' in failed.read_text(encoding='utf-8'), \
-            'the failed-gate transcript must land in the sidecar'
+        sidecar = failed.read_text(encoding='utf-8') if failed.is_file() else ''
+        assert 'GATE FAILED' in sidecar and 'forced failure' in sidecar, \
+            'the failed-gate transcript must land in the sidecar, naming the forced failure'
         assert not list(root.rglob('*.staging')), 'no staging file may survive a failed gate'
     # And the shares() floor must be the pipeline's, at 1e-9 (P3-02).
     for n, n_z in ((4158, 2288), (10, 3), (100, 0)):

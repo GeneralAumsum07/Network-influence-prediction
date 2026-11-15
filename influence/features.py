@@ -495,9 +495,11 @@ def ego_betweenness(net: Network) -> np.ndarray:
 
     The fast path builds the neighbour-adjacency matrix of the ego network once
     and gets every pairwise common-neighbour count from a single matrix
-    product, which is where the work belongs. It is used when the degree is
-    small enough that a k x k matrix is cheap; above that the dense matrix
-    would cost more memory than it saves time, so we fall back.
+    product, which is where the work belongs. It is used for HIGH-degree nodes
+    (k >= EGO_DENSE_MIN_DEGREE), where the set version's quadratic Python loop
+    dominates; below that threshold the set version is faster, because building
+    a small k x k matrix costs more than it saves. The measurements behind the
+    threshold are in the comment above EGO_DENSE_MIN_DEGREE.
 
     The two agree to floating-point tolerance rather than bit-for-bit, because
     they sum the same terms in a different order and floating-point addition is
@@ -771,9 +773,18 @@ def extract_features(net: Network,
         cols["effective_size"] = eff_size
         reg.add("effective_size", 1, "node",
                 "Burt effective size: non-redundant contacts", "hop1_ego")
-        # Boundary porosity: what fraction of the ego net's edge endpoints
-        # point outward. This is the key self-assessment signal - a node cannot
-        # see past its boundary but CAN see how leaky that boundary is.
+        # Boundary porosity: of all edges touching the ego net (inside it, or
+        # leaving it from a neighbour), the fraction that leave. This is the
+        # key self-assessment signal - a node cannot see past its boundary but
+        # CAN see how leaky that boundary is.
+        #
+        # It is a fraction of EDGES, not of edge endpoints: an inside edge has
+        # two endpoints in the ego net, so an endpoint fraction would be
+        # edges_out / (2*ego_edges + edges_out). The registry description below
+        # still says "endpoints". It is kept verbatim on purpose: it is written
+        # into every cache_registry_*.csv, and those files are hash-pinned as
+        # sweep inputs, so rewording it would make a rebuilt registry stop
+        # matching the recorded ones. The formula is the one that ran.
         denom = ego_edges + edges_out
         cols["boundary_porosity"] = _safe_div(edges_out, denom)
         reg.add("boundary_porosity", 1, "edge",

@@ -20,6 +20,7 @@ Six checks:
 import _bootstrap  # noqa: F401 - repo root and script folders onto sys.path
 import numpy as np
 import networkx as nx
+import scipy.sparse as sp
 
 from influence import generators as gen
 from influence import structure as st
@@ -141,17 +142,33 @@ print("5. DOUBLE-EDGE-SWAP PRESERVES THE DEGREE SEQUENCE EXACTLY")
 print("=" * 74)
 base = gen.barabasi_albert(2000, 3, seed=4)
 rew = gen.rewire_preserving_degree(base, n_swaps_per_edge=10, seed=4)
-same = np.array_equal(np.sort(base.degree), np.sort(rew.degree))
-print(f"  {'PASS' if same else 'FAIL'}  degree sequences identical after rewiring")
+# NODE-WISE, not sorted (2026-11-15). A swap (a,b),(c,d) -> (a,d),(c,b) keeps
+# each node's own degree, which is the stronger property the heading claims;
+# comparing sorted arrays only checked the multiset, so a rewire that moved
+# degree between nodes (or relabelled them) passed.
+same = rew.n == base.n and np.array_equal(base.degree, rew.degree)
+print(f"  {'PASS' if same else 'FAIL'}  every node's degree identical after rewiring")
 if not same:
     FAIL.append("double-edge-swap degree preservation")
     print(f"      before: n={base.n} sum={base.degree.sum()}")
     print(f"      after : n={rew.n} sum={rew.degree.sum()}")
+# ...and the rewire must have DONE something. Before 2026-11-15 this section
+# only printed; a no-op "rewire" returning its input passed it.
+edges = lambda net: set(zip(*np.nonzero(sp.triu(net.adj, k=1))))
+kept = len(edges(base) & edges(rew)) / max(1, len(edges(base)))
+c_before = st.clustering_measures(base)['average_clustering']
+c_after = st.clustering_measures(rew)['average_clustering']
+# 10 swaps per edge leaves ~e^-20 of edges by chance; 0.5 is a loose bound
+# that only a broken or near-no-op swap can exceed. Clustering is printed but
+# NOT asserted: a BA graph starts near random-graph clustering (~0.016 here),
+# so "it fell" is a coin-flip under another seed, not a property of the swap.
+changed = kept < 0.5
+print(f"  {'PASS' if changed else 'FAIL'}  rewiring changed the graph "
+      f"({kept:.1%} of edges kept; clustering {c_before:.4f} -> {c_after:.4f})")
+if not changed:
+    FAIL.append("double-edge-swap did not rewire")
 print(f"      assortativity  before={st.degree_assortativity(base):+.4f}"
       f"  after={st.degree_assortativity(rew):+.4f}")
-print(f"      clustering     before={st.clustering_measures(base)['average_clustering']:.4f}"
-      f"  after={st.clustering_measures(rew)['average_clustering']:.4f}")
-print("      (rewiring should destroy clustering while leaving degrees alone)")
 
 print("\n" + "=" * 74)
 print("6. ASSORTATIVITY REWIRING MOVES TOWARD THE TARGET")

@@ -96,8 +96,12 @@ def check_analytical_thresholds() -> None:
     if not math.isinf(epidemic_threshold(path4, "nonbacktracking")):
         raise AssertionError("P4 non-backtracking threshold must be infinite")
 
-    # C4 is bipartite, so it also exercises sign ambiguity.  Its directed
-    # non-backtracking operator consists of two directed 4-cycles: rho(B)=1.
+    # C4's directed non-backtracking operator consists of two directed
+    # 4-cycles: rho(B)=1. C4 is bipartite but UNICYCLIC, so
+    # influence/criticality.py returns 1.0 for it before any eigensolve: this
+    # does NOT exercise sign ambiguity (corrected 2026-11-15; K_{3,3} below is
+    # the fixture that does, and the direct/reduced solvers are called on C4
+    # explicitly further down).
     cycle4 = graph([(0, 1), (1, 2), (2, 3), (3, 0)], "cycle4")
     assert_close(epidemic_threshold(cycle4, "nonbacktracking"), 1.0,
                  "C4 non-backtracking threshold")
