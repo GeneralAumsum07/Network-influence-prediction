@@ -29,7 +29,9 @@ CHECK 2 - the reported arm differs from the raw arm only where it should.
 
 Exit status is non-zero if check 1 misses its bar or check 2's invariant rows
 disagree, so the controller's log carries a FAILED line rather than a quiet
-mismatch.
+mismatch. It is also non-zero if either comparison is unsound: a row key
+repeated, a row on one side only, nothing aligned, or (check 2) no invariant
+rows at all - a check that compared nothing has not passed.
 """
 import _bootstrap  # noqa: F401 - repo root and script folders onto sys.path
 import sys
@@ -45,15 +47,49 @@ NEW_LOG = "results/robustness_log1p.csv"
 TOL = 1e-6
 
 
-def aligned(a: pd.DataFrame, b: pd.DataFrame) -> pd.DataFrame:
-    """Inner-join two runs on the row keys; a row present in only one side is
-    reported as such rather than silently dropped."""
+# D-16 (2026-11-16). Both checks used to pass vacuously in three ways:
+# a row on one side only was printed as a WARNING and dropped; an empty
+# overlap gave max() = NaN, and `NaN > TOL` is False, so CHECK 1 read "ok";
+# CHECK 2 treated NaN explicitly as ok. A comparison that compared nothing,
+# or compared fewer rows than both files hold, now FAILS. A NaN on both sides
+# of a row counts as equal (the metric is undefined for that row in both
+# runs); a NaN on one side only is a difference and is scored as infinite.
+# On the 2026-09-12 files none of this fires: 640/640 raw rows and 320/320
+# betweenness rows align, with no NaNs and no duplicate keys.
+
+
+def aligned(a: pd.DataFrame, b: pd.DataFrame) -> tuple[pd.DataFrame, bool]:
+    """Join two runs on the row keys. Returns (rows present on both sides,
+    sound), where sound is False if either side repeats a key (the join would
+    multiply rows), any row is present on one side only, or nothing aligns."""
+    sound = True
+    for side, df in (("a", a), ("b", b)):
+        dup = int(df.duplicated(KEYS).sum())
+        if dup:
+            print(f"  FAIL side {side} repeats {dup} row keys")
+            sound = False
     m = a.merge(b, on=KEYS, how="outer", suffixes=("_a", "_b"), indicator=True)
     odd = m[m._merge != "both"]
     if len(odd):
-        print(f"  WARNING {len(odd)} rows present on one side only:")
+        print(f"  FAIL {len(odd)} rows present on one side only:")
         print("   " + odd[KEYS + ["_merge"]].to_string().replace("\n", "\n   "))
-    return m[m._merge == "both"]
+        sound = False
+    both = m[m._merge == "both"]
+    if both.empty:
+        print("  FAIL no rows align; there is nothing to compare")
+        sound = False
+    print(f"  {len(both)} rows aligned")
+    return both, sound
+
+
+def abs_delta(x: pd.Series, y: pd.Series) -> pd.Series:
+    """|x - y| per row, with NaN on both sides = 0 and NaN on one side = inf,
+    so that max() is never NaN and a one-sided NaN cannot read as a pass."""
+    nx, ny = x.isna(), y.isna()
+    d = (x - y).abs()
+    d[nx & ny] = 0.0
+    d[nx ^ ny] = np.inf
+    return d
 
 
 def main() -> int:
@@ -65,9 +101,12 @@ def main() -> int:
     print("CHECK 1  raw arm re-run (2026-09-12) vs archived 2026-08-27 file")
     print(f"  {NEW_RAW}: {len(new_raw)} rows   {OLD_RAW}: {len(old_raw)} rows")
     print("=" * 78)
-    m = aligned(new_raw, old_raw)
+    m, sound = aligned(new_raw, old_raw)
+    ok = ok and sound
     for met in METRICS:
-        d = (m[f"{met}_a"] - m[f"{met}_b"]).abs()
+        if m.empty:
+            break
+        d = abs_delta(m[f"{met}_a"], m[f"{met}_b"])
         worst = d.max()
         flag = "ok" if worst <= TOL else "MISS"
         print(f"  {met:<12} max |delta| = {worst:.3e}   ({flag}, bar {TOL:.0e})")
@@ -84,17 +123,25 @@ def main() -> int:
     new_log = pd.read_csv(NEW_LOG)
     raw_b = new_raw[new_raw.target == "betweenness"]
     log_b = new_log[new_log.target == "betweenness"]
-    m2 = aligned(log_b, raw_b)
+    m2, sound = aligned(log_b, raw_b)
+    ok = ok and sound
 
     # Objective-independent rows must be byte-equal (same damage draw, same
-    # exact betweenness on it, same degree).
+    # exact betweenness on it, same degree). An empty invariant set used to
+    # read as ok (max of nothing is NaN); it now fails, because then the
+    # invariant was never tested.
     inv = m2[m2.method.isin(["recompute", "degree"])]
+    if inv.empty:
+        print("  FAIL no recompute or degree rows; the invariant was not tested")
+        ok = False
     for met in METRICS:
-        worst = (inv[f"{met}_a"] - inv[f"{met}_b"]).abs().max()
-        flag = "ok" if worst == 0 or np.isnan(worst) else "MISS"
+        if inv.empty:
+            break
+        worst = abs_delta(inv[f"{met}_a"], inv[f"{met}_b"]).max()
+        flag = "ok" if worst == 0 else "MISS"
         print(f"  invariant rows (recompute, degree) {met:<12} max |delta| = "
-              f"{worst:.3e}  ({flag})")
-        if not (worst == 0 or np.isnan(worst)):
+              f"{worst:.3e}  ({flag}, {len(inv)} rows)")
+        if worst != 0:
             ok = False
 
     # The addendum: what the objective is worth under damage.

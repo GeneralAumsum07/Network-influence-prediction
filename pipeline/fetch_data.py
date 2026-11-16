@@ -21,6 +21,7 @@ import gzip
 import hashlib
 import json
 import shutil
+import sys
 import urllib.request
 from pathlib import Path
 
@@ -137,15 +138,28 @@ def main():
     if args.all:
         targets.update(EXTRA)
 
-    manifest = []
+    manifest, failed = [], []
     for name, (url, directed, note) in targets.items():
         try:
             rec = fetch(name, url, out)
             rec.update({"directed_in_source": directed, "note": note})
             manifest.append(rec)
-        except Exception as e:
-            # One dead mirror should not abort the whole corpus download.
+        except Exception as e:                         # noqa: BLE001
+            # Keep going so one run reports EVERY failure, not just the first;
+            # a dead mirror for one network says nothing about the others.
             print(f"  [FAIL] {name}: {e}")
+            failed.append(name)
+
+    # D-15 (2026-11-16). This used to write the manifest from the successes
+    # and exit 0, so a pin mismatch or a dead mirror left a manifest.json
+    # that listed fewer networks than requested and looked complete. The
+    # manifest is the corpus record downstream code reads; a partial one must
+    # not be written. Any existing manifest.json is left exactly as it was.
+    if failed:
+        print(f"\n{len(failed)} of {len(targets)} networks failed: {', '.join(failed)}")
+        print("manifest.json NOT written; fix the failures above and re-run "
+              "(networks already on disk are verified, not re-downloaded).")
+        sys.exit(1)
 
     mpath = out / "manifest.json"
     json.dump(manifest, open(mpath, "w"), indent=2)

@@ -1491,5 +1491,52 @@
     }
    }
   ]
+ },
+ "dclosure_decisions_2026_11_16": {
+  "approved": "the author, 2026-11-16: go with the recommendations for D-11 to D-17",
+  "note": "Decisions on the seven findings left open_awaiting_decision in new_findings. Their status fields there are not edited; this key supersedes them.",
+  "decisions": {
+   "D-11": {
+    "decision": "left open",
+    "reason": "No current defect: the 2026-11-09 run measured both generators moving their parameters (fitted gamma 2.110 to 4.124 over targets 2.1 to 4.0; Holme-Kim clustering 0.016 to 0.591 over p_triad 0 to 1). The gap is that the gate's tolerant monotonicity would not catch a regression. Worth tightening before Phase 7 relies on these generators, not now."
+   },
+   "D-12": {
+    "decision": "fixed",
+    "change": "influence/features.py: the try/except around both ORCA blocks is gone. A missing binary (counter returns None) is the only skip and always raises a RuntimeWarning, also with verbose=False; a binary that runs and fails raises out of extract_features.",
+    "verified": "checks/verify_pipeline.py section 2d stubs the counters: a raising node or edge counter now raises (the HEAD version swallowed it and returned 43 columns instead of 171); a missing binary warns once per orbit kind and leaves no orbit columns or timings. With ORCA working, extract_features output (features and registry, max_hop 3) is byte-identical to the previous version on email-Eu-core and p2p-Gnutella08. No caller relied on the swallowing.",
+    "files_after_fix": {
+     "influence/features.py": "11fddc97838a68fb014365f45d615bc06d28232029f9ce85928f7ccb32909cda",
+     "checks/verify_pipeline.py": "7635977bda8b76bdb9c374d5b020ab916ce817dfd25ea1070b4c70c018a34c28"
+    }
+   },
+   "D-13": {
+    "decision": "left open",
+    "reason": "Production nb_walk_counts agrees with explicit enumeration on every graph tested, so no result is affected. Rewriting the oracle to pair arcs by identity is a gate improvement with no defect behind it."
+   },
+   "D-14": {
+    "decision": "closed",
+    "reason": "Re-checked 2026-11-16: git grep over all tracked files finds no local absolute path except the deliberate fictitious path in checks/verify_buffered_cv.py:333, which tests that foreign paths are refused. The source, probes/probe_local_predictors.py, now records inputs relative to the repository root, so a rerun cannot reintroduce them. Resolved by the earlier scrub; no file changed for this entry."
+   },
+   "D-15": {
+    "decision": "fixed",
+    "change": "pipeline/fetch_data.py still attempts every network so one run reports every failure, but if any failed it prints them, does not write manifest.json (an existing one is left untouched) and exits 1.",
+    "verified": "Offline, on a copy of data/: all five present gives exit 0 and a five-network manifest; one corrupted file gives the pin-mismatch message, exit 1 and no manifest. The previous version wrote a four-network manifest and exited 0 (by reading; the loop caught every exception).",
+    "files_after_fix": {
+     "pipeline/fetch_data.py": "6e47de27f794da458ef9d61512657b1a60063cbdb1a5d697d9f0da4cacf4ca77"
+    }
+   },
+   "D-16": {
+    "decision": "fixed",
+    "change": "checks/verify_robustness_rerun.py fails on a repeated row key, a row on one side only, an empty overlap, a NaN on one side only (NaN on both sides counts as equal), and in check 2 on an empty invariant set.",
+    "verified": "Synthetic files: the previous version exits 0 on a missing row, no overlap, a one-sided NaN and no invariant rows; the new version exits 1 on all four and 0 on the all-equal control. On the real files the outcome is unchanged: 640 of 640 raw rows and 320 of 320 betweenness rows align with no NaN; check 1 misses for its known reason and the 160 invariant rows are exactly equal.",
+    "files_after_fix": {
+     "checks/verify_robustness_rerun.py": "b5021358f1896c6eca02b24fc43062c945ebc6459899f951ca8e5b3b4569ad97"
+    }
+   },
+   "D-17": {
+    "decision": "left open",
+    "reason": "Misleading diagnostic only: graphlets.py checks the return code, stderr and the output itself, so a failed open is still caught. Fixing it means editing vendor/orca.cpp and rebuilding vendor/orca.exe, whose hash is a recorded input of the beta sweep (results/phase6_5_beta/sources.json); not worth a re-pin for an error message."
+   }
+  }
  }
 }

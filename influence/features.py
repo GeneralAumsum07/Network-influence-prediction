@@ -42,6 +42,7 @@ for the same compute budget.
 from __future__ import annotations
 
 import time
+import warnings
 from dataclasses import dataclass
 
 import numpy as np
@@ -617,8 +618,9 @@ def extract_features(net: Network,
     `graphlet_size` enables the node graphlet orbit columns (4 or 5); None
     disables them. `edge_graphlet_size` does the same for edge orbits, which
     are aggregated over each node's incident edges and land in the edge tier.
-    Both are skipped automatically, with a message, if the ORCA binary is not
-    built - the rest of the pipeline does not depend on either.
+    Both are skipped, with a RuntimeWarning, if the ORCA binary is not built -
+    the rest of the pipeline does not depend on either. If the binary runs and
+    fails, the error propagates rather than dropping the columns.
 
     The defaults are 5-node node orbits and 4-node edge orbits. 5-node EDGE
     orbits are supported by the counter but not defaulted on: 68 orbits times
@@ -1136,24 +1138,31 @@ def extract_features(net: Network,
     # all fifteen orbits at once, so there is no cheaper run that returns only
     # the hop-1 orbits. Any cell using any orbit pays for all of them, which is
     # why they share a single cost group rather than one per hop.
+    # HOW ORCA CAN FAIL, AND WHAT EACH WAY DOES (D-12, 2026-11-16).
+    # - Binary not built: the counters return None. This is the one documented
+    #   skip; the columns are absent. It now always WARNS, even with
+    #   verbose=False, because most callers pass verbose=False and a feature
+    #   table missing a whole tier must not look like a complete one.
+    # - The binary ran and failed (bad exit code, malformed output, bad size):
+    #   the counters raise, and the error now propagates. It used to be caught
+    #   here and printed only if verbose, so a broken ORCA run produced a
+    #   feature table without the subgraph/edge-orbit columns and no error.
     if graphlet_size:
-        orbits = None
-        try:
-            from .graphlets import count_node_orbits, orbit_columns
-            with timed("graphlet_orbits"):
-                orbits = count_node_orbits(net, graphlet_size)
-        except Exception as exc:                       # noqa: BLE001
-            if verbose:
-                print(f"    graphlet orbits skipped: {exc}")
-            timings.pop("graphlet_orbits", None)
+        from .graphlets import count_node_orbits, orbit_columns
+        with timed("graphlet_orbits"):
+            orbits = count_node_orbits(net, graphlet_size)
         if orbits is not None:
             for nm, vals, hop in orbit_columns(orbits):
                 cols[nm] = vals
                 reg.add(nm, hop, "subgraph",
                         f"graphlet orbit count ({nm.split('_', 2)[2]})",
                         "graphlet_orbits")
-        elif verbose:
-            print("    graphlet orbits skipped: no orca binary found")
+        else:
+            timings.pop("graphlet_orbits", None)
+            warnings.warn("graphlet orbit columns skipped: no orca binary found",
+                          RuntimeWarning, stacklevel=2)
+            if verbose:
+                print("    graphlet orbits skipped: no orca binary found")
 
     # ---------------- edge orbits -----------------------------------------
     # An edge orbit is a position an EDGE occupies in a graphlet - a different
@@ -1167,27 +1176,26 @@ def extract_features(net: Network,
     # present. Mean, max and spread describe the distribution across a node's
     # edges, which nothing else in the table does.
     if edge_graphlet_size:
-        try:
-            from .graphlets import (count_edge_orbits, edge_orbit_node_features,
-                                    edge_orbit_columns)
-            with timed("edge_orbits"):
-                eu, ev, eorb = count_edge_orbits(net, edge_graphlet_size)
-                per_stat = (edge_orbit_node_features(net, eu, ev, eorb)
-                            if eorb is not None else None)
-            if per_stat is not None:
-                for nm, vals, hop in edge_orbit_columns(per_stat):
-                    cols[nm] = vals
-                    reg.add(nm, hop, "edge",
-                            f"edge-orbit count summarised over incident edges "
-                            f"({nm.split('_', 1)[1]})", "edge_orbits")
-            else:
-                timings.pop("edge_orbits", None)
-                if verbose:
-                    print("    edge orbits skipped: no orca binary found")
-        except Exception as exc:                       # noqa: BLE001
+        # Same two failure modes as the node orbits above: a missing binary
+        # skips with a warning, a failed run raises.
+        from .graphlets import (count_edge_orbits, edge_orbit_node_features,
+                                edge_orbit_columns)
+        with timed("edge_orbits"):
+            eu, ev, eorb = count_edge_orbits(net, edge_graphlet_size)
+            per_stat = (edge_orbit_node_features(net, eu, ev, eorb)
+                        if eorb is not None else None)
+        if per_stat is not None:
+            for nm, vals, hop in edge_orbit_columns(per_stat):
+                cols[nm] = vals
+                reg.add(nm, hop, "edge",
+                        f"edge-orbit count summarised over incident edges "
+                        f"({nm.split('_', 1)[1]})", "edge_orbits")
+        else:
             timings.pop("edge_orbits", None)
+            warnings.warn("edge orbit columns skipped: no orca binary found",
+                          RuntimeWarning, stacklevel=2)
             if verbose:
-                print(f"    edge orbits skipped: {exc}")
+                print("    edge orbits skipped: no orca binary found")
 
     features = pd.DataFrame(cols)
     features.insert(0, "node", np.arange(net.n))

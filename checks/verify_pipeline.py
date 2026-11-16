@@ -339,6 +339,56 @@ def main() -> None:
         check("retagged orbits 56,57,65,66,68,70 sit at hop 2",
               all(ORBIT5_RADIUS[k] == 2 for k in (56, 57, 65, 66, 68, 70)))
 
+    # ------------------------------------------------------------------ 2d
+    # D-12 (2026-11-16). extract_features used to wrap both ORCA blocks in a
+    # bare `except Exception`, printing only if verbose. A broken ORCA run
+    # therefore produced a feature table missing the subgraph and edge-orbit
+    # columns with no error. Now a missing binary (counter returns None) is the
+    # only skip, and it always warns; a failed run (counter raises) propagates.
+    # The counters are stubbed, so this section needs no ORCA binary and runs
+    # on every machine. extract_features imports them from the module at call
+    # time, which is why patching the module attribute reaches it.
+    print("\n2d. ORCA FAILURE MODES: A MISSING BINARY WARNS, A FAILED RUN RAISES")
+    import warnings
+    import influence.graphlets as _gl
+    from influence import generators as _gen2
+    g_small = _gen2.erdos_renyi(30, 4, seed=21)
+    real_node, real_edge = _gl.count_node_orbits, _gl.count_edge_orbits
+
+    def _boom(*_a, **_k):
+        raise RuntimeError("orca exited 1 (stub)")
+
+    try:
+        for which, attr in (("node", "count_node_orbits"), ("edge", "count_edge_orbits")):
+            setattr(_gl, attr, _boom)
+            try:
+                extract_features(g_small, max_hop=1, verbose=False,
+                                 graphlet_size=4 if which == "node" else None,
+                                 edge_graphlet_size=4 if which == "edge" else None)
+                raised = False
+            except RuntimeError as exc:
+                raised = "stub" in str(exc)
+            finally:
+                setattr(_gl, attr, real_node if which == "node" else real_edge)
+            check(f"a failing {which}-orbit counter raises out of extract_features", raised)
+
+        _gl.count_node_orbits = lambda *_a, **_k: None
+        _gl.count_edge_orbits = lambda *_a, **_k: (None, None, None)
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            Xs, regs, ts = extract_features(g_small, max_hop=1, verbose=False,
+                                            graphlet_size=4, edge_graphlet_size=4)
+        msgs = [str(w.message) for w in caught if issubclass(w.category, RuntimeWarning)]
+        check("a missing binary warns once per orbit kind, with verbose=False",
+              any("graphlet orbit" in m for m in msgs) and any("edge orbit" in m for m in msgs),
+              f"warnings: {msgs}")
+        check("a missing binary leaves no orbit columns and no orbit timings",
+              not set(regs["group"]) & {"graphlet_orbits", "edge_orbits"}
+              and not {"graphlet_orbits", "edge_orbits"} & set(ts),
+              f"groups {sorted(set(regs['group']))}")
+    finally:
+        _gl.count_node_orbits, _gl.count_edge_orbits = real_node, real_edge
+
     # ------------------------------------------------------------------- 3
     print("\n3. TRIVALENCY: ONE DRAW PATH, NOT TWO")
     eu, ev, per_edge = dyn.symmetric_edge_probabilities(
