@@ -1461,5 +1461,35 @@
     }
    }
   ]
+ },
+ "rereview_followup_2026_11_16": {
+  "approved": "the author, 2026-11-16 00:31: do the optional cleanups",
+  "items": [
+   {
+    "refers_to": "rereview_2026_11_15 item 24 (stale-lock half, not changed then)",
+    "status": "fixed",
+    "note": "probes/probe_beta_sweep.py take_lock: a failed tasklist now refuses instead of reading as 'not alive'; a lock holding no PID refuses; after renaming a stale lock the PID is re-read, and a rival's fresh lock is put back and the start refused; stale-lock files never overwrite each other. The gate's old dead-PID fixture (4,000,000,000) was itself a tasklist failure ('Invalid query') and passed only because failures read as dead; it now uses 2,147,483,644. The new checks fail against the previous controller (lock taken over; bare ValueError).",
+    "files_after_fix": {
+     "probes/probe_beta_sweep.py": "21b854be70ee83a5df8595d8234c6f4f0de17139541faa8286a4f1e0979971de",
+     "checks/verify_beta_sweep.py": "63c50a016720c2db4666ecfd4df6071274f8b190d8344c84ead382288b66b5eb"
+    }
+   },
+   {
+    "refers_to": "rereview_2026_11_15 item 7 (O(n) bincount, not changed then)",
+    "status": "fixed",
+    "note": "neighbourhood_pass bins the percolation log-sum by slot in nxt instead of node id. Bit-identical to the previous version on all five real graphs, radius 3 and 4, p in {0.02, 0.1, 0.4} (30 of 30 identical); no measurable speed change at n <= 8,638. Re-pin as accepted on 2026-11-16 00:10.",
+    "files_after_fix": {
+     "influence/features.py": "948c5738389bc5398f41624d9671ca7136d206dfe0077e841ab7191fb320fd13"
+    }
+   },
+   {
+    "refers_to": "rereview_2026_11_15 item 7 (porosity wording in the study document)",
+    "status": "fixed",
+    "note": "docs/study_doc_v2.md feature table gives the formula computed and why the registry string keeps 'endpoints'.",
+    "files_after_fix": {
+     "docs/study_doc_v2.md": "f1f7ea0950ff06078354982e98b2bba439e7c98dae7c7977376b6b0bb0f1f5a7"
+    }
+   }
+  ]
  }
 }

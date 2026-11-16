@@ -402,18 +402,31 @@ def neighbourhood_pass(net: Network, max_hop: int, p_transmission: float | None 
                                      dtype=np.int64, count=len(frontier))
                 dst = np.concatenate([net.nbrs[u] for u in frontier])
                 fresh = ~visited[dst]
-                nxt = np.unique(dst[fresh])
-                if want_perc and len(nxt):
+                child = dst[fresh]
+                if want_perc and len(child):
                     # One message per (parent -> child) arc that reaches a
                     # newly discovered node. Working in logs turns the product
                     # over parents into a bincount sum.
+                    #
+                    # The sum is binned by each child's slot in nxt, not by
+                    # its node id: binning by id allocated and zeroed an
+                    # n-long array per hop per source, O(n^2) over the pass,
+                    # for at most len(nxt) useful bins. bincount adds each
+                    # bin's terms in input order either way, so every
+                    # logprod value is bit-identical to the id-binned
+                    # version (checked 2026-11-16: all five real graphs,
+                    # radius 3 and 4, three transmission levels). At those
+                    # sizes (n <= 8,638) the wall time is the same within
+                    # noise; the saving is for much larger graphs.
+                    nxt, slot = np.unique(child, return_inverse=True)
                     src = np.repeat(frontier, counts)[fresh]
-                    child = dst[fresh]
                     contrib = np.log1p(-p_transmission * qbuf[src])
-                    logprod = np.bincount(child, weights=contrib, minlength=n)
-                    q_next = 1.0 - np.exp(logprod[nxt])
+                    logprod = np.bincount(slot, weights=contrib, minlength=len(nxt))
+                    q_next = 1.0 - np.exp(logprod)
                     qbuf[nxt] = q_next
                     reach += float(q_next.sum())
+                else:
+                    nxt = np.unique(child)
                 visited[nxt] = True
                 t1 = time.perf_counter(); hop_seconds[h + 1] += t1 - t0; t0 = t1
             else:

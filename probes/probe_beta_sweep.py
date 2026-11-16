@@ -56,9 +56,13 @@ time a person had to inspect and rename its lock before it could resume. Here
 that check is automatic. results/phase6_5_beta/active.lock holds the
 controller's PID.
 - If that PID is still a live python.exe, the controller refuses to start:
-  two writers on one CSV is the one failure resume cannot repair.
+  two writers on one CSV is the one failure resume cannot repair. If the
+  liveness check itself fails, or the lock holds no PID, it also refuses.
 - If it is not, the lock is a leftover from a kill. It is renamed to
-  stale_lock_<pid>_<HHMMSS>.txt as evidence and the run continues.
+  stale_lock_<pid>_<HHMMSS>_<own pid>.txt as evidence and the run continues,
+  unless the renamed file turns out to hold another contender's fresh PID
+  (two controllers clearing the same stale lock), in which case it is put
+  back and this controller refuses.
 Windows recycles PIDs. A recycled PID that lands on an unrelated python.exe
 therefore refuses, which is the safe direction.
 
@@ -271,26 +275,65 @@ def check_manifest(identity: dict[str, str], write: bool) -> str:
 # ---------------------------------------------------------------------------
 
 def pid_is_live_python(pid: int) -> bool:
-    out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FI", "IMAGENAME eq python.exe",
-                          "/NH", "/FO", "CSV"], capture_output=True, text=True).stdout
-    return f'"{pid}"' in out
+    # A failed tasklist must not read as "not alive": that answer licenses
+    # renaming the lock away, so an unknown answer has to refuse instead.
+    # (Before 2026-11-16 the exit status was ignored, and a tasklist failure
+    # let a second controller take a live controller's lock.)
+    try:
+        res = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FI",
+                              "IMAGENAME eq python.exe", "/NH", "/FO", "CSV"],
+                             capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired) as e:
+        raise RuntimeError(f"cannot tell whether PID {pid} is alive ({e}); refusing") from e
+    if res.returncode != 0:
+        raise RuntimeError(f"tasklist exited {res.returncode} checking PID {pid} "
+                           f"({res.stderr.strip()!r}); cannot tell whether it is alive; refusing")
+    return f'"{pid}"' in res.stdout
 
 
 def take_lock(lock: Path = LOCK) -> str:
     """Create the lock, or explain why not.
 
     O_EXCL makes creation atomic, so two controllers started together cannot
-    both succeed. A leftover lock from a dead process is renamed rather than
+    both create it. A leftover lock from a dead process is renamed rather than
     deleted: it is the only record that a run was killed.
+
+    Stale-lock recovery has its own race. Two contenders can both read the
+    same dead PID; the first renames the lock and creates its own, and the
+    second's rename would then move the FIRST contender's fresh lock aside,
+    after which both run. So the PID is re-read from the renamed file. If it
+    is not the dead PID that was checked, this contender moved someone else's
+    live lock: it puts it back and refuses.
     """
     note = "lock taken"
     if lock.exists():
-        pid = int(lock.read_text().strip())
+        text = lock.read_text().strip()
+        if not text.isdigit():
+            # Possible if a controller died between creating the lock and
+            # writing its PID. Not provably stale, so a person decides.
+            raise RuntimeError(f"{lock.name} holds {text!r}, not a PID; inspect it "
+                               "and rename it by hand. Refusing.")
+        pid = int(text)
         if pid_is_live_python(pid):
             raise RuntimeError(f"{lock.name} names PID {pid}, which is a live python.exe; "
                                "another controller may be writing. Refusing.")
-        stale = lock.with_name(f"stale_lock_{pid}_{datetime.now():%H%M%S}.txt")
+        # The stale file is evidence, so it must never overwrite an earlier
+        # one: os.replace would, if the same name came up twice in a second.
+        base = f"stale_lock_{pid}_{datetime.now():%H%M%S}_{os.getpid()}"
+        stale, k = lock.with_name(f"{base}.txt"), 1
+        while stale.exists():
+            stale, k = lock.with_name(f"{base}_{k}.txt"), k + 1
         os.replace(lock, stale)
+        moved = stale.read_text().strip()
+        if moved != text:
+            # os.rename, not os.replace: it fails if a third contender has
+            # created a lock in the meantime, rather than overwriting it.
+            try:
+                os.rename(stale, lock)
+            except OSError:
+                pass
+            raise RuntimeError(f"another controller (PID {moved}) took {lock.name} while "
+                               f"stale PID {pid} was being cleared; refusing.")
         note = f"stale lock from PID {pid} (not alive) renamed to {stale.name}; resuming"
     fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     os.write(fd, str(os.getpid()).encode())

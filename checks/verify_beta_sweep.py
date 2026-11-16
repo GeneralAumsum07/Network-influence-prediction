@@ -507,11 +507,17 @@ def controller() -> None:
             check("controller: a stage-1 cache for another multiple is refused", True)
 
         # Lock: a dead PID is renamed and the run proceeds; a live python.exe
-        # (this process) refuses. 4,000,000,000 is above any Windows PID.
+        # (this process) refuses. The dead PID must be one tasklist accepts as a
+        # query: 4,000,000,000 (used until 2026-11-16) is outside its int32
+        # range, tasklist exits 1 "Invalid query", and this case passed only
+        # because that failure was read as "not alive". 2,147,483,644 is the
+        # largest multiple of 4 that fits in an int32 (Windows PIDs are
+        # multiples of 4), so it is a valid query with no live process.
+        dead = "2147483644"
         lock = d / "active.lock"
-        lock.write_text("4000000000")
+        lock.write_text(dead)
         note = pb.take_lock(lock)
-        stale = list(d.glob("stale_lock_4000000000_*.txt"))
+        stale = list(d.glob(f"stale_lock_{dead}_*.txt"))
         check("controller: stale lock renamed and the run resumes",
               len(stale) == 1 and lock.read_text() == str(__import__("os").getpid()), note)
         try:
@@ -519,6 +525,65 @@ def controller() -> None:
             check("controller: a live controller's lock refuses", False)
         except RuntimeError:
             check("controller: a live controller's lock refuses", True)
+
+        # Lock hardening, 2026-11-16. Each case must refuse AND leave the lock
+        # where it was, since a refusal that moved the lock would still let a
+        # later start through.
+        import os
+        import subprocess
+        from unittest.mock import patch
+
+        def refuses(label, setup, **patches):
+            lock.write_text(setup)
+            try:
+                with patch.multiple(pb, **patches) if patches else _null():
+                    pb.take_lock(lock)
+                ok = False
+            except RuntimeError:
+                ok = lock.exists()
+            check(label, ok, lock.read_text() if lock.exists() else "lock gone")
+
+        class _null:
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+
+        failed = subprocess.CompletedProcess(args=[], returncode=1, stdout="", stderr="boom")
+        refuses("controller: a failed tasklist refuses, lock kept", dead,
+                subprocess=type("S", (), {"run": staticmethod(lambda *a, **k: failed),
+                                          "TimeoutExpired": subprocess.TimeoutExpired}))
+        refuses("controller: a lock holding no PID refuses, lock kept", "")
+
+        # Race: between this contender's read of the dead PID and its rename,
+        # another contender clears the same stale lock and writes its own.
+        real_replace = os.replace
+
+        def replace_after_rival(src, dst):
+            Path(src).write_text("4000000001")   # the rival's fresh lock
+            real_replace(src, dst)
+        before = set(d.glob("stale_lock_*"))
+        refuses("controller: a rival's fresh lock is put back, not stolen", dead,
+                os=type("O", (), {"replace": staticmethod(replace_after_rival),
+                                  "rename": staticmethod(os.rename),
+                                  "getpid": staticmethod(os.getpid)}))
+        check("controller: the rival's lock still names the rival",
+              lock.read_text() == "4000000001" and set(d.glob("stale_lock_*")) == before)
+
+        # Two recoveries in the same second by the same process used to pick
+        # the same stale-file name, and os.replace overwrote the first piece
+        # of evidence (seen as an intermittent failure of the check above).
+        # Freeze the clock so the collision is certain, not timing-dependent.
+        frozen = pb.datetime(2026, 1, 1, 12, 0, 0)
+        clock = type("Frozen", (), {"now": staticmethod(lambda: frozen)})
+        lock.unlink()
+        before = set(d.glob("stale_lock_*"))
+        with patch.object(pb, "datetime", clock):
+            for _ in range(2):
+                lock.write_text(dead)
+                pb.take_lock(lock)
+                lock.unlink()
+        new = set(d.glob("stale_lock_*")) - before
+        check("controller: same-second stale locks are both kept", len(new) == 2,
+              ", ".join(sorted(p.name for p in new)))
 
 
 def main() -> int:

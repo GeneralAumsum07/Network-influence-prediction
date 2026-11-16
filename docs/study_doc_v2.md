@@ -295,7 +295,7 @@ The earlier 64-feature table is what you get today if `vendor/orca.exe` is absen
 | `ego_net_density` | Ego-net edges / possible edges **(derived)** |
 | `edges_leaving_ego` | Edges from your neighbours to nodes outside your ego net **(derived)** |
 | `effective_size` | Burt's measure: count of non-redundant contacts |
-| `boundary_porosity` | Outward edges / all ego-net edge endpoints — how "leaky" your boundary is |
+| `boundary_porosity` | Of all edges touching your ego net (inside it or leaving it), the fraction that leave: `edges_leaving_ego / (ego_net_edges + edges_leaving_ego)` — how "leaky" your boundary is. (The registry's description string says "edge endpoints"; it is kept verbatim because cached registries are hash-pinned. The formula above is the one computed.) |
 
 `boundary_porosity` was included deliberately: a node cannot see past its own boundary, but it *can* observe how porous that boundary is. This is the key signal for the self-assessment question in Angle 5.
 
