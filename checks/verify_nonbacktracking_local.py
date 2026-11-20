@@ -44,12 +44,56 @@ def explicit_counts(net: Network, length: int) -> np.ndarray:
     return out
 
 
+def direct_arcs(net: Network) -> list[tuple[int, int]]:
+    """The arc labels of build_nonbacktracking_direct's rows, in its order.
+
+    B carries no labels, so the oracle has to know which arc each row is.
+    D-11's sibling, D-13: this used to be a node-major list paired with B's
+    rows by position. B's own order is the upper triangle and then its
+    reversals, so the pairing was wrong on any graph where the two orders
+    differ (triangle+pendant, 5-path); it only held on the symmetric
+    fixtures. The order below mirrors criticality.py:74-77, and
+    check_arc_labels() proves it against B itself, so a later change to
+    that order fails loudly instead of mispairing silently.
+    """
+    coo = sp.triu(net.adj, k=1).tocoo()
+    arcs = [(int(u), int(v)) for u, v in zip(coo.row, coo.col)]
+    return arcs + [(v, u) for u, v in arcs]
+
+
+def check_arc_labels(net: Network, B: sp.csr_matrix, arcs: list[tuple[int, int]]) -> None:
+    """Every row of B must hold exactly the definitional successors of its arc.
+
+    Row (i->j) must have a 1 at every (j->l) with l a neighbour of j and
+    l != i, and nothing else. This is the definition of the non-backtracking
+    matrix, written independently of how production builds it. A labelling
+    that passes is either B's true one or a relabelling by an automorphism
+    of the arc graph; under such a relabelling every arc's continuation
+    count equals that of its image, so the per-root sums are unchanged and
+    the oracle's answer is still right.
+    """
+    if B.shape != (len(arcs), len(arcs)) or len(set(arcs)) != len(arcs):
+        raise AssertionError(f'{net.name}: B shape {B.shape} does not fit {len(arcs)} distinct arcs')
+    for row, (i, j) in enumerate(arcs):
+        lo, hi = B.indptr[row], B.indptr[row + 1]
+        got = {arcs[col] for col, val in zip(B.indices[lo:hi], B.data[lo:hi]) if val != 0}
+        if np.any(B.data[lo:hi] != 1):
+            raise AssertionError(f'{net.name}: row {(i, j)} of B is not 0/1')
+        want = {(j, int(l)) for l in net.nbrs[j] if int(l) != i}
+        if got != want:
+            raise AssertionError(f'{net.name}: row labelled {(i, j)} has successors '
+                                 f'{sorted(got)}, the definition gives {sorted(want)}')
+
+
 def direct_matrix_counts(net: Network, length: int) -> np.ndarray:
     """Use B only in this small-fixture verifier, never in the production API."""
-    arcs = [(u, int(v)) for u in range(net.n) for v in net.nbrs[u]]
+    arcs = direct_arcs(net)
     if not arcs:
         return np.zeros(net.n, dtype=np.int64)
-    B = build_nonbacktracking_direct(net)
+    B = build_nonbacktracking_direct(net).tocsr()
+    check_arc_labels(net, B, arcs)
+    # B is float64; its entries are 0/1 (checked above), so int64 is exact.
+    B = B.astype(np.int64)
     continuations = np.ones(len(arcs), dtype=np.int64)
     for _ in range(length - 1):
         continuations = B @ continuations
@@ -71,6 +115,13 @@ def check_named_fixtures() -> None:
         (fixture('star4', 4, [(0, 1), (0, 2), (0, 3)]), ([3, 1, 1, 1], [0, 2, 2, 2], [0, 0, 0, 0])),
         (fixture('triangle', 3, [(0, 1), (1, 2), (2, 0)]), ([2, 2, 2], [2, 2, 2], [2, 2, 2])),
         (fixture('isolates', 3, []), ([0, 0, 0], [0, 0, 0], [0, 0, 0])),
+        # D-13: the two asymmetric shapes on which positional arc pairing
+        # gave wrong direct-B counts. Expected values worked by hand from
+        # c_k(i->j) = sum over l in N(j)\{i} of c_{k-1}(j->l), c_0 = 1.
+        (fixture('triangle_pendant', 4, [(0, 1), (1, 2), (2, 0), (2, 3)]),
+         ([2, 2, 3, 1], [3, 3, 2, 2], [3, 3, 2, 2])),
+        (fixture('path5', 5, [(0, 1), (1, 2), (2, 3), (3, 4)]),
+         ([1, 2, 2, 2, 1], [1, 1, 2, 1, 1], [1, 1, 0, 1, 1])),
     ]
     for net, expected in cases:
         for length, wanted in enumerate(expected, start=1):
