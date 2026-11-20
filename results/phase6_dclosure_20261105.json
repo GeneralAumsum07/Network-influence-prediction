@@ -1538,5 +1538,43 @@
     "reason": "Misleading diagnostic only: graphlets.py checks the return code, stderr and the output itself, so a failed open is still caught. Fixing it means editing vendor/orca.cpp and rebuilding vendor/orca.exe, whose hash is a recorded input of the beta sweep (results/phase6_5_beta/sources.json); not worth a re-pin for an error message."
    }
   }
+ },
+ "d11_fix_2026_11_17": {
+  "approved": "the author, 2026-11-17 02:53: implement 1-3, and look into the L6 question first",
+  "refers_to": "new_findings D-11; supersedes its 'left open' entry in dclosure_decisions_2026_11_16",
+  "status": "fixed",
+  "measured_before_fix": "Over generator seeds 0-7, section 3's single-graph fit (n=6000) missed the target by up to 1.8. Seeds 1 and 5 at gamma 4.0 fitted about 2.2 because the CSN fit fell back to the bulk (xmin=3, reliable=False, a flag section 3 never read); the old gate would have failed them. Seed 2, the gate's seed, was a well-behaved draw (worst error 0.124). Holme-Kim clustering was tight across seeds: total rise 0.568 or more, every step 0.120 or more.",
+  "change": "checks/verify_generators.py. 3a: the Chung-Lu weights' exponent by closed-form Pareto MLE (no fitter) at n=200,000, |error| <= 0.05 at each target. 3b: degrees pooled over generator seeds 0-3, one CSN fit per target, which must be reliable, rise strictly at every step and span at least 1.0; no accuracy band, because pooled fits over seeds 4-7 sat 0.47 above target at 4.0. 4: clustering must rise at least 0.4 in total and at least 0.05 per step; 'at fixed tail' removed from the heading, since fitted gamma varies 0.09-0.51 across p_triad within a seed, and gamma is printed, not asserted.",
+  "calibration": {
+   "3a_worst_abs_error_seeds_0_7_n_200000": 0.0106,
+   "3a_worst_abs_error_seeds_0_7_n_20000": 0.0287,
+   "3a_gamma_ignoring_generator_reads_at_target_4": 2.498,
+   "3b_pooled_seeds_0_3": [
+    2.165,
+    2.563,
+    2.957,
+    3.593,
+    4.03
+   ],
+   "3b_pooled_seeds_4_7": [
+    2.166,
+    2.63,
+    3.326,
+    3.785,
+    4.473
+   ],
+   "4_min_total_rise_seeds_0_7": 0.568,
+   "4_min_step_seeds_0_7": 0.12
+  },
+  "verified": "Injected faults, sections 3-4 only: weights ignoring gamma, chung_lu passing a constant gamma, holme_kim ignoring p_triad. The previous gate passed all three; the new gate fails each (3a and 3b; 3b only, as designed; section 4). No-fault control passes in both.",
+  "files_after_fix": {
+   "checks/verify_generators.py": "c34128c2cac4ae81b699e0174f4be52ccd4543b67c6681c62149a23b7ce367e6"
+  },
+  "related_check_certificate_x_axis": {
+   "question": "The certificate lane scores T = Kendall(gamma_target, rho_g) on one n=5000 graph per gamma. Given the realisation scatter above, is target order the realised order?",
+   "finding": "Yes, at the level that matters. The seed-0 weights realise the eight targets in exactly target order (Kendall 1.0; exponents 2.131 to 3.842), and T computed on those exponents equals the registered T for both targets (spread_mean -0.429, betweenness +0.571). Duel ratio orders the graphs at 0.929 against target. The recorded degree fit (ratios.csv gamma_fit) is the noisy measure: Kendall 0.571 against target, and the gamma 4.0 graph's fit is 2.206 with gamma_reliable False (bulk fallback). No document quotes gamma_fit.",
+   "sensitivity": "spread_mean stays FLAT on every x: T is -0.357 on the NB gap, -0.500 on duel ratio, -0.429 on the weights (t_crit 0.571). The reported betweenness COUNTER SUPPORTED sits exactly at t_crit on target and weights and drops to +0.500 on NB gap or duel ratio, so that reported (unscored) verdict rests on one pair. T on the unreliable degree fit (-0.571 spread_mean, +0.143 betweenness) is not a valid alternative.",
+   "outcome": "No change to the certificate verdict. Nothing re-run; read from ratios.csv and corpus.json."
+  }
  }
 }

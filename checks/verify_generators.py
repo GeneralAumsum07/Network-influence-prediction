@@ -12,8 +12,9 @@ looks perfectly well behaved and means nothing.
 Six checks:
   1. Structural measures against networkx (independent implementation).
   2. Power-law fit against synthetic data with a KNOWN exponent.
-  3. Chung-Lu actually lands near its target gamma.
-  4. Holme-Kim's p_triad actually raises clustering.
+  3. Chung-Lu: (a) its weights carry the target gamma, by exact MLE;
+     (b) pooled fitted gamma of the graphs rises across the sweep.
+  4. Holme-Kim's p_triad raises clustering by a minimum size, not just sign.
   5. Double-edge-swap preserves the degree sequence exactly.
   6. Assortativity rewiring actually moves assortativity toward the target.
 """
@@ -103,39 +104,104 @@ print(f"      {'PASS' if caught else 'FAIL'}  n=1000 target gamma=3.4 -> fitted=
       f"n_tail={f_bad['n_tail']}/{net_bad.n} "
       f"({100*f_bad['tail_fraction']:.0f}% of data), flagged unreliable={not f_bad['reliable']}")
 
-print("\n" + "=" * 74)
-print("3. CHUNG-LU LANDS NEAR ITS TARGET GAMMA")
-print("=" * 74)
-print("  Sweeping the knob the whole structural arm depends on.")
-prev = None
-mono = True
-for g_target in [2.1, 2.5, 3.0, 3.5, 4.0]:
-    net = gen.chung_lu(6000, g_target, mean_degree=6.0, seed=2)
-    fit = st.fit_power_law_tail(net.degree)
-    if prev is not None and fit["alpha"] < prev - 0.05:
-        mono = False
-    prev = fit["alpha"]
-    print(f"    target gamma={g_target:.1f}  ->  fitted={fit['alpha']:.3f}  "
-          f"(xmin={fit['gamma_xmin'] if 'gamma_xmin' in fit else fit['xmin']}, "
-          f"n={net.n}, <k>={net.mean_degree:.2f}, k_max={net.degree.max()})")
-print(f"  {'PASS' if mono else 'FAIL'}  fitted gamma increases monotonically with target")
-if not mono: FAIL.append("chung-lu monotonicity")
+# ---------------------------------------------------------------------------
+# Sections 3 and 4 were rewritten for D-11 (2026-11-16). Before, both asserted
+# only tolerant monotonicity (a step down of up to 0.05 in gamma, 1e-3 in
+# clustering, was allowed), so a generator that IGNORED its parameter - a
+# constant series - passed both. Section 3 also ran on a single seed (2) that
+# turned out to be one of the well-behaved draws: over seeds 0-7 the same
+# single-graph fit missed the target by up to 1.8, twice because the tail fit
+# fell back to the bulk (xmin=3, flagged reliable=False, flag never read here)
+# and otherwise because ~60-120 tail nodes at n=6000 cannot pin gamma to
+# better than a few tenths. So the knob and the graph are now tested apart:
+#   3a  the knob itself: the weights are a Pareto draw times one constant, so
+#       their exponent has a closed-form MLE with no fitter in the way;
+#   3b  the graph: degrees pooled over four generator seeds, one CSN fit,
+#       which must be reliable, rise strictly and span the sweep.
+# Calibration (2026-11-16, recorded in the D-closure sidecar): 3a's worst
+# |error| over seeds 0-7 at n=200,000 was 0.011; 3b's pooled fits over seeds
+# 0-3 and 4-7 were all reliable and strictly rising, spans 1.87 and 2.31.
+# ---------------------------------------------------------------------------
+GAMMAS = [2.1, 2.5, 3.0, 3.5, 4.0]
 
 print("\n" + "=" * 74)
-print("4. HOLME-KIM p_triad ACTUALLY RAISES CLUSTERING (at fixed tail)")
+print("3a. CHUNG-LU WEIGHTS CARRY THE TARGET GAMMA (exact MLE, no fitter)")
 print("=" * 74)
-prev_c, mono_c = -1, True
+# w = c * k_min * u^(-1/(gamma-1)), so w / min(w) is Pareto on [1, inf) and
+# alpha_hat = 1 + m / sum(log(w / min(w))), standard error (alpha-1)/sqrt(m),
+# about 0.007 at gamma 4 and m = 200,000. Weights clipped at the structural
+# cap are censored, not Pareto draws, so they are left out (about 100 at
+# gamma 2.1, none above 3.0). The band, 0.05, is ~5x the worst error seen
+# over eight seeds; a generator that ignores gamma misses by 0.4 or more.
+N_W, TOL_W = 200_000, 0.05
+for g_target in GAMMAS:
+    w = gen._powerlaw_weights(N_W, g_target, 6.0, 1, np.random.default_rng(5))
+    capped = w == w.max()
+    if capped.sum() == 1:                    # a single maximum is a draw, not the cap
+        capped[:] = False
+    x = w[~capped] / w.min()
+    alpha = 1 + len(x) / np.log(x).sum()
+    ok = abs(alpha - g_target) <= TOL_W
+    print(f"  {'PASS' if ok else 'FAIL'}  target gamma={g_target:.1f}  weights MLE={alpha:.4f}  "
+          f"|err|={abs(alpha - g_target):.4f}  (bar {TOL_W}, {int(capped.sum())} capped)")
+    if not ok:
+        FAIL.append(f"chung-lu weights exponent at gamma={g_target}")
+
+print("\n" + "=" * 74)
+print("3b. CHUNG-LU GRAPHS: POOLED FITTED GAMMA RISES ACROSS THE SWEEP")
+print("=" * 74)
+# Realised degrees, not weights: this catches a fault between the weights and
+# the graph (e.g. chung_lu passing the wrong gamma on, or the edge sampler
+# flattening the tail). No accuracy band: at n=6000 even the pooled fit sits
+# up to ~0.5 from target (seeds 4-7 gave 4.47 at 4.0), and accuracy is 3a's
+# job. What must hold: every pooled fit reliable, a strict rise at every step,
+# and a span from the first to the last target of at least 1.0 (a constant
+# series has span ~0; measured 1.87 here).
+POOL_SEEDS, MIN_SPAN = (0, 1, 2, 3), 1.0
+fits = []
+for g_target in GAMMAS:
+    nets = [gen.chung_lu(6000, g_target, mean_degree=6.0, seed=s) for s in POOL_SEEDS]
+    fit = st.fit_power_law_tail(np.concatenate([net.degree for net in nets]))
+    fits.append(fit)
+    print(f"    target gamma={g_target:.1f}  ->  pooled fitted={fit['alpha']:.3f}  "
+          f"(xmin={fit['xmin']}, n_tail={fit['n_tail']}, reliable={fit['reliable']}, "
+          f"mean <k>={np.mean([net.mean_degree for net in nets]):.2f})")
+alphas = [f["alpha"] for f in fits]
+all_reliable = all(f["reliable"] for f in fits)
+rising = all(b > a for a, b in zip(alphas, alphas[1:]))
+span = alphas[-1] - alphas[0]
+print(f"  {'PASS' if all_reliable else 'FAIL'}  every pooled fit is reliable")
+print(f"  {'PASS' if rising else 'FAIL'}  pooled fitted gamma rises strictly at every step")
+print(f"  {'PASS' if span >= MIN_SPAN else 'FAIL'}  span {span:.3f} >= {MIN_SPAN} from gamma {GAMMAS[0]} to {GAMMAS[-1]}")
+if not all_reliable: FAIL.append("chung-lu pooled fit unreliable")
+if not rising: FAIL.append("chung-lu pooled gamma not strictly rising")
+if span < MIN_SPAN: FAIL.append("chung-lu pooled gamma span")
+
+print("\n" + "=" * 74)
+print("4. HOLME-KIM p_triad ACTUALLY RAISES CLUSTERING")
+print("=" * 74)
+# Clustering is tight across generator seeds (seeds 0-7, 2026-11-16: total
+# rise 0.568 or more, every 0.25 step 0.120 or more), so one seed is enough,
+# but the bars are now on SIZE, not just sign: a total rise of at least 0.4
+# and every step at least 0.05. The old heading said "at fixed tail"; the
+# tail is not fixed at n=3000 (fitted gamma varied by 0.09-0.51 across p_triad
+# within a seed), so gamma is printed for information and not asserted.
+MIN_RISE, MIN_STEP = 0.4, 0.05
+cs = []
 for p in [0.0, 0.25, 0.5, 0.75, 1.0]:
     net = gen.holme_kim(3000, 3, p, seed=3)
     cm = st.clustering_measures(net)
     fit = st.fit_power_law_tail(net.degree)
-    if cm["average_clustering"] < prev_c - 1e-3:
-        mono_c = False
-    prev_c = cm["average_clustering"]
+    cs.append(cm["average_clustering"])
     print(f"    p_triad={p:.2f}  ->  avg_clustering={cm['average_clustering']:.4f}  "
-          f"transitivity={cm['transitivity']:.4f}  gamma={fit['alpha']:.3f}")
-print(f"  {'PASS' if mono_c else 'FAIL'}  clustering increases monotonically with p_triad")
-if not mono_c: FAIL.append("holme-kim clustering monotonicity")
+          f"transitivity={cm['transitivity']:.4f}  gamma={fit['alpha']:.3f} (not asserted)")
+steps = np.diff(cs)
+rise_ok = cs[-1] - cs[0] >= MIN_RISE
+step_ok = bool((steps >= MIN_STEP).all())
+print(f"  {'PASS' if rise_ok else 'FAIL'}  clustering rises {cs[-1] - cs[0]:.3f} >= {MIN_RISE} from p_triad 0 to 1")
+print(f"  {'PASS' if step_ok else 'FAIL'}  every step rises >= {MIN_STEP} (smallest {steps.min():.3f})")
+if not rise_ok: FAIL.append("holme-kim clustering rise")
+if not step_ok: FAIL.append("holme-kim clustering step")
 
 print("\n" + "=" * 74)
 print("5. DOUBLE-EDGE-SWAP PRESERVES THE DEGREE SEQUENCE EXACTLY")
