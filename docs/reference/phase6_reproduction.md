@@ -149,8 +149,10 @@ reproduce a claim: like `probes/probe_target_noise_refit.py` above, those comple
 to the study, not reproduction prerequisites. **Do not** rewrite a recorded source hash to get past
 a resume guard — if a hash does not bind, the affected evidence is rerun, not rationalised.
 
-`checks/verify_robustness_rerun.py` exits 1 by design of its bar: CHECK 1 misses 1e-6 (max |Δτ| 0.012,
-model rows only), traced to registry column order; CHECK 2 passes. `checks/verify_c3_fallback.py` and
+`checks/verify_robustness_rerun.py` CHECK 1 misses 1e-6 on the model rows only (max |Δτ| 0.012),
+traced to registry column order; the recompute and degree rows reproduce exactly. Since 2026-11-21
+it pins that state (both files' sha256, the exact maxima, the 1e-6 bar on the reproducing rows) and
+exits 0 while nothing changes, so CHECK 2 decides the exit status again. `checks/verify_c3_fallback.py` and
 `checks/verify_brava_corpus_identity.py` only verify; each writes under `results/` only when given `--record`.
 
 ## Root integration — what changed under the commands above

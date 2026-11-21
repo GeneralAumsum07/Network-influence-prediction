@@ -19,6 +19,27 @@ CHECK 1 - the raw arm reproduces the 2026-08-27 file.
     the historical Angle 4 numbers in the study must be re-quoted, not merely
     relabelled.
 
+    Outcome (2026-10-12) and the pinned form (2026-11-21). The check missed:
+    the model rows (local, local_trained_damaged) differ by up to 0.012 in
+    tau, while the recompute and degree rows are identical. The cause was
+    traced to the ORDER of the feature columns fed to the seeded forest,
+    which two registry retags changed; the content is the same, and with the
+    archived order one cell reproduces the archive exactly. The study was
+    re-quoted from the new file. See the "Outcome" section of
+    results/HISTORICAL_LANES_NOTE_20260912.md.
+    Both inputs are fixed files, so after that the check could only ever give
+    the same miss: it tested no current code, and because the script already
+    exited 1 it also took away check 2's power to fail the gate. It now pins
+    the explained state instead of re-reporting it:
+      - both CSVs must have the sha256 they had when the drift was traced;
+      - recompute and degree rows must still agree within the bar above;
+      - each model method's largest difference must equal the value
+        recorded at the trace (to float round-off), and is printed as a
+        known, explained divergence;
+      - any other method, or a missing one, fails.
+    So the gate fails if either file, the comparison, or the set of methods
+    changes; a change is a reason to redo the trace, not to re-pin.
+
 CHECK 2 - the reported arm differs from the raw arm only where it should.
     The log1p arm was run with --targets betweenness. Its recompute and degree
     rows do not depend on the objective at all, so they must equal the raw
@@ -27,13 +48,14 @@ CHECK 2 - the reported arm differs from the raw arm only where it should.
     nodes and over the nonzero subset. Nothing is asserted about their sign -
     the prediction is recorded in the plan, not here.
 
-Exit status is non-zero if check 1 misses its bar or check 2's invariant rows
-disagree, so the controller's log carries a FAILED line rather than a quiet
+Exit status is non-zero if check 1 departs from its pinned state or check 2's
+invariant rows disagree, so the controller's log carries a FAILED line rather than a quiet
 mismatch. It is also non-zero if either comparison is unsound: a row key
 repeated, a row on one side only, nothing aligned, or (check 2) no invariant
 rows at all - a check that compared nothing has not passed.
 """
 import _bootstrap  # noqa: F401 - repo root and script folders onto sys.path
+import hashlib
 import sys
 
 import numpy as np
@@ -45,6 +67,34 @@ NEW_RAW = "results/robustness.csv"
 OLD_RAW = "results/c8_historical_pre_20260912/robustness.csv"
 NEW_LOG = "results/robustness_log1p.csv"
 TOL = 1e-6
+
+# CHECK 1's pinned state, recorded 2026-11-21 from the files the 2026-10-12
+# trace examined. Raw-byte hashes are clone-independent because the repo
+# stores every file byte-for-byte (.gitattributes: * -text).
+PINNED_SHA256 = {
+    NEW_RAW: "e7c3b7b6853af7becac1d0ffe68f7ddc826c5b09093ddb7d758941518f3b8ee7",
+    OLD_RAW: "7852fad17d0494729ff947b876096a8c141ae9ead97eb193ea823bf157272831",
+}
+# Objective-free rows: same damage draw, same exact recompute or degree.
+# These reproduced exactly, so they keep the reproduction bar.
+REPRODUCING_METHODS = ("recompute", "degree")
+# Model rows: largest |new - archive| per metric at the trace. The drift is
+# explained (column order), not tolerated as noise, so the pin is the exact
+# measured value; PIN_ROUNDOFF only absorbs float parsing, not drift.
+KNOWN_DRIFT = {
+    "local": {"tau": 0.012013632944690308,
+              "tau_nonzero": 0.010962933537257899,
+              "p_at_5pct": 0.04081632653061218},
+    "local_trained_damaged": {"tau": 0.009221891194019838,
+                              "tau_nonzero": 0.006574167921002183,
+                              "p_at_5pct": 0.02487562189054729},
+}
+PIN_ROUNDOFF = 1e-12
+
+
+def sha256_of(path: str) -> str:
+    with open(path, "rb") as fh:
+        return hashlib.sha256(fh.read()).hexdigest()
 
 
 # D-16 (2026-11-16). Both checks used to pass vacuously in three ways:
@@ -98,23 +148,49 @@ def main() -> int:
     old_raw = pd.read_csv(OLD_RAW)
 
     print("=" * 78)
-    print("CHECK 1  raw arm re-run (2026-09-12) vs archived 2026-08-27 file")
+    print("CHECK 1  raw arm re-run (2026-09-12) vs archived 2026-08-27 file (pinned)")
     print(f"  {NEW_RAW}: {len(new_raw)} rows   {OLD_RAW}: {len(old_raw)} rows")
     print("=" * 78)
+    ok1 = True
+    # A changed file means the traced explanation no longer covers it. The
+    # content checks below still run, so the log shows what moved.
+    for path, want in PINNED_SHA256.items():
+        got = sha256_of(path)
+        if got != want:
+            print(f"  FAIL {path} sha256 {got[:16]}... is not the pinned {want[:16]}...;"
+                  " redo the trace before re-pinning")
+            ok1 = False
     m, sound = aligned(new_raw, old_raw)
-    ok = ok and sound
-    for met in METRICS:
-        if m.empty:
-            break
-        d = abs_delta(m[f"{met}_a"], m[f"{met}_b"])
-        worst = d.max()
-        flag = "ok" if worst <= TOL else "MISS"
-        print(f"  {met:<12} max |delta| = {worst:.3e}   ({flag}, bar {TOL:.0e})")
-        if worst > TOL:
-            ok = False
-            w = m.loc[d.idxmax(), KEYS + [f"{met}_a", f"{met}_b"]]
-            print("   worst row: " + ", ".join(f"{k}={v}" for k, v in w.items()))
-    print(f"  verdict: {'raw arm reproduces the archive' if ok else 'raw arm DIFFERS from the archive'}")
+    ok1 = ok1 and sound
+
+    present = set(m.method) if not m.empty else set()
+    expected = set(REPRODUCING_METHODS) | set(KNOWN_DRIFT)
+    if present != expected:
+        print(f"  FAIL methods {sorted(present)} are not the pinned {sorted(expected)}")
+        ok1 = False
+    for method in sorted(present & expected):
+        rows = m[m.method == method]
+        for met in METRICS:
+            d = abs_delta(rows[f"{met}_a"], rows[f"{met}_b"])
+            worst = d.max()
+            if method in REPRODUCING_METHODS:
+                good = worst <= TOL
+                note = f"bar {TOL:.0e}"
+            else:
+                pin = KNOWN_DRIFT[method][met]
+                good = abs(worst - pin) <= PIN_ROUNDOFF
+                note = f"pinned {pin:.3e}, known drift"
+            print(f"  {method:<22} {met:<12} max |delta| = {worst:.3e}   "
+                  f"({'ok' if good else 'MISS'}, {note})")
+            if not good:
+                ok1 = False
+                w = rows.loc[d.idxmax(), KEYS + [f"{met}_a", f"{met}_b"]]
+                print("   worst row: " + ", ".join(f"{k}={v}" for k, v in w.items()))
+    print("  verdict: " + (
+        "recompute and degree reproduce the archive; model rows differ by the "
+        "known column-order drift (results/HISTORICAL_LANES_NOTE_20260912.md, Outcome)"
+        if ok1 else "CHECK 1 has departed from its pinned state"))
+    ok = ok and ok1
 
     print()
     print("=" * 78)

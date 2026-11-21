@@ -1594,5 +1594,39 @@
    "reason": "Changing the message strings changes the bytes of vendor/orca.exe, which is pinned in results/phase6_5_beta/sources.json and in checks/verify_beta_sweep.py's hashed inputs; recorded hashes are not rewritten to pass a resume guard. Editing vendor/orca.cpp alone would break the ledger's statement that orca.exe is a bit-for-bit build of it, and influence/graphlets.py, where the message could otherwise be corrected, is in the same pinned set. The defect is diagnostic only: graphlets.py treats a nonzero return code, any stderr or a missing or empty output as failure, so a failed open is caught.",
    "trigger": "Fix vendor/orca.cpp:1362-1370 (input names argv[3], output argv[4]) in the same change as the next rebuild of vendor/orca.exe, whatever the reason for that rebuild, so the re-pin happens once."
   }
+ },
+ "robustness_check1_pinned_2026_11_21": {
+  "approved": "the author, 2026-11-21 15:20: yes, implement the pinned version, then commit and push",
+  "refers_to": "checks/verify_robustness_rerun.py CHECK 1; reverses the 2026-10-12 decision to keep the verifier as is (the D-16 soundness fixes of dclosure_decisions_2026_11_16 stay)",
+  "status": "pinned",
+  "why": "CHECK 1 compares two fixed files, so after the 2026-10-12 trace it could only give the same miss: it tested no current code, and because the script already exited 1 a CHECK 2 regression could not change the gate's result. Every gate run since recorded it as the known failure, confirmed by eye.",
+  "change": "CHECK 1 now requires: both CSVs at their pinned sha256; recompute and degree rows within the 1e-6 bar (measured 0.0); each model method's largest difference equal to the value measured at the trace within 1e-12 (float parsing only); exactly the four pinned methods. The drift is still printed on every run as known and explained. CHECK 2 is unchanged. README.md and docs/reference/phase6_reproduction.md no longer say a gate fails.",
+  "pins": {
+   "sha256": {
+    "results/robustness.csv": "e7c3b7b6853af7becac1d0ffe68f7ddc826c5b09093ddb7d758941518f3b8ee7",
+    "results/c8_historical_pre_20260912/robustness.csv": "7852fad17d0494729ff947b876096a8c141ae9ead97eb193ea823bf157272831"
+   },
+   "max_abs_delta": {
+    "local": {
+     "tau": 0.012013632944690308,
+     "tau_nonzero": 0.010962933537257899,
+     "p_at_5pct": 0.04081632653061218
+    },
+    "local_trained_damaged": {
+     "tau": 0.009221891194019838,
+     "tau_nonzero": 0.006574167921002183,
+     "p_at_5pct": 0.02487562189054729
+    },
+    "recompute": 0.0,
+    "degree": 0.0
+   }
+  },
+  "verified": "Real files: exit 0. Injected faults, each exit 1: a recompute row +1e-3 with the hash pin kept (hash and bar both fail) and with the hash re-pinned (bar fails alone); a local row's drift grown to 0.051 with the hash re-pinned; one method dropped from both files; a degree row of the log1p file +1e-3 (CHECK 2, which the old CHECK 1 masked).",
+  "rejected": "loosening the bar to about 0.05 (admits real drift of that size); deleting CHECK 1 (loses the record); re-running stage 4 with the archived column order (hours, and the documents now quote the current-registry file).",
+  "files_after_fix": {
+   "checks/verify_robustness_rerun.py": "d622219082be09ae3a4d77b5b6485b83dea9d5e2a5c011bca5e87b4175eb4f7f",
+   "README.md": "b0f4f127eac7538067781678b4ae4c2ffb95c459bd37b892b0c5a98c7a7c37b7",
+   "docs/reference/phase6_reproduction.md": "f78a532e2845b1e26b6bad0bd0b44990ccded61e4f4520743553eeb919f4eba1"
+  }
  }
 }

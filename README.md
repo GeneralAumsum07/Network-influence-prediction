@@ -190,8 +190,10 @@ boundary degrees are true. It extracts the feature table on that view and compar
 it, at the node, with the whole-graph table. It needs `vendor/orca` (or
 `vendor/orca.exe`) for the orbit columns.
 
-One gate fails at present: `checks/verify_robustness_rerun.py` reports that the raw
-robustness re-run differs from the archived file. The difference is explained in
+Every gate passes. `checks/verify_robustness_rerun.py` CHECK 1 pins a known
+difference between the raw robustness re-run and the archived file: it fails if
+either file, that difference, or the rows that do reproduce change. The difference
+is explained in
 [`docs/reference/phase6_reproduction.md`](docs/reference/phase6_reproduction.md).
 
 ## Contributing a change
