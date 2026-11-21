@@ -3841,8 +3841,16 @@ gain exceeds 0.003. So the gate and the fit disagree for both counts: NB2 "passe
 nothing, while NB3 sits close to the threshold and adds the most. The gate is an
 eligibility screen, not evidence that a feature helps. Reading (inference, untested):
 length-3 walk counts carry radius-2 information the node tier contains but does not expose
-in a form the forest uses. Whether the edge and subgraph tiers already supply it is not
-tested here.
+in a form the forest uses.
+
+A follow-up, decided after these results and therefore descriptive, put the full
+`node+edge+subgraph` tier in the base instead. Its reading rule was fixed before
+fitting. NB3's gain largely survives on ca-GrQc, ca-HepTh and p2p-Gnutella08: +0.0005,
++0.0015 and +0.0020, between 0.71 and 0.88 of the node-tier gain, positive on 10/10
+seeds. On email-Eu-core it falls to +0.0047, 0.46 of the node-tier gain. That is just
+under the registered "absorbed" threshold of one half, although the gain is still
+positive on every seed. On facebook_combined the full tier reconstructs NB3 (R² 0.9993),
+so the gate excludes it. Evidence: `results/phase6_5_addone_nb3_full/`.
 
 ## Branch anisotropy
 

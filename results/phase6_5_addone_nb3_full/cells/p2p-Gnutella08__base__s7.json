@@ -1,0 +1,12 @@
+{
+ "fit_seconds": 5.675431500014383,
+ "kendall_tau": 0.8876592561154503,
+ "n_features": 144,
+ "network": "p2p-Gnutella08",
+ "objective": "rf",
+ "published_tau": 0.8876592561154503,
+ "run_id": "32c04a7914e9762124fb40234fa5771a4d3fb1ae5be9b85901a875b3808413f1",
+ "seed": 7,
+ "set_id": "base",
+ "target": "spread_mean"
+}

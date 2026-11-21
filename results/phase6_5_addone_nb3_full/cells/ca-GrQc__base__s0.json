@@ -1,0 +1,12 @@
+{
+ "fit_seconds": 6.227066499995999,
+ "kendall_tau": 0.9409498708859083,
+ "n_features": 144,
+ "network": "ca-GrQc",
+ "objective": "rf",
+ "published_tau": 0.9409498708859084,
+ "run_id": "32c04a7914e9762124fb40234fa5771a4d3fb1ae5be9b85901a875b3808413f1",
+ "seed": 0,
+ "set_id": "base",
+ "target": "spread_mean"
+}

@@ -1,0 +1,30 @@
+{
+ "networks": {
+  "ca-GrQc": {
+   "n_predictors": 144,
+   "r2": 0.9980620061847015,
+   "verdict": "pass"
+  },
+  "ca-HepTh": {
+   "n_predictors": 144,
+   "r2": 0.9731400754148161,
+   "verdict": "pass"
+  },
+  "email-Eu-core": {
+   "n_predictors": 144,
+   "r2": 0.9949100789885059,
+   "verdict": "pass"
+  },
+  "facebook_combined": {
+   "n_predictors": 144,
+   "r2": 0.9993485472759377,
+   "verdict": "reconstructible"
+  },
+  "p2p-Gnutella08": {
+   "n_predictors": 144,
+   "r2": 0.9959497415573803,
+   "verdict": "pass"
+  }
+ },
+ "run_id": "32c04a7914e9762124fb40234fa5771a4d3fb1ae5be9b85901a875b3808413f1"
+}

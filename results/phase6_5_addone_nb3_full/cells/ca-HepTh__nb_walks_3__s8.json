@@ -1,0 +1,11 @@
+{
+ "fit_seconds": 11.889727200003108,
+ "kendall_tau": 0.9472116710741939,
+ "n_features": 145,
+ "network": "ca-HepTh",
+ "objective": "rf",
+ "run_id": "32c04a7914e9762124fb40234fa5771a4d3fb1ae5be9b85901a875b3808413f1",
+ "seed": 8,
+ "set_id": "nb_walks_3",
+ "target": "spread_mean"
+}

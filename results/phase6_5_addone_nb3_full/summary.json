@@ -1,0 +1,71 @@
+{
+ "base": "node+edge+subgraph",
+ "candidate": "nb_walks_3",
+ "prereg": "NB3 full-tier follow-up - execution definitions - 2026-11-21 18:33 IST",
+ "radius": 2,
+ "rows": [
+  {
+   "base_tau_mean": 0.9415970056788783,
+   "eligible": true,
+   "gain_max": 0.0008576712780792306,
+   "gain_mean": 0.0005146267970502994,
+   "gain_min": 0.00019514628099448483,
+   "gain_sd": 0.00017221570496627763,
+   "gate_r2": 0.9980620061847015,
+   "network": "ca-GrQc",
+   "node_tier_gain": 0.0005816664994252263,
+   "ratio_to_node_tier": 0.8847454642115847,
+   "reading": "persists",
+   "seeds_positive": 10
+  },
+  {
+   "base_tau_mean": 0.9460511617188864,
+   "eligible": true,
+   "gain_max": 0.0016384772009342408,
+   "gain_mean": 0.0014644503672261,
+   "gain_min": 0.0013122277761522527,
+   "gain_sd": 0.0001170434153042905,
+   "gate_r2": 0.9731400754148161,
+   "network": "ca-HepTh",
+   "node_tier_gain": 0.0019265840885903552,
+   "ratio_to_node_tier": 0.7601279258449655,
+   "reading": "persists",
+   "seeds_positive": 10
+  },
+  {
+   "base_tau_mean": 0.8867165559952582,
+   "eligible": true,
+   "gain_max": 0.002656727432840067,
+   "gain_mean": 0.0019721345683960225,
+   "gain_min": 0.001284602725580175,
+   "gain_sd": 0.0004080503479292778,
+   "gate_r2": 0.9959497415573803,
+   "network": "p2p-Gnutella08",
+   "node_tier_gain": 0.002774825320229346,
+   "ratio_to_node_tier": 0.7107238621539682,
+   "reading": "persists",
+   "seeds_positive": 10
+  },
+  {
+   "base_tau_mean": 0.9637310374938156,
+   "eligible": true,
+   "gain_max": 0.005407720726072651,
+   "gain_mean": 0.004679148905008856,
+   "gain_min": 0.003937384872215843,
+   "gain_sd": 0.0004301172626905622,
+   "gate_r2": 0.9949100789885059,
+   "network": "email-Eu-core",
+   "node_tier_gain": 0.010262637627373662,
+   "ratio_to_node_tier": 0.4559401856427342,
+   "reading": "absorbed",
+   "seeds_positive": 10
+  },
+  {
+   "eligible": false,
+   "gate_r2": 0.9993485472759377,
+   "network": "facebook_combined"
+  }
+ ],
+ "run_id": "32c04a7914e9762124fb40234fa5771a4d3fb1ae5be9b85901a875b3808413f1",
+ "target": "spread_mean"
+}

@@ -1,0 +1,11 @@
+{
+ "fit_seconds": 6.1928367000073195,
+ "kendall_tau": 0.9413795181079462,
+ "n_features": 145,
+ "network": "ca-GrQc",
+ "objective": "rf",
+ "run_id": "32c04a7914e9762124fb40234fa5771a4d3fb1ae5be9b85901a875b3808413f1",
+ "seed": 0,
+ "set_id": "nb_walks_3",
+ "target": "spread_mean"
+}

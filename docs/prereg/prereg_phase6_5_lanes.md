@@ -2062,3 +2062,76 @@ Brackets give the seed range.
   r=2. That agrees with the scored residual contrast (1/5 under the reported arm).
 
 **Lane status.** Both lanes are complete: standalone, gate and add-one all scored.
+
+## NB3 full-tier follow-up — execution definitions — 2026-11-21 18:33 IST — before any gate or fit for it
+
+**Why.** The 17:00 scored addendum found nb_walks_3 positive on 10/10 seeds on every
+network against the node tier, with email-Eu-core at +0.0103. It left one question
+untested: do the edge and subgraph tiers already carry that information? This follow-up
+answers it on the same target. The question was raised after the 17:00 results were
+read, so it is post hoc. That is disclosed here, and the result is descriptive.
+Rachit decided to run it (2026-11-21, 18:26 IST); the definitions below are an agent
+decision.
+
+**What changes from the 16:18 definitions (as amended 16:35).** Only the base set:
+`select_features(max_hop=2, tiers=("node","edge","subgraph"))` on spread_mean, default
+rf. That is the published `node+edge+subgraph` r=2 cell of `data/cache/sweep_<tag>.csv`
+(144 columns on ca-GrQc). The candidate is nb_walks_3 alone; nb_walks_2 is not refitted
+because it is an exact identity of node-tier columns. Seeds 0–9, pairing, the base check
+(|Δτ| ≤ 1e-5 and equal n_features, stop on a miss), atomic cells and the run_id guard
+are unchanged. Output goes to `results/phase6_5_addone_nb3_full/`. The committed
+`probes/probe_addone_lanes.py` is imported, not edited, so the hash recorded in the
+committed add-one manifest stays valid.
+
+**Eligibility.** This uses the same R² gate procedure as the 16:10 addendum (HGB,
+`analyse_features.predictability`, seed 0, the `default_rng(0)` row draw, threshold
+0.999). The predictors are the exact base columns above, so the gate asks whether the
+full-tier model's own inputs reconstruct NB3. A network with R² ≥ 0.999 is ineligible and
+is not fitted, as the registered gate rule requires. R² is reported for all five networks.
+
+**Reading rule, fixed now.** Let g_node be the 17:00 node-tier gain and g_full the new
+gain, per network.
+- **Absorbed:** g_full < g_node / 2.
+- **Persists:** g_full ≥ g_node / 2 and at least 9/10 seeds positive.
+- **Mixed:** anything else.
+
+A statement of the form "NB3 carries spread_mean information the structural tiers do
+not expose at r=2" will be made for a network only if it reads "persists". The email
+threshold is therefore 0.0051. No direction is predicted.
+
+## NB3 full-tier follow-up — scored addendum — 2026-11-21 18:50 IST
+
+Run 18:35:58–18:44:41, exit 0, empty stderr. 5 gate fits and 80 add-one fits.
+Executed as defined at 18:33. Evidence: `results/phase6_5_addone_nb3_full/summary.json`,
+`gate.json`, `cells/`, `manifest.json`, and the log
+`results/logs/addone_nb3_full_20261121.txt`. All 40 base fits reproduced the published
+`node+edge+subgraph` r=2 spread_mean cells to ≤ 2e-16.
+
+| network | gate R² | base τ | g_full [seed range] | seeds > 0 | g_node (17:00) | ratio | reading |
+|---|---:|---:|---:|---:|---:|---:|---|
+| ca-GrQc | 0.99806 | 0.9416 | +0.00051 [+0.00020, +0.00086] | 10/10 | +0.00058 | 0.88 | persists |
+| ca-HepTh | 0.97314 | 0.9461 | +0.00146 [+0.00131, +0.00164] | 10/10 | +0.00193 | 0.76 | persists |
+| p2p-Gnutella08 | 0.99595 | 0.8867 | +0.00197 [+0.00128, +0.00266] | 10/10 | +0.00277 | 0.71 | persists |
+| email-Eu-core | 0.99491 | 0.9637 | +0.00468 [+0.00394, +0.00541] | 10/10 | +0.01026 | 0.46 | **absorbed** |
+| facebook_combined | **0.99935** | — | not fitted (reconstructible) | — | +0.00090 | — | ineligible |
+
+**Readings, by the rule fixed at 18:33.**
+- Persists on ca-GrQc, ca-HepTh and p2p-Gnutella08. On these three networks, NB3 carries
+  spread_mean information that the structural tiers do not expose at r=2. The size is
+  +0.0005 to +0.0020 τ.
+- Absorbed on email-Eu-core, at a ratio of 0.46 against the 0.5 threshold. No such
+  statement is made for email.
+- facebook_combined is ineligible: the full tier reconstructs NB3 at R² 0.99935.
+
+**Disclosed, not re-ruled.** The absorbed verdict is close to its threshold. Email's
+full-tier gain is still the largest of the four networks, at about 11 seed sd, positive
+on all 10 seeds. The edge and subgraph tiers absorb about half of the node-tier gain, not
+all of it. The rule was fixed relative to g_node before any fit, and it is applied as
+written.
+
+**Reading (inference, not tested).**
+- The richer tiers take up a large share of NB3's information only on email, the densest
+  graph, where the node-tier gain was largest.
+- On the three sparse graphs, most of the small gain survives.
+- The full-tier base τ differs from the node-tier base by −0.0005 to +0.0044. This is
+  the published richness ladder, not a new result.
