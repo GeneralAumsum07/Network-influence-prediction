@@ -1,0 +1,13 @@
+{
+ "fit_seconds": 0.7623288999893703,
+ "kendall_tau": 0.9592114530087409,
+ "lane": "L2",
+ "n_features": 35,
+ "network": "email-Eu-core",
+ "objective": "rf",
+ "published_tau": 0.9592114530087408,
+ "run_id": "1cad204ff36f27664eecc4db5d516a9b59c0ad536500bc6bc7fcd996b9a87033",
+ "seed": 0,
+ "set_id": "base",
+ "target": "spread_mean"
+}

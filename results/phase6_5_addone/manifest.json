@@ -1,0 +1,108 @@
+{
+ "base_tol": 1e-05,
+ "input_sha256": {
+  "data/cache/cache_features_ca-GrQc.csv": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+  "data/cache/cache_features_ca-HepTh.csv": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d",
+  "data/cache/cache_features_email-Eu-core.csv": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477",
+  "data/cache/cache_features_facebook_combined.csv": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382",
+  "data/cache/cache_features_p2p-Gnutella08.csv": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4",
+  "data/cache/cache_registry_ca-GrQc.csv": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742",
+  "data/cache/cache_registry_ca-HepTh.csv": "90fba85430a8b783cdb14d3190fefd6c48a5ffa6909322d435307532ee22f29f",
+  "data/cache/cache_registry_email-Eu-core.csv": "ab437192b824d7a08571ff41cdddd57544e51c23ee6eb4ef38ecb141d3f24457",
+  "data/cache/cache_registry_facebook_combined.csv": "a6754f61ad2402e7cf7b224c1b9b99c57e9c57be993da77ce6289048197f9e7a",
+  "data/cache/cache_registry_p2p-Gnutella08.csv": "f50359068263c3c9b9050d643c10e016c6b908d340dd37950d2f277881ae6be8",
+  "data/cache/cache_targets_ca-GrQc.csv": "1df6f7bff41a5c58d8aaf6f1c7b40eaeb5d92c0bc0f38b2bf0b1d68cf2647d62",
+  "data/cache/cache_targets_ca-HepTh.csv": "d3c35bddb7a902a4b5d5be0957a1aa8fdd62afc972592adf158608257ed029fe",
+  "data/cache/cache_targets_email-Eu-core.csv": "1fd4a54d1a7d33c4a1fe8dc8de300ea7819de79be1acc2d677ed6ed5df8ce04a",
+  "data/cache/cache_targets_facebook_combined.csv": "de49d1a9d4b3a9af2b04b65c19089d4bd757a8723eb1c720f49227534addbfe9",
+  "data/cache/cache_targets_p2p-Gnutella08.csv": "1247ac7aa2e58cb2922fedd2b335720e114e787b8a8489c164eaa8f7ed7b57a6",
+  "data/cache/sweep_ca-GrQc.csv": "00adf5312c3fe8b630836072b84943dee57eb2ff834c93c6238d9e515a0c274c",
+  "data/cache/sweep_ca-HepTh.csv": "768e668102e97fa7c72e9615f931d6859671ba70a76a9547efcc030b737e7465",
+  "data/cache/sweep_email-Eu-core.csv": "994972db224b893cb57c9841bd18b226cba1f01d6e737ac75c78c4853cc2a96e",
+  "data/cache/sweep_facebook_combined.csv": "fe89fbc757f3c3f46db6c59002439e065a280293c67c4995eb55c9cc84aaab74",
+  "data/cache/sweep_p2p-Gnutella08.csv": "daa573159124e7854d2f03e9d8e51e2de483da9c20e0a19d2c3616df3fd1ea77",
+  "estimators/sweep_ca-GrQc__rf_log1p.csv": "3f8439e8efffe87c36630d8e66683a4b904891b2b9373243c26a5ccfda4274d8",
+  "estimators/sweep_ca-HepTh__rf_log1p.csv": "44cae6527f0910d16b38e2487a4b4967caa70eca8a4a8af12f8d8ed7b609dec9",
+  "estimators/sweep_email-Eu-core__rf_log1p.csv": "61e37310f9fc8c4de4a816d02f9ae2d4948faf4c1f6e8de2bf2cf9a15dfbe4e7",
+  "estimators/sweep_facebook_combined__rf_log1p.csv": "db0bc726a83530d8edb8f816adf9ef1758de01ef02c3eda343c9f844bf823e4a",
+  "estimators/sweep_p2p-Gnutella08__rf_log1p.csv": "1a7c3362085e56df4363e7bfd18fdcc74ab4f595aa4eb76ccd6d525507468b34",
+  "results/phase6_5_anisotropy/ca-GrQc.json": "24d709a88054ea28ab300f2cef82d64a29e5ac6879f21634c3689dbf0e471577",
+  "results/phase6_5_anisotropy/ca-GrQc.npz": "a92951dacb65381ecd6f3b881b88b851e5a68bf489fbe5d5156a32d64a0bb3a4",
+  "results/phase6_5_anisotropy/ca-HepTh.json": "53f335e7a53647b268046c531aa5c5912357f25b176dfa0611fbff02d3b22d66",
+  "results/phase6_5_anisotropy/ca-HepTh.npz": "0227e549eb7f212308e72a921ede505022ae5800abf48ffda5008ce5e92df564",
+  "results/phase6_5_anisotropy/email-Eu-core.json": "3a9dfdde469dad6e540027e6e85a56831207c3ad51b1d734fc4caa65a9f8f7a0",
+  "results/phase6_5_anisotropy/email-Eu-core.npz": "b18a1b6af9d8b41f15bf95f7ba58df382b8550ec91b08f6d9eb5892bbb1affed",
+  "results/phase6_5_anisotropy/facebook_combined.json": "1bd575e281e85824ccef2812efaed98da21eb3da6c4e827b1a39c4e2efd2b649",
+  "results/phase6_5_anisotropy/facebook_combined.npz": "84ca2910812203dd97452818e23fdcdfd72c7138b6f0aeb297afe7bb8ac5635d",
+  "results/phase6_5_anisotropy/gate.json": "e380c580a75500533cbb8c1d091d68a3040531abc6f81fcc38fef397831ea7ef",
+  "results/phase6_5_anisotropy/p2p-Gnutella08.json": "a6a62a13aa7fbf5a6b85720c1e061bf1aebf7a1be1d065ebbb3a969ad96318af",
+  "results/phase6_5_anisotropy/p2p-Gnutella08.npz": "39bf71678fd9fa4a01fe03a706824dbac83db928f12ed2609fc818e736d88075",
+  "results/phase6_5_nonbacktracking/ca-GrQc.json": "977ac304f8dd6adf74f8c58cf39e86acfc69d988d77506366f4156625d428d93",
+  "results/phase6_5_nonbacktracking/ca-GrQc.npz": "e2b361a03f79b6569449737d3a66aff12124c716668c04194fd6b94ce8b7fab2",
+  "results/phase6_5_nonbacktracking/ca-HepTh.json": "f676464f8632aef7ca248c72f0624a7798201a0639babcba8d2c6f5aa2bd190c",
+  "results/phase6_5_nonbacktracking/ca-HepTh.npz": "f1849ee458e9dcbb0344500c65caf347135912d1baae4a4d93510791e8300617",
+  "results/phase6_5_nonbacktracking/email-Eu-core.json": "19cf2225ee0ed75c4324751e52aeab7792fe126c37b87254b26f5f1d79b4d235",
+  "results/phase6_5_nonbacktracking/email-Eu-core.npz": "c9804a2363bce152fa50911a519513cab8f0df8142dd635883a85c82b55016a2",
+  "results/phase6_5_nonbacktracking/facebook_combined.json": "e85a7bf5c32caccaee537928034e9be428905a86df281e8123c71666b7add0c7",
+  "results/phase6_5_nonbacktracking/facebook_combined.npz": "8557cae9550435a57fa59933c5b927f16249b2b17cbd7b6992af62ac654efeb3",
+  "results/phase6_5_nonbacktracking/gate.json": "3e3467e7b2be388ec32c7587356e169d6d676130e1257ba64268b40ae474bcd5",
+  "results/phase6_5_nonbacktracking/p2p-Gnutella08.json": "c7fcf15e361fd94dbb772c40054edb2ceaa38ecee38f35920f712480b696d38b",
+  "results/phase6_5_nonbacktracking/p2p-Gnutella08.npz": "3fe23dc385b02d46551756b7ead990a414d85f1fb8ec501e44baf8b69c8326ba"
+ },
+ "lanes": {
+  "L2": {
+   "candidates": [
+    "nb_walks_2",
+    "nb_walks_3"
+   ],
+   "objective": "rf",
+   "prediction": null,
+   "richness": "node",
+   "source_dir": "results/phase6_5_nonbacktracking",
+   "sweep": "data/cache/sweep_{tag}.csv",
+   "target": "spread_mean",
+   "tiers": [
+    "node"
+   ]
+  },
+  "L7": {
+   "candidates": [
+    "max_branch_share",
+    "branch_entropy_nats"
+   ],
+   "objective": "rf_log1p",
+   "prediction": 0.005,
+   "richness": "node+edge+subgraph",
+   "source_dir": "results/phase6_5_anisotropy",
+   "sweep": "estimators/sweep_{tag}__rf_log1p.csv",
+   "target": "betweenness",
+   "tiers": [
+    "node",
+    "edge",
+    "subgraph"
+   ]
+  }
+ },
+ "prereg": "Add-one execution definitions - 2026-11-21 16:18 IST",
+ "radius": 2,
+ "run_id": "1cad204ff36f27664eecc4db5d516a9b59c0ad536500bc6bc7fcd996b9a87033",
+ "schema": "phase6_5_addone_manifest_v1",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "source_sha256": {
+  "influence/estimators.py": "65c95f0bc74c4d9aa5a159c04832322f3aadff8f25005c9b400dc8419556e3a5",
+  "influence/experiment.py": "9868a57d9d264225a79b053cf934f84e930212a8ece796b4dc293dc72116288e",
+  "influence/features.py": "11fddc97838a68fb014365f45d615bc06d28232029f9ce85928f7ccb32909cda",
+  "probes/probe_addone_lanes.py": "316e936cddb50b9f2555a4a9baca8ad1086a4ac68760e9f42517c4e7b8d55b35"
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "fit_seconds": 3.6377008999988902,
+ "kendall_tau": 0.9287024292626433,
+ "lane": "L7",
+ "n_features": 145,
+ "network": "ca-GrQc",
+ "objective": "rf_log1p",
+ "run_id": "5d19ee0b54c0cb9870b324dc2c902f3cff579ac6119cbfa7cb58fc2f44946472",
+ "seed": 0,
+ "set_id": "max_branch_share",
+ "target": "betweenness"
+}

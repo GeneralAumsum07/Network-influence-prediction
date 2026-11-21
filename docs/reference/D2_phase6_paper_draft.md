@@ -32,7 +32,7 @@ An aggregate tau-b table, even with a positive-only column, cannot recover zero-
 | P3: graphs within 0.05 of registered free floor | **Supported**; 12/14 | Conditional comparator result, not a ranking claim. |
 | P4: structural-rule gate | **Passed under registered conditional** | Permits reporting P1-P3 under the recorded convention. |
 
-> Regenerated after three scorer fixes (exact floor, ABCDE gate detail, per-cell registered floor): all four rows above are unchanged to the digit. The A7 paired follow-through quoted in §4 (38 of 41) predates the re-run, which retains 40 of 41 (study §26h).
+> Regenerated after three scorer fixes (exact floor, ABCDE gate detail, per-cell registered floor): all four rows above are unchanged to the digit. The A7 paired follow-through in §4 is quoted from the re-run, which retains 40 of 41 (study §26h); the pre-re-run figure was 38 of 41.
 
 The C4 audit preserves repeated source occurrences; name-only first/last policies each drop 126 observations. It finds all 15,043,174 inspected printed target values lie on a 1e-14 grid. Cit-Patents and com-lj have 662 and 1,086 more shipped zeros than structural zeros. This requires declared support and precision; it does not establish unavailable pre-rounding values.
 
@@ -66,7 +66,7 @@ This paper audits one release with a targeted literature review. It does not est
 | Reconstruction is blocked for this release | C4 protocol, Finding C4-1 | Does not describe uninspected releases. |
 | Paired target variation can alter dynamic-tier flags | results/results_paired_target_noise.csv | 45 contrasts; no headline-star or total-uncertainty claim. |
 
-The paired A7 follow-through retains 38 of 41 seed heuristic flags and loses three under target resampling. It is conditional context: it neither changes C3/C4 verdicts nor reaches headline structural-tier comparisons.
+The paired A7 follow-through retains 40 of 41 seed heuristic flags and loses one under target resampling. It is conditional context: it neither changes C3/C4 verdicts nor reaches headline structural-tier comparisons.
 
 ## References
 

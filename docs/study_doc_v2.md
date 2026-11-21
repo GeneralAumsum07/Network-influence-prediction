@@ -1667,6 +1667,21 @@ So on ca-GrQc most of the "prediction problem" is one binary question.
 
 Put the two together and the ordering reverses. On the inflated networks locality looks near-perfect at betweenness; on the network where the metric is not doing the work for us, betweenness is the hardest target measured and has the longest horizon (r\* = 3 at ε = 0.02, §21). The saturation conclusion survives on the collaboration graphs, but **the corpus-wide impression that "betweenness saturates early" is substantially an artefact of which networks happened to be in the corpus**. It does not hold on the one graph where the target is nearly zero-free. And that question has an **exact local answer**:
 
+> **Re-derived 2026-11-21 against the reported (log1p) arm.** The τ figures and the horizon in
+> this introduction come from the raw squared-error arm that §26b replaced. On the reported
+> arm (`results/RESULTS_betweenness.txt`, regenerated 2026-11-21 with no difference from the
+> committed file):
+> - The ca-GrQc r0→r1 jump is **+0.3637** (raw +0.3759). It is still the largest betweenness jump in the corpus.
+> - The collaboration graphs reach 0.9283 and 0.9199 at r=3.
+> - facebook_combined reaches **0.5944** at r=0 and **0.9303** at r=3 (raw 0.30 and 0.85). At r=3 that is second of five, behind p2p-Gnutella08 (0.9387).
+> - facebook betweenness has r\* = 2 at ε = 0.02, not 3 (§26b, "Does the horizon move?").
+>
+> So "where locality does worst" and "the longest horizon" describe the raw arm only. The
+> zero-set facts and the table above are unchanged. Whether this paragraph's conclusion still
+> holds on the reported arm is left open; the numbers above are the evidence for that decision.
+> That conclusion is that the impression of early saturation is substantially an artefact of
+> which networks are in the corpus.
+
 ### 24.1 The zero set, stated as a theorem *(formalised 2026-08-28)*
 
 This was previously carried as an empirical check with an informal argument beside it. It is a theorem, and stating it as one is worth doing: it converts a 24,000-node verification into three sentences, it makes the *radius* at which the zero set is decidable explicit, and — see §24.3 — it is the engine of a much larger claim about how the whole learned-betweenness literature is scored.
@@ -1849,6 +1864,12 @@ reversal. In particular, “0.59 of the observed 0.92 is the binary question” 
 by a comparator whose tie assumptions the actual forest violates. The earlier 200-draw
 continuous-score simulation supported that hypothetical construction, not a measured
 tie regime for the forest.
+
+> **Re-derived 2026-11-21.** The "our τ at r=3" column above is the raw arm. On the reported
+> log1p arm (§24.3a) it is 0.9283 / 0.9199 / 0.9387 / 0.9134 / 0.9303. The margins become
+> **+0.335 / +0.349 / +0.521 / +0.654 / +0.775**. The ordering stated above still holds:
+> facebook has the largest margin and ca-GrQc the smallest. The reference column and its
+> conditional status are unchanged.
 
 C3's completed post-hoc tied-mixture fit covers **5,278 baseline_* observations**:
 median absolute error **0.000039**, maximum **0.715413**, including the retained
@@ -3787,11 +3808,68 @@ The predicted ±0.02 H-index band failed on all five networks. The prediction
 that NB3 stays below RF everywhere also failed: four networks satisfy it, but
 email has a tiny NB advantage of 0.0003584. This is a strict-sign verdict,
 not evidence of statistical superiority. NB3 beat RF on neither ca-GrQc nor
-p2p, so the registered two-network counter did not fire. The later reconstruction
-gate and any incremental fitting experiment remain unscored. Complete arrays,
+p2p, so the registered two-network counter did not fire. The reconstruction gate
+and the add-one fits were scored on 2026-11-21 (next subsection). Complete arrays,
 NB1/NB2 scores and source/input provenance are under
 `results/phase6_5_nonbacktracking/`; the scored addendum preserves the original
 predictions and explicitly discloses the unequal H-index observation radius.
+
+### Reconstruction gate and add-one fits *(2026-11-21)*
+
+The gate asks whether a gradient-boosted probe can rebuild each walk count from the
+node-tier columns inside its information radius (radius 1 for NB2, radius 2 for NB3).
+R² was 0.987–0.998 for NB2 and 0.968–0.999 for NB3, below the 0.999 threshold on every
+network, so both counts were eligible for an add-one fit. The NB2 result is a probe
+artefact: NB2 equals `nbr_degree_sum − degree` exactly (zero error on all five networks),
+and a tree ensemble only approximates a difference of two columns.
+
+The add-one fit appends one count to the node-tier set at radius 2. Gain is the change in
+τ paired by seed (one seed fixes both the folds and the forest), averaged over seeds 0–9.
+The base τ is the RF column of the table above.
+
+| Network | + NB2 | + NB3 | NB3 seeds > 0 |
+|---|---:|---:|---:|
+| ca-GrQc | +0.00002 | +0.00058 | 10/10 |
+| ca-HepTh | +0.00001 | +0.00193 | 10/10 |
+| p2p-Gnutella08 | +0.00006 | +0.00277 | 10/10 |
+| email-Eu-core | +0.00001 | +0.01026 | 10/10 |
+| facebook_combined | +0.00003 | +0.00090 | 10/10 |
+
+No prediction was registered for this lane, so the table is descriptive. NB2 adds nothing,
+as the identity implies. NB3 helps on every seed of every network, but only email-Eu-core's
+gain exceeds 0.003. So the gate and the fit disagree for both counts: NB2 "passes" and adds
+nothing, while NB3 sits close to the threshold and adds the most. The gate is an
+eligibility screen, not evidence that a feature helps. Reading (inference, untested):
+length-3 walk counts carry radius-2 information the node tier contains but does not expose
+in a form the forest uses. Whether the edge and subgraph tiers already supply it is not
+tested here.
+
+## Branch anisotropy
+
+This lane asks whether the way a node's second shell is divided among its first-hop
+branches tells a model anything about betweenness that the structural features do not.
+It uses two zero-fit features: the largest branch's share of shell 2, and the entropy
+(nats) of the branch distribution.
+
+The registered primary test (2026-10-13) compared the top and bottom 5% of adjusted
+residuals of the reported log1p betweenness model at radius 3, full `node+edge+subgraph`
+tier. It predicted |Cliff's d| > 0.2 on at least three networks. Only ca-GrQc qualified,
+by 0.005 (1/5). The raw squared-error arm reached 4/5. That contrast is read as the raw
+objective's ranking distortion (§26b), not as information carried by anisotropy. The R²
+gate excluded branch entropy on p2p-Gnutella08 and email-Eu-core (R² 0.977 and 0.966,
+above 0.95).
+
+The add-one fit (2026-11-21) appended each eligible feature to the full tier at radius 2,
+under the paired protocol above. The registered prediction, gain < 0.005, is **supported
+on all 8 eligible pairs**. The largest mean gain is +0.00022 (maximum share, p2p), and every
+mean lies within about one seed standard deviation of zero. Anisotropy adds nothing to
+betweenness beyond the structural tier at radius 2.
+
+All 100 base fits reproduced the published sweep cells. The base-check bound was raised
+from 1e-6 to 1e-5 after forest nondeterminism (~1e-6 τ between refits) stopped the first
+run; the change was made before any gain was read and is disclosed in the
+[preregistration](prereg/prereg_phase6_5_lanes.md). Cells, summary and manifest are under
+`results/phase6_5_addone/`.
 
 ## Truncated local IC
 

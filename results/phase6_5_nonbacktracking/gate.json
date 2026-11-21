@@ -1,0 +1,437 @@
+{
+  "registered_in": "prereg 2026-09-12 clarification; lane text (iterative metrics); iterative-metrics execution definitions 2026-09-13 18:11",
+  "protocol": {
+    "function": "analyse_features.predictability",
+    "max_rows": 4000,
+    "seed": 0,
+    "held_out": 0.3,
+    "threshold": 0.999,
+    "rule": "R2 >= threshold -> reconstructible; undefined -> unscored",
+    "predictors": "tier == 'node' and hop <= candidate radius"
+  },
+  "scope_note": "nb_walks_3 is gated under either reading of 'register from r=2'; nb_walks_2 only under the walk-length reading",
+  "closed_form_note": "descriptive; does not change the registered verdict",
+  "add_one": "NOT RUN: no registered add-one protocol (target, tier, seeds, pairing)",
+  "networks": {
+    "ca-GrQc": {
+      "network": "ca-GrQc",
+      "n": 4158,
+      "rows_used": 4000,
+      "gate": {
+        "nb_walks_2": {
+          "information_radius": 1,
+          "n_predictors": 17,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "h_index_1",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum"
+          ],
+          "r2": 0.9970441141261849,
+          "verdict": "pass",
+          "closed_form": {
+            "formula": "nbr_degree_sum - degree",
+            "max_abs_error": 0.0
+          }
+        },
+        "nb_walks_3": {
+          "information_radius": 2,
+          "n_predictors": 35,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "collective_influence_2",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "growth_ratio_2",
+            "h_index_1",
+            "h_index_2",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "local_gravity_2",
+            "nbr_clustering_max",
+            "nbr_clustering_mean",
+            "nbr_clustering_min",
+            "nbr_clustering_std",
+            "nbr_clustering_sum",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum",
+            "nbr_triangles_max",
+            "nbr_triangles_mean",
+            "nbr_triangles_min",
+            "nbr_triangles_std",
+            "nbr_triangles_sum",
+            "reach_within_2",
+            "shell_2_count",
+            "shell_2_degree_max",
+            "shell_2_degree_mean"
+          ],
+          "r2": 0.9976920743975216,
+          "verdict": "pass"
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "e2b361a03f79b6569449737d3a66aff12124c716668c04194fd6b94ce8b7fab2",
+        "cache_features_sha256": "2f645546ca28047bed070a9ce35cbc6c40af51515b89bbbed09a39b66108cfc8",
+        "cache_registry_sha256": "efcedbd88528c365ab7d6b2237395a02b94616081388a334d7f86905c442e742"
+      }
+    },
+    "ca-HepTh": {
+      "network": "ca-HepTh",
+      "n": 8638,
+      "rows_used": 4000,
+      "gate": {
+        "nb_walks_2": {
+          "information_radius": 1,
+          "n_predictors": 17,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "h_index_1",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum"
+          ],
+          "r2": 0.9872070207074776,
+          "verdict": "pass",
+          "closed_form": {
+            "formula": "nbr_degree_sum - degree",
+            "max_abs_error": 0.0
+          }
+        },
+        "nb_walks_3": {
+          "information_radius": 2,
+          "n_predictors": 35,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "collective_influence_2",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "growth_ratio_2",
+            "h_index_1",
+            "h_index_2",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "local_gravity_2",
+            "nbr_clustering_max",
+            "nbr_clustering_mean",
+            "nbr_clustering_min",
+            "nbr_clustering_std",
+            "nbr_clustering_sum",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum",
+            "nbr_triangles_max",
+            "nbr_triangles_mean",
+            "nbr_triangles_min",
+            "nbr_triangles_std",
+            "nbr_triangles_sum",
+            "reach_within_2",
+            "shell_2_count",
+            "shell_2_degree_max",
+            "shell_2_degree_mean"
+          ],
+          "r2": 0.967602804992715,
+          "verdict": "pass"
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "f1849ee458e9dcbb0344500c65caf347135912d1baae4a4d93510791e8300617",
+        "cache_features_sha256": "9278e11b5003f2fc506b32bd7e00115dfb5af19d296f6cf4dcec6805cfdd3c3d",
+        "cache_registry_sha256": "90fba85430a8b783cdb14d3190fefd6c48a5ffa6909322d435307532ee22f29f"
+      }
+    },
+    "p2p-Gnutella08": {
+      "network": "p2p-Gnutella08",
+      "n": 6299,
+      "rows_used": 4000,
+      "gate": {
+        "nb_walks_2": {
+          "information_radius": 1,
+          "n_predictors": 17,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "h_index_1",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum"
+          ],
+          "r2": 0.9975788973971197,
+          "verdict": "pass",
+          "closed_form": {
+            "formula": "nbr_degree_sum - degree",
+            "max_abs_error": 0.0
+          }
+        },
+        "nb_walks_3": {
+          "information_radius": 2,
+          "n_predictors": 35,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "collective_influence_2",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "growth_ratio_2",
+            "h_index_1",
+            "h_index_2",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "local_gravity_2",
+            "nbr_clustering_max",
+            "nbr_clustering_mean",
+            "nbr_clustering_min",
+            "nbr_clustering_std",
+            "nbr_clustering_sum",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum",
+            "nbr_triangles_max",
+            "nbr_triangles_mean",
+            "nbr_triangles_min",
+            "nbr_triangles_std",
+            "nbr_triangles_sum",
+            "reach_within_2",
+            "shell_2_count",
+            "shell_2_degree_max",
+            "shell_2_degree_mean"
+          ],
+          "r2": 0.9925336630750847,
+          "verdict": "pass"
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "3fe23dc385b02d46551756b7ead990a414d85f1fb8ec501e44baf8b69c8326ba",
+        "cache_features_sha256": "f51a276a3fe1ad0b5227fde987135e136a8de3a3991665dfabaa7fb01a2bd7e4",
+        "cache_registry_sha256": "f50359068263c3c9b9050d643c10e016c6b908d340dd37950d2f277881ae6be8"
+      }
+    },
+    "email-Eu-core": {
+      "network": "email-Eu-core",
+      "n": 986,
+      "rows_used": 986,
+      "gate": {
+        "nb_walks_2": {
+          "information_radius": 1,
+          "n_predictors": 17,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "h_index_1",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum"
+          ],
+          "r2": 0.996532913558555,
+          "verdict": "pass",
+          "closed_form": {
+            "formula": "nbr_degree_sum - degree",
+            "max_abs_error": 0.0
+          }
+        },
+        "nb_walks_3": {
+          "information_radius": 2,
+          "n_predictors": 35,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "collective_influence_2",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "growth_ratio_2",
+            "h_index_1",
+            "h_index_2",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "local_gravity_2",
+            "nbr_clustering_max",
+            "nbr_clustering_mean",
+            "nbr_clustering_min",
+            "nbr_clustering_std",
+            "nbr_clustering_sum",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum",
+            "nbr_triangles_max",
+            "nbr_triangles_mean",
+            "nbr_triangles_min",
+            "nbr_triangles_std",
+            "nbr_triangles_sum",
+            "reach_within_2",
+            "shell_2_count",
+            "shell_2_degree_max",
+            "shell_2_degree_mean"
+          ],
+          "r2": 0.9943461720236239,
+          "verdict": "pass"
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "c9804a2363bce152fa50911a519513cab8f0df8142dd635883a85c82b55016a2",
+        "cache_features_sha256": "4efdc8bb934cb93197f25db710ffc5b7af640e919453b25ba09975fb84de3477",
+        "cache_registry_sha256": "ab437192b824d7a08571ff41cdddd57544e51c23ee6eb4ef38ecb141d3f24457"
+      }
+    },
+    "facebook_combined": {
+      "network": "facebook_combined",
+      "n": 4039,
+      "rows_used": 4000,
+      "gate": {
+        "nb_walks_2": {
+          "information_radius": 1,
+          "n_predictors": 17,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "h_index_1",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum"
+          ],
+          "r2": 0.998359283613491,
+          "verdict": "pass",
+          "closed_form": {
+            "formula": "nbr_degree_sum - degree",
+            "max_abs_error": 0.0
+          }
+        },
+        "nb_walks_3": {
+          "information_radius": 2,
+          "n_predictors": 35,
+          "predictors": [
+            "assortativity_local",
+            "cluster_rank",
+            "clustering_coefficient",
+            "collective_influence_1",
+            "collective_influence_2",
+            "degree",
+            "degree_normalized",
+            "effective_size",
+            "ego_net_size",
+            "growth_ratio_2",
+            "h_index_1",
+            "h_index_2",
+            "local_entropy",
+            "local_entropy_norm",
+            "local_gravity_1",
+            "local_gravity_2",
+            "nbr_clustering_max",
+            "nbr_clustering_mean",
+            "nbr_clustering_min",
+            "nbr_clustering_std",
+            "nbr_clustering_sum",
+            "nbr_degree_max",
+            "nbr_degree_mean",
+            "nbr_degree_min",
+            "nbr_degree_std",
+            "nbr_degree_sum",
+            "nbr_triangles_max",
+            "nbr_triangles_mean",
+            "nbr_triangles_min",
+            "nbr_triangles_std",
+            "nbr_triangles_sum",
+            "reach_within_2",
+            "shell_2_count",
+            "shell_2_degree_max",
+            "shell_2_degree_mean"
+          ],
+          "r2": 0.9989561766857461,
+          "verdict": "pass"
+        }
+      },
+      "inputs": {
+        "probe_output_sha256": "8557cae9550435a57fa59933c5b927f16249b2b17cbd7b6992af62ac654efeb3",
+        "cache_features_sha256": "5caac9550916c35859bfc1f14876f379dc41b2ca2993e2480afdba70d29b1382",
+        "cache_registry_sha256": "a6754f61ad2402e7cf7b224c1b9b99c57e9c57be993da77ce6289048197f9e7a"
+      }
+    }
+  }
+}

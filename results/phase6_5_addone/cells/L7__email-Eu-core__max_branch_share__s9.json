@@ -1,0 +1,12 @@
+{
+ "fit_seconds": 1.508994999981951,
+ "kendall_tau": 0.9142137202354864,
+ "lane": "L7",
+ "n_features": 145,
+ "network": "email-Eu-core",
+ "objective": "rf_log1p",
+ "run_id": "1cad204ff36f27664eecc4db5d516a9b59c0ad536500bc6bc7fcd996b9a87033",
+ "seed": 9,
+ "set_id": "max_branch_share",
+ "target": "betweenness"
+}

@@ -1887,3 +1887,178 @@ remains FLAT.
 - No test of the U-shape.
 - No fit at the intermediate γ values of the new seeds.
 - No attempt to explain the dip, for example by holding n and ⟨k⟩ fixed.
+
+## Iterative-metrics R² gate scored addendum — 2026-11-21 16:10 IST
+
+Run 2026-11-21, output written 16:07:23, exit 0, 10 HGB fits, seconds. Stage 4 is treated as complete
+by the ruling of 2026-10-12 11:35, as in the anisotropy run status (part A).
+Script: `analysis/analyse_nonbacktracking_gate.py`. Evidence:
+`results/phase6_5_nonbacktracking/gate.json`. The candidates are the scored standalone
+arrays of 2026-09-14; each output's hash and its feature-cache hash were checked against
+the standalone status file before gating. The one recorded input that has changed since
+is `analysis/analyse_local_predictors.py`, which feeds only the RF reference column of
+the standalone table, not the candidates or this gate.
+
+**Protocol, as registered (execution definitions, 2026-09-13 18:11).**
+`analyse_features.predictability` (HGB, max_iter 120, 70/30 split, seed 0), at most
+4,000 rows drawn with `default_rng(0)`. Predictors: every cached node-tier column with
+registry hop ≤ the candidate's information radius (17 at radius 1, 35 at radius 2).
+R² ≥ 0.999 = reconstructible, R² < 0.999 = pass, undefined = unscored.
+
+**Reading fixed before the run, disclosed.** "Register from r=2" is read as the
+walk-length index, so both nb_walks_2 (radius 1) and nb_walks_3 (radius 2) are gated.
+nb_walks_3 is in scope under either reading; nb_walks_2 only under this one. The reading
+was written into the script's docstring before it ran; it was not registered here first.
+
+| network | NB2 R² | NB3 R² | verdict |
+|---|---:|---:|---|
+| ca-GrQc | 0.99704 | 0.99769 | pass, pass |
+| ca-HepTh | 0.98721 | 0.96760 | pass, pass |
+| p2p-Gnutella08 | 0.99758 | 0.99253 | pass, pass |
+| email-Eu-core | 0.99653 | 0.99435 | pass, pass |
+| facebook_combined | 0.99836 | 0.99896 | pass, pass |
+
+- **Gate: passes on 5/5 for both candidates.** facebook NB3 clears the threshold by
+  0.00004.
+- **The gate cannot see an exact identity here.** nb_walks_2 = `nbr_degree_sum − degree`
+  holds to maximum absolute error 0 on all five networks (descriptive check, in the
+  same output). It still "passes" at R² 0.987–0.998, because a tree approximates a
+  difference with axis-aligned splits — the understatement `analyse_features` documents
+  for `triangle_count`. So the NB2 pass is a property of the probe, not new information.
+  The registered verdict stands as written; this note only says what it can and cannot
+  mean.
+- **nb_walks_3** has no closed form in cached columns that was checked. Its R² of
+  0.968–0.999 places it close to the node-tier radius-2 features on every network.
+
+**Add-one fit: not run.** As for anisotropy (run status, part B), the lane registers a
+duration ("≈ 49 min") but no target, tier, seed count or pairing. No add-one fit runs
+until a dated addendum defines one; whether to write one is the author's decision.
+
+## Add-one execution definitions (iterative metrics and anisotropy) — 2026-11-21 16:18 IST — before any add-one fit
+
+Rachit, 2026-11-21 16:15: "add the fits". This defines the add-one protocol that the
+anisotropy run status (part B) and the iterative-metrics gate addendum (2026-11-21 16:10)
+said was missing. It changes no earlier definition, prediction or threshold. No add-one fit
+has run. Feasibility checks only, before this section: the two base sets below have the
+same column counts as the published sweep cells on all five networks (35 and 144), and one
+ca-HepTh seed-0 base fit was timed (4.0 s and 9.2 s). Its τ was not printed or read.
+
+**Common to both lanes.**
+- Radius 2. The base set is `influence.features.select_features(max_hop=2, tiers=…)` in
+  its own column order; the candidate is appended as the last column. Nothing else changes.
+- The published estimator path: `out_of_fold_predictions` with 5 folds; the default
+  forest (`estimator=None`) for `rf`, `estimators.make_rf_log1p` for betweenness. Seeds
+  0–9. Base and base+candidate share the seed, so the folds and the forest's seed are
+  identical: the comparison is paired by seed.
+- Statistic: per (network, candidate), the paired gain Δ_s = τ(base+candidate, s) −
+  τ(base, s), Kendall τ-b against the untransformed target. Reported: mean Δ over the ten
+  seeds (the scored quantity), its sd, min, max and the count of seeds with Δ > 0.
+- Base check (a stop condition): every base fit must reproduce the published sweep cell
+  for the same (network, target, radius, richness, seed) to |Δτ| ≤ 1e-6, and with the same
+  n_features. The bound sits above the documented n_jobs=−1 last-bit effect (~5e-8 in τ)
+  and three orders below the seed-to-seed spread (~1e-3). A miss stops the run before any
+  gain is reported, because the base would then not be the published reference.
+- Candidate arrays are the scored standalone outputs, used only if their hashes match
+  their status files and their node order matches the feature cache.
+- Eligibility is read from the scored gates: a (network, candidate) pair runs only if its
+  gate verdict is "pass".
+
+**Iterative metrics (L2).**
+- Target `spread_mean` (the standalone target), objective `rf`.
+- Base: node tier, radius 2 — the "RF node tier at r=2" reference the lane names.
+- Candidates, each added alone: `nb_walks_2`, `nb_walks_3`. Eligible: 5/5 each.
+- No add-one prediction was registered for this lane, and none is added now. The result
+  is descriptive. 150 fits.
+
+**Anisotropy (L7).**
+- Target `betweenness`, objective `rf_log1p` (the reported arm, as in the primary contrast).
+- Base: `node+edge+subgraph` (analyse.FULL), radius 2 — the radius the prediction names,
+  and the tier that holds `ego_betweenness` and the `edge_overlap_*` columns the gate used.
+- Candidates, each added alone: `max_branch_share` (eligible 5/5), `branch_entropy_nats`
+  (eligible on ca-GrQc, ca-HepTh, facebook_combined; it failed the gate on p2p and email).
+- **Prediction, as registered 2026-09-12: add-one gain at r=2 < 0.005.** Scored per eligible
+  (network, candidate) pair on the mean paired gain: holds if mean Δ < 0.005. The universal
+  prediction holds only if it holds on all 8 eligible pairs; the count is reported either way.
+  130 fits.
+
+**Run.** `python probes/probe_addone_lanes.py`, one process, about 25 min projected.
+Output `results/phase6_5_addone/`. The scored addendum follows the results.
+
+## Add-one base-check amendment — 2026-11-21 16:35 IST — after a base-check stop, before any gain was read
+
+The first launch (16:20, run_id `5d19ee0b…`) stopped by design at its 208th fit. The base
+fit for L7, ca-HepTh, seed 9 gave τ 0.9188675306 against the published 0.9188663752
+(|Δ| 1.16e-6 > 1e-6). No add-one τ or gain was read. Only base cells and two refits of the
+failing cell were inspected:
+
+- All 50 L2 base cells and the 10 L7 ca-GrQc base cells match the published values to
+  ≤ 1.1e-16. The 9 completed L7 ca-HepTh cells differ by up to 6.6e-7 (median 3.2e-7).
+- Two consecutive refits of the failing cell gave +4.2e-7 and +7.5e-7 from the published
+  value. They differ from each other by 3.4e-7. So the published n_jobs=−1 log1p forest is
+  not reproducible to 1e-6 τ on this cell, because summation order changes and near-ties
+  flip. The ~5e-8 that the 1e-6 bound was set against is one observation on one network,
+  not a guarantee.
+
+**Amendment.** Base-check bound: |Δτ| ≤ 1e-5. That is about 9× the largest run-to-run
+difference observed (1.16e-6), about 100× below the ~1e-3 seed-to-seed spread, and 500×
+below the 0.005 prediction bound. The n_features equality and the stop-on-miss rule are
+unchanged. Each gain carries the same ~1e-6 nondeterminism, which is negligible at the
+scored scale. Everything else in the 16:18 definitions is unchanged.
+
+The stopped run's manifest and cells are kept unmodified in
+`results/phase6_5_addone/stopped_5d19ee0b/`. The rerun refits every cell from scratch under
+a new run_id, so nothing is reused from the stopped run.
+
+## Add-one scored addendum (iterative metrics and anisotropy) — 2026-11-21 17:00 IST
+
+Run 16:35:56–16:54:48, exit 0, 280 fits, run_id `1cad204f…`. Executed as defined
+2026-11-21 16:18 and amended 16:35. Evidence: `results/phase6_5_addone/summary.json`,
+`cells/`, `manifest.json`, and the log `results/logs/addone_20261121_rerun.txt`. All 100
+base fits reproduced the published sweep cells; the largest gap was 1.16e-6 (L7 ca-HepTh).
+That gap would have stopped the run again under the original 1e-6 bound.
+
+Gain = mean over seeds 0–9 of the paired difference τ(base + candidate) − τ(base).
+Brackets give the seed range.
+
+**Anisotropy (L7): log1p betweenness, base `node+edge+subgraph` r=2.**
+
+| network | base τ | max branch share | branch entropy |
+|---|---:|---:|---:|
+| ca-GrQc | 0.9288 | −0.00025 [−0.00143, +0.00077] | −0.00018 [−0.00116, +0.00088] |
+| ca-HepTh | 0.9193 | −0.00004 [−0.00035, +0.00027] | +0.00001 [−0.00030, +0.00023] |
+| p2p-Gnutella08 | 0.9357 | +0.00022 [−0.00005, +0.00042] | not eligible (gate) |
+| email-Eu-core | 0.9131 | −0.00014 [−0.00050, +0.00050] | not eligible (gate) |
+| facebook_combined | 0.9233 | +0.00006 [−0.00046, +0.00035] | +0.00005 [−0.00027, +0.00040] |
+
+- **Prediction, add-one gain at r=2 < 0.005: SUPPORTED, 8/8 eligible pairs.** The largest
+  mean gain is +0.00022, and every mean is within about one seed sd of zero. Only p2p's
+  maximum share is positive on 9/10 seeds, at a size 20× below the bound.
+
+**Iterative metrics (L2): spread_mean, base node tier r=2. Descriptive; no prediction registered.**
+
+| network | base τ | nb_walks_2 | nb_walks_3 | NB3 seeds > 0 |
+|---|---:|---:|---:|---:|
+| ca-GrQc | 0.9421 | +0.00002 | +0.00058 [+0.00039, +0.00079] | 10/10 |
+| ca-HepTh | 0.9457 | +0.00001 | +0.00193 [+0.00174, +0.00210] | 10/10 |
+| p2p-Gnutella08 | 0.8854 | +0.00006 | +0.00277 [+0.00216, +0.00329] | 10/10 |
+| email-Eu-core | 0.9593 | +0.00001 | +0.01026 [+0.00970, +0.01088] | 10/10 |
+| facebook_combined | 0.9554 | +0.00003 | +0.00090 [+0.00075, +0.00106] | 10/10 |
+
+- nb_walks_2 adds nothing on any network: means are +0.00001 to +0.00006, and 5–8 seeds of
+  10 are positive.
+- nb_walks_3 is positive on every seed of every network. Mean gain is +0.0006 to +0.0103.
+
+**Reading (inference, not tested).**
+- NB2 is an exact function of two cached columns. The forest already exploits it, so here
+  "reconstructible" and "accessible" coincide. The R² gate's NB2 "pass" (16:10 addendum)
+  was the probe artefact it was flagged as.
+- NB3 stays inside the radius-2 budget and still adds rank information the node tier's
+  radius-2 columns do not expose to the forest. The effect is small except on email-Eu-core
+  (+0.0103, about 28 seed sd), which is the densest of the five. That fits the standalone
+  addendum, where NB3 alone already roughly matched the RF on email. This does not test
+  whether the node+edge+subgraph tier would absorb the gain, and no claim is made about
+  the other targets.
+- Anisotropy carries no information about betweenness beyond the full structural tier at
+  r=2. That agrees with the scored residual contrast (1/5 under the reported arm).
+
+**Lane status.** Both lanes are complete: standalone, gate and add-one all scored.

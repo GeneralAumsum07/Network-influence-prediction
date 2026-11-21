@@ -1,0 +1,13 @@
+{
+ "fit_seconds": 5.488462100009201,
+ "kendall_tau": 0.9355876342740141,
+ "lane": "L7",
+ "n_features": 144,
+ "network": "p2p-Gnutella08",
+ "objective": "rf_log1p",
+ "published_tau": 0.935587634274014,
+ "run_id": "1cad204ff36f27664eecc4db5d516a9b59c0ad536500bc6bc7fcd996b9a87033",
+ "seed": 8,
+ "set_id": "base",
+ "target": "betweenness"
+}

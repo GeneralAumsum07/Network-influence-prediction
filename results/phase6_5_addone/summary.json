@@ -1,0 +1,216 @@
+{
+ "lanes": {
+  "L2": {
+   "base": "node",
+   "objective": "rf",
+   "radius": 2,
+   "rows": [
+    {
+     "base_tau_mean": 0.9421444054144269,
+     "candidate": "nb_walks_2",
+     "gain_max": 0.00014230567469986077,
+     "gain_mean": 1.7084050743532143e-05,
+     "gain_min": -6.898423428136624e-05,
+     "gain_sd": 6.312670850229992e-05,
+     "network": "ca-GrQc",
+     "seeds_positive": 6
+    },
+    {
+     "base_tau_mean": 0.9421444054144269,
+     "candidate": "nb_walks_3",
+     "gain_max": 0.0007861424819431972,
+     "gain_mean": 0.0005816664994252263,
+     "gain_min": 0.00039122089969112483,
+     "gain_sd": 0.00012780565642400666,
+     "network": "ca-GrQc",
+     "seeds_positive": 10
+    },
+    {
+     "base_tau_mean": 0.9456879816535249,
+     "candidate": "nb_walks_2",
+     "gain_max": 4.825987141343635e-05,
+     "gain_mean": 6.095267887173961e-06,
+     "gain_min": -3.882241510932971e-05,
+     "gain_sd": 2.903869885318592e-05,
+     "network": "ca-HepTh",
+     "seeds_positive": 6
+    },
+    {
+     "base_tau_mean": 0.9456879816535249,
+     "candidate": "nb_walks_3",
+     "gain_max": 0.0020956588635245854,
+     "gain_mean": 0.0019265840885903552,
+     "gain_min": 0.0017426108952516284,
+     "gain_sd": 0.00014050306761974413,
+     "network": "ca-HepTh",
+     "seeds_positive": 10
+    },
+    {
+     "base_tau_mean": 0.8853931967343932,
+     "candidate": "nb_walks_2",
+     "gain_max": 0.00021678947245040714,
+     "gain_mean": 5.867710306909357e-05,
+     "gain_min": -7.922605349108824e-05,
+     "gain_sd": 8.761240401921168e-05,
+     "network": "p2p-Gnutella08",
+     "seeds_positive": 8
+    },
+    {
+     "base_tau_mean": 0.8853931967343932,
+     "candidate": "nb_walks_3",
+     "gain_max": 0.003290055459916008,
+     "gain_mean": 0.002774825320229346,
+     "gain_min": 0.002160963801627891,
+     "gain_sd": 0.0003993428124653009,
+     "network": "p2p-Gnutella08",
+     "seeds_positive": 10
+    },
+    {
+     "base_tau_mean": 0.9593459573600388,
+     "candidate": "nb_walks_2",
+     "gain_max": 0.0002759469975904816,
+     "gain_mean": 1.1120287340882218e-05,
+     "gain_min": -0.0003789126853505076,
+     "gain_sd": 0.0002192303151771474,
+     "network": "email-Eu-core",
+     "seeds_positive": 5
+    },
+    {
+     "base_tau_mean": 0.9593459573600388,
+     "candidate": "nb_walks_3",
+     "gain_max": 0.010881339039058302,
+     "gain_mean": 0.010262637627373662,
+     "gain_min": 0.009703409681833364,
+     "gain_sd": 0.0003691829388003495,
+     "network": "email-Eu-core",
+     "seeds_positive": 10
+    },
+    {
+     "base_tau_mean": 0.9553696249534006,
+     "candidate": "nb_walks_2",
+     "gain_max": 0.00011821991478433436,
+     "gain_mean": 2.734756956567219e-05,
+     "gain_min": -0.00013636995218402337,
+     "gain_sd": 7.575990258553931e-05,
+     "network": "facebook_combined",
+     "seeds_positive": 8
+    },
+    {
+     "base_tau_mean": 0.9553696249534006,
+     "candidate": "nb_walks_3",
+     "gain_max": 0.0010621462165550932,
+     "gain_mean": 0.000904146324839783,
+     "gain_min": 0.0007456201110325189,
+     "gain_sd": 8.409198383804221e-05,
+     "network": "facebook_combined",
+     "seeds_positive": 10
+    }
+   ],
+   "target": "spread_mean"
+  },
+  "L7": {
+   "base": "node+edge+subgraph",
+   "objective": "rf_log1p",
+   "prediction": {
+    "eligible": 8,
+    "holds_on": 8,
+    "rule": "mean paired gain < 0.005",
+    "universal_holds": true
+   },
+   "radius": 2,
+   "rows": [
+    {
+     "base_tau_mean": 0.9288352002765599,
+     "candidate": "max_branch_share",
+     "gain_max": 0.0007659706532273658,
+     "gain_mean": -0.0002526209288090775,
+     "gain_min": -0.0014286200348907485,
+     "gain_sd": 0.0006180506299318675,
+     "network": "ca-GrQc",
+     "prediction_holds": true,
+     "seeds_positive": 2
+    },
+    {
+     "base_tau_mean": 0.9288352002765599,
+     "candidate": "branch_entropy_nats",
+     "gain_max": 0.0008776435327757515,
+     "gain_mean": -0.00017988114112823527,
+     "gain_min": -0.001158695619130845,
+     "gain_sd": 0.0005560856205104548,
+     "network": "ca-GrQc",
+     "prediction_holds": true,
+     "seeds_positive": 4
+    },
+    {
+     "base_tau_mean": 0.9192710406521512,
+     "candidate": "max_branch_share",
+     "gain_max": 0.0002701581644620754,
+     "gain_mean": -3.583938720437274e-05,
+     "gain_min": -0.00034739022691976373,
+     "gain_sd": 0.000176153974214805,
+     "network": "ca-HepTh",
+     "prediction_holds": true,
+     "seeds_positive": 5
+    },
+    {
+     "base_tau_mean": 0.9192710406521512,
+     "candidate": "branch_entropy_nats",
+     "gain_max": 0.00022508695886880314,
+     "gain_mean": 5.455146275379352e-06,
+     "gain_min": -0.00030219396800812426,
+     "gain_sd": 0.00015906088675215406,
+     "network": "ca-HepTh",
+     "prediction_holds": true,
+     "seeds_positive": 6
+    },
+    {
+     "base_tau_mean": 0.9356772774176376,
+     "candidate": "max_branch_share",
+     "gain_max": 0.00041654405735236377,
+     "gain_mean": 0.00021859704622342324,
+     "gain_min": -4.756307716902164e-05,
+     "gain_sd": 0.0001267131322754048,
+     "network": "p2p-Gnutella08",
+     "prediction_holds": true,
+     "seeds_positive": 9
+    },
+    {
+     "base_tau_mean": 0.9131388112870727,
+     "candidate": "max_branch_share",
+     "gain_max": 0.0004968655337230787,
+     "gain_mean": -0.00013604750167006685,
+     "gain_min": -0.0005011353394711593,
+     "gain_sd": 0.0003104569035220233,
+     "network": "email-Eu-core",
+     "prediction_holds": true,
+     "seeds_positive": 3
+    },
+    {
+     "base_tau_mean": 0.923280414790186,
+     "candidate": "max_branch_share",
+     "gain_max": 0.00034598025755605555,
+     "gain_mean": 6.0933243310390405e-05,
+     "gain_min": -0.0004552873869365648,
+     "gain_sd": 0.0002937979258744053,
+     "network": "facebook_combined",
+     "prediction_holds": true,
+     "seeds_positive": 6
+    },
+    {
+     "base_tau_mean": 0.923280414790186,
+     "candidate": "branch_entropy_nats",
+     "gain_max": 0.0003993726430778777,
+     "gain_mean": 4.729311029104677e-05,
+     "gain_min": -0.0002695438686165508,
+     "gain_sd": 0.00021484711705220633,
+     "network": "facebook_combined",
+     "prediction_holds": true,
+     "seeds_positive": 7
+    }
+   ],
+   "target": "betweenness"
+  }
+ },
+ "prereg": "Add-one execution definitions - 2026-11-21 16:18 IST",
+ "run_id": "1cad204ff36f27664eecc4db5d516a9b59c0ad536500bc6bc7fcd996b9a87033"
+}

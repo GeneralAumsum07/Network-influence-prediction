@@ -1,0 +1,13 @@
+{
+ "fit_seconds": 2.4170001999882516,
+ "kendall_tau": 0.9554333618198295,
+ "lane": "L2",
+ "n_features": 35,
+ "network": "facebook_combined",
+ "objective": "rf",
+ "published_tau": 0.9554333618198296,
+ "run_id": "5d19ee0b54c0cb9870b324dc2c902f3cff579ac6119cbfa7cb58fc2f44946472",
+ "seed": 0,
+ "set_id": "base",
+ "target": "spread_mean"
+}

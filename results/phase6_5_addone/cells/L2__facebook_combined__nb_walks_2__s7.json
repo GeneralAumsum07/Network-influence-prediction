@@ -1,0 +1,12 @@
+{
+ "fit_seconds": 2.386710299993865,
+ "kendall_tau": 0.9550052582226045,
+ "lane": "L2",
+ "n_features": 36,
+ "network": "facebook_combined",
+ "objective": "rf",
+ "run_id": "1cad204ff36f27664eecc4db5d516a9b59c0ad536500bc6bc7fcd996b9a87033",
+ "seed": 7,
+ "set_id": "nb_walks_2",
+ "target": "spread_mean"
+}

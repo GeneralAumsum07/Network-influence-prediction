@@ -1,0 +1,12 @@
+{
+ "fit_seconds": 9.118043499998748,
+ "kendall_tau": 0.9197983379812992,
+ "lane": "L7",
+ "n_features": 145,
+ "network": "ca-HepTh",
+ "objective": "rf_log1p",
+ "run_id": "5d19ee0b54c0cb9870b324dc2c902f3cff579ac6119cbfa7cb58fc2f44946472",
+ "seed": 8,
+ "set_id": "branch_entropy_nats",
+ "target": "betweenness"
+}
